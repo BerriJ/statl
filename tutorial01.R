@@ -299,3 +299,173 @@ mean(lda.pred == test$Direction)
 
 # Wir bekommen hier den gleichen wert weil LDA (Komplette Likelihood)  
 # und Logistic Regression (Bedingte Likelihood) die gleiche Methode anwenden.
+
+# Bayes classifier ist im grune der Goldstandard
+# Mit LDA und Logistischer Regression  etc. versuchen wir dort ranzukommen
+
+# Gemeinsame dichte aufstellen. ML anwenden und dann predictions machen
+
+# Bei Logistischer Regression treffen wir keine Annahme über die Verteilung von 
+# den Regressoren
+
+# Bei LDA geben wir die normalverteilung für die regressoren vor
+
+# Wenn diese Normalverteilungsannahme nicht erfüllt ist dann kackt LDA ggf. 
+# ziemlich ab !!
+
+# f)
+
+library(MASS)
+
+qda.fit <- qda(Direction ~ Lag2, data = train)
+
+qda.class <- predict(qda.fit, test)$class
+
+table(qda.class, test$Direction)
+
+# Share of correct predictions
+
+mean(qda.class == test$Direction)
+
+# g)
+
+library(class)
+
+train.X <- matrix(train$Lag2)
+test.X  <- matrix(test$Lag2) 
+
+# class variable `Direction` must be a vector
+
+train.Direction <- train$Direction
+test.Direction <- test$Direction
+
+# apply KNN k = 1
+
+knn.pred <- knn(train = train.X, test = test.X, cl = train.Direction, k = 1)
+
+table(knn.pred, test$Direction)
+
+mean(knn.pred == test$Direction)
+
+# h)
+
+# LDA und Loigstic Regression: Das beste und trotzdem zu schlecht
+
+# QDA: Ist genereller als die LDA und neigt daher zum Overfitting => so lala
+
+# KNN: Ist ultra mies 
+
+### Exercise 7 #################################################################
+
+library(foreign)
+
+highschool <- foreign::read.dta("data/highschool.dta")
+
+# a) contingency table
+
+table(highschool$ses, highschool$math)
+
+# point in math splitted by the three program types
+
+tapply(highschool$math, 
+       highschool$prog, 
+       function(x) c("M" = mean(x), "sd" = sd(x)))
+
+# b)
+
+# glmnet cant cope with dataframes wo we have to create a regressor matrix
+
+X <- cbind(highschool$ses,
+           highschool$math)
+
+colnames(X) <- c("ses", "math")
+
+mlogit.fit <- glmnet(X, highschool$prog, family = "multinomial")
+
+summary(mlogit.fit)
+
+# now we make some crossvalidation
+
+# crossvalidate the optimal lambda (tuning parameter)
+
+cv <- cv.glmnet(X, highschool$prog, family = "multinomial")
+
+plot(cv)
+
+l <- cv$lambda.min
+
+# coefficient estimates
+
+predict(mlogit.fit, type = "coef", s = l)
+
+# Wir können nun die Richtung interpretieren und schauen ob die Koeffizienten
+# aus dem Modell geschmissen wurden (Lasso => default of glmnet())
+
+# c)
+
+dmath1 <- cbind("ses" = 3, "math" = 35)
+
+pred1 <- predict(mlogit.fit, newx = dmath1, s = l, type = "response")
+
+# d)
+
+# create a new dataset
+
+dmath2 <- cbind(
+  "ses" = rep(1:3, each = 41),
+  "math" = rep(30:70, 3)
+)
+
+# prediction on the new data set
+
+pred2 <- predict(mlogit.fit, newx = dmath2, s = l, type = "response")
+
+Vs <- data.frame(
+  dmath2,
+  matrix(pred2, ncol = 3, 
+         dimnames = list(c(), c("general", "academic", "vocation")))
+)
+
+# recode ses as factor
+
+pp.math <- Vs %>% mutate(ses = factor(ses, labels = c("low", "med", "high")))
+
+long <- reshape2::melt(pp.math, id.vars = c("math", "ses"), value.name = "prob")
+
+ggplot(long, aes(x = math, y = prob, color = ses)) +
+  geom_line() +
+  xlab("math score") +
+  ylab("probrability of choice") +
+  facet_grid(variable~., scales = "free")
+
+### Exercise 8 #################################################################
+
+data(iris)
+
+# a) pairwise scatterplots
+
+pairs(iris[,1:4], pch = 1, 
+      col = c("darkgrey", "darkgreen", "deeppink")[iris$Species])
+
+
+# b) 
+
+fit1 <- lda(Species ~., data = iris)
+
+lda.pred <- predict(fit1, iris)
+
+LDApred <- data.frame(
+  "Species" = iris$Species,
+  "PredSpecies" = lda.pred$class,
+  lda.pred$x
+)
+
+# c)
+
+library(scales)
+
+# fit model based on transformed data
+fit2 <- lda(Species ~ LD1 + LD2, data = LDApred)
+
+
+# QDA sollte man nehmen wenn die Covarianzmatrix der Daten frei ist
