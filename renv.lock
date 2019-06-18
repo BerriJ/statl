@@ -24,6 +24,12 @@ Version=1.4-6
 Source=CRAN
 Hash=a8dabe337d06ae0e591840543360f47b
 
+[R/Package/pls]
+Package=pls
+Version=2.7-1
+Source=CRAN
+Hash=4324beb0bd9dac4a45f8e09d3a977ddd
+
 [R/Package/tictoc]
 Package=tictoc
 Version=1.0

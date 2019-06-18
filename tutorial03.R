@@ -531,15 +531,15 @@ points(which.min(reg.sum$bic), min(reg.sum$bic), pch = 20)
 rm(list = ls())
 
 library(leaps)
-library(ISLR)
-library(glmnet)
+library(ISLR) # Dataset
+library(glmnet) # Lasso / Ridge
+library(pls) # Principal component analysis
 
 # a)
 
 # ?College
 
 # split the data into training and test set
-
 train <- sample(c(T,F), nrow(College), replace = T)
 test  <- !train
 
@@ -566,7 +566,7 @@ pred <- predict(lm.fit, college.test)
 rss <- sum((pred- college.test$Apps)^2)
 tss <- sum((college.test$Apps - mean(college.test$Apps))^2)
 
-rsq[1] <- 1 - rss/tss
+rsq["linear reg"] <- 1 - rss/tss
 
 # c)
 
@@ -603,8 +603,9 @@ pred <- predict(ridge.mod, college.test.x, s = bestlam)
 rss <- sum((pred- college.test$Apps)^2)
 tss <- sum((college.test$Apps - mean(college.test$Apps))^2)
 
-rsq[2] <- 1 - rss/tss
+rsq["ridge"] <- 1 - rss/tss
 
+# d)
 
 # Lasso
 
@@ -622,8 +623,134 @@ pred <- predict(lasso.mod, college.test.x, s = bestlam)
 rss <- sum((pred- college.test$Apps)^2)
 tss <- sum((college.test$Apps - mean(college.test$Apps))^2)
 
-rsq[3] <- 1 - rss/tss
+rsq["lasso"] <- 1 - rss/tss
 
+# e)
 
+# principal components regression
+library(pls)
+
+pcr.fit <- pcr(Apps ~ ., data = college.train, scale = T, validation = "CV")
+# Scale = True sorgt dafür, dass die Variablen einen Erwartungswert von 0 und 
+# eine Varianz von 1 haben
+
+pcr.fit %>% summary()
+
+pcr.fit$validation$PRESS %>% which.min()
+# Danach ist das Modell mit 17 Variablen am besten => Wir können also keine
+# Variablen zu principal components zusammenfassen.
+
+pred <- predict(pcr.fit, college.test, ncomp = 17)
+
+rss <- sum((pred - college.test$Apps)^2)
+tss <- sum((college.test$Apps - mean(college.test$Apps))^2)
+test.rsq <- 1- (rss/tss)
+rsq["pcr"] <- 1- (rss/tss)
+
+# f)
+
+pls.fit <- plsr(Apps ~ ., data = college.train, scale = T, validation = "CV")
+
+pls.fit %>% summary()
+
+# Prediction Error Sum of Squares minimum
+which.min(pls.fit$validation$PRESS)
+
+pred <- predict(pls.fit, college.test, ncomp = 9)
+
+rss <- sum((pred - college.test$Apps)^2)
+tss <- sum((college.test$Apps - mean(college.test$Apps))^2)
+rsq["pls"] <- 1- (rss/tss)
+rsq
+
+# Exercise 19 Overfitting
+
+# First we generate some data
+
+set.seed(1)
+
+X <- matrix(rnorm(1000*20), ncol = 20, nrow = 1000)
+colnames(X) <- sprintf("Feature_%d", 1:20)
+beta <- rnorm(20, sd = 10)
+
+e <- rnorm(1000)
+
+Y <- c(X%*%beta + e)
+
+# b)
+
+train <- sample(1:nrow(X), 100)
+test <- -train
+
+X.train <- X[train,]
+X.test <- X[test,]
+Y.train <- Y[train]
+Y.test <- Y[test]
+
+dat.train <- cbind(data.frame(Y=Y.train), X.train)
+dat.test <- cbind(data.frame(Y=Y.test), X.test)
+
+# c) Best subset selection am Trainingsdatensatz
+
+regfit.best <- regsubsets(Y~., dat = dat.train, nvmax = 20)
+
+plot(regfit.best)
+
+train.mse <- c()
+
+for(i in 1:20){
+  
+  form <- as.formula(regfit.best$call[[2]])
+  mat <- model.matrix(form, dat.train)
+  coefi <- coef(regfit.best, id = i)
+  xvars <- names(coefi) # Which variables are included
+  yhat <- mat[,xvars]%*%coefi
+  train.mse[i] <- mean((yhat - dat.train$Y)^2)
+}
+
+par(mfrow = c(1,1))
+plot(seq(1:20), train.mse)
+
+# d)
+
+test.mse <- c()
+
+for(i in 1:20){
+  
+  form <- as.formula(regfit.best$call[[2]])
+  mat <- model.matrix(form, dat.test)
+  coefi <- coef(regfit.best, id = i)
+  xvars <- names(coefi) # Which variables are included
+  yhat <- mat[,xvars] %*% coefi
+  test.mse[i] <- mean((yhat - dat.test$Y)^2)
+}
+
+par(mfrow = c(1,1))
+plot(seq(1:20), test.mse)
+points(which.min(test.mse), test.mse[which.min(test.mse)], col = "red")
+
+# f)
+
+beta.est <- c()
+beta.rsqb.diffs <- c() 
+
+for(r in 1:20){
+  coefi <- coef(regfit.best, id = r)
+  for(i in 1:20){
+    id <- sprintf("Feature_%d", i)
+    if(id %in% names(coefi)){
+      beta.est[i] <- coefi[id] 
+    }else{
+      beta.est[i] <- 0
+    }
+  }
+  beta.rsqb.diffs[r] <- sqrt(sum((beta-beta.est)^2))
+}
+
+plot(1:20, beta.rsqb.diffs, 
+     xlab = "Number of Features",
+     ylab = "Root Squarred Diff of Betas")
+
+points(which.min(beta.rsqb.diffs), min(beta.rsqb.diffs), col = "deeppink")
 
 
