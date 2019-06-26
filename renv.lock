@@ -12,6 +12,30 @@ Version=1.2
 Source=CRAN
 Hash=a30efa9bb8b2391970837efb3c278a39
 
+[R/Package/codetools]
+Package=codetools
+Version=0.2-16
+Source=CRAN
+Hash=c3ba04e2aa3a227aa4f3f6daf0ba7abf
+
+[R/Package/foreach]
+Package=foreach
+Version=1.4.4
+Source=CRAN
+Hash=dbf7619e27fb08d45eda81527dbe60a6
+
+[R/Package/gam]
+Package=gam
+Version=1.16
+Source=CRAN
+Hash=c87ae36ba5829cea9c3e2df3ba41fde3
+
+[R/Package/iterators]
+Package=iterators
+Version=1.0.10
+Source=CRAN
+Hash=820915a2891e5350f6e3d7dc98f6489f
+
 [R/Package/leaps]
 Package=leaps
 Version=3.0
@@ -30,9 +54,21 @@ Version=2.7-1
 Source=CRAN
 Hash=4324beb0bd9dac4a45f8e09d3a977ddd
 
+[R/Package/randomForest]
+Package=randomForest
+Version=4.6-14
+Source=CRAN
+Hash=1aa8e2db52e857052ed63c5849e61161
+
 [R/Package/tictoc]
 Package=tictoc
 Version=1.0
 Source=CRAN
 Hash=6f0a1371ec414cefb5b5ee2d9739d5ae
+
+[R/Package/tree]
+Package=tree
+Version=1.0-40
+Source=CRAN
+Hash=e5788f1a5d0378ab0af0c4b6e1f9e1d2
 
