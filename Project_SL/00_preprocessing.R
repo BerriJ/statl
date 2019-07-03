@@ -4,23 +4,22 @@ rm(list = ls())
 
 load("Wein_train.rda")
 
-head(Wein_train$name)
+# Remove Backslashes
 
-Wein_train$name <- Wein_train$name %>% 
-  str_replace_all(pattern = "\"", replacement =  "")
+remove_backslashes <- function(x){
+  if(is.character(x)){
+    str_replace_all(x, pattern = "\"", replacement =  "")
+  }
+}
 
-Wein_train$vintage <- Wein_train$vintage %>% 
-  str_replace_all(pattern = "\"", replacement =  "")
+Wein_train <- apply(Wein_train, 2, FUN = remove_backslashes) %>%
+  as_tibble() %>% 
+  mutate_at(
+    vars(-name, -vintage, -country, -region, -date, -taste_segment, -segm,
+         -price_segm, -time_segm_price, -v10_dn, -v10_exp, -v10_svd, -v10_aom), 
+    .funs = as.numeric) %>%
+  mutate(date = as.Date(date))
 
-Wein_train$country <- Wein_train$country %>% 
-  str_replace_all(pattern = "\"", replacement =  "")
+# We have to give special attention to: -v10_dn, -v10_exp, -v10_svd, -v10_aom
+# Those couldn't be transformed into numeric(?)
 
-Wein_train$region <- Wein_train$region %>% 
-  str_replace_all(pattern = "\"", replacement =  "")
-
-Wein_train$date <- Wein_train$date %>% as.Date()
-
-Wein_train$litre <- Wein_train$litre %>% as.numeric()
-
-Wein_train$taste_segment <- Wein_train$taste_segment %>% 
-  str_replace_all(pattern = "\"", replacement =  "")
