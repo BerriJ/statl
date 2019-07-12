@@ -1,4 +1,4 @@
-load("Wein_train.rda")
-head(Wein_train)
-summary(Wein_train)
-str(Wein_train)
+load("00_data/wine_preprocessed.rda")
+head(wine)
+hist(wine$litre)
+hist(wine$llitre)
