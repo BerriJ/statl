@@ -36,7 +36,8 @@ wine <- apply(Wein_train, 2, FUN = remove_backslashes) %>%
   ##############################################################################
   mutate_at(
     vars(country, region, dist, taste_segment, segm, price_segm, time_segm_price, artikpr), 
-    .funs = as.factor)
+    .funs = as.factor) %>%
+  dplyr::select(-time_segm_price, -artikpr)
 
 save(file = "00_data/wine_preprocessed.rda", wine)
 
