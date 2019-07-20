@@ -44,6 +44,22 @@ The data used in this term paper is taken from a wine themed dataset. The variab
 At first a mean regression and a linear regression are calculated and used as a baseline for further methods.
 For comparison of the different models, the Root Mean Sqaured Error (RMSE) $$\sqrt{\frac{1}{n}\sum_{i = 1}^{n}\left(y_i-\hat{y}_i\right)^2}$$ is calculated.
 
+```{r Mean Regression, echo = FALSE}
+
+load("00_data/wine_preprocessed.rda")
+
+# Baseline Model: Mean
+
+models <- data.frame(mod = c("Mean", "Basic_lm"), rmse = c(NA, NA))
+
+residuals <- wine$llitre-mean(wine$llitre, na.rm = T) %>% na.omit()
+plot(residuals)
+models[models$mod == "Mean","rmse"] <- (wine$llitre-mean(wine$llitre, na.rm = T))^2 %>% 
+  na.omit() %>%
+  sqrt() %>%
+  mean()
+print(models)
+```
 
 ## R Markdown
 
