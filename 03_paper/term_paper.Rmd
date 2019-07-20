@@ -39,6 +39,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The data used in this term paper is taken from a wine themed dataset. The variables include among others the name of the wine, the country of origin, the price, the amount (litres), the taste segment and some variables about different reviews.
 
+# Analysis
+
+At first a mean regression and a linear regression are calculated and used as a baseline for further methods.
+For comparison of the different models, the Root Mean Sqaured Error (RMSE) $$\sqrt{\frac{1}{n}\sum_{i = 1}^{n}\left(y_i-\hat{y}_i\right)^2}$$ is calculated.
+
+
 ## R Markdown
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
