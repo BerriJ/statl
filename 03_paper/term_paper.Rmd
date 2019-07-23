@@ -54,6 +54,7 @@ models <- data.frame(mod = c("Mean", "Basic_lm"), rmse = c(NA, NA))
 
 residuals <- wine$llitre-mean(wine$llitre, na.rm = T) %>% na.omit()
 plot(residuals)
+truehist(residuals)
 models[models$mod == "Mean","rmse"] <- (wine$llitre-mean(wine$llitre, na.rm = T))^2 %>% 
   na.omit() %>%
   sqrt() %>%
