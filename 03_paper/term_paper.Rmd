@@ -46,7 +46,7 @@ For comparison of the different models, the Root Mean Sqaured Error (RMSE) $$\sq
 
 ```{r Mean Regression, echo = FALSE}
 
-load("00_data/wine_preprocessed.rda")
+load("../00_data/wine_preprocessed.rda")
 
 # Baseline Model: Mean
 
