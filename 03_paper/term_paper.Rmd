@@ -35,6 +35,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 # Introduction
 
+In this term paper we will search for the best model (in terms of a low RMSE) to predict the variable "Llitre - Weekly sale in log litre" on basis of the friberg gronqvist wine data set. To achieve this we apply different techniques from the branch of statistical learning.
+
 ## Data
 
 The data used in this term paper is taken from a wine themed dataset. The variables include among others the name of the wine, the country of origin, the price, the amount (litres), the taste segment and some variables about different reviews.
