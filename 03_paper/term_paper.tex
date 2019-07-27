@@ -248,6 +248,11 @@
 \pagenumbering{arabic} 
 \section{Introduction}\label{introduction}
 
+In this term paper we will search for the best model (in terms of a low
+RMSE) to predict the variable \enquote{Llitre - Weekly sale in log
+litre} on basis of the friberg gronqvist wine data set. To achieve this
+we apply different techniques from the branch of statistical learning.
+
 \subsection{Data}\label{data}
 
 The data used in this term paper is taken from a wine themed dataset.
@@ -263,13 +268,34 @@ models, the Root Mean Sqaured Error (RMSE)
 \[\sqrt{\frac{1}{n}\sum_{i = 1}^{n}\left(y_i-\hat{y}_i\right)^2}\] is
 calculated.
 
+\begin{verbatim}
+## 
+## Attaching package: 'MASS'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:dplyr':
+## 
+##     select
+\end{verbatim}
+
+\begin{figure}
+\centering
 \includegraphics{term_paper_files/figure-latex/Mean Regression-1.pdf}
+\caption{Residuals of the Mean Regression.}
+\end{figure}
 
 \begin{verbatim}
 ##        mod    rmse
 ## 1     Mean 2193578
 ## 2 Basic_lm      NA
 \end{verbatim}
+
+\begin{figure}
+\centering
+\includegraphics{term_paper_files/figure-latex/ResPlotMR-1.pdf}
+\caption{Histogram and Density of the Residuals of the Mean Regression.}
+\end{figure}
 
 \subsection{R Markdown}\label{r-markdown}
 
@@ -369,12 +395,12 @@ Diameter & Height & Volume\tabularnewline
 Diameter & Height & Volume\tabularnewline
 \midrule
 \endhead
-12.0 & 75 & 19.1\tabularnewline
-11.0 & 75 & 18.2\tabularnewline
-8.3 & 70 & 10.3\tabularnewline
-17.3 & 81 & 55.4\tabularnewline
-13.8 & 64 & 24.9\tabularnewline
 11.7 & 69 & 21.3\tabularnewline
+10.8 & 83 & 19.7\tabularnewline
+16.0 & 72 & 38.3\tabularnewline
+20.6 & 87 & 77.0\tabularnewline
+13.8 & 64 & 24.9\tabularnewline
+10.7 & 81 & 18.8\tabularnewline
 \bottomrule
 \end{longtable}
 
