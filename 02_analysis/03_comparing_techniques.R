@@ -174,30 +174,101 @@ ggsave(file = "02_analysis/plots/08_price_scatter.pdf", price_scatter , width = 
        height = 9, limitsize = F) 
 
 
+# dist: level of distribution ####
+
+dist_scatter <- ggplot(wine, aes(x = dist, y = llitre)) + geom_point(position = "jitter", alpha = 0.5)
+
+dir.create("02_analysis/plots", showWarnings = F)
+ggsave(file = "02_analysis/plots/09_dist_scatter.pdf", dist_scatter , width = 16, 
+       height = 9, limitsize = F)
+
+dist_density <- ggplot(wine) + 
+  geom_histogram(aes(x=llitre,y=..density..), position="identity") + 
+  geom_density(aes(x=llitre,y=..density..), col = "gray13") + 
+  ylab("Density") + 
+  facet_wrap(~ dist, ncol =3)
+
+dir.create("02_analysis/plots", showWarnings = F)
+ggsave(file = "02_analysis/plots/09_dist_density.pdf",dist_density , width = 16, 
+       height = 9, limitsize = F)
+
+# Taste Segment ####
+
+taste_segment_boxplot <- wine %>% 
+  ggplot(aes(x = factor(taste_segment), y = llitre)) + 
+  geom_boxplot() + theme(axis.text.x = element_text(angle = 45))
 
 
+dir.create("02_analysis/plots", showWarnings = F)
+ggsave(file = "02_analysis/plots/10_taste_segment_boxplot.pdf", taste_segment_boxplot , width = 16, 
+       height = 9) 
+
+# Color Segment ####
+
+segm_boxplot <- wine %>% 
+  ggplot(aes(x = factor(segm), y = llitre)) + 
+  geom_boxplot() + theme(axis.text.x = element_text())
 
 
+dir.create("02_analysis/plots", showWarnings = F)
+ggsave(file = "02_analysis/plots/11_segm_boxplot.pdf", segm_boxplot , width = 16, 
+       height = 9) 
+
+segm_density <- ggplot(wine) + 
+  geom_histogram(aes(x=llitre,y=..density..), position="identity") + 
+  geom_density(aes(x=llitre,y=..density..), col = "gray13") + 
+  ylab("Density") + 
+  facet_wrap(~ segm)
+
+dir.create("02_analysis/plots", showWarnings = F)
+ggsave(file = "02_analysis/plots/11_segm_density.pdf",dist_density , width = 16, 
+       height = 9, limitsize = F)
+
+# price_segm ####
+
+price_segm_boxplot <- wine %>% 
+  ggplot(aes(x = factor(price_segm), y = llitre)) + 
+  geom_boxplot() + theme(axis.text.x = element_text())
 
 
+dir.create("02_analysis/plots", showWarnings = F)
+ggsave(file = "02_analysis/plots/12_price_segm_boxplot.pdf", price_segm_boxplot , width = 16, 
+       height = 9) 
 
+price_segm_density <- ggplot(wine) + 
+  geom_histogram(aes(x=llitre,y=..density..), position="identity") + 
+  geom_density(aes(x=llitre,y=..density..), col = "gray13") + 
+  ylab("Density") + 
+  facet_wrap(~ price_segm)
 
+dir.create("02_analysis/plots", showWarnings = F)
+ggsave(file = "02_analysis/plots/12_price_segm_density.pdf",dist_density , width = 16, 
+       height = 9)
 
+# Old ####
 
+old_scatter <- ggplot(wine, aes(x = old, y = llitre)) + geom_point(position = "jitter", alpha = 0.5)
 
+dir.create("02_analysis/plots", showWarnings = F)
+ggsave(file = "02_analysis/plots/13_old_scatter.pdf", old_scatter , width = 16, 
+       height = 9) 
 
+old_density <- ggplot(wine) + 
+  geom_histogram(aes(x=old,y=..density..), position="identity") + 
+  geom_density(aes(x=old,y=..density..), col = "gray13") + 
+  ylab("Density")
 
+dir.create("02_analysis/plots", showWarnings = F)
+ggsave(file = "02_analysis/plots/13_old_density.pdf", old_density , width = 16, 
+       height = 9) 
 
+# ma_split
 
+ma_split_scatter <- ggplot(wine, aes(x = ma_split, y = litre)) + geom_point(position = "jitter", alpha = 0.25)
 
-
-
-
-
-
-
-
-
+dir.create("02_analysis/plots", showWarnings = F)
+ggsave(file = "02_analysis/plots/13_ma_split_scatter.pdf", old_scatter , width = 16, 
+       height = 9) 
 
 
 
