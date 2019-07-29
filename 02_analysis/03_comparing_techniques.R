@@ -62,8 +62,7 @@ ggsave(file = "02_analysis/plots/02_vintage_boxplot.pdf",vintage_boxplot, width 
 
 # Verändert Vintage die Verteilung?
 
-vintage_density <- wine %>% mutate(helper = as.numeric(vintage) >= 1996) %>%
-  ggplot() + 
+vintage_density <- ggplot(wine) + 
   geom_histogram(aes(x=llitre,y=..density..), position="identity") + 
   geom_density(aes(x=llitre,y=..density..), col = "gray13") + 
   ylab("Density") + 
@@ -75,16 +74,104 @@ ggsave(file = "02_analysis/plots/03_vintage_density.pdf",vintage_density , width
 
 
 
+# Country: ####
+
+unique(wine$vintage)
+
+# Boxplot der Logliter nach Country:
+
+county_boxplot <- wine %>% dplyr::group_by(country) %>% 
+  ggplot(aes(x = factor(country), y = llitre)) + 
+  geom_boxplot() + theme(axis.text.x = element_text(angle = 45))
 
 
+dir.create("02_analysis/plots", showWarnings = F)
+ggsave(file = "02_analysis/plots/03_county_boxplot.pdf",county_boxplot, width = 16, 
+       height = 9, limitsize = F) 
 
 
+# Verändert Country die Verteilung?
+
+country_density <- ggplot(wine) + 
+  geom_histogram(aes(x=llitre,y=..density..), position="identity") + 
+  geom_density(aes(x=llitre,y=..density..), col = "gray13") + 
+  ylab("Density") + 
+  facet_wrap(~ country, ncol =7)
+
+dir.create("02_analysis/plots", showWarnings = F)
+ggsave(file = "02_analysis/plots/03_country_density.pdf",country_density , width = 16, 
+       height = 9, limitsize = F)
+
+# Region ####
+
+# Boxplot der Logliter nach Region:
+
+region_boxplot <- wine %>%
+  ggplot(aes(x = factor(region), y = llitre)) + 
+  geom_boxplot() + theme(axis.text.x = element_text(angle = 45, size = 9))
 
 
+dir.create("02_analysis/plots", showWarnings = F)
+ggsave(file = "02_analysis/plots/04_region_boxplot.pdf",region_boxplot, width = 16, 
+       height = 9, limitsize = F) 
 
 
+# Year ####
+
+wine %>% group_by(year) %>% count()
+
+year_scatter <- ggplot(wine, aes(x = year, y = llitre)) + geom_point(position = "jitter", alpha = 0.5)
+
+dir.create("02_analysis/plots", showWarnings = F)
+ggsave(file = "02_analysis/plots/05_year_scatter.pdf",year_scatter , width = 16, 
+       height = 9, limitsize = F) 
 
 
+# Week ####
+
+week_boxplot <- wine %>% 
+  ggplot(aes(x = factor(week), y = llitre)) + 
+  geom_boxplot() + theme(axis.text.x = element_text(angle = 90))
+
+dir.create("02_analysis/plots", showWarnings = F)
+ggsave(file = "02_analysis/plots/06_week_boxplot.pdf", week_boxplot , width = 16, 
+       height = 9, limitsize = F) 
+
+# period
+
+period_boxplot <- wine %>% 
+  ggplot(aes(x = factor(period), y = llitre)) + 
+  geom_boxplot() + theme(axis.text.x = element_text(angle = 90, size =  5))
+
+dir.create("02_analysis/plots", showWarnings = F)
+ggsave(file = "02_analysis/plots/07_period_boxplot.pdf", period_boxplot , width = 16, 
+       height = 9, limitsize = F) 
+
+# date
+
+date_boxplot <- wine %>% 
+  ggplot(aes(x = factor(date), y = llitre)) + 
+  geom_boxplot() + theme(axis.text.x = element_text(angle = 90))
+
+dir.create("02_analysis/plots", showWarnings = F)
+ggsave(file = "02_analysis/plots/08_date_boxplot.pdf", date_boxplot , width = 16, 
+       height = 9, limitsize = F) 
+
+# price
+
+price_scatter <- ggplot(wine, aes(x = price, y = llitre)) + geom_point(alpha = 0.5)
+
+dir.create("02_analysis/plots", showWarnings = F)
+ggsave(file = "02_analysis/plots/08_price_scatter.pdf", price_scatter , width = 16, 
+       height = 9, limitsize = F) 
+
+# log price
+
+price_scatter <- ggplot(wine, aes(x = lp, y = llitre)) + geom_point(alpha = 0.5)
+
+dir.create("02_analysis/plots", showWarnings = F)
+ggsave(file = "02_analysis/plots/08_price_scatter.pdf", price_scatter , width = 16, 
+       height = 9, limitsize = F) 
 
 
 
