@@ -258,7 +258,21 @@ we apply different techniques from the branch of statistical learning.
 The data used in this term paper is taken from a wine themed dataset.
 The variables include among others the name of the wine, the country of
 origin, the price, the amount (litres), the taste segment and some
-variables about different reviews.
+variables about different reviews. The variable of interest, which we
+want to predict, is the variable \enquote{Llitre} describing the weekly
+sale of a specific wine in log litre. It therefore is a transformation
+of the variable \enquote{Litre} which is the weekly sale of a specific
+wine in litre. The relationship can be written mathematically as
+
+\begin{equation}
+Llitre = \log{Litre}*1000000.
+\end{equation}
+
+In order to be able to work with the methods used in this paper we had
+to omit two variables, namely \enquote{time\_segm\_price} and
+\enquote{artikpr} because those are combinations of other existing
+variables and therefore would result in the problem of
+multicollinearity.
 
 \section{Analysis}\label{analysis}
 
@@ -267,17 +281,6 @@ used as a baseline for further methods. For comparison of the different
 models, the Root Mean Sqaured Error (RMSE)
 \[\sqrt{\frac{1}{n}\sum_{i = 1}^{n}\left(y_i-\hat{y}_i\right)^2}\] is
 calculated.
-
-\begin{verbatim}
-## 
-## Attaching package: 'MASS'
-\end{verbatim}
-
-\begin{verbatim}
-## The following object is masked from 'package:dplyr':
-## 
-##     select
-\end{verbatim}
 
 \begin{figure}
 \centering
@@ -395,12 +398,12 @@ Diameter & Height & Volume\tabularnewline
 Diameter & Height & Volume\tabularnewline
 \midrule
 \endhead
-11.4 & 76 & 21.0\tabularnewline
+10.8 & 83 & 19.7\tabularnewline
 11.2 & 75 & 19.9\tabularnewline
-18.0 & 80 & 51.0\tabularnewline
-13.3 & 86 & 27.4\tabularnewline
-8.3 & 70 & 10.3\tabularnewline
-8.8 & 63 & 10.2\tabularnewline
+13.7 & 71 & 25.7\tabularnewline
+18.0 & 80 & 51.5\tabularnewline
+16.3 & 77 & 42.6\tabularnewline
+17.3 & 81 & 55.4\tabularnewline
 \bottomrule
 \end{longtable}
 

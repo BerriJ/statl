@@ -40,13 +40,18 @@ In this term paper we will search for the best model (in terms of a low RMSE) to
 ## Data
 
 The data used in this term paper is taken from a wine themed dataset. The variables include among others the name of the wine, the country of origin, the price, the amount (litres), the taste segment and some variables about different reviews.
+The variable of interest, which we want to predict, is the variable "Llitre" describing the weekly sale of a specific wine in log litre. It therefore is a transformation of the variable "Litre" which is the weekly sale of a specific wine in litre. The relationship can be written mathematically as 
+\begin{equation}
+Llitre = \log{Litre}*1000000.
+\end{equation}
+In order to be able to work with the methods used in this paper we had to omit two variables, namely "time_segm_price" and "artikpr" because those are combinations of other existing variables and therefore would result in the problem of multicollinearity.
 
 # Analysis
 
 At first a mean regression and a linear regression are calculated and used as a baseline for further methods.
 For comparison of the different models, the Root Mean Sqaured Error (RMSE) $$\sqrt{\frac{1}{n}\sum_{i = 1}^{n}\left(y_i-\hat{y}_i\right)^2}$$ is calculated.
 
-```{r Mean Regression, echo = FALSE, fig.cap = "Residuals of the Mean Regression."}
+```{r Mean Regression, echo = FALSE, fig.cap = "Residuals of the Mean Regression.", message = FALSE}
 
 library(MASS)
 
