@@ -7,6 +7,17 @@ library(caret)
 
 load("00_data/wine_preprocessed.rda")
 
+# What we tried in the Tutorial
+
+# Non_linear Transformation
+# Subset Selection
+# Leave one out CV
+# Lasso
+# PLS PCR
+# Natural Splines and Bsplines
+# GAMS
+# Random Forests
+
 # Visual inspection:
 
 # Name: ####
@@ -264,12 +275,25 @@ ggsave(file = "02_analysis/plots/13_old_density.pdf", old_density , width = 16,
 
 # ma_split
 
-ma_split_scatter <- ggplot(wine, aes(x = ma_split, y = litre)) + geom_point(position = "jitter", alpha = 0.25)
+ma_split_scatter <- ggplot(wine, aes(x = ma_split, y = litre)) + 
+  geom_point(position = "jitter", alpha = 0.25)
 
 dir.create("02_analysis/plots", showWarnings = F)
 ggsave(file = "02_analysis/plots/13_ma_split_scatter.pdf", old_scatter , width = 16, 
        height = 9) 
 
+# Reviews
+
+reviews <- colnames(wine)[22:57]
+
+for(i in 1:length(reviews)){
+  scatter <- ggplot(wine, aes_string(x = reviews[i], y = "litre")) + 
+  geom_point(position = "jitter", alpha = 0.25)
+  ggsave(file = paste("02_analysis/plots/",13+ i, "_", reviews[i],
+                      "_scatter.pdf", sep = ""), scatter , width = 16, 
+         height = 9) 
+  
+}
 
 
 
