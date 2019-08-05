@@ -159,7 +159,7 @@ gam.pred <- predict(gam.fit, newdata = College.test)
 
 sqrt(mean(College.test$Outstate - gam.pred)^2)
 
-# Not compare this to a linear model
+# Don't compare this to a linear model
 
 lm.fit <- lm(Outstate~., data = College.train[,good.features])
 

@@ -314,7 +314,7 @@ wine_train <- wine[train,]
 wine_test <- wine[-(train),]
 
 regfit_backward <- regsubsets(litre ~.-region -taste_segment -segm, data = wine_train, 
-                     method = "backward", nvmax = 100000)
+                     method = "backward", nvmax = 50)
 
 reg_sum_backward <- summary(regfit_backward)
 id <- reg_sum_backward$rss %>% which.min()
@@ -322,7 +322,7 @@ coefficients_backward <- coef(regfit_backward, id = id)
 
 
 regfit_forward <- regsubsets(litre ~. -region -taste_segment -segm, data = wine_train, 
-                     method = "forward", nvmax = 100000)
+                     method = "forward", nvmax = 50)
 
 reg_sum_forward <- summary(regfit_forward)
 id <- reg_sum_forward$rss %>% which.min()
@@ -332,3 +332,42 @@ intersect(names(coefficients_backward), names(coefficients_forward))
 
 reg_sum_forward$rss %>% min()
 reg_sum_backward$rss %>% min()
+
+val.errors = rep(NA, regfit_forward$nvmax)
+
+x.test = model.matrix(litre ~ . -region -taste_segment -segm, data = wine_test)
+
+for (i in 1:(regfit_forward$nvmax-1)) {
+  coefi = coef(regfit_forward, id = i)
+  pred = x.test[, names(coefi)] %*% coefi
+  val.errors[i] = mean((wine_test$litre - pred)^2)
+}
+plot(sqrt(val.errors))
+points(sqrt(regfit_forward$rss[1:regfit_forward$nvmax]/dim(wine_train)[1]), col = "blue", pch = 19, type = "b")
+legend("topright", legend = c("Training", "Validation"), col = c("blue", "black"), 
+       pch = 19)
+
+################################################################################
+################################## LASSO #######################################
+################################################################################
+
+library(glmnet) # Lasso / Ridge
+library(reshape2)
+
+x.train = model.matrix(litre ~ . -region -taste_segment -segm, data = wine_train)
+y.train = wine_train$litre
+
+cv.out <- cv.glmnet(x = x.train, y = y.train, 
+                    alpha = 1)
+
+plot(cv.out)
+
+bestlam <- cv.out$lambda.min
+
+install.packages("plotmo")
+
+plotmo::plot_glmnet(cv.out)
+
+## TO DO:
+
+# Use Bestlam to predict the test set and obtain RMSE

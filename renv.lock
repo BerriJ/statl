@@ -102,6 +102,12 @@ Version=1.77
 Source=CRAN
 Hash=b5ef191e5f72d525b7e3107da17f519b
 
+[R/Package/TeachingDemos]
+Package=TeachingDemos
+Version=2.10
+Source=CRAN
+Hash=bc9d75b52cc8aa628f1eb80bf7f0cf39
+
 [R/Package/abind]
 Package=abind
 Version=1.4-5
@@ -635,6 +641,18 @@ Package=plogr
 Version=0.2.0
 Source=CRAN
 Hash=e33de17b3d41d70c32e716536104d3fb
+
+[R/Package/plotmo]
+Package=plotmo
+Version=3.5.5
+Source=CRAN
+Hash=aaf77a0fc5806b56ecc3b460c511f84e
+
+[R/Package/plotrix]
+Package=plotrix
+Version=3.7-6
+Source=CRAN
+Hash=bd560e45096e5ee74295afd5fcd12136
 
 [R/Package/pls]
 Package=pls
