@@ -295,16 +295,11 @@ for(i in 1:length(reviews)){
   
 }
 
-
-
-
-
-
-
 # Regsubsets (Forward and Backward stepwise):
 
+load("00_data/wine_preprocessed.rda")
 
-wine <- wine %>% dplyr::select(-name, - litre, -artikelid, -artikelnr)
+wine <- wine %>% dplyr::select(-name, - llitre, -artikelid, -artikelnr)
 
 wine <- wine[,which(colSums(is.na(wine)) < 1000)] %>% 
   drop_na()
@@ -318,7 +313,22 @@ train <- sample(nrow(wine), floor(0.75*nrow(wine)))
 wine_train <- wine[train,]
 wine_test <- wine[-(train),]
 
-regfit <- regsubsets(llitre ~.-region -taste_segment -segm, data = wine_train, 
-                     method = "backward", nvmax = 10,really.big = F)
+regfit_backward <- regsubsets(litre ~.-region -taste_segment -segm, data = wine_train, 
+                     method = "backward", nvmax = 100000)
 
-reg.sum <- summary(regfit)
+reg_sum_backward <- summary(regfit_backward)
+id <- reg_sum_backward$rss %>% which.min()
+coefficients_backward <- coef(regfit_backward, id = id)
+
+
+regfit_forward <- regsubsets(litre ~. -region -taste_segment -segm, data = wine_train, 
+                     method = "forward", nvmax = 100000)
+
+reg_sum_forward <- summary(regfit_forward)
+id <- reg_sum_forward$rss %>% which.min()
+coefficients_forward <- coef(regfit_forward, id = id)
+
+intersect(names(coefficients_backward), names(coefficients_forward))
+
+reg_sum_forward$rss %>% min()
+reg_sum_backward$rss %>% min()
