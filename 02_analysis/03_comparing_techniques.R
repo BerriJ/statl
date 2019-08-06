@@ -307,7 +307,7 @@ wine <- wine[,which(colSums(is.na(wine)) < 1000)] %>%
 glimpse(wine)
 
 corrmat <- dplyr::select_if(wine, is.numeric) %>% cor()
-
+set.seed(123)
 train <- sample(nrow(wine), floor(0.75*nrow(wine)))
 
 wine_train <- wine[train,]
@@ -360,13 +360,16 @@ y.train = wine_train$litre
 cv.out <- cv.glmnet(x = x.train, y = y.train, 
                     alpha = 1)
 
+out <- glmnet(x = x.train, y = y.train, 
+                    alpha = 1)
+
 plot(cv.out)
 
 bestlam <- cv.out$lambda.min
 
-install.packages("plotmo")
+#install.packages("plotmo")
 
-plotmo::plot_glmnet(cv.out)
+plotmo::plot_glmnet(out)
 
 ## TO DO:
 
