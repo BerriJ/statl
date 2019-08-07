@@ -1,5 +1,6 @@
 load("00_data/wine_preprocessed.rda")
 
+set.seed(123)
 train <- sample(nrow(wine), floor(0.75*nrow(wine)))
 
 wine_train <- wine[train,]
@@ -10,13 +11,12 @@ wine_test <- wine[-(train),]
 
 models <- data.frame(mod = c("Mean", "Basic_lm"), rmse = c(NA, NA))
 
-residuals <- wine_train$litre-mean(wine_train$litre, na.rm = T) %>% na.omit()
+# RMSE:
+
+residuals <- na.omit(wine_train$litre)-mean(wine_train$litre, na.rm = T)
 plot(residuals)
 
-models[models$mod == "Mean","rmse"] <- (wine_test$litre-mean(wine$litre, na.rm = T))^2 %>% 
-  na.omit() %>%
-  sqrt() %>%
-  mean()
+models[models$mod == "Mean","rmse"] <- residuals^2 %>% mean() %>% sqrt()
 print(models)
 
 # # Baseline Model: Linear Model with all* variables
@@ -31,8 +31,8 @@ lmod <- lm(litre ~., data = wine_subset)
 preds <- predict(lmod, newdata = wine_test)
 
 models[models$mod == "Basic_lm", "rmse"] <- (na.omit(wine_test$litre-preds))^2 %>% 
-  sqrt() %>%
-  mean()
+  mean() %>%
+  sqrt()
 
 models
 

@@ -354,23 +354,16 @@ legend("topright", legend = c("Training", "Validation"), col = c("blue", "black"
 library(glmnet) # Lasso / Ridge
 library(reshape2)
 
-x.train = model.matrix(litre ~ . -region -taste_segment -segm, data = wine_train)
-y.train = wine_train$litre
-
-cv.out <- cv.glmnet(x = x.train, y = y.train, 
-                    alpha = 1)
-
-out <- glmnet(x = x.train, y = y.train, 
-                    alpha = 1)
-
+x.train <- model.matrix(litre ~ ., data = wine_train)
+y.train <- wine_train$litre
+x.test <- model.matrix(litre ~ ., data = wine_test)
+y.test <- wine_test$litre
+cv.out <- cv.glmnet(x = x.train, y = y.train, alpha = 1)
+out <- glmnet(x = x.train, y = y.train, alpha = 1)
 plot(cv.out)
-
 bestlam <- cv.out$lambda.min
-
-#install.packages("plotmo")
-
+lasso.mod <- glmnet(x = x.train, y = y.train, alpha = 1, lambda = bestlam)
 plotmo::plot_glmnet(out)
-
-## TO DO:
-
-# Use Bestlam to predict the test set and obtain RMSE
+# prediction
+pred <- predict(lasso.mod, x.test, s = bestlam)
+rmse_lasso <- mean((y.test - pred)^2) %>% sqrt()
