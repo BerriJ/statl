@@ -1,36 +1,48 @@
 load("00_data/wine_preprocessed.rda")
 
+# Remove variables with average na >= 50%
+wine <- wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) < 0.50) %>% 
+  # Only keep complete cases
+  drop_na() %>% 
+  # Drop llitre because we are using litre
+  dplyr::select(-llitre) %>%
+  # Remove unused levels from factor variables
+  droplevels()
+
+# Split intro Training (3/4) and Test (1/4)
+
 set.seed(123)
 train <- sample(nrow(wine), floor(0.75*nrow(wine)))
-
 wine_train <- wine[train,]
 wine_test <- wine[-(train),]
 
+# Set up a data frame for model comparison
+models <- data.frame(mod = rep(NA, 10), rmse = rep(NA, 10))
 
-# Baseline Model: Mean
+# Mean Regression:
+residuals <- wine_train$litre-mean(wine_train$litre, na.rm = T)
+models[min(which(is.na(models$mod))),1] <- "mean_regression"
+models[min(which(is.na(models$rmse))),2] <- residuals^2 %>% mean() %>% sqrt()
 
-models <- data.frame(mod = c("Mean", "Basic_lm"), rmse = c(NA, NA))
+# # Baseline Model: Linear Model with all variables
 
-# RMSE:
+x.train <- model.matrix(litre~. -1, data = wine_train)
+x.test <- model.matrix(litre~. -1, data = wine_test)
+y.train <- wine_train$litre
+y.test <- wine_test$litre
+intsct <- intersect(colnames(x.train),colnames(x.test))
+x.train <- x.train[,intsct]
+x.test <- x.test[, intsct]
 
-residuals <- na.omit(wine_train$litre)-mean(wine_train$litre, na.rm = T)
-plot(residuals)
+train_df <- cbind(y.train, x.train) %>% as.data.frame()
+test_df <- cbind(y.test, x.test) %>% as.data.frame()
 
-models[models$mod == "Mean","rmse"] <- residuals^2 %>% mean() %>% sqrt()
-print(models)
+lmod <- lm(y.train~.,train_df)
 
-# # Baseline Model: Linear Model with all* variables
+preds <- predict(lmod, newdata = test_df)
 
-colSums(is.na(wine_train)) %>% sort(decreasing = T) # We've got some problems
-
-wine_subset <- wine_train[,which(colSums(is.na(wine)) < 1000)] %>% 
-  drop_na() %>% dplyr::select(-name, - llitre)
-
-lmod <- lm(litre ~., data = wine_subset)
-
-preds <- predict(lmod, newdata = wine_test)
-
-models[models$mod == "Basic_lm", "rmse"] <- (na.omit(wine_test$litre-preds))^2 %>% 
+models[min(which(is.na(models$mod))),1] <- "linear_model"
+models[min(which(is.na(models$rmse))), "rmse"] <- (y.test-preds)^2 %>% 
   mean() %>%
   sqrt()
 
