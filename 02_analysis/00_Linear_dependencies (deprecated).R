@@ -55,3 +55,30 @@ wine.pcr.fit$validation$PRESS %>% which.min()
 pred <- predict(wine.pcr.fit, test_df, ncomp = 640)
 
 RMSE <- sqrt(mean((pred - test_df$y.test)^2))
+
+################################################################################
+############################## 
+
+
+# Natural Spline
+
+wine_train$year <- as.numeric(wine_train$year)
+wine_test$year <- as.numeric(wine_test$year)
+
+x.train <- model.matrix(litre~. -1, data = wine_train)
+x.test <- model.matrix(litre~. -1, data = wine_test)
+y.train <- wine_train$litre
+y.test <- wine_test$litre
+intsct <- intersect(colnames(x.train),colnames(x.test))
+x.train <- x.train[,intsct]
+x.test <- x.test[, intsct]
+
+train_df <- cbind(y.train, x.train) %>% as.data.frame()
+test_df <- cbind(y.test, x.test) %>% as.data.frame()
+
+lm.fit <- glm(y.train ~ ., data = train_df)
+sp.fit <- glm(y.train ~ . + ns(year,df = 2), data = train_df)
+
+sp.pred <- predict(sp.fit, newdata = test_df)
+
+RMSE <- sqrt(mean((sp.pred - test_df$y.test)^2)) # Bullshit

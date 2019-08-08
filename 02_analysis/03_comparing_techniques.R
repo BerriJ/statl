@@ -1,12 +1,4 @@
 rm(list = ls())
-
-library(leaps)
-library(plm)
-
-library(caret)
-
-load("00_data/wine_preprocessed.rda")
-
 # What we tried in the Tutorial
 
 # Non_linear Transformation

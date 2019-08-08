@@ -8,4 +8,6 @@ require(leaps)
 require(plotmo)
 require(caret)
 require(pls)
+require(splines)
+
 source("renv/activate.R")
