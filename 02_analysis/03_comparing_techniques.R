@@ -367,3 +367,60 @@ plotmo::plot_glmnet(out)
 # prediction
 pred <- predict(lasso.mod, x.test, s = bestlam)
 rmse_lasso <- mean((y.test - pred)^2) %>% sqrt()
+
+
+################################################################################
+############################ TREES and FORESTS #################################
+################################################################################
+
+
+## Trees
+
+library(tree)
+library(randomForest)
+
+tree_wine <- tree(litre ~ .-region, data = wine_train) 
+# we have to cancel region, because factor predictors must have at most 32 levels
+# and there are 96 levels of regions
+summary(tree_wine) # vars used for construction: "price_segm", "dist", "price",
+                   # "ms_segm", "lp", "country", "rprice_litre", "taste_segment", "period"
+plot(tree_wine)
+text(tree_wine)
+
+# check whether pruning improves performance
+
+tree_cv_wine <- cv.tree(tree_wine) # takes about 30 sec 
+plot(tree_cv_wine$size,tree_cv_wine$dev,type='b') 
+# we would choose the largest tree, but could alternatively prune it to a size of 6
+
+tree_prune_wine <- prune.tree(tree_wine, best = 6)
+plot(tree_prune_wine)
+text(tree_prune_wine)
+
+
+pred_tree <- predict(tree_wine, newdata = wine_test) 
+pred_pruned <- predict(tree_prune_wine, newdata = wine_test)
+rmse_tree <- mean((wine_test$litre - pred_tree)^2) %>% sqrt()
+rmse_tree_pruned <- mean((wine_test$litre - pred_pruned)^2) %>% sqrt()
+
+
+## Bagging
+set.seed(123)
+tic()
+bag_wine <- randomForest(x = x.train, mtry = 10, y = y.train, importance = T) 
+#took about 6288.55 sec elapsed for mtry = 10
+toc()
+bag_wine
+pred_bag <- predict(bag_wine, newdata = x.test)
+plot(pred_bag, y.test)
+rmse_bag <- mean((y.test - pred_bag)^2) %>% sqrt() # 5605.3265 for mtry = 10
+
+
+set.seed(123)
+tic()
+rf_wine <- randomForest(x = x.train, y = y.train, importance = T) # now whithout spec of mtry
+toc()
+rf_wine
+pred_rf <- predict(rf_wine, newdata = x.test)
+plot(pred_rf, y.test)
+rmse_rf <- mean((y.test - pred_rf)^2) %>% sqrt() 
