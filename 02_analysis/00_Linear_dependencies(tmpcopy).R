@@ -36,7 +36,13 @@ MM <- model.matrix(litre ~., data = wine)
 # the highest rank are the linearly dependent ones (since removing those does 
 # not decrease rank, while removing a linearly independent column does).
 
-
-rankifremoved <- sapply(1:ncol(MM), function (x) qr(MM[,-x])$rank)
-which(rankifremoved == max(rankifremoved))
+library(tictoc)
+rankifremoved <- c()
+d <- c()
+for(i in 1:ncol(MM)){
+  x <- Sys.time()
+  rankifremoved[i] <- qr(MM[,-i])$rank
+  d[i] <- Sys.time() - x
+  print(paste(round(mean(d)*(ncol(MM)-i)), "Seconds Remaining"))
+}
 # See https://stats.stackexchange.com/a/39321/212827
