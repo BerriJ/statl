@@ -1,9 +1,9 @@
 rm(list = ls())
 
-library(leaps)
-library(plm)
-
-library(caret)
+# library(leaps)
+# library(plm)
+# 
+# library(caret)
 
 load("00_data/wine_preprocessed.rda")
 
@@ -351,8 +351,8 @@ legend("topright", legend = c("Training", "Validation"), col = c("blue", "black"
 ################################## LASSO #######################################
 ################################################################################
 
-library(glmnet) # Lasso / Ridge
-library(reshape2)
+# library(glmnet) # Lasso / Ridge
+# library(reshape2)
 
 x.train <- model.matrix(litre ~ ., data = wine_train)
 y.train <- wine_train$litre
@@ -376,8 +376,6 @@ rmse_lasso <- mean((y.test - pred)^2) %>% sqrt()
 
 ## Trees
 
-library(tree)
-library(randomForest)
 
 tree_wine <- tree(litre ~ .-region, data = wine_train) 
 # we have to cancel region, because factor predictors must have at most 32 levels
@@ -406,10 +404,8 @@ rmse_tree_pruned <- mean((wine_test$litre - pred_pruned)^2) %>% sqrt()
 
 ## Bagging
 set.seed(123)
-tic()
 bag_wine <- randomForest(x = x.train, mtry = 10, y = y.train, importance = T) 
 #took about 6288.55 sec elapsed for mtry = 10
-toc()
 bag_wine
 pred_bag <- predict(bag_wine, newdata = x.test)
 plot(pred_bag, y.test)
@@ -424,3 +420,21 @@ rf_wine
 pred_rf <- predict(rf_wine, newdata = x.test)
 plot(pred_rf, y.test)
 rmse_rf <- mean((y.test - pred_rf)^2) %>% sqrt() 
+
+
+# Parallelization following https://stackoverflow.com/questions/14106010/parallel-execution-of-random-forest-in-r/15771458#15771458
+# Implementation of Answer (combined with https://privefl.github.io/blog/a-guide-to-parallelism-in-r/)
+
+
+cl <- parallel::makeCluster(2)
+doParallel::registerDoParallel(cl)
+set.seed(123)
+rf_par <- foreach(mtry = 1:3, .combine = randomForest::combine,          #took about 998.27 sec
+              .multicombine = TRUE, .packages = 'randomForest') %dopar% {
+                randomForest(x.train, y.train, mtry = mtry)
+              }
+parallel::stopCluster(cl)
+
+pred_rf_par <- predict(rf_par, newdata = x.test)
+plot(pred_rf_par, y.test)
+rmse_rf_par <- mean((y.test - pred_rf_par)^2) %>% sqrt() # RMSE : 10113.45
