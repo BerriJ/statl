@@ -33,47 +33,6 @@
 \usepackage[backend=biber, maxbibnames = 99, style = apa]{biblatex}
 \setlength\bibitemsep{1.5\itemsep}
 \bibliography{references.bib}
-\usepackage{color}
-\usepackage{fancyvrb}
-\newcommand{\VerbBar}{|}
-\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
-\usepackage{framed}
-\definecolor{shadecolor}{RGB}{248,248,248}
-\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\ImportTok}[1]{#1}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
-\newcommand{\BuiltInTok}[1]{#1}
-\newcommand{\ExtensionTok}[1]{#1}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
-\newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
-\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
-\newcommand{\NormalTok}[1]{#1}
-\usepackage{longtable,booktabs}
 \usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -300,192 +259,35 @@ calculated.
 \caption{Histogram and Density of the Residuals of the Mean Regression.}
 \end{figure}
 
-\subsection{R Markdown}\label{r-markdown}
-
-This is an R Markdown document. Markdown is a simple formatting syntax
-for authoring HTML, PDF, and MS Word documents. For more details on
-using R Markdown see \url{http://rmarkdown.rstudio.com}.
-
-When you click the \textbf{Knit} button a document will be generated
-that includes both content as well as the output of any embedded R code
-chunks within the document. You can embed an R code chunk like this:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{summary}\NormalTok{(cars)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00
-\end{verbatim}
-
-\subsection{Including Plots}\label{including-plots}
-
-You can also embed plots, for example:
-
-\begin{figure}
-\centering
-\includegraphics{term_paper_files/figure-latex/pressure-1.pdf}
-\caption{\label{fig:pressure} Pressure}
-\end{figure}
-
-Note that the \texttt{echo\ =\ FALSE} parameter was added to the code
-chunk to prevent printing of the R code that generated the plot. You can
-label the plot above by including the label
-\texttt{\textbackslash{}\textbackslash{}label\{fig:pressure\}} in the
-chunk argument \texttt{fig.cap}. A reference to the plot is then made as
-follows:
-
-Looking at Figure \ref{fig:pressure} makes me happy.
-
-\subsection{The YAML Header}\label{the-yaml-header}
-
-The YAML Header is at the very top of this document. It is enclosed in 3
-dashes. Although there are already some options specified you might want
-to change some additional things. Here are some useful things that we
-have implemented for you.
-
-\subsubsection{language}\label{language}
-
-You can either set this to english or german. If the language is not
-specified in the YAML header it will use english e.g.:
-
-language: english
-
-language: german
-
-This variable affects mainly the headings of your output file.
-
-\subsubsection{linespread}\label{linespread}
-
-The default value for the linespread is 1.5. Usually this is fine and
-sometimes it's required. If you nevertheless want to change it you can
-do so by specifying the linespread variable. E.g.:
-
-linespread: 1
-
-\section{How Rmarkdown makes your life
-easy}\label{how-rmarkdown-makes-your-life-easy}
-
-\subsection{The kable function}\label{the-kable-function}
-
-In Empirical work it's crucial not only to present your results but also
-to explain your research strategy. Often times that involes creating
-tables to present the used data and creating tables to show your
-results. Creating tables (e.g.~in Latex) by hand is hard and time
-consuming but there are a variety of packages out there that can
-automate this job for you. One of them is the kable package. It can
-produce Latex tables from a variety of R Objects.
-
-Consider the following Example: you are working on an analysis of black
-cherry trees and want to present n observations to the reader You can do
-that using the knitr::kable() function.
-
-\begin{longtable}[]{@{}rrr@{}}
-\caption{6 Observations from the trees Dataset}\tabularnewline
-\toprule
-Diameter & Height & Volume\tabularnewline
-\midrule
-\endfirsthead
-\toprule
-Diameter & Height & Volume\tabularnewline
-\midrule
-\endhead
-10.8 & 83 & 19.7\tabularnewline
-11.2 & 75 & 19.9\tabularnewline
-13.7 & 71 & 25.7\tabularnewline
-18.0 & 80 & 51.5\tabularnewline
-16.3 & 77 & 42.6\tabularnewline
-17.3 & 81 & 55.4\tabularnewline
-\bottomrule
-\end{longtable}
-
-Now that we have presented our data it's analysis time! Lets start with
-a quick call to summary().
-
-\subsection{The Stargazer package}\label{the-stargazer-package}
-
-Calling summary() in a code chunk will work but this will give you quite
-an ugly result (just try it for yourself!). When it comes to presenting
-more structured objects like summaries, model results or for example
-correlation matrices the stargazer package is well suited.
-
-\begin{table}[!htbp] \centering 
-  \caption{Summary} 
-  \label{} 
-\begin{tabular}{@{\extracolsep{5pt}}lccccccc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
-Statistic & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Pctl(25)} & \multicolumn{1}{c}{Pctl(75)} & \multicolumn{1}{c}{Max} \\ 
-\hline \\[-1.8ex] 
-Girth & 31 & 13.248 & 3.138 & 8.300 & 11.050 & 15.250 & 20.600 \\ 
-Height & 31 & 76.000 & 6.372 & 63 & 72 & 80 & 87 \\ 
-Volume & 31 & 30.171 & 16.438 & 10.200 & 19.400 & 37.300 & 77.000 \\ 
-\hline \\[-1.8ex] 
-\end{tabular} 
-\end{table}
-
-Assume we want to evaluate how the height and the volume of a typical
-cherry tree are related. We are estimating this using OLS to estimate a
-simple linear model.
-
-\begin{table}[!htbp] \centering 
-  \caption{Regression results} 
-  \label{} 
-\begin{tabular}{@{\extracolsep{5pt}}lc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
- & \multicolumn{1}{c}{\textit{Dependent variable:}} \\ 
-\cline{2-2} 
-\\[-1.8ex] & Volume \\ 
-\hline \\[-1.8ex] 
- Height & 1.543$^{***}$ \\ 
-  & (0.384) \\ 
-  & \\ 
- Constant & $-$87.124$^{***}$ \\ 
-  & (29.273) \\ 
-  & \\ 
-\hline \\[-1.8ex] 
-Observations & 31 \\ 
-R$^{2}$ & 0.358 \\ 
-Adjusted R$^{2}$ & 0.336 \\ 
-Residual Std. Error & 13.397 (df = 29) \\ 
-F Statistic & 16.164$^{***}$ (df = 1; 29) \\ 
-\hline 
-\hline \\[-1.8ex] 
-\textit{Note:}  & \multicolumn{1}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
-\end{tabular} 
-\end{table}
-
-Now that we have our model we can visualize it.
-
-\begin{figure}
-\centering
-\includegraphics{term_paper_files/figure-latex/unnamed-chunk-4-1.pdf}
-\caption{Dataset and regression}
-\end{figure}
-
 \pagebreak
 
 \subsection{Citations}\label{citations}
 
-The a \emph{bibtex} bibliography can be used for citations. The file
-name of the bibliography used in this template is
-\texttt{references.bib}
-
-You can cite a source like this: \autocite{Keil_2012} or
-\textcite{Litterman1986}.
-
-A cited source will be automatically added to the end of the document.
-
 \pagebreak
+
+\subsection{Annotations}\label{annotations}
+
+\subsubsection{Overview over the RMSEs}\label{overview-over-the-rmses}
+
+\begin{tabular}{l|r|r}
+\hline
+Method & RMSE & No..of.Variables\\
+\hline
+Mean-Regression & 0 & 0\\
+\hline
+Linear Regression & 0 & 0\\
+\hline
+Forword Stepwise Selection & 0 & 0\\
+\hline
+Backward Stepwise Selection & 0 & 0\\
+\hline
+Regression Tree & 0 & 0\\
+\hline
+Pruned Tree & 0 & 0\\
+\hline
+Random Forest & 0 & 0\\
+\hline
+\end{tabular}
 \renewcommand*{\mkbibnamefamily}[1]{\textbf{#1}}
 \renewcommand*{\mkbibnamegiven}[1]{\textbf{#1}}
 \renewcommand*{\mkbibnameprefix}[1]{\textbf{#1}}
