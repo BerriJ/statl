@@ -398,8 +398,8 @@ text(tree_prune_wine)
 
 pred_tree <- predict(tree_wine, newdata = wine_test) 
 pred_pruned <- predict(tree_prune_wine, newdata = wine_test)
-rmse_tree <- mean((wine_test$litre - pred_tree)^2) %>% sqrt()
-rmse_tree_pruned <- mean((wine_test$litre - pred_pruned)^2) %>% sqrt()
+rmse_tree <- mean((wine_test$litre - pred_tree)^2) %>% sqrt()  # RMSE: 7380.601
+rmse_tree_pruned <- mean((wine_test$litre - pred_pruned)^2) %>% sqrt() # RMSE: 7972.512
 
 
 ## Bagging
@@ -412,14 +412,12 @@ plot(pred_bag, y.test)
 rmse_bag <- mean((y.test - pred_bag)^2) %>% sqrt() # 5605.3265 for mtry = 10
 
 
-set.seed(123)
-tic()
-rf_wine <- randomForest(x = x.train, y = y.train, importance = T) # now whithout spec of mtry
-toc()
-rf_wine
-pred_rf <- predict(rf_wine, newdata = x.test)
-plot(pred_rf, y.test)
-rmse_rf <- mean((y.test - pred_rf)^2) %>% sqrt() 
+# set.seed(123)
+# rf_wine <- randomForest(x = x.train, y = y.train, importance = T) # now whithout spec of mtry
+# rf_wine
+# pred_rf <- predict(rf_wine, newdata = x.test)
+# plot(pred_rf, y.test)
+# rmse_rf <- mean((y.test - pred_rf)^2) %>% sqrt() 
 
 
 # Parallelization following https://stackoverflow.com/questions/14106010/parallel-execution-of-random-forest-in-r/15771458#15771458
