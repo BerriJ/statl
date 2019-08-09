@@ -167,8 +167,8 @@ wine_train$year <- as.numeric(wine_train$year)
 wine_test$year <- as.numeric(wine_test$year)
 
 x.train <- model.matrix(litre~. -1, data = wine_train)
-y.train <- model.matrix(litre~. -1, data = wine_test)
-x.test <- wine_train$litre
+x.test <- model.matrix(litre~. -1, data = wine_test)
+y.train <- wine_train$litre
 y.test <- wine_test$litre
 intsct <- intersect(colnames(x.train),colnames(x.test))
 x.train <- x.train[,intsct]
