@@ -231,7 +231,12 @@ In order to be able to work with the methods used in this paper we had
 to omit two variables, namely \enquote{time\_segm\_price} and
 \enquote{artikpr} because those are combinations of other existing
 variables and therefore would result in the problem of
-multicollinearity.
+multicollinearity. Furthermore, we exlude those variables with a ratio
+of missing values to number of observations larger than \(50\%\).
+Finally, for some models it is important that the same levels of factor
+variables (as the levels of these are converted into dummy variables)
+are included in the used training and test datasets. To achieve these we
+only do use the intersection of variables included in both sets.
 
 \section{Analysis}\label{analysis}
 
