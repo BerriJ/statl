@@ -57,7 +57,7 @@ x.test <- x.test[, intsct]
 train_df <- cbind(y.train, x.train) %>% as.data.frame()
 test_df <- cbind(y.test, x.test) %>% as.data.frame()
 
-lmod <- lm(y.train~.,train_df)
+lmod <- lm(y.train~. -1,train_df)
 
 preds <- predict(lmod, newdata = test_df)
 
@@ -72,51 +72,63 @@ models
 ################## Stepwise Forward / Backward Selection #######################
 ################################################################################
 
-regfit_backward <- regsubsets(litre ~.-region -taste_segment -segm, data = wine_train,
-                     method = "backward", nvmax = 50)
+# => Hier noch auf die Matrix anpassen
 
-reg_sum_backward <- summary(regfit_backward)
-id <- reg_sum_backward$rss %>% which.min()
-coefficients_backward <- coef(regfit_backward, id = id)
+# Übersicht über die Levels
+wine_train[,sapply(wine_train, is.factor)] %>% drop_na() %>% sapply(levels)
 
+form <- formula(litre ~ region + dist + taste_segment + price)
 
-regfit_forward <- regsubsets(litre ~. -region -taste_segment -segm, data = wine_train,
-                     method = "forward", nvmax = 50)
+regfit_forward <- regsubsets(form, data = wine_train,
+                     method = "forward", nvmax = 1000)
+regfit_backward <- regsubsets(form, data = wine_train,
+                     method = "backward", nvmax = 1000)
 
-reg_sum_forward <- summary(regfit_forward)
-id <- reg_sum_forward$rss %>% which.min()
-coefficients_forward <- coef(regfit_forward, id = id)
+id_bwd <- reg_sum_backward$rss %>% which.min()
+id_fwd <- reg_sum_forward$rss %>% which.min()
 
 intersect(names(coefficients_backward), names(coefficients_forward))
 
-reg_sum_forward$rss %>% min()
-reg_sum_backward$rss %>% min()
+x.test = model.matrix(form, data = wine_test)
 
-val.errors = rep(NA, regfit_forward$nvmax)
-
-x.test = model.matrix(litre ~ . -region -taste_segment -segm, data = wine_test)
-
-for (i in 1:(regfit_forward$nvmax-1)) {
+test.rmse_fwd <- c()
+test.rmse_bwd <- c()
+for (i in 1:(min(regfit_backward$nvmax, regfit_backward$nvmax)-1)) {
   coefi = coef(regfit_forward, id = i)
-  pred = x.test[, names(coefi)] %*% coefi
-  val.errors[i] = mean((wine_test$litre - pred)^2)
+  pred = x.test[,names(coefi)] %*% coefi
+  test.rmse_fwd[i] = sqrt(mean((wine_test$litre - pred)^2))
+  
+  coefi = coef(regfit_backward, id = i)
+  pred = x.test[,names(coefi)] %*% coefi
+  test.rmse_bwd[i] = sqrt(mean((wine_test$litre - pred)^2))
 }
-plot(sqrt(val.errors))
-points(sqrt(regfit_forward$rss[1:regfit_forward$nvmax]/dim(wine_train)[1]), col = "blue", pch = 19, type = "b")
-legend("topright", legend = c("Training", "Validation"), col = c("blue", "black"),
-       pch = 19)
+
+plot(test.rmse_bwd, ylim = c(5000, 13000), col = "black", pch = 19)
+points(sqrt(regfit_forward$rss[1:regfit_forward$nvmax]/dim(wine_train)[1]), col = "red", pch = 19, type = "b")
+points(sqrt(regfit_backward$rss[1:regfit_backward$nvmax]/dim(wine_train)[1]), col = "darkgreen", pch = 19, type = "b")
+points(test.rmse_fwd, col = "deeppink", pch = 19, type = "b")
+
+test.rmse_bckwd %>% min()
+test.rmse_fwd %>% min()
+
+# legend("topright", legend = c("Training", "Validation"), col = c("grey", "black"),
+#        pch = 19)
 
 ################################################################################
 ################################## LASSO #######################################
 ################################################################################
 
+x.train <- model.matrix(litre~., data = wine_train)
+x.test <- model.matrix(litre~., data = wine_test)
+y.train <- wine_train$litre
+y.test <- wine_test$litre
+intsct <- intersect(colnames(x.train),colnames(x.test))
+x.train <- x.train[,intsct]
+x.test <- x.test[, intsct]
+
 # library(glmnet) # Lasso / Ridge
 # library(reshape2)
 
-x.train <- model.matrix(litre ~ ., data = wine_train)
-y.train <- wine_train$litre
-x.test <- model.matrix(litre ~ ., data = wine_test)
-y.test <- wine_test$litre
 cv.out <- cv.glmnet(x = x.train, y = y.train, alpha = 1)
 out <- glmnet(x = x.train, y = y.train, alpha = 1)
 plot(cv.out)
@@ -125,6 +137,7 @@ lasso.mod <- glmnet(x = x.train, y = y.train, alpha = 1, lambda = bestlam)
 plotmo::plot_glmnet(out)
 # prediction
 pred <- predict(lasso.mod, x.test, s = bestlam)
+coef(lasso.mod)
 rmse_lasso <- mean((y.test - pred)^2) %>% sqrt()
 
 ################################################################################
