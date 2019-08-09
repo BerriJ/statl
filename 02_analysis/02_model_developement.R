@@ -320,15 +320,18 @@ rmse_tree_pruned <- mean((wine_test$litre - pred_pruned)^2) %>% sqrt() # RMSE: 7
 
 
 ## Bagging
-# set.seed(123)
-# tic()
-# bag_wine <- randomForest(x = x.train, y = y.train, mtry = ncol(x.train)-1, importance = T, ntree = 25)
-# 
-# toc()
-# bag_wine
-# pred_bag <- predict(bag_wine, newdata = x.test)
-# plot(pred_bag, y.test)
-# rmse_bag <- mean((y.test - pred_bag)^2) %>% sqrt() 
+set.seed(123)
+bag_wine <- randomForest(x = x.train, y = y.train, mtry = ncol(x.train)-1, importance = T, ntree = 25)
+bag_wine
+pred_bag <- predict(bag_wine, newdata = x.test)
+plot(pred_bag, y.test)
+rmse_bag <- mean((y.test - pred_bag)^2) %>% sqrt()
+
+# Bagging took about 2900 secs (~48 min)
+# % Var explained: 88.47
+# RMSE: 4144.7812
+
+
 
 
 ## Trying different values for mtry and ntree
