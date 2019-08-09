@@ -27,7 +27,7 @@ set.seed(123)
 train <- sample(nrow(wine), floor(0.75*nrow(wine)))
 wine_train <- wine[train,]
 wine_test <- wine[-(train),]
-
+rm(train)
 # Set up a data frame for model comparison
 models <- data.frame(mod = rep(NA, 10), rmse = rep(NA, 10))
 
@@ -120,17 +120,6 @@ models[min(which(is.na(models$rmse))), "rmse"] <- test.rmse_fwd %>% min()
 ################################################################################
 ################################## LASSO #######################################
 ################################################################################
-
-x.train <- model.matrix(litre~., data = wine_train)
-x.test <- model.matrix(litre~., data = wine_test)
-y.train <- wine_train$litre
-y.test <- wine_test$litre
-intsct <- intersect(colnames(x.train),colnames(x.test))
-x.train <- x.train[,intsct]
-x.test <- x.test[, intsct]
-
-# library(glmnet) # Lasso / Ridge
-# library(reshape2)
 
 cv.out <- cv.glmnet(x = x.train, y = y.train, alpha = 1)
 out <- glmnet(x = x.train, y = y.train, alpha = 1)
