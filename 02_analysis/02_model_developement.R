@@ -108,8 +108,11 @@ points(sqrt(regfit_forward$rss[1:regfit_forward$nvmax]/dim(wine_train)[1]), col 
 points(sqrt(regfit_backward$rss[1:regfit_backward$nvmax]/dim(wine_train)[1]), col = "darkgreen", pch = 19, type = "b")
 points(test.rmse_fwd, col = "deeppink", pch = 19, type = "b")
 
-test.rmse_bckwd %>% min()
-test.rmse_fwd %>% min()
+models[min(which(is.na(models$mod))),1] <- "regsubsets_bwd"
+models[min(which(is.na(models$rmse))), "rmse"] <- test.rmse_bwd %>% min()
+
+models[min(which(is.na(models$mod))),1] <- "regsubsets_fwd"
+models[min(which(is.na(models$rmse))), "rmse"] <- test.rmse_fwd %>% min()
 
 # legend("topright", legend = c("Training", "Validation"), col = c("grey", "black"),
 #        pch = 19)
@@ -137,8 +140,49 @@ lasso.mod <- glmnet(x = x.train, y = y.train, alpha = 1, lambda = bestlam)
 plotmo::plot_glmnet(out)
 # prediction
 pred <- predict(lasso.mod, x.test, s = bestlam)
-coef(lasso.mod)
-rmse_lasso <- mean((y.test - pred)^2) %>% sqrt()
+
+models[min(which(is.na(models$mod))),1] <- "lasso"
+models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred)^2) %>% sqrt()
+
+############################## Transform Y #####################################
+
+# Areasinus Hyperbolicus
+y.train_asinh <- asinh(wine_train$litre)
+cv.out <- cv.glmnet(x = x.train, y = y.train_asinh, alpha = 1)
+bestlam <- cv.out$lambda.min
+lasso.mod_asinh <- glmnet(x = x.train, y = y.train_asinh, alpha = 1, lambda = bestlam)
+pred <- predict(lasso.mod_asinh, x.test, s = bestlam)
+pred <- sinh(pred)
+models[min(which(is.na(models$mod))),1] <- "lasso_asinh"
+models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred)^2) %>% sqrt()
+
+# Log
+y.train_log<- log(wine_train$litre)
+cv.out <- cv.glmnet(x = x.train, y = y.train_log, alpha = 1)
+bestlam <- cv.out$lambda.min
+lasso.mod_log <- glmnet(x = x.train, y = y.train_log, alpha = 1, lambda = bestlam)
+pred <- predict(lasso.mod_log, x.test, s = bestlam) %>% exp()
+models[min(which(is.na(models$mod))),1] <- "lasso_log"
+models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred)^2) %>% sqrt()
+
+sum(x.train[,1] != 0 & x.train[,1] != 1)
+notdummy <- which(apply(x.train, MARGIN = 2, FUN = function(x) sum(x != 0 & x != 1)) != 0)
+
+for(i in seq_along(notdummy)){
+  plot(x.train[,notdummy[i]],
+       main = names(notdummy)[i])
+  Sys.sleep(0.1)
+}
+
+test <- lasso.mod$beta[,1]
+df <- data.frame(coef = names(test), beta = round(test))
+df$coef %in% names(notdummy)
+
+# The following shows the notdummys that are included in lasso with their coefficients
+
+df[df$coef %in% names(notdummy),] %>% arrange(beta)
+
+plot(wine$year)
 
 ################################################################################
 ################################# PCA ##########################################
@@ -167,7 +211,8 @@ wine.pcr.fit$validation$PRESS %>% which.min()
 
 pred <- predict(wine.pcr.fit, test_df, ncomp = 640)
 
-RMSE <- sqrt(mean((pred - test_df$y.test)^2))
+models[min(which(is.na(models$mod))),1] <- "pcr"
+models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred)^2) %>% sqrt()
 
 ################################################################################
 ################################ Splines?? #####################################
