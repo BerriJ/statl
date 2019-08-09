@@ -10,23 +10,67 @@ rm(list = ls())
 # GAMS
 # Random Forests
 
-# Regsubsets (Forward and Backward stepwise):
-
 load("00_data/wine_preprocessed.rda")
 
-wine <- wine %>% dplyr::select(-name, - llitre, -artikelid, -artikelnr)
+# Remove variables with average na >= 50%
+wine <- wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) < 0.50) %>% 
+  # Only keep complete cases
+  drop_na() %>% 
+  # Drop llitre because we are using litre
+  dplyr::select(-llitre) %>%
+  # Remove unused levels from factor variables
+  droplevels()
 
-wine <- wine[,which(colSums(is.na(wine)) < 1000)] %>%
-  drop_na()
+# Split intro Training (3/4) and Test (1/4)
 
-glimpse(wine)
-
-corrmat <- dplyr::select_if(wine, is.numeric) %>% cor()
 set.seed(123)
 train <- sample(nrow(wine), floor(0.75*nrow(wine)))
-
 wine_train <- wine[train,]
 wine_test <- wine[-(train),]
+
+# Set up a data frame for model comparison
+models <- data.frame(mod = rep(NA, 10), rmse = rep(NA, 10))
+
+################################################################################
+############################# Mean Regression ##################################
+################################################################################
+
+residuals <- wine_train$litre-mean(wine_train$litre, na.rm = T)
+models[min(which(is.na(models$mod))),1] <- "mean_regression"
+models[min(which(is.na(models$rmse))),2] <- residuals^2 %>% mean() %>% sqrt()
+
+################################################################################
+######################## Linear Model without selection ########################
+################################################################################
+
+# WICHTIG Hier wird die Model Matrix so gebaut, dass Training und Test das exakt
+# gleiche Feature Set aufweisen.
+
+x.train <- model.matrix(litre~. -1, data = wine_train)
+x.test <- model.matrix(litre~. -1, data = wine_test)
+y.train <- wine_train$litre
+y.test <- wine_test$litre
+intsct <- intersect(colnames(x.train),colnames(x.test))
+x.train <- x.train[,intsct]
+x.test <- x.test[, intsct]
+
+train_df <- cbind(y.train, x.train) %>% as.data.frame()
+test_df <- cbind(y.test, x.test) %>% as.data.frame()
+
+lmod <- lm(y.train~.,train_df)
+
+preds <- predict(lmod, newdata = test_df)
+
+models[min(which(is.na(models$mod))),1] <- "linear_model"
+models[min(which(is.na(models$rmse))), "rmse"] <- (y.test-preds)^2 %>% 
+  mean() %>%
+  sqrt()
+
+models
+
+################################################################################
+################## Stepwise Forward / Backward Selection #######################
+################################################################################
 
 regfit_backward <- regsubsets(litre ~.-region -taste_segment -segm, data = wine_train,
                      method = "backward", nvmax = 50)
@@ -82,6 +126,164 @@ plotmo::plot_glmnet(out)
 # prediction
 pred <- predict(lasso.mod, x.test, s = bestlam)
 rmse_lasso <- mean((y.test - pred)^2) %>% sqrt()
+
+################################################################################
+################################# PCA ##########################################
+################################################################################
+
+# https://www.datacamp.com/community/tutorials/pca-analysis-r
+
+MM <- model.matrix(litre ~. -1, data = wine)
+wine.pc <- prcomp(MM, center = T, scale. = T)
+wine.pc.sm <- summary(wine.pc)
+wine.pc.sm$importance
+
+#remotes::install_github("vqv/ggbiplot")
+ggbiplot::ggbiplot(wine.pc)
+ggbiplot::ggbiplot(wine.pc,ellipse = T, groups = wine$taste_segment)
+ggbiplot::ggbiplot(wine.pc, ellipse = T, groups = wine$segm)
+ggbiplot::ggbiplot(wine.pc, ellipse = T, groups = wine$dist)
+ggbiplot::ggbiplot(wine.pc, ellipse = T, groups = wine$dist,
+                   choices = c(100,50))
+
+wine.pcr.fit <- pcr(y.train ~ ., 
+                    data = train_df, 
+                    validation = "CV")
+
+wine.pcr.fit$validation$PRESS %>% which.min()
+
+pred <- predict(wine.pcr.fit, test_df, ncomp = 640)
+
+RMSE <- sqrt(mean((pred - test_df$y.test)^2))
+
+################################################################################
+################################ Splines?? #####################################
+################################################################################
+
+
+# Natural Spline
+
+wine_train$year <- as.numeric(wine_train$year)
+wine_test$year <- as.numeric(wine_test$year)
+
+x.train <- model.matrix(litre~. -1, data = wine_train)
+x.test <- model.matrix(litre~. -1, data = wine_test)
+y.train <- wine_train$litre
+y.test <- wine_test$litre
+intsct <- intersect(colnames(x.train),colnames(x.test))
+x.train <- x.train[,intsct]
+x.test <- x.test[, intsct]
+
+train_df <- cbind(y.train, x.train) %>% as.data.frame()
+test_df <- cbind(y.test, x.test) %>% as.data.frame()
+
+lm.fit <- glm(y.train ~ ., data = train_df)
+sp.fit <- glm(y.train ~ . + ns(year,df = 2), data = train_df)
+
+sp.pred <- predict(sp.fit, newdata = test_df)
+
+RMSE <- sqrt(mean((sp.pred - test_df$y.test)^2)) # Bullshit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+################################################################################
+############################# ANFANG TODESSTREIFEN #############################
+################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+################################################################################
+############################ ENDE TODESSTREIFEN ################################
+################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ################################################################################
