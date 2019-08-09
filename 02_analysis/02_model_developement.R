@@ -315,41 +315,71 @@ text(tree_prune_wine)
 
 pred_tree <- predict(tree_wine, newdata = wine_test)
 pred_pruned <- predict(tree_prune_wine, newdata = wine_test)
-rmse_tree <- mean((wine_test$litre - pred_tree)^2) %>% sqrt()  # RMSE: 7380.601
-rmse_tree_pruned <- mean((wine_test$litre - pred_pruned)^2) %>% sqrt() # RMSE: 7972.512
+rmse_tree <- mean((wine_test$litre - pred_tree)^2) %>% sqrt()  # RMSE: 7005.4693
+rmse_tree_pruned <- mean((wine_test$litre - pred_pruned)^2) %>% sqrt() # RMSE: 7661.7498
 
 
 ## Bagging
-set.seed(123)
-bag_wine <- randomForest(x = x.train, mtry = 10, y = y.train, importance = T)
-#took about 6288.55 sec elapsed for mtry = 10
-bag_wine
-pred_bag <- predict(bag_wine, newdata = x.test)
-plot(pred_bag, y.test)
-rmse_bag <- mean((y.test - pred_bag)^2) %>% sqrt() # 5605.3265 for mtry = 10
-
-
 # set.seed(123)
-# rf_wine <- randomForest(x = x.train, y = y.train, importance = T) # now whithout spec of mtry
-# rf_wine
-# pred_rf <- predict(rf_wine, newdata = x.test)
-# plot(pred_rf, y.test)
-# rmse_rf <- mean((y.test - pred_rf)^2) %>% sqrt()
+# tic()
+# bag_wine <- randomForest(x = x.train, y = y.train, mtry = ncol(x.train)-1, importance = T, ntree = 25)
+# 
+# toc()
+# bag_wine
+# pred_bag <- predict(bag_wine, newdata = x.test)
+# plot(pred_bag, y.test)
+# rmse_bag <- mean((y.test - pred_bag)^2) %>% sqrt() 
+
+
+## Trying different values for mtry and ntree
+cl <- parallel::makeCluster(2)
+doParallel::registerDoParallel(cl)
+set.seed(123)
+tic()
+rf_wine <- randomForest(x = x.train, y = y.train, importance = T, ntree = 30) 
+toc()
+parallel::stopCluster(cl)
+rf_wine
+varImpPlot(rf_wine)
+# % Var explained: 88.35 for mtry not set (236) & ntree = 25
+# % Var explained: 86.62 for mtry = 50 & ntree = 25
+# % Var explained: 83.31 for mtry = 25 & ntree = 25
+# % Var explained: 68.66 for mtry = 12
+# % Var explained: 64.07 for mtry = 10
+# % Var explained: 56.45 for mtry = 8
+pred_rf <- predict(rf_wine, newdata = x.test)
+#plot(pred_rf, y.test)
+rmse_rf <- mean((y.test - pred_rf)^2) %>% sqrt()
+# 4206.9744 for mtry not set (236) & ntree = 25
+# 4627.1517 for mtry = 50 & ntree = 25 
+# 5220.2826 for mtry = 25 & ntree = 25
+# 7583.9097 for mtry = 12
+# 8119.9565 for mtry = 10
+# 8959.972 for mtry = 8
+
 
 
 # Parallelization following https://stackoverflow.com/questions/14106010/parallel-execution-of-random-forest-in-r/15771458#15771458
 # Implementation of Answer (combined with https://privefl.github.io/blog/a-guide-to-parallelism-in-r/)
 
 
-cl <- parallel::makeCluster(2)
-doParallel::registerDoParallel(cl)
-set.seed(123)
-rf_par <- foreach(mtry = 1:3, .combine = randomForest::combine,          #took about 998.27 sec
-              .multicombine = TRUE, .packages = 'randomForest') %dopar% {
-                randomForest(x.train, y.train, mtry = mtry)
-              }
-parallel::stopCluster(cl)
 
-pred_rf_par <- predict(rf_par, newdata = x.test)
-plot(pred_rf_par, y.test)
-rmse_rf_par <- mean((y.test - pred_rf_par)^2) %>% sqrt() # RMSE : 10113.45
+#### trying and comparing different values for mtry ###
+
+m <- c(1,seq(25,225,50), 236)
+rmse_rf_m <- numeric(length(m))
+cl <- parallel::makeCluster(2)
+for( i in 1:length(m)){
+  doParallel::registerDoParallel(cl)
+  set.seed(123)
+  rf_wine <- randomForest(x = x.train, y = y.train, importance = T, ntree = 25) # mtry = 12
+  parallel::stopCluster(cl)
+  rf_wine
+  pred_rf <- predict(rf_wine, newdata = x.test)
+  #plot(pred_rf, y.test)
+  rmse_rf_m[i] <- mean((y.test - pred_rf)^2) %>% sqrt()
+  rmse_rf_m[i]
+}
+
+
+
