@@ -386,3 +386,20 @@ for( i in 1:length(m)){
 
 
 
+#####################################################################################
+############################# BOOSTING ##############################################
+#####################################################################################
+
+
+set.seed(123)
+tic()
+boost_wine <- gbm.fit(y.train, x = x.train, distribution = "gaussian",
+                  n.trees = 100, interaction.depth = 35, shrinkage = 0.05)    # try different depths and shrinkage
+toc()
+pred_boost <- predict(boost_wine, newdata = x.test, n.trees = 100)
+rmse_boost <- mean((y.test - pred_boost)^2) %>% sqrt() 
+#for n.tree = 100, depth= 10, shrinkage = 0.2: RMSE = 4519
+#for n.tree = 100, depth= 25, shrinkage = 0.05: RMSE = 4315
+#for n.tree = 100, depth= 35, shrinkage = 0.05: RMSE = 4225 # took about 840 secs
+
+      
