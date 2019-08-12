@@ -460,5 +460,5 @@ rmse_boost <- mean((y.test - pred_boost)^2) %>% sqrt()
 
 models[min(which(is.na(models$mod))),1] <- "rmse_boost"
 models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred_boost)^2) %>% sqrt()
-dir.create("02_analysis/cv/")
+dir.create("02_analysis/cv/", recursive = T, showWarnings = F)
 save(file = paste("02_analysis/cv/models_df_",unique_identifier,".rda", sep = ""), models)
