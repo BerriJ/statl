@@ -27,7 +27,7 @@ set.seed(123)
 train <- sample(nrow(wine), floor(0.75*nrow(wine)))
 wine_train <- wine[train,]
 wine_test <- wine[-(train),]
-
+rm(train)
 # Set up a data frame for model comparison
 models <- data.frame(mod = rep(NA, 10), rmse = rep(NA, 10))
 
@@ -57,7 +57,7 @@ x.test <- x.test[, intsct]
 train_df <- cbind(y.train, x.train) %>% as.data.frame()
 test_df <- cbind(y.test, x.test) %>% as.data.frame()
 
-lmod <- lm(y.train~.,train_df)
+lmod <- lm(y.train~. -1,train_df)
 
 preds <- predict(lmod, newdata = test_df)
 
@@ -72,51 +72,55 @@ models
 ################## Stepwise Forward / Backward Selection #######################
 ################################################################################
 
-regfit_backward <- regsubsets(litre ~.-region -taste_segment -segm, data = wine_train,
-                     method = "backward", nvmax = 50)
+# => Hier noch auf die Matrix anpassen
 
-reg_sum_backward <- summary(regfit_backward)
-id <- reg_sum_backward$rss %>% which.min()
-coefficients_backward <- coef(regfit_backward, id = id)
+# Übersicht über die Levels
+wine_train[,sapply(wine_train, is.factor)] %>% drop_na() %>% sapply(levels)
 
+form <- formula(litre ~ region + dist + taste_segment + price)
 
-regfit_forward <- regsubsets(litre ~. -region -taste_segment -segm, data = wine_train,
-                     method = "forward", nvmax = 50)
+regfit_forward <- regsubsets(form, data = wine_train,
+                     method = "forward", nvmax = 1000)
+regfit_backward <- regsubsets(form, data = wine_train,
+                     method = "backward", nvmax = 1000)
 
-reg_sum_forward <- summary(regfit_forward)
-id <- reg_sum_forward$rss %>% which.min()
-coefficients_forward <- coef(regfit_forward, id = id)
+id_bwd <- reg_sum_backward$rss %>% which.min()
+id_fwd <- reg_sum_forward$rss %>% which.min()
 
 intersect(names(coefficients_backward), names(coefficients_forward))
 
-reg_sum_forward$rss %>% min()
-reg_sum_backward$rss %>% min()
+x.test = model.matrix(form, data = wine_test)
 
-val.errors = rep(NA, regfit_forward$nvmax)
-
-x.test = model.matrix(litre ~ . -region -taste_segment -segm, data = wine_test)
-
-for (i in 1:(regfit_forward$nvmax-1)) {
+test.rmse_fwd <- c()
+test.rmse_bwd <- c()
+for (i in 1:(min(regfit_backward$nvmax, regfit_backward$nvmax)-1)) {
   coefi = coef(regfit_forward, id = i)
-  pred = x.test[, names(coefi)] %*% coefi
-  val.errors[i] = mean((wine_test$litre - pred)^2)
+  pred = x.test[,names(coefi)] %*% coefi
+  test.rmse_fwd[i] = sqrt(mean((wine_test$litre - pred)^2))
+  
+  coefi = coef(regfit_backward, id = i)
+  pred = x.test[,names(coefi)] %*% coefi
+  test.rmse_bwd[i] = sqrt(mean((wine_test$litre - pred)^2))
 }
-plot(sqrt(val.errors))
-points(sqrt(regfit_forward$rss[1:regfit_forward$nvmax]/dim(wine_train)[1]), col = "blue", pch = 19, type = "b")
-legend("topright", legend = c("Training", "Validation"), col = c("blue", "black"),
-       pch = 19)
+
+plot(test.rmse_bwd, ylim = c(5000, 13000), col = "black", pch = 19)
+points(sqrt(regfit_forward$rss[1:regfit_forward$nvmax]/dim(wine_train)[1]), col = "red", pch = 19, type = "b")
+points(sqrt(regfit_backward$rss[1:regfit_backward$nvmax]/dim(wine_train)[1]), col = "darkgreen", pch = 19, type = "b")
+points(test.rmse_fwd, col = "deeppink", pch = 19, type = "b")
+
+models[min(which(is.na(models$mod))),1] <- "regsubsets_bwd"
+models[min(which(is.na(models$rmse))), "rmse"] <- test.rmse_bwd %>% min()
+
+models[min(which(is.na(models$mod))),1] <- "regsubsets_fwd"
+models[min(which(is.na(models$rmse))), "rmse"] <- test.rmse_fwd %>% min()
+
+# legend("topright", legend = c("Training", "Validation"), col = c("grey", "black"),
+#        pch = 19)
 
 ################################################################################
 ################################## LASSO #######################################
 ################################################################################
 
-# library(glmnet) # Lasso / Ridge
-# library(reshape2)
-
-x.train <- model.matrix(litre ~ ., data = wine_train)
-y.train <- wine_train$litre
-x.test <- model.matrix(litre ~ ., data = wine_test)
-y.test <- wine_test$litre
 cv.out <- cv.glmnet(x = x.train, y = y.train, alpha = 1)
 out <- glmnet(x = x.train, y = y.train, alpha = 1)
 plot(cv.out)
@@ -125,7 +129,49 @@ lasso.mod <- glmnet(x = x.train, y = y.train, alpha = 1, lambda = bestlam)
 plotmo::plot_glmnet(out)
 # prediction
 pred <- predict(lasso.mod, x.test, s = bestlam)
-rmse_lasso <- mean((y.test - pred)^2) %>% sqrt()
+
+models[min(which(is.na(models$mod))),1] <- "lasso"
+models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred)^2) %>% sqrt()
+
+############################## Transform Y #####################################
+
+# Areasinus Hyperbolicus
+y.train_asinh <- asinh(wine_train$litre)
+cv.out <- cv.glmnet(x = x.train, y = y.train_asinh, alpha = 1)
+bestlam <- cv.out$lambda.min
+lasso.mod_asinh <- glmnet(x = x.train, y = y.train_asinh, alpha = 1, lambda = bestlam)
+pred <- predict(lasso.mod_asinh, x.test, s = bestlam)
+pred <- sinh(pred)
+models[min(which(is.na(models$mod))),1] <- "lasso_asinh"
+models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred)^2) %>% sqrt()
+
+# Log
+y.train_log<- log(wine_train$litre)
+cv.out <- cv.glmnet(x = x.train, y = y.train_log, alpha = 1)
+bestlam <- cv.out$lambda.min
+lasso.mod_log <- glmnet(x = x.train, y = y.train_log, alpha = 1, lambda = bestlam)
+pred <- predict(lasso.mod_log, x.test, s = bestlam) %>% exp()
+models[min(which(is.na(models$mod))),1] <- "lasso_log"
+models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred)^2) %>% sqrt()
+
+sum(x.train[,1] != 0 & x.train[,1] != 1)
+notdummy <- which(apply(x.train, MARGIN = 2, FUN = function(x) sum(x != 0 & x != 1)) != 0)
+
+for(i in seq_along(notdummy)){
+  plot(x.train[,notdummy[i]],
+       main = names(notdummy)[i])
+  Sys.sleep(0.1)
+}
+
+test <- lasso.mod$beta[,1]
+df <- data.frame(coef = names(test), beta = round(test))
+df$coef %in% names(notdummy)
+
+# The following shows the notdummys that are included in lasso with their coefficients
+
+df[df$coef %in% names(notdummy),] %>% arrange(beta)
+
+plot(wine$year)
 
 ################################################################################
 ################################# PCA ##########################################
@@ -154,7 +200,8 @@ wine.pcr.fit$validation$PRESS %>% which.min()
 
 pred <- predict(wine.pcr.fit, test_df, ncomp = 640)
 
-RMSE <- sqrt(mean((pred - test_df$y.test)^2))
+models[min(which(is.na(models$mod))),1] <- "pcr"
+models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred)^2) %>% sqrt()
 
 ################################################################################
 ################################ Splines?? #####################################
