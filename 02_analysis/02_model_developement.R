@@ -1,31 +1,31 @@
-rm(list = ls())
-# What we tried in the Tutorial
-
-# Non_linear Transformation
-# Subset Selection
-# Leave one out CV
-# Lasso
-# PLS PCR
-# Natural Splines and Bsplines
-# GAMS
-# Random Forests
-load("00_data/wine_preprocessed.rda")
-
-# Remove variables with average na >= 50%
-wine <- wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) < 0.50) %>%
-  # Only keep complete cases
-  drop_na() %>%
-  # Drop llitre because we are using litre
-  dplyr::select(-llitre) %>%
-  # Remove unused levels from factor variables
-  droplevels()
-
-# Split intro Training (3/4) and Test (1/4)
-
-train <- sample(nrow(wine), floor(0.75*nrow(wine)))
-wine_train <- wine[train,]
-wine_test <- wine[-(train),]
-rm(train)
+# rm(list = ls())
+# # What we tried in the Tutorial
+# 
+# # Non_linear Transformation
+# # Subset Selection
+# # Leave one out CV
+# # Lasso
+# # PLS PCR
+# # Natural Splines and Bsplines
+# # GAMS
+# # Random Forests
+# load("00_data/wine_preprocessed.rda")
+# 
+# # Remove variables with average na >= 50%
+# wine <- wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) < 0.50) %>%
+#   # Only keep complete cases
+#   drop_na() %>%
+#   # Drop llitre because we are using litre
+#   dplyr::select(-llitre) %>%
+#   # Remove unused levels from factor variables
+#   droplevels()
+# 
+# # Split intro Training (3/4) and Test (1/4)
+# 
+# train <- sample(nrow(wine), floor(0.75*nrow(wine)))
+# wine_train <- wine[train,]
+# wine_test <- wine[-(train),]
+# rm(train)
 
 
 ############# Above Code that will be run in 00_job_setup.R ####################
@@ -249,108 +249,6 @@ sp.pred <- predict(sp.fit, newdata = test_df)
 
 RMSE <- sqrt(mean((sp.pred - test_df$y.test)^2)) # Bullshit
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-################################################################################
-############################# ANFANG TODESSTREIFEN #############################
-################################################################################
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-################################################################################
-############################ ENDE TODESSTREIFEN ################################
-################################################################################
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ################################################################################
 ############################ TREES and FORESTS #################################
 ################################################################################
@@ -388,7 +286,6 @@ models[min(which(is.na(models$rmse))), "rmse"] <- mean((wine_test$litre - pred_p
 
 ## Bagging
 print("Now doing the Bagging")
-set.seed(123)
 bag_wine <- randomForest(x = x.train, y = y.train, mtry = ncol(x.train)-1, importance = T, ntree = 25)
 bag_wine
 pred_bag <- predict(bag_wine, newdata = x.test)
@@ -405,7 +302,6 @@ models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred_bag)^2) %>
 print("Now doing a Random Forest")
 cl <- parallel::makeCluster(2)
 doParallel::registerDoParallel(cl)
-set.seed(123)
 tic()
 rf_wine <- randomForest(x = x.train, y = y.train, importance = T, ntree = 30) 
 toc()
@@ -472,7 +368,6 @@ doParallel::registerDoParallel(cl)
 for(i in 1:length(dep)){
   print(paste(c("This is Boosting Iteration No. "), i))
   for(j in 1:length(lam)){
-    set.seed(123)
      boost_wine <- gbm.fit(y.train, x = x.train, distribution = "gaussian",
                            n.trees = 25, interaction.depth = dep[i], shrinkage = lam[j])    # try different depths and shrinkage
     pred_boost <- predict(boost_wine, newdata = x.test, n.trees = 25)
@@ -536,7 +431,6 @@ which.min(rmse_BO)
 
 
 print("This is just a single Boosting. May be deleted?")
-set.seed(123)
 tic()
 boost_wine <- gbm.fit(y.train, x = x.train, distribution = "gaussian",
                   n.trees = 100, interaction.depth = 10, shrinkage = 0.05)    # try different depths and shrinkage
@@ -565,4 +459,6 @@ rmse_boost <- mean((y.test - pred_boost)^2) %>% sqrt()
 # https://www.r-bloggers.com/in-search-of-the-perfect-partial-plot/
 
 models[min(which(is.na(models$mod))),1] <- "rmse_boost"
-models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred_boost)^2) %>% sqrt() 
+models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred_boost)^2) %>% sqrt()
+dir.create("02_analysis/cv/")
+save(file = paste("02_analysis/cv/models_df_",unique_identifier,".rda", sep = ""), models)

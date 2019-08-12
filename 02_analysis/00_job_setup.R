@@ -29,6 +29,8 @@ for(i in 1:10){
 rm(i, wine, index, sets)
 
 for(i in 1:10){
+  unique_identifier <- Sys.time() %>% as.character(format = "%Y%m%d_%H%M")
+  unique_identifier <- paste(unique_identifier,i, sep = "_")
   wine_train <- train_list[[i]]
   wine_test <- test_list[[i]]
   rstudioapi::jobRunScript("02_analysis/02_model_developement.R",
