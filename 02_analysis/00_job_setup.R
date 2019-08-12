@@ -26,7 +26,7 @@ for(i in 1:10){
   test_list[[i]] <- wine[sets[i] %>% unlist(),]
 }
 
-rm(i, wine, index, sets)
+rm(i, index, sets)
 
 for(i in 1:10){
   unique_identifier <- Sys.time() %>% as.character(format = "%Y%m%d_%H%M")
