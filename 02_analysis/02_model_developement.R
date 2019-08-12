@@ -1,32 +1,31 @@
-# rm(list = ls())
-# # What we tried in the Tutorial
-# 
-# # Non_linear Transformation
-# # Subset Selection
-# # Leave one out CV
-# # Lasso
-# # PLS PCR
-# # Natural Splines and Bsplines
-# # GAMS
-# # Random Forests
-# load("00_data/wine_preprocessed.rda")
-# 
-# # Remove variables with average na >= 50%
-# wine <- wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) < 0.50) %>% 
-#   # Only keep complete cases
-#   drop_na() %>% 
-#   # Drop llitre because we are using litre
-#   dplyr::select(-llitre) %>%
-#   # Remove unused levels from factor variables
-#   droplevels()
-# 
-# # Split intro Training (3/4) and Test (1/4)
-# 
-# set.seed(123)
-# train <- sample(nrow(wine), floor(0.75*nrow(wine)))
-# wine_train <- wine[train,]
-# wine_test <- wine[-(train),]
-# rm(train)
+rm(list = ls())
+# What we tried in the Tutorial
+
+# Non_linear Transformation
+# Subset Selection
+# Leave one out CV
+# Lasso
+# PLS PCR
+# Natural Splines and Bsplines
+# GAMS
+# Random Forests
+load("00_data/wine_preprocessed.rda")
+
+# Remove variables with average na >= 50%
+wine <- wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) < 0.50) %>%
+  # Only keep complete cases
+  drop_na() %>%
+  # Drop llitre because we are using litre
+  dplyr::select(-llitre) %>%
+  # Remove unused levels from factor variables
+  droplevels()
+
+# Split intro Training (3/4) and Test (1/4)
+
+train <- sample(nrow(wine), floor(0.75*nrow(wine)))
+wine_train <- wine[train,]
+wine_test <- wine[-(train),]
+rm(train)
 
 
 ############# Above Code that will be run in 00_job_setup.R ####################
@@ -86,13 +85,11 @@ print("Start Stepwise Selection")
 # Übersicht über die Levels
 wine_train[,sapply(wine_train, is.factor)] %>% drop_na() %>% sapply(levels)
 
-form <- formula(litre ~ region + dist + taste_segment + price)
+regfit_forward <- regsubsets(y = y.train, x = x.train[,2:550],
+                             method = "forward", nvmax = 1000)
 
-regfit_forward <- regsubsets(form, data = wine_train,
-                     method = "forward", nvmax = 1000)
-regfit_backward <- regsubsets(form, data = wine_train,
-                     method = "backward", nvmax = 1000)
-
+regfit_backward <- regsubsets(y = y.train, x = x.train[,2:550],
+                              method = "backward", nvmax = 1000)
 test.rmse_fwd <- c()
 test.rmse_bwd <- c()
 for (i in 1:(min(regfit_backward$nvmax, regfit_backward$nvmax)-1)) {
@@ -120,43 +117,22 @@ models[min(which(is.na(models$rmse))), "rmse"] <- test.rmse_fwd %>% min()
 #        pch = 19)
 
 
-# => Hier noch auf die Matrix anpassen
+#colnames(train_df)[587] # Macht Probleme!
 
-# Übersicht über die Levels
-wine_train[,sapply(wine_train, is.factor)] %>% drop_na() %>% sapply(levels)
+#summary(train_df[,587])
 
-form <- formula(y.train ~.)
-
-test <- wine_train[,sapply(wine_train, is.factor)] %>% drop_na() %>% sapply(levels)
-
-drop_level <- c()
-
-for(i in 1:length(test)){
-  drop_level[i] <- test[[i]][1]
-}
-
-regfit_forward <- regsubsets(form, data = train_df[,c(1:584, 586)],
-                             method = "forward", nvmax = 1000, intercept = F)
-
-regfit_backward <- regsubsets(form, data = train_df[,c(1:550)],
-                              method = "backward", nvmax = 1000, intercept = F)
-
-colnames(train_df)[587] # Macht Probleme!
-
-summary(train_df[,587])
-
-rankifremoved <- c()
-d <- c()
-for(i in 1:ncol(x.train[,-1])){
-  x <- Sys.time()
-  rankifremoved[i] <- qr(x.train[,-1][,-i])$rank
-  d[i] <- Sys.time() - x
-  print(paste(round(mean(d)*(ncol(x.train)-i)), "Seconds Remaining"))
-}
-
-which(rankifremoved == max(rankifremoved))
-lin_dependend <- colnames(x.train[,-1])[which(rankifremoved == max(rankifremoved))]
-save(file = "00_data/lin_dependend.rda", lin_dependend)
+# rankifremoved <- c()
+# d <- c()
+# for(i in 1:ncol(x.train[,-1])){
+#   x <- Sys.time()
+#   rankifremoved[i] <- qr(x.train[,-1][,-i])$rank
+#   d[i] <- Sys.time() - x
+#   print(paste(round(mean(d)*(ncol(x.train)-i)), "Seconds Remaining"))
+# }
+# 
+# which(rankifremoved == max(rankifremoved))
+# lin_dependend <- colnames(x.train[,-1])[which(rankifremoved == max(rankifremoved))]
+# save(file = "00_data/lin_dependend.rda", lin_dependend)
 
 ################################################################################
 ################################## LASSO #######################################
