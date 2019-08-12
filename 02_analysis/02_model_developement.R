@@ -9,13 +9,12 @@ rm(list = ls())
 # Natural Splines and Bsplines
 # GAMS
 # Random Forests
-
 load("00_data/wine_preprocessed.rda")
 
 # Remove variables with average na >= 50%
-wine <- wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) < 0.50) %>% 
+wine <- wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) < 0.50) %>%
   # Only keep complete cases
-  drop_na() %>% 
+  drop_na() %>%
   # Drop llitre because we are using litre
   dplyr::select(-llitre) %>%
   # Remove unused levels from factor variables
@@ -23,11 +22,19 @@ wine <- wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) < 0.50
 
 # Split intro Training (3/4) and Test (1/4)
 
-set.seed(123)
 train <- sample(nrow(wine), floor(0.75*nrow(wine)))
 wine_train <- wine[train,]
 wine_test <- wine[-(train),]
 rm(train)
+
+
+############# Above Code that will be run in 00_job_setup.R ####################
+################################################################################
+##################### Below Code will be run here ##############################
+
+print("Loading Packages")
+source("02_analysis/00_packages.R")
+print("Packages loaded")
 
 # Set up a data frame for model comparison
 models <- data.frame(mod = rep(NA, 30), rmse = rep(NA, 30))
@@ -35,7 +42,7 @@ models <- data.frame(mod = rep(NA, 30), rmse = rep(NA, 30))
 ################################################################################
 ############################# Mean Regression ##################################
 ################################################################################
-
+print("Start Mean Regression")
 residuals <- wine_train$litre-mean(wine_train$litre, na.rm = T)
 models[min(which(is.na(models$mod))),1] <- "mean_regression"
 models[min(which(is.na(models$rmse))),2] <- residuals^2 %>% mean() %>% sqrt()
@@ -43,7 +50,7 @@ models[min(which(is.na(models$rmse))),2] <- residuals^2 %>% mean() %>% sqrt()
 ################################################################################
 ######################## Linear Model without selection ########################
 ################################################################################
-
+print("Start Linear Model")
 # WICHTIG Hier wird die Model Matrix so gebaut, dass Training und Test das exakt
 # gleiche Feature Set aufweisen.
 
@@ -72,19 +79,17 @@ models
 ################################################################################
 ################## Stepwise Forward / Backward Selection #######################
 ################################################################################
-
+print("Start Stepwise Selection")
 # => Hier noch auf die Matrix anpassen
 
 # Übersicht über die Levels
 wine_train[,sapply(wine_train, is.factor)] %>% drop_na() %>% sapply(levels)
 
-form <- formula(litre ~ region + dist + taste_segment + price)
+regfit_forward <- regsubsets(y = y.train, x = x.train[,2:550],
+                             method = "forward", nvmax = 1000)
 
-regfit_forward <- regsubsets(form, data = wine_train,
-                     method = "forward", nvmax = 1000)
-regfit_backward <- regsubsets(form, data = wine_train,
-                     method = "backward", nvmax = 1000)
-
+regfit_backward <- regsubsets(y = y.train, x = x.train[,2:550],
+                              method = "backward", nvmax = 1000)
 test.rmse_fwd <- c()
 test.rmse_bwd <- c()
 for (i in 1:(min(regfit_backward$nvmax, regfit_backward$nvmax)-1)) {
@@ -111,9 +116,28 @@ models[min(which(is.na(models$rmse))), "rmse"] <- test.rmse_fwd %>% min()
 # legend("topright", legend = c("Training", "Validation"), col = c("grey", "black"),
 #        pch = 19)
 
+
+#colnames(train_df)[587] # Macht Probleme!
+
+#summary(train_df[,587])
+
+# rankifremoved <- c()
+# d <- c()
+# for(i in 1:ncol(x.train[,-1])){
+#   x <- Sys.time()
+#   rankifremoved[i] <- qr(x.train[,-1][,-i])$rank
+#   d[i] <- Sys.time() - x
+#   print(paste(round(mean(d)*(ncol(x.train)-i)), "Seconds Remaining"))
+# }
+# 
+# which(rankifremoved == max(rankifremoved))
+# lin_dependend <- colnames(x.train[,-1])[which(rankifremoved == max(rankifremoved))]
+# save(file = "00_data/lin_dependend.rda", lin_dependend)
+
 ################################################################################
 ################################## LASSO #######################################
 ################################################################################
+print("Start Lasso")
 
 cv.out <- cv.glmnet(x = x.train, y = y.train, alpha = 1)
 out <- glmnet(x = x.train, y = y.train, alpha = 1)
@@ -170,7 +194,7 @@ plot(wine$year)
 ################################################################################
 ################################# PCA ##########################################
 ################################################################################
-
+print("Start PCA")
 # https://www.datacamp.com/community/tutorials/pca-analysis-r
 
 MM <- model.matrix(litre ~. -1, data = wine)
