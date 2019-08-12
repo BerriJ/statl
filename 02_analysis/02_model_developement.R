@@ -363,6 +363,7 @@ models[min(which(is.na(models$rmse))), "rmse"] <- mean((wine_test$litre - pred_p
 
 
 ## Bagging
+print("Now doing the Bagging")
 set.seed(123)
 bag_wine <- randomForest(x = x.train, y = y.train, mtry = ncol(x.train)-1, importance = T, ntree = 25)
 bag_wine
@@ -377,6 +378,7 @@ models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred_bag)^2) %>
 
 
 ## Trying different values for mtry and ntree
+print("Now doing a Random Forest")
 cl <- parallel::makeCluster(2)
 doParallel::registerDoParallel(cl)
 set.seed(123)
@@ -436,12 +438,15 @@ models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred_rf)^2) %>%
 ############################# BOOSTING ##############################################
 #####################################################################################
 
-
-lam <- seq(0.1,1,0.1)
+print("Now doing the Boosting-Loop")
+lam <- seq(0.1,5,0.1)
 dep <- 1:10
 rmse_BO <- matrix(NA, ncol = length(lam), nrow = length(dep))
 tic()
+cl <- parallel::makeCluster(2)
+doParallel::registerDoParallel(cl)
 for(i in 1:length(dep)){
+  print(paste(c("This is Boosting Iteration No. "), i))
   for(j in 1:length(lam)){
     set.seed(123)
      boost_wine <- gbm.fit(y.train, x = x.train, distribution = "gaussian",
@@ -451,6 +456,7 @@ for(i in 1:length(dep)){
 
   }
 }
+parallel::stopCluster(cl)
 toc()
 
 which.min(rmse_BO)
@@ -468,7 +474,7 @@ which.min(rmse_BO)
 #  [9,]  6422.084 5195.272 4897.252 4880.130 4848.327 4925.192 4856.342 4937.839 5243.325 5179.363
 # [10,]  6263.339 5182.743 4861.993 4780.954 4870.337 4900.469 4885.299 5058.065 5104.825 5114.935
 
-# For ntree=25, depth 1:5, lam: 0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1   MIN: [9,4]     7542.05 sec elapsed
+# For ntree=25, depth 1:10, lam: 0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1   MIN: [9,4]     7542.05 sec elapsed
 #           [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]     [,9]    [,10]
 # [1,] 10234.818 8804.907 8045.142 7546.062 7204.978 6951.729 6893.330 6811.662 6703.004 6906.592
 # [2,]  7545.157 6789.241 6241.280 6058.543 6141.968 6082.078 6052.900 6182.192 5752.780 5883.212
@@ -491,22 +497,29 @@ which.min(rmse_BO)
 # [5,] 5431.540 5082.205 4945.562 5099.090 4996.868
 
 
-# For ntree=100, depth = 1:5, lam =  0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1
-# [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]     [,9]    [,10]
-# [1,] 7646.386 6761.501 6395.823 6196.974 6038.908 6023.518 5981.763 6037.364 5890.068 5974.164
-# [2,] 5989.766 5556.112 5423.310 5235.674 5308.945 5302.661 5348.472 5291.075 5360.873 5379.743
-# [3,] 5499.057 5134.587 5071.350 5112.052 5019.168 5110.127 5125.755 5087.250 5224.853 5374.684
-# [4,] 5251.322 5031.972 4860.348 4967.344 4981.307 4924.928 5048.075 5305.361 5249.443 5245.277
-# [5,] 5059.465 4847.223 4853.835 4960.823 4863.758 4878.694 5026.886 5029.816 5453.761 5578.128
+# For ntree=100, depth = 1:10, lam =  0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1   MIN: [9,2]    16639.66 sec elapsed
+#           [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]     [,9]    [,10]
+#  [1,] 7646.386 6761.501 6395.823 6196.974 6038.908 6023.518 5981.763 6037.364 5890.068 5974.164
+#  [2,] 5989.766 5556.112 5423.310 5235.674 5308.945 5302.661 5348.472 5291.075 5360.873 5379.743
+#  [3,] 5499.057 5134.587 5071.350 5112.052 5019.168 5110.127 5125.755 5087.250 5224.853 5374.684
+#  [4,] 5251.322 5031.972 4860.348 4967.344 4981.307 4924.928 5048.075 5305.361 5249.443 5245.277
+#  [5,] 5059.465 4847.223 4853.835 4960.823 4863.758 4878.694 5026.886 5029.816 5453.761 5578.128
+#  [6,] 4868.060 4746.294 4685.306 4763.988 4870.744 4896.148 4970.832 5015.682 5213.905 5179.261
+#  [7,] 4819.583 4704.013 4622.591 4689.570 4733.669 4873.788 4912.983 5014.635 5133.846 5422.254
+#  [8,] 4694.587 4568.381 4666.572 4633.927 4688.541 4801.752 4833.430 5013.373 5348.841 5110.312
+#  [9,] 4644.339 4455.691 4584.680 4583.151 4699.822 4755.186 4783.906 4864.450 5212.325 5168.963
+# [10,] 4565.110 4519.671 4573.189 4588.997 4737.496 4782.527 4949.096 4957.658 5096.600 5366.018
 
 
+print("This is just a single Boosting. May be deleted?")
 set.seed(123)
 tic()
 boost_wine <- gbm.fit(y.train, x = x.train, distribution = "gaussian",
-                  n.trees = 100, interaction.depth = 35, shrinkage = 0.05)    # try different depths and shrinkage
+                  n.trees = 100, interaction.depth = 10, shrinkage = 0.05)    # try different depths and shrinkage
 toc()
 pred_boost <- predict(boost_wine, newdata = x.test, n.trees = 100)
 rmse_boost <- mean((y.test - pred_boost)^2) %>% sqrt() 
+
 #for n.tree = 100, depth= 10, shrinkage = 0.05: RMSE = 5425
 #for n.tree = 100, depth= 10, shrinkage = 0.2: RMSE = 4847
 #for n.tree = 100, depth= 10, shrinkage = 0.4: RMSE = 4961
