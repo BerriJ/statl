@@ -28,8 +28,9 @@ train <- sample(nrow(wine), floor(0.75*nrow(wine)))
 wine_train <- wine[train,]
 wine_test <- wine[-(train),]
 rm(train)
+
 # Set up a data frame for model comparison
-models <- data.frame(mod = rep(NA, 10), rmse = rep(NA, 10))
+models <- data.frame(mod = rep(NA, 30), rmse = rep(NA, 30))
 
 ################################################################################
 ############################# Mean Regression ##################################
@@ -46,8 +47,8 @@ models[min(which(is.na(models$rmse))),2] <- residuals^2 %>% mean() %>% sqrt()
 # WICHTIG Hier wird die Model Matrix so gebaut, dass Training und Test das exakt
 # gleiche Feature Set aufweisen.
 
-x.train <- model.matrix(litre~. -1, data = wine_train)
-x.test <- model.matrix(litre~. -1, data = wine_test)
+x.train <- model.matrix(litre~., data = wine_train)
+x.test <- model.matrix(litre~., data = wine_test)
 y.train <- wine_train$litre
 y.test <- wine_test$litre
 intsct <- intersect(colnames(x.train),colnames(x.test))
@@ -83,13 +84,6 @@ regfit_forward <- regsubsets(form, data = wine_train,
                      method = "forward", nvmax = 1000)
 regfit_backward <- regsubsets(form, data = wine_train,
                      method = "backward", nvmax = 1000)
-
-id_bwd <- reg_sum_backward$rss %>% which.min()
-id_fwd <- reg_sum_forward$rss %>% which.min()
-
-intersect(names(coefficients_backward), names(coefficients_forward))
-
-x.test = model.matrix(form, data = wine_test)
 
 test.rmse_fwd <- c()
 test.rmse_bwd <- c()
@@ -339,8 +333,6 @@ RMSE <- sqrt(mean((sp.pred - test_df$y.test)^2)) # Bullshit
 
 
 ## Trees
-
-
 tree_wine <- tree(litre ~ .-region, data = wine_train)
 # we have to cancel region, because factor predictors must have at most 32 levels
 # and there are 96 levels of regions
@@ -362,8 +354,12 @@ text(tree_prune_wine)
 
 pred_tree <- predict(tree_wine, newdata = wine_test)
 pred_pruned <- predict(tree_prune_wine, newdata = wine_test)
-rmse_tree <- mean((wine_test$litre - pred_tree)^2) %>% sqrt()  # RMSE: 7005.4693
-rmse_tree_pruned <- mean((wine_test$litre - pred_pruned)^2) %>% sqrt() # RMSE: 7661.7498
+
+models[min(which(is.na(models$mod))),1] <- "rmse_tree"
+models[min(which(is.na(models$rmse))), "rmse"] <- mean((wine_test$litre - pred_tree)^2) %>% sqrt()  # RMSE: 7005.4693
+
+models[min(which(is.na(models$mod))),1] <- "rmse_tree_pruned"
+models[min(which(is.na(models$rmse))), "rmse"] <- mean((wine_test$litre - pred_pruned)^2) %>% sqrt() # RMSE: 7661.7498
 
 
 ## Bagging
@@ -372,13 +368,12 @@ bag_wine <- randomForest(x = x.train, y = y.train, mtry = ncol(x.train)-1, impor
 bag_wine
 pred_bag <- predict(bag_wine, newdata = x.test)
 plot(pred_bag, y.test)
-rmse_bag <- mean((y.test - pred_bag)^2) %>% sqrt()
-
 # Bagging took about 2900 secs (~48 min)
 # % Var explained: 88.47
 # RMSE: 4144.7812
 
-
+models[min(which(is.na(models$mod))),1] <- "rmse_bagging"
+models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred_bag)^2) %>% sqrt()
 
 
 ## Trying different values for mtry and ntree
@@ -400,6 +395,10 @@ varImpPlot(rf_wine)
 pred_rf <- predict(rf_wine, newdata = x.test)
 #plot(pred_rf, y.test)
 rmse_rf <- mean((y.test - pred_rf)^2) %>% sqrt()
+
+models[min(which(is.na(models$mod))),1] <- "rmse_rf"
+models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred_rf)^2) %>% sqrt()
+
 # 4206.9744 for mtry not set (236) & ntree = 25
 # 4627.1517 for mtry = 50 & ntree = 25 
 # 5220.2826 for mtry = 25 & ntree = 25
@@ -416,20 +415,20 @@ rmse_rf <- mean((y.test - pred_rf)^2) %>% sqrt()
 
 #### trying and comparing different values for mtry ###
 
-m <- c(1,seq(25,225,50), 236)
-rmse_rf_m <- numeric(length(m))
-cl <- parallel::makeCluster(2)
-for( i in 1:length(m)){
-  doParallel::registerDoParallel(cl)
-  set.seed(123)
-  rf_wine <- randomForest(x = x.train, y = y.train, importance = T, ntree = 25) # mtry = 12
-  parallel::stopCluster(cl)
-  rf_wine
-  pred_rf <- predict(rf_wine, newdata = x.test)
-  #plot(pred_rf, y.test)
-  rmse_rf_m[i] <- mean((y.test - pred_rf)^2) %>% sqrt()
-  rmse_rf_m[i]
-}
+# m <- c(1,seq(25,225,50), 236)
+# rmse_rf_m <- numeric(length(m))
+# cl <- parallel::makeCluster(2)
+# for( i in 1:length(m)){
+#   doParallel::registerDoParallel(cl)
+#   set.seed(123)
+#   rf_wine <- randomForest(x = x.train, y = y.train, importance = T, ntree = 25) # mtry = 12
+#   parallel::stopCluster(cl)
+#   rf_wine
+#   pred_rf <- predict(rf_wine, newdata = x.test)
+#   #plot(pred_rf, y.test)
+#   rmse_rf_m[i] <- mean((y.test - pred_rf)^2) %>% sqrt()
+#   rmse_rf_m[i]
+# }
 
 
 
@@ -454,7 +453,7 @@ for(i in 1:length(dep)){
 }
 toc()
 
-
+which.min(rmse_BO)
 
 # For ntree=15, depth = 1:10, lam =  0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1   MIN: [10,4]
 #            [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]     [,9]    [,10]
@@ -504,7 +503,7 @@ toc()
 set.seed(123)
 tic()
 boost_wine <- gbm.fit(y.train, x = x.train, distribution = "gaussian",
-                  n.trees = 100, interaction.depth = 5, shrinkage = 0.4)    # try different depths and shrinkage
+                  n.trees = 100, interaction.depth = 35, shrinkage = 0.05)    # try different depths and shrinkage
 toc()
 pred_boost <- predict(boost_wine, newdata = x.test, n.trees = 100)
 rmse_boost <- mean((y.test - pred_boost)^2) %>% sqrt() 
@@ -527,4 +526,6 @@ rmse_boost <- mean((y.test - pred_boost)^2) %>% sqrt()
 
 # Maybe use this for variable importance plots:
 # https://www.r-bloggers.com/in-search-of-the-perfect-partial-plot/
-      
+
+models[min(which(is.na(models$mod))),1] <- "rmse_boost"
+models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred_boost)^2) %>% sqrt() 
