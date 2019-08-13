@@ -1,31 +1,31 @@
-# rm(list = ls())
-# # What we tried in the Tutorial
-# 
-# # Non_linear Transformation
-# # Subset Selection
-# # Leave one out CV
-# # Lasso
-# # PLS PCR
-# # Natural Splines and Bsplines
-# # GAMS
-# # Random Forests
-# load("00_data/wine_preprocessed.rda")
-# 
-# # Remove variables with average na >= 50%
-# wine <- wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) < 0.50) %>%
-#   # Only keep complete cases
-#   drop_na() %>%
-#   # Drop llitre because we are using litre
-#   dplyr::select(-llitre) %>%
-#   # Remove unused levels from factor variables
-#   droplevels()
-# 
-# # Split intro Training (3/4) and Test (1/4)
-# 
-# train <- sample(nrow(wine), floor(0.75*nrow(wine)))
-# wine_train <- wine[train,]
-# wine_test <- wine[-(train),]
-# rm(train)
+rm(list = ls())
+# What we tried in the Tutorial
+
+# Non_linear Transformation
+# Subset Selection
+# Leave one out CV
+# Lasso
+# PLS PCR
+# Natural Splines and Bsplines
+# GAMS
+# Random Forests
+load("00_data/wine_preprocessed.rda")
+
+# Remove variables with average na >= 50%
+wine <- wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) < 0.50) %>%
+  # Only keep complete cases
+  drop_na() %>%
+  # Drop llitre because we are using litre
+  dplyr::select(-llitre) %>%
+  # Remove unused levels from factor variables
+  droplevels()
+
+# Split intro Training (3/4) and Test (1/4)
+
+train <- sample(nrow(wine), floor(0.75*nrow(wine)))
+wine_train <- wine[train,]
+wine_test <- wine[-(train),]
+rm(train)
 
 
 ############# Above Code that will be run in 00_job_setup.R ####################
@@ -250,7 +250,7 @@ sp.pred <- predict(sp.fit, newdata = test_df)
 RMSE <- sqrt(mean((sp.pred - test_df$y.test)^2)) # Bullshit
 
 ################################################################################
-############################ TREES and FORESTS #################################
+######################### Simple Regression Tree ###############################
 ################################################################################
 
 
@@ -264,7 +264,6 @@ plot(tree_wine)
 text(tree_wine)
 
 # check whether pruning improves performance
-
 tree_cv_wine <- cv.tree(tree_wine) # takes about 30 sec
 plot(tree_cv_wine$size,tree_cv_wine$dev,type='b')
 # we would choose the largest tree, but could alternatively prune it to a size of 6
@@ -283,6 +282,10 @@ models[min(which(is.na(models$rmse))), "rmse"] <- mean((wine_test$litre - pred_t
 models[min(which(is.na(models$mod))),1] <- "rmse_tree_pruned"
 models[min(which(is.na(models$rmse))), "rmse"] <- mean((wine_test$litre - pred_pruned)^2) %>% sqrt() # RMSE: 7661.7498
 
+################################################################################
+############################### Bagging ########################################
+################################################################################
+
 
 ## Bagging
 print("Now doing the Bagging")
@@ -297,6 +300,9 @@ plot(pred_bag, y.test)
 models[min(which(is.na(models$mod))),1] <- "rmse_bagging"
 models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred_bag)^2) %>% sqrt()
 
+################################################################################
+############################ Random Forest #####################################
+################################################################################
 
 ## Trying different values for mtry and ntree
 print("Now doing a Random Forest")
@@ -359,76 +365,50 @@ models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred_rf)^2) %>%
 #####################################################################################
 
 print("Now doing the Boosting-Loop")
-lam <- seq(0.1,5,0.1)
-dep <- 1:10
-rmse_BO <- matrix(NA, ncol = length(lam), nrow = length(dep))
+
+lam <- seq(0.2,0.8,0.01)
+dep <- 8:12
+grid <- expand.grid(lam, dep)
+rmse_BO <- c()
 tic()
 cl <- parallel::makeCluster(2)
 doParallel::registerDoParallel(cl)
-for(i in 1:length(dep)){
-  print(paste(c("This is Boosting Iteration No. "), i))
-  for(j in 1:length(lam)){
-     boost_wine <- gbm.fit(y.train, x = x.train, distribution = "gaussian",
-                           n.trees = 25, interaction.depth = dep[i], shrinkage = lam[j])    # try different depths and shrinkage
-    pred_boost <- predict(boost_wine, newdata = x.test, n.trees = 25)
-    rmse_BO[i,j] <- mean((y.test - pred_boost)^2) %>% sqrt()
-
-  }
+for(i in 1:nrow(grid)){
+  boost_wine <- gbm.fit(y.train, x = x.train, distribution = "gaussian",
+                        n.trees = 25, interaction.depth = grid[i,2], 
+                        shrinkage = grid[i,1])    # try different depths and shrinkage
+  pred_boost <- predict(boost_wine, newdata = x.test, n.trees = 25)
+  rmse_BO[i] <- mean((y.test - pred_boost)^2) %>% sqrt()
+  svMisc::progress(i, max.value = nrow(grid))
 }
 parallel::stopCluster(cl)
 toc()
 
-which.min(rmse_BO)
+grid$RMSE <- rmse_BO %>% round()
+min(rmse_BO)
+grid[rmse_BO %>% which.min(),]
 
-# For ntree=15, depth = 1:10, lam =  0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1   MIN: [10,4]
-#            [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]     [,9]    [,10]
-#  [1,] 11032.223 9801.343 8950.790 8337.324 7920.161 7461.948 7278.442 7259.353 7142.722 7220.552
-#  [2,]  8484.334 7358.563 6734.363 6463.314 6526.351 6390.371 6574.784 6484.854 6001.804 6180.264
-#  [3,]  7699.387 6334.363 6123.238 5818.283 6001.830 5605.619 5867.651 5955.819 5936.540 5885.352
-#  [4,]  7279.176 6126.020 5759.820 5749.023 5739.443 5603.377 5547.761 5574.719 5734.030 5750.826
-#  [5,]  6969.465 5861.720 5502.507 5462.842 5360.748 5337.990 5495.928 5270.215 5478.045 5609.208
-#  [6,]  6764.522 5616.277 5371.014 5218.554 5460.735 5195.884 5297.494 5230.387 5299.484 5426.557
-#  [7,]  6640.888 5469.999 5106.896 5002.053 5082.263 5148.594 5254.421 5204.652 5274.297 5546.529
-#  [8,]  6490.647 5271.098 5026.871 5000.594 4953.673 5047.807 5001.039 5030.516 5190.884 5219.936
-#  [9,]  6422.084 5195.272 4897.252 4880.130 4848.327 4925.192 4856.342 4937.839 5243.325 5179.363
-# [10,]  6263.339 5182.743 4861.993 4780.954 4870.337 4900.469 4885.299 5058.065 5104.825 5114.935
+# => We should try more depth with a lambda between 0.2 and 0.8
 
-# For ntree=25, depth 1:10, lam: 0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1   MIN: [9,4]     7542.05 sec elapsed
-#           [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]     [,9]    [,10]
-# [1,] 10234.818 8804.907 8045.142 7546.062 7204.978 6951.729 6893.330 6811.662 6703.004 6906.592
-# [2,]  7545.157 6789.241 6241.280 6058.543 6141.968 6082.078 6052.900 6182.192 5752.780 5883.212
-# [3,]  6727.324 5876.307 5753.054 5558.193 5619.261 5451.181 5496.406 5635.080 5595.419 5766.356
-# [4,]  6349.552 5731.793 5450.980 5456.640 5464.688 5284.496 5298.936 5424.647 5427.750 5402.750
-# [5,]  6051.101 5464.025 5193.618 5274.992 5090.233 5036.871 5337.495 5093.611 5323.185 5566.715
-# [6,]  5874.151 5224.869 5084.415 5026.881 5264.415 5029.280 5133.017 5141.318 5291.418 5518.447
-# [7,]  5706.636 5079.472 4881.400 4818.261 4839.299 4993.756 5013.185 5109.016 5188.260 5315.370
-# [8,]  5548.640 4909.541 4810.983 4745.685 4795.435 4926.473 4871.174 4874.713 5144.879 5140.846
-# [9,]  5473.184 4837.015 4789.351 4673.868 4754.270 4742.169 4772.024 4878.421 5232.132 5141.139
-# [10,]  5328.417 4812.176 4713.108 4701.066 4796.006 4787.254 4818.337 4913.354 5020.855 5065.716
-
-
-# For ntree = 50 depth 1:5, lam: 0.1,0.2,0.3,0.4,0.5
-         # [,1]     [,2]     [,3]     [,4]     [,5]
-# [1,] 8856.711 7560.260 7002.461 6754.915 6532.789
-# [2,] 6632.525 6063.778 5760.698 5564.106 5580.637
-# [3,] 5997.924 5455.387 5311.677 5252.932 5239.971
-# [4,] 5678.047 5274.558 5074.982 5123.897 5128.888
-# [5,] 5431.540 5082.205 4945.562 5099.090 4996.868
-
-
-# For ntree=100, depth = 1:10, lam =  0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1   MIN: [9,2]    16639.66 sec elapsed
-#           [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]     [,9]    [,10]
-#  [1,] 7646.386 6761.501 6395.823 6196.974 6038.908 6023.518 5981.763 6037.364 5890.068 5974.164
-#  [2,] 5989.766 5556.112 5423.310 5235.674 5308.945 5302.661 5348.472 5291.075 5360.873 5379.743
-#  [3,] 5499.057 5134.587 5071.350 5112.052 5019.168 5110.127 5125.755 5087.250 5224.853 5374.684
-#  [4,] 5251.322 5031.972 4860.348 4967.344 4981.307 4924.928 5048.075 5305.361 5249.443 5245.277
-#  [5,] 5059.465 4847.223 4853.835 4960.823 4863.758 4878.694 5026.886 5029.816 5453.761 5578.128
-#  [6,] 4868.060 4746.294 4685.306 4763.988 4870.744 4896.148 4970.832 5015.682 5213.905 5179.261
-#  [7,] 4819.583 4704.013 4622.591 4689.570 4733.669 4873.788 4912.983 5014.635 5133.846 5422.254
-#  [8,] 4694.587 4568.381 4666.572 4633.927 4688.541 4801.752 4833.430 5013.373 5348.841 5110.312
-#  [9,] 4644.339 4455.691 4584.680 4583.151 4699.822 4755.186 4783.906 4864.450 5212.325 5168.963
-# [10,] 4565.110 4519.671 4573.189 4588.997 4737.496 4782.527 4949.096 4957.658 5096.600 5366.018
-
+# mod | lam | dep | rmse
+# 453	0.3	10	4997
+# 355	0.5	8	5033
+# 454	0.4	10	5054
+# 455	0.5	10	5076
+# 406	0.6	9	5098
+# 405	0.5	9	5136
+# 356	0.6	8	5147
+# 408	0.8	9	5161
+# 305	0.5	7	5168
+# 403	0.3	9	5168
+# 254	0.4	6	5171
+# 458	0.8	10	5171
+# 353	0.3	8	5172
+# 354	0.4	8	5172
+# 452	0.2	10	5189
+# 402	0.2	9	5194
+# 304	0.4	7	5214
+# 456	0.6	10	5223
 
 print("This is just a single Boosting. May be deleted?")
 tic()
