@@ -38,4 +38,19 @@ for(i in 1:10){
                            importEnv = T)
 }
 
+files <- dir(recursive = T, path = "02_analysis/cv")
 
+models_ <- list()
+
+for(i in files){
+  load(file = paste("02_analysis/cv/", i, sep = ""))
+  models_[[i]] <- models
+}
+
+models <- models_[[1]]
+
+for(i in 1:(length(files)-1)){
+  models <- models %>% full_join(models_[[i+1]], by = "mod") %>% drop_na()
+}
+
+models$Mean <- rowMeans(models[,-1])
