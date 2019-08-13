@@ -366,20 +366,24 @@ models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred_rf)^2) %>%
 
 print("Now doing the Boosting-Loop")
 
-lam <- seq(0.2,0.8,0.01)
+lam <- seq(0.2,0.8,0.05)
 dep <- 8:12
-grid <- expand.grid(lam, dep)
+trees <- c(25,50,100,200)
+grid <- expand.grid(lam, dep,trees)
 rmse_BO <- c()
+d <- c()
 tic()
 cl <- parallel::makeCluster(2)
 doParallel::registerDoParallel(cl)
 for(i in 1:nrow(grid)){
+  x <- Sys.time()
   boost_wine <- gbm.fit(y.train, x = x.train, distribution = "gaussian",
-                        n.trees = 25, interaction.depth = grid[i,2], 
-                        shrinkage = grid[i,1])    # try different depths and shrinkage
+                        n.trees = grid[i,3], interaction.depth = grid[i,2], 
+                        shrinkage = grid[i,1], verbose = FALSE)    # try different depths and shrinkage
   pred_boost <- predict(boost_wine, newdata = x.test, n.trees = 25)
   rmse_BO[i] <- mean((y.test - pred_boost)^2) %>% sqrt()
-  svMisc::progress(i, max.value = nrow(grid))
+  d[i] <- Sys.time() - x
+  print(paste("~",(round(mean(d)*(nrow(grid)-i)/60)), " minutes remaining.", sep = ""))
 }
 parallel::stopCluster(cl)
 toc()
