@@ -205,14 +205,16 @@
 \listoffigures
 \newpage
 \pagenumbering{arabic} 
-\section{Introduction}\label{introduction}
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
 
 In this term paper we will search for the best model (in terms of a low
 RMSE) to predict the variable \enquote{Llitre - Weekly sale in log
 litre} on basis of the friberg gronqvist wine data set. To achieve this
 we apply different techniques from the branch of statistical learning.
 
-\subsection{Data}\label{data}
+\hypertarget{data}{%
+\subsection{Data}\label{data}}
 
 The data used in this term paper is taken from a wine themed dataset.
 The variables include among others the name of the wine, the country of
@@ -222,14 +224,11 @@ want to predict, is the variable \enquote{Llitre} describing the weekly
 sale of a specific wine in log litre. It therefore is a transformation
 of the variable \enquote{Litre} which is the weekly sale of a specific
 wine in litre. The relationship can be written mathematically as
-
 \begin{equation}
 Llitre = \log{Litre}*1000000.
-\end{equation}
-
-In order to be able to work with the methods used in this paper we had
-to omit two variables, namely \enquote{time\_segm\_price} and
-\enquote{artikpr} because those are combinations of other existing
+\end{equation} In order to be able to work with the methods used in this
+paper we had to omit two variables, namely \enquote{time\_segm\_price}
+and \enquote{artikpr} because those are combinations of other existing
 variables and therefore would result in the problem of
 multicollinearity. Furthermore, we exlude those variables with a ratio
 of missing values to number of observations larger than \(50\%\).
@@ -238,7 +237,12 @@ variables (as the levels of these are converted into dummy variables)
 are included in the used training and test datasets. To achieve these we
 only do use the intersection of variables included in both sets.
 
-\section{Analysis}\label{analysis}
+\hypertarget{analysis}{%
+\section{Analysis}\label{analysis}}
+
+\hypertarget{mean-regression-and-linear-regression}{%
+\subsection{Mean Regression and Linear
+Regression}\label{mean-regression-and-linear-regression}}
 
 At first a mean regression and a linear regression are calculated and
 used as a baseline for further methods. For comparison of the different
@@ -264,15 +268,60 @@ calculated.
 \caption{Histogram and Density of the Residuals of the Mean Regression.}
 \end{figure}
 
+\hypertarget{subset-selection}{%
+\subsection{Subset Selection}\label{subset-selection}}
+
+\hypertarget{forward-stepwise-selection}{%
+\subsubsection{Forward Stepwise
+Selection}\label{forward-stepwise-selection}}
+
+\hypertarget{backward-stepwise-selection}{%
+\subsubsection{Backward Stepwise
+Selection}\label{backward-stepwise-selection}}
+
+\hypertarget{lasso}{%
+\subsection{Lasso}\label{lasso}}
+
+\hypertarget{pls-and-pcr}{%
+\subsection{PLS and PCR}\label{pls-and-pcr}}
+
+\hypertarget{splines}{%
+\subsection{Splines}\label{splines}}
+
+\hypertarget{regression-trees-and-random-forests}{%
+\subsection{Regression Trees and Random
+Forests}\label{regression-trees-and-random-forests}}
+
+\hypertarget{regression-tree}{%
+\subsubsection{Regression Tree}\label{regression-tree}}
+
+\hypertarget{pruned-tree}{%
+\subsubsection{Pruned Tree}\label{pruned-tree}}
+
+\hypertarget{bagging}{%
+\subsubsection{Bagging}\label{bagging}}
+
+\hypertarget{random-forest}{%
+\subsubsection{Random Forest}\label{random-forest}}
+
+\hypertarget{boosting}{%
+\subsubsection{Boosting}\label{boosting}}
+
+\hypertarget{conclusion}{%
+\section{Conclusion}\label{conclusion}}
+
 \pagebreak
 
-\subsection{Citations}\label{citations}
+\hypertarget{citations}{%
+\subsection{Citations}\label{citations}}
 
 \pagebreak
 
-\subsection{Annotations}\label{annotations}
+\hypertarget{annotations}{%
+\subsection{Annotations}\label{annotations}}
 
-\subsubsection{Overview over the RMSEs}\label{overview-over-the-rmses}
+\hypertarget{overview-over-the-rmses}{%
+\subsubsection{Overview over the RMSEs}\label{overview-over-the-rmses}}
 
 \begin{tabular}{l|r|r}
 \hline

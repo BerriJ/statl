@@ -444,6 +444,12 @@ Version=1.6
 Source=CRAN
 Hash=1527c6ad6c00ff3f0d0a02b01650fd87
 
+[R/Package/kableExtra]
+Package=kableExtra
+Version=1.1.0
+Source=CRAN
+Hash=17c23010f71f3030c4eb9506b9062777
+
 [R/Package/knitr]
 Package=knitr
 Version=1.24
@@ -923,6 +929,12 @@ Package=viridisLite
 Version=0.3.0
 Source=CRAN
 Hash=73d2a08e725a82859b9a0633f017dd89
+
+[R/Package/webshot]
+Package=webshot
+Version=0.5.1
+Source=CRAN
+Hash=b4216b37f5405f81076927b1fa15b83a
 
 [R/Package/whisker]
 Package=whisker
