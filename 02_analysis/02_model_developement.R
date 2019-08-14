@@ -392,6 +392,8 @@ grid$RMSE <- rmse_BO %>% round()
 min(rmse_BO)
 grid[rmse_BO %>% which.min(),]
 
+save(file = "02_analysis/boost_grid.rda", grid)
+
 # => We should try more depth with a lambda between 0.2 and 0.8
 
 # mod | lam | dep | rmse
