@@ -325,7 +325,8 @@ toc()
 
 
 
-
+models[min(which(is.na(models$mod))),1] <- "rmse_bag"
+models[min(which(is.na(models$rmse))), "rmse"] <- min(rmse_BA)
 
 
 
@@ -387,6 +388,39 @@ models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred_rf)^2) %>%
 #   rmse_rf_m[i] <- mean((y.test - pred_rf)^2) %>% sqrt()
 #   rmse_rf_m[i]
 # }
+
+
+
+
+
+############################# RANDOM FOREST-LOOP #####################################
+
+
+print("Now doing the Random Forest-Loop")
+
+m <- seq(5,50,5)
+trees <- seq(25,50,5)
+grid <- expand.grid(m,trees)
+rmse_RF <- c()
+d <- c()
+tic()
+for(i in 1:nrow(grid)){
+  x <- Sys.time()
+  rf_wine <- randomForest(x = x.train, y = y.train, importance = T,
+                          mtry = grid[i,1], ntree = grid[i,2])
+  pred_rf <- predict(rf_wine, newdata = x.test, n.trees = grid[i,2])
+  rmse_RF[i] <- mean((y.test - pred_rf)^2) %>% sqrt()
+  d[i] <- Sys.time() - x
+  print(paste("~",round(mean(d)*(nrow(grid)-i)), " minutes remaining.", sep = ""))
+}
+toc()
+
+models[min(which(is.na(models$mod))),1] <- "rmse_RF"
+models[min(which(is.na(models$rmse))), "rmse"] <- min(rmse_RF)
+
+
+
+
 
 
 
