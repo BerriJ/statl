@@ -300,6 +300,36 @@ plot(pred_bag, y.test)
 models[min(which(is.na(models$mod))),1] <- "rmse_bagging"
 models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred_bag)^2) %>% sqrt()
 
+
+############################# BAGGING-LOOP #####################################
+
+
+print("Now doing the Bagging-Loop")
+
+trees <- c(8:10) # We should think about what sizes we want to try
+rmse_BA <- c()
+d <- c()
+tic()
+cl <- parallel::makeCluster(2)
+doParallel::registerDoParallel(cl)
+for(i in 1:length(trees)){
+  x <- Sys.time()
+  bag_wine <- randomForest(x = x.train, y = y.train, mtry = ncol(x.train)-1, importance = T, ntree = trees[i])
+  pred_bag <- predict(bag_wine, newdata = x.test, n.trees = trees[i])
+  rmse_BA[i] <- mean((y.test - pred_bag)^2) %>% sqrt()
+  d[i] <- Sys.time() - x
+  print(paste("~",round(mean(d)*(length(trees)-i)), " minutes remaining.", sep = ""))
+}
+parallel::stopCluster(cl)
+toc()
+
+
+
+
+
+
+
+
 ################################################################################
 ############################ Random Forest #####################################
 ################################################################################
