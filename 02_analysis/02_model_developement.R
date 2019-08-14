@@ -394,6 +394,9 @@ grid[rmse_BO %>% which.min(),]
 
 save(file = "02_analysis/boost_grid.rda", grid)
 
+scatter3D(x = grid$Var1, y = grid$Var2, z = grid$RMSE, xlab = "Shrinkage", ylab = "depth",
+          zlab = "RMSE", ticktype = "detailed", pch = 16, cex = 1.25, type = "h", bty = "b2")
+
 # => We should try more depth with a lambda between 0.2 and 0.8
 
 # mod | lam | dep | rmse
