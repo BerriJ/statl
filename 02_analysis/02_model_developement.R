@@ -287,38 +287,24 @@ models[min(which(is.na(models$rmse))), "rmse"] <- mean((wine_test$litre - pred_p
 ################################################################################
 
 
-## Bagging
-print("Now doing the Bagging")
-bag_wine <- randomForest(x = x.train, y = y.train, mtry = ncol(x.train)-1, importance = T, ntree = 25)
-bag_wine
-pred_bag <- predict(bag_wine, newdata = x.test)
-plot(pred_bag, y.test)
-# Bagging took about 2900 secs (~48 min)
-# % Var explained: 88.47
-# RMSE: 4144.7812
-
-models[min(which(is.na(models$mod))),1] <- "rmse_bagging"
-models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred_bag)^2) %>% sqrt()
-
-
 ############################# BAGGING-LOOP #####################################
 
 
 print("Now doing the Bagging-Loop")
 
-# trees <- c(25,50,100,250) # We should think about what sizes we want to try
-# rmse_BA <- c()
-# d <- c()
-# tic()
-# for(i in 1:length(trees)){
-#   x <- Sys.time()
-#   bag_wine <- randomForest(x = x.train, y = y.train, mtry = ncol(x.train)-1, importance = T, ntree = trees[i])
-#   pred_bag <- predict(bag_wine, newdata = x.test, n.trees = trees[i])
-#   rmse_BA[i] <- mean((y.test - pred_bag)^2) %>% sqrt()
-#   d[i] <- Sys.time() - x
-#   print(paste("~",round(mean(d)*(length(trees)-i)), " minutes remaining.", sep = ""))
-# }
-# toc()
+trees <- c(50, 100, 150) # We should think about what sizes we want to try
+rmse_BA <- c()
+d <- c()
+tic()
+for(i in 1:length(trees)){
+  x <- Sys.time()
+  bag_wine <- randomForest(x = x.train, y = y.train, mtry = ncol(x.train)-1, importance = T, ntree = trees[i])
+  pred_bag <- predict(bag_wine, newdata = x.test, n.trees = trees[i])
+  rmse_BA[i] <- mean((y.test - pred_bag)^2) %>% sqrt()
+  d[i] <- Sys.time() - x
+  print(paste("~",round(mean(d)*(length(trees)-i)), " minutes remaining.", sep = ""))
+}
+toc()
 
 # rmse_BA [1] 4410.918 4373.491 4384.591 4360.431
 # => 250 Trees perform best but 50 trees seem okay
@@ -365,9 +351,11 @@ models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred_rf)^2) %>%
 
 #### trying and comparing different values for mtry ###
 
+
+
 # m <- c(1,seq(25,225,50), 236)
 # rmse_rf_m <- numeric(length(m))
-# cl <- parallel::makeCluster(2)
+# cl <- parallel::makeCluster(7)
 # for( i in 1:length(m)){
 #   doParallel::registerDoParallel(cl)
 #   set.seed(123)
@@ -385,8 +373,8 @@ models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred_rf)^2) %>%
 
 print("Now doing the Random Forest-Loop")
 
-m <- seq(5,50,5)
-trees <- seq(25,50,5)
+m <- seq(10,100,10)
+trees <- seq(25,125,25)
 grid <- expand.grid(m,trees)
 rmse_RF <- c()
 d <- c()
@@ -398,7 +386,7 @@ for(i in 1:nrow(grid)){
   pred_rf <- predict(rf_wine, newdata = x.test, n.trees = grid[i,2])
   rmse_RF[i] <- mean((y.test - pred_rf)^2) %>% sqrt()
   d[i] <- Sys.time() - x
-  print(paste("~",round(mean(d)*(nrow(grid)-i)), " minutes remaining.", sep = ""))
+  print(paste("Iteration No. ",i, " ~ ",round(mean(d)*(nrow(grid)-i)), " minutes remaining.", sep = ""))
 }
 toc()
 
@@ -417,9 +405,9 @@ models[min(which(is.na(models$rmse))), "rmse"] <- min(rmse_RF)
 
 print("Now doing the Boosting-Loop")
 
-lam <- seq(0.2,0.8,0.05)
-dep <- 8:12
-trees <- c(25,50,100,200)
+lam <- seq(0.1,1,0.1)
+dep <- seq(1,15,2)
+trees <- seq(25,125,25)
 grid <- expand.grid(lam, dep,trees)
 rmse_BO <- c()
 d <- c()
