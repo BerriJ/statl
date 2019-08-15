@@ -13,26 +13,36 @@ wine <- wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) < 0.50
 index <- data.frame(index = 1:nrow(wine), obs = 1:nrow(wine))
 sets <- list()
 
-for(i in 1:10){
-  sets[[i]] <- sample(na.omit(index$obs), size = (floor(nrow(wine)/10)), replace = F)
+for(i in 1:5){
+  sets[[i]] <- sample(na.omit(index$obs), size = (floor(nrow(wine)/5)), replace = F)
   index[sets[[i]],2] <- NA 
 }
 
 train_list <- list()
 test_list <- list()
 
-for(i in 1:10){
-  train_list[[i]] <- wine[sets[setdiff(c(1,2,3,4,5,6,7,8,9,10), c(i))] %>% unlist(),]
+for(i in 1:5){
+  train_list[[i]] <- wine[sets[setdiff(c(1,2,3,4,5), c(i))] %>% unlist(),]
   test_list[[i]] <- wine[sets[i] %>% unlist(),]
 }
 
 rm(i, index, sets)
 
-for(i in 1:10){
+for(i in 1:5){
   unique_identifier <- Sys.time() %>% as.character(format = "%Y%m%d_%H%M")
   unique_identifier <- paste(unique_identifier,i, sep = "_")
   wine_train <- train_list[[i]]
   wine_test <- test_list[[i]]
+  x.train <- model.matrix(litre~., data = wine_train)
+  x.test <- model.matrix(litre~., data = wine_test)
+  y.train <- wine_train$litre
+  y.test <- wine_test$litre
+  intsct <- intersect(colnames(x.train),colnames(x.test))
+  x.train <- x.train[,intsct]
+  x.test <- x.test[, intsct]
+  
+  train_df <- cbind(y.train, x.train) %>% as.data.frame()
+  test_df <- cbind(y.test, x.test) %>% as.data.frame()
   rstudioapi::jobRunScript("02_analysis/02_model_developement.R",
                            workingDir = "../statl", 
                            importEnv = T)
