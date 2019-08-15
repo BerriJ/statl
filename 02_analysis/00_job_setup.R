@@ -28,6 +28,8 @@ for(i in 1:5){
 
 rm(i, index, sets)
 
+
+
 for(i in 1:5){
   unique_identifier <- Sys.time() %>% as.character(format = "%Y%m%d_%H%M")
   unique_identifier <- paste(unique_identifier,i, sep = "_")
@@ -43,9 +45,10 @@ for(i in 1:5){
   
   train_df <- cbind(y.train, x.train) %>% as.data.frame()
   test_df <- cbind(y.test, x.test) %>% as.data.frame()
-  rstudioapi::jobRunScript("02_analysis/02_model_developement.R",
+  rstudioapi::jobRunScript("02_analysis/02_1_Bagging.R",
                            workingDir = "../statl", 
                            importEnv = T)
+  #Sys.sleep(30*60)
 }
 
 files <- dir(recursive = T, path = "02_analysis/cv")
