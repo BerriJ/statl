@@ -306,24 +306,22 @@ models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred_bag)^2) %>
 
 print("Now doing the Bagging-Loop")
 
-trees <- c(8:10) # We should think about what sizes we want to try
-rmse_BA <- c()
-d <- c()
-tic()
-cl <- parallel::makeCluster(2)
-doParallel::registerDoParallel(cl)
-for(i in 1:length(trees)){
-  x <- Sys.time()
-  bag_wine <- randomForest(x = x.train, y = y.train, mtry = ncol(x.train)-1, importance = T, ntree = trees[i])
-  pred_bag <- predict(bag_wine, newdata = x.test, n.trees = trees[i])
-  rmse_BA[i] <- mean((y.test - pred_bag)^2) %>% sqrt()
-  d[i] <- Sys.time() - x
-  print(paste("~",round(mean(d)*(length(trees)-i)), " minutes remaining.", sep = ""))
-}
-parallel::stopCluster(cl)
-toc()
+# trees <- c(25,50,100,250) # We should think about what sizes we want to try
+# rmse_BA <- c()
+# d <- c()
+# tic()
+# for(i in 1:length(trees)){
+#   x <- Sys.time()
+#   bag_wine <- randomForest(x = x.train, y = y.train, mtry = ncol(x.train)-1, importance = T, ntree = trees[i])
+#   pred_bag <- predict(bag_wine, newdata = x.test, n.trees = trees[i])
+#   rmse_BA[i] <- mean((y.test - pred_bag)^2) %>% sqrt()
+#   d[i] <- Sys.time() - x
+#   print(paste("~",round(mean(d)*(length(trees)-i)), " minutes remaining.", sep = ""))
+# }
+# toc()
 
-
+# rmse_BA [1] 4410.918 4373.491 4384.591 4360.431
+# => 250 Trees perform best but 50 trees seem okay
 
 models[min(which(is.na(models$mod))),1] <- "rmse_bag"
 models[min(which(is.na(models$rmse))), "rmse"] <- min(rmse_BA)
@@ -337,12 +335,9 @@ models[min(which(is.na(models$rmse))), "rmse"] <- min(rmse_BA)
 
 ## Trying different values for mtry and ntree
 print("Now doing a Random Forest")
-cl <- parallel::makeCluster(2)
-doParallel::registerDoParallel(cl)
 tic()
 rf_wine <- randomForest(x = x.train, y = y.train, importance = T, ntree = 30) 
 toc()
-parallel::stopCluster(cl)
 rf_wine
 varImpPlot(rf_wine)
 # % Var explained: 88.35 for mtry not set (236) & ntree = 25
@@ -365,12 +360,8 @@ models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred_rf)^2) %>%
 # 8119.9565 for mtry = 10
 # 8959.972 for mtry = 8
 
-
-
 # Parallelization following https://stackoverflow.com/questions/14106010/parallel-execution-of-random-forest-in-r/15771458#15771458
 # Implementation of Answer (combined with https://privefl.github.io/blog/a-guide-to-parallelism-in-r/)
-
-
 
 #### trying and comparing different values for mtry ###
 
@@ -388,10 +379,6 @@ models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred_rf)^2) %>%
 #   rmse_rf_m[i] <- mean((y.test - pred_rf)^2) %>% sqrt()
 #   rmse_rf_m[i]
 # }
-
-
-
-
 
 ############################# RANDOM FOREST-LOOP #####################################
 
@@ -460,28 +447,6 @@ save(file = "02_analysis/boost_grid.rda", grid)
 
 scatter3D(x = grid$Var1, y = grid$Var2, z = grid$RMSE, xlab = "Shrinkage", ylab = "depth",
           zlab = "RMSE", ticktype = "detailed", pch = 16, cex = 1.25, type = "h", bty = "b2")
-
-# => We should try more depth with a lambda between 0.2 and 0.8
-
-# mod | lam | dep | rmse
-# 453	0.3	10	4997
-# 355	0.5	8	5033
-# 454	0.4	10	5054
-# 455	0.5	10	5076
-# 406	0.6	9	5098
-# 405	0.5	9	5136
-# 356	0.6	8	5147
-# 408	0.8	9	5161
-# 305	0.5	7	5168
-# 403	0.3	9	5168
-# 254	0.4	6	5171
-# 458	0.8	10	5171
-# 353	0.3	8	5172
-# 354	0.4	8	5172
-# 452	0.2	10	5189
-# 402	0.2	9	5194
-# 304	0.4	7	5214
-# 456	0.6	10	5223
 
 print("This is just a single Boosting. May be deleted?")
 tic()
