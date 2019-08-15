@@ -52,6 +52,8 @@ Finally, for some models it is important that the same levels of factor variable
 
 # Analysis
 
+## Mean Regression and Linear Regression
+
 At first a mean regression and a linear regression are calculated and used as a baseline for further methods.
 For comparison of the different models, the Root Mean Sqaured Error (RMSE) $$\sqrt{\frac{1}{n}\sum_{i = 1}^{n}\left(y_i-\hat{y}_i\right)^2}$$ is calculated.
 
@@ -82,6 +84,32 @@ lines(density(na.omit(residuals)), col = "deeppink", lwd = 2)
 ```
 
 
+
+## Subset Selection
+
+### Forward Stepwise Selection
+
+### Backward Stepwise Selection
+
+## Lasso
+
+## PLS and PCR
+
+## Splines
+
+## Regression Trees and Random Forests
+
+### Regression Tree
+
+### Pruned Tree
+
+### Bagging
+
+### Random Forest
+
+### Boosting
+
+# Conclusion
 
 \pagebreak
 
