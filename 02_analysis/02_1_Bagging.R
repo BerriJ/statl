@@ -1,10 +1,14 @@
+print("Loading Packages")
+source("02_analysis/00_packages.R")
+print("Packages loaded")
+
+################################################################################
+################################ Bagging #######################################
+################################################################################
+
 models <- list()
 
-
-
 print("Now doing the Bagging-Loop")
-
-
 
 trees <- c(50, 100, 150) # We should think about what sizes we want to try
 rmse_BA <- c()
@@ -20,7 +24,6 @@ for(i in 1:length(trees)){
 }
 toc()
 
-
-
 dir.create("02_analysis/cv/", recursive = T, showWarnings = F)
-save(file = paste("02_analysis/cv/Bagging_data",unique_identifier,".rda", sep = ""),trees, models, rmse_BA,)
+save(file = paste("02_analysis/cv/Bagging_data",unique_identifier,".rda", sep = ""),
+     trees, rmse_BA,)

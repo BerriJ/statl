@@ -35,9 +35,14 @@ wine <- apply(Wein_train, 2, FUN = remove_backslashes) %>%
   ############################## Factors ######################################
   ##############################################################################
   mutate_at(
-    vars(country, region, dist, taste_segment, segm, price_segm, time_segm_price, artikpr), 
+    vars(country, region, dist, taste_segment, segm, price_segm, time_segm_price, artikpr, name, vintage), 
     .funs = as.factor) %>%
   dplyr::select(-time_segm_price, -artikpr)
+
+wine %>% data.frame(wine)
+
+typeof_vec <- sapply(wine, class) %>% table()
+save(file = "00_data/output_paper/01_typeof_vec.rda", typeof_vec)
 
 save(file = "00_data/wine_preprocessed.rda", wine)
 

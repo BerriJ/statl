@@ -33,6 +33,7 @@
 \usepackage[backend=biber, maxbibnames = 99, style = apa]{biblatex}
 \setlength\bibitemsep{1.5\itemsep}
 \bibliography{references.bib}
+\usepackage{longtable,booktabs}
 \usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -52,7 +53,7 @@
 \hypersetup{breaklinks=true,
             bookmarks=true,
             pdfauthor={Jonathan Berrisch, Timo Rammert},
-            pdftitle={Term Paper: Statistical Learning},
+            pdftitle={A Forecasting Study on Global Wine Sales},
             colorlinks=true,
             citecolor=blue,
             urlcolor=blue,
@@ -79,10 +80,10 @@
 }
 
 \setlength{\droptitle}{-2em}
-  \title{Term Paper: Statistical Learning}
+  \title{A Forecasting Study on Global Wine Sales}
   \pretitle{\vspace{\droptitle}\centering\huge}
   \posttitle{\par}
-\subtitle{Subtitle}
+\subtitle{Statistical Learning}
   \author{Jonathan Berrisch, Timo Rammert}
   \preauthor{\centering\large\emph}
   \postauthor{\par}
@@ -126,11 +127,11 @@
   \\
   \vspace{1.5cm}
   \begin{center}
-  \huge{Term Paper: Statistical Learning}\\
+  \huge{A Forecasting Study on Global Wine Sales}\\
   \vspace{.25cm}
-  \Large{Subtitle}\\
+  \Large{Statistical Learning}\\
   \vspace{0.5cm}
-  \large{Type of Paper}\\
+  \large{Term Paper}\\
   \vspace{1cm}
   \large{
   \IfLanguageName{english}{Submitted to the Faculty of \\ Business Administration and Economics \\at the \\University of Duisburg-Essen}{Vorgelegt der \\Fakultät für Wirtschaftswissenschaften der \\ Universität Duisburg-Essen}\\}
@@ -145,7 +146,7 @@
   \IfLanguageName{english}{Matriculation Number}{Matrikelnummer}
   \end{minipage}
   \begin{minipage}[t]{0.7\textwidth}
-  \hspace{1cm}Matriculation Number
+  \hspace{1cm}3071485 \textbar{} XXXXXXX
   \end{minipage}
 
   \noindent\begin{minipage}[t]{0.3\textwidth}
@@ -166,7 +167,7 @@
   \IfLanguageName{english}{Secondary Reviewer:}{Zweitgutachter}
   \end{minipage}
   \begin{minipage}[t]{0.7\textwidth}
-  \hspace{1cm}Prof.~Dr.~Andreas Behr
+  \hspace{1cm}NA
   \end{minipage}
 
   \noindent\begin{minipage}[t]{0.3\textwidth}
@@ -187,7 +188,7 @@
   \IfLanguageName{english}{Deadline:}{Abgabefrist:}
   \end{minipage}
   \begin{minipage}[t]{0.7\textwidth}
-  \hspace{1cm}Deadline
+  \hspace{1cm}Aug.~27th 2019
   \end{minipage}
 
 \end{titlepage}
@@ -208,34 +209,63 @@
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-In this term paper we will search for the best model (in terms of a low
-RMSE) to predict the variable \enquote{Llitre - Weekly sale in log
-litre} on basis of the friberg gronqvist wine data set. To achieve this
-we apply different techniques from the branch of statistical learning.
+This paper presents a forecasting study on global wine sales. This study
+is based on the friberg gronqvist wine data set which is publicly
+available and was previously analyzed by {[}Textcite AER Friberg,
+Grönqvist{]}. Recent technological advancements led to an significant
+increase in techniques that are computationally demanding and are
+potentially outperforming classical statistical methods, especially in
+terms of forecasting. Those techniques are usually reffered as
+statistical- or machine learning methods.
 
-\hypertarget{data}{%
-\subsection{Data}\label{data}}
+We presents various models which are increasingly complex. Those models
+potentially gain forecasting power while losing interpretability. The
+applied models range from linear regressions to tree based methods like
+Random Forests and Boosting. The goal is to develop the best possible
+model to forecast wine sales in litre.
 
-The data used in this term paper is taken from a wine themed dataset.
-The variables include among others the name of the wine, the country of
-origin, the price, the amount (litres), the taste segment and some
-variables about different reviews. The variable of interest, which we
-want to predict, is the variable \enquote{Llitre} describing the weekly
-sale of a specific wine in log litre. It therefore is a transformation
-of the variable \enquote{Litre} which is the weekly sale of a specific
-wine in litre. The relationship can be written mathematically as
-\begin{equation}
-Llitre = \log{Litre}*1000000.
-\end{equation} In order to be able to work with the methods used in this
-paper we had to omit two variables, namely \enquote{time\_segm\_price}
-and \enquote{artikpr} because those are combinations of other existing
-variables and therefore would result in the problem of
-multicollinearity. Furthermore, we exlude those variables with a ratio
-of missing values to number of observations larger than \(50\%\).
-Finally, for some models it is important that the same levels of factor
-variables (as the levels of these are converted into dummy variables)
-are included in the used training and test datasets. To achieve these we
-only do use the intersection of variables included in both sets.
+The remainder of this paper is strctures as followes. Chapter 2 gives
+and overview about the dataset and the preprocessing. Chapter 3
+describes the validation approach. Chapter 4 presents the models and
+their specification. Chapter 5 provides the results, a conclusion and
+some ideas for future research.
+
+\hypertarget{data-and-variables}{%
+\section{Data and Variables}\label{data-and-variables}}
+
+The datset contains 145179 observations with 59 variables. The variables
+include the name of the wine, the country of origin, its price, the
+amount sold per week in litre, the taste segment and variables releated
+to diffeerent reviews among others. We need to omit two variables
+beforehand, namely \enquote{time\_segm\_price} and \enquote{artikpr},
+because those are combinations of other existing variables. Hence
+inclusion would lead to the problem of multicollinearity in some models.
+After omitting those two we have left the following types of variables:
+
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule
+Date & factor & logical & numeric\tabularnewline
+\midrule
+\endhead
+1 & 8 & 19 & 29\tabularnewline
+\bottomrule
+\end{longtable}
+
+Figure 1 depicts the amount of missing values in each variable. The
+number of complete cases would be zero without further selection.
+Therefore we exclude every variable with a ratio of missing values that
+exceeds \(50\%\). In consequence 41416 Observations with 45 Variables
+are used for building the forecasting models.
+
+\includegraphics{../00_data/output_paper/02_missings.pdf}
+
+\hypertarget{validation-approach}{%
+\section{Validation Approach}\label{validation-approach}}
+
+Here we go describing our approach to evaluate overall model performance
+and tune parameters. =\textgreater{} CV and loops for
+hyperparameters\ldots{} We should make it very clear that every rmse
+that is presented is the results of a 5 fold cross validation!
 
 \hypertarget{analysis}{%
 \section{Analysis}\label{analysis}}

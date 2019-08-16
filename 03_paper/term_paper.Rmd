@@ -1,16 +1,16 @@
 ---
-title: "Term Paper: Statistical Learning"
+title: "A Forecasting Study on Global Wine Sales"
 author: "Jonathan Berrisch, Timo Rammert"
-subtitle: "Subtitle"
-type: "Type of Paper"
+subtitle: "Statistical Learning"
+type: "Term Paper"
 discipline: "Study Path"
 date: "today"
-studid: "Matriculation Number"
+studid: "3071485 | XXXXXXX"
 supervisor: "Prof. Dr. Christoph Hanck"
-secondsupervisor: "Prof. Dr. Andreas Behr"
+secondsupervisor: "NA"
 ssemester: "1"
 estdegree_emester: "Summer Term 2019"
-deadline: "Deadline"
+deadline: "Aug. 27th 2019"
 output:
   pdf_document:
     keep_tex: yes
@@ -35,20 +35,67 @@ knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
 ```
+
+<!---
+Grobe Einteilung der Seiten:
+
+1 - 2 Introduction und Dataset
+3 Validation Method (Hier würde ich auf CV und RMSE eingehen)
+4-13 Modelle mit den Spezifikationen, den RMSEs etc. Wir haben jetzt folgende Modelle:
+
+# Lineare Modelle:
+- Baseline => Mean Regression and Linear Regression
+- Selection / Reduction => Lasso, PCR, PLS,
+- Nonlinearity => Splines
+
+# Tree based:
+- Bagging
+- Random Forest
+- Boosting
+
+Das sind also grob 6 Modelle und die aktuelle Planung sieht ca. 9 Seiten vor.
+Die regel sollte also eine Seite pro Modell sein, und die ausgewählten Modelle dürfen etwas mehr Raum einnehmen.
+
+14-15 Ich denke hier sollten wir uns nicht kurz fassen sondern richtig arbeit investieren. Alles an Infos raus holen was so geht und vieleicht auch noch einmal auf die Vor und Nachteile unserer Modelle eingehen.
+-->
+
 # Introduction
 
-In this term paper we will search for the best model (in terms of a low RMSE) to predict the variable "Llitre - Weekly sale in log litre" on basis of the friberg gronqvist wine data set. To achieve this we apply different techniques from the branch of statistical learning.
+This paper presents a forecasting study on global wine sales. This study is based on the friberg gronqvist wine data set which is publicly available and was previously analyzed by [Textcite AER Friberg, Grönqvist]. Recent technological advancements led to an significant increase in techniques that are computationally demanding and are potentially outperforming classical statistical methods, especially in terms of forecasting. Those techniques are usually reffered as statistical- or machine learning methods.
 
-## Data
+We presents various models which are increasingly complex. Those models potentially gain forecasting power while losing interpretability. The applied models range from linear regressions to tree based methods like Random Forests and Boosting. The goal is to develop the best possible model to forecast wine sales in litre.
 
-The data used in this term paper is taken from a wine themed dataset. The variables include among others the name of the wine, the country of origin, the price, the amount (litres), the taste segment and some variables about different reviews.
-The variable of interest, which we want to predict, is the variable "Llitre" describing the weekly sale of a specific wine in log litre. It therefore is a transformation of the variable "Litre" which is the weekly sale of a specific wine in litre. The relationship can be written mathematically as 
+The remainder of this paper is strctures as followes. Chapter 2 gives and overview about the dataset and the preprocessing. Chapter 3 describes the validation approach. Chapter 4 presents the models and their specification. Chapter 5 provides the results, a conclusion and some ideas for future research.
+
+# Data and Variables
+
+The datset contains 145179 observations with 59 variables. The variables include the name of the wine, the country of origin, its price, the amount sold per week in litre, the taste segment and variables releated to diffeerent reviews among others.
+<!---
+The variable of interest, which we want to predict, is the variable "litre" describing the weekly sale of a specific wine in log litre. It therefore is a transformation of the variable "Litre" which is the weekly sale of a specific wine in litre. The relationship can be written mathematically as 
 \begin{equation}
 Llitre = \log{Litre}*1000000.
 \end{equation}
-In order to be able to work with the methods used in this paper we had to omit two variables, namely "time_segm_price" and "artikpr" because those are combinations of other existing variables and therefore would result in the problem of multicollinearity.
-Furthermore, we exlude those variables with a ratio of missing values to number of observations larger than $50\%$.
+-->
+We need to omit two variables beforehand, namely "time_segm_price" and "artikpr", because those are combinations of other existing variables. Hence inclusion would lead to the problem of multicollinearity in some models. After omitting those two we have left the following types of variables:
+
+```{r, echo=FALSE}
+load("../00_data/output_paper/01_typeof_vec.rda")
+knitr::kable(t(typeof_vec))
+```
+
+Figure 1 depicts the amount of missing values in each variable. The number of complete cases would be zero without further selection. Therefore we exclude every variable with a ratio of missing values that exceeds $50\%$. In consequence 41416 Observations with 45 Variables are used for building the forecasting models.
+
+```{r, echo=F}
+knitr::include_graphics("../00_data/output_paper/02_missings.pdf")
+```
+
+<!---
 Finally, for some models it is important that the same levels of factor variables (as the levels of these are converted into dummy variables) are included in the used training and test datasets. To achieve these we only do use the intersection of variables included in both sets.
+-->
+
+# Validation Approach
+
+Here we go describing our approach to evaluate overall model performance and tune parameters. => CV and loops for hyperparameters... We should make it very clear that every rmse that is presented is the results of a 5 fold cross validation!
 
 # Analysis
 
