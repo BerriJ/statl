@@ -1,31 +1,21 @@
-rm(list = ls())
-# What we tried in the Tutorial
-
-# Non_linear Transformation
-# Subset Selection
-# Leave one out CV
-# Lasso
-# PLS PCR
-# Natural Splines and Bsplines
-# GAMS
-# Random Forests
-load("00_data/wine_preprocessed.rda")
-
-# Remove variables with average na >= 50%
-wine <- wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) < 0.50) %>%
-  # Only keep complete cases
-  drop_na() %>%
-  # Drop llitre because we are using litre
-  dplyr::select(-llitre) %>%
-  # Remove unused levels from factor variables
-  droplevels()
-
-# Split intro Training (3/4) and Test (1/4)
-
-train <- sample(nrow(wine), floor(0.75*nrow(wine)))
-wine_train <- wine[train,]
-wine_test <- wine[-(train),]
-rm(train)
+# rm(list = ls())
+# load("00_data/wine_preprocessed.rda")
+# 
+# # Remove variables with average na >= 50%
+# wine <- wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) < 0.50) %>%
+#   # Only keep complete cases
+#   drop_na() %>%
+#   # Drop llitre because we are using litre
+#   dplyr::select(-llitre) %>%
+#   # Remove unused levels from factor variables
+#   droplevels()
+# 
+# # Split intro Training (3/4) and Test (1/4)
+# 
+# train <- sample(nrow(wine), floor(0.75*nrow(wine)))
+# wine_train <- wine[train,]
+# wine_test <- wine[-(train),]
+# rm(train)
 
 
 ############# Above Code that will be run in 00_job_setup.R ####################
