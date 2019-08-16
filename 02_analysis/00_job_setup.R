@@ -49,29 +49,29 @@ for(i in 1:5){
   
   # Run the models
   
-  # Mean Regression and Linear Regression 
-  rstudioapi::jobRunScript("02_analysis/02_2_mean_and_lin_reg.R",
-                           workingDir = "../statl", 
-                           importEnv = T)
-  
-  # # Lasso 
-  # rstudioapi::jobRunScript("02_analysis/02_3_lasso.R",
-  #                          workingDir = "../statl", 
+  # # Mean Regression and Linear Regression 
+  # rstudioapi::jobRunScript("02_analysis/02_2_mean_and_lin_reg.R",
+  #                          workingDir = "../statl",
   #                          importEnv = T)
   # 
+  # Lasso
+  # rstudioapi::jobRunScript("02_analysis/02_3_lasso.R",
+  #                          workingDir = "../statl",
+  #                          importEnv = T)
+  #
   # # PCR and PLS 
   # rstudioapi::jobRunScript("02_analysis/02_4_pcr_pls.R",
-  #                          workingDir = "../statl", 
+  #                          workingDir = "../statl",
   #                          importEnv = T)
   # 
-  # # Splines 
+  # Splines
   # rstudioapi::jobRunScript("02_analysis/02_5_splines.R",
-  #                          workingDir = "../statl", 
+  #                          workingDir = "../statl",
   #                          importEnv = T)
   # 
-  # # Single Tree 
+  # # Single Tree
   # rstudioapi::jobRunScript("02_analysis/02_6_single_tree.R",
-  #                          workingDir = "../statl", 
+  #                          workingDir = "../statl",
   #                          importEnv = T)
   # 
   # # Bagging 
