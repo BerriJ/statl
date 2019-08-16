@@ -123,35 +123,7 @@ df[df$coef %in% names(notdummy),] %>% arrange(beta)
 
 plot(wine$year)
 
-################################################################################
-################################# PCA ##########################################
-################################################################################
-print("Start PCA")
-# https://www.datacamp.com/community/tutorials/pca-analysis-r
 
-MM <- model.matrix(litre ~. -1, data = wine)
-wine.pc <- prcomp(MM, center = T, scale. = T)
-wine.pc.sm <- summary(wine.pc)
-wine.pc.sm$importance
-
-# #remotes::install_github("vqv/ggbiplot")
-# ggbiplot::ggbiplot(wine.pc)
-# ggbiplot::ggbiplot(wine.pc,ellipse = T, groups = wine$taste_segment)
-# ggbiplot::ggbiplot(wine.pc, ellipse = T, groups = wine$segm)
-# ggbiplot::ggbiplot(wine.pc, ellipse = T, groups = wine$dist)
-# ggbiplot::ggbiplot(wine.pc, ellipse = T, groups = wine$dist,
-#                    choices = c(100,50))
-
-wine.pcr.fit <- pcr(y.train ~ ., 
-                    data = train_df, 
-                    validation = "CV")
-
-n_comp <- wine.pcr.fit$validation$PRESS %>% which.min()
-
-pred <- predict(wine.pcr.fit, test_df, ncomp = n_comp)
-
-models[min(which(is.na(models$mod))),1] <- "pcr"
-models[min(which(is.na(models$rmse))), "rmse"] <- mean((y.test - pred)^2) %>% sqrt()
 
 ################################################################################
 ################################ Splines?? #####################################
