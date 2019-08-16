@@ -6,7 +6,7 @@ print("Packages loaded")
 ######################### Simple Regression Tree ###############################
 ################################################################################
 
-tree_wine <- tree(y.train ~ .-region, data = train_df)
+tree_wine <- tree(y.train ~., data = data.frame(train_df))
 # we have to cancel region, because factor predictors must have at most 32 levels
 # and there are 96 levels of regions
 summary(tree_wine) # vars used for construction: "price_segm", "dist", "price",
@@ -23,8 +23,8 @@ tree_prune_wine <- prune.tree(tree_wine, best = 6)
 plot(tree_prune_wine)
 text(tree_prune_wine)
 
-pred_tree <- predict(tree_wine, newdata = wine_test)
-pred_pruned <- predict(tree_prune_wine, newdata = wine_test)
+pred_tree <- predict(tree_wine, newdata = data.frame(test_df))
+pred_pruned <- predict(tree_prune_wine, newdata = data.frame(test_df))
 
 rmse_tree <- mean((wine_test$litre - pred_tree)^2) %>% sqrt()
 rmse_tree_pruned <- mean((wine_test$litre - pred_pruned)^2) %>% sqrt()
