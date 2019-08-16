@@ -18,11 +18,12 @@ df <- data.frame(Var = names(av_na), NA_Ratio = av_na, Type = sapply(wine, class
 missings <- ggplot(df, aes(x = Var, y = NA_Ratio, col = Type)) + 
   geom_point(size = 2) +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 90), legend.position="top") + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1,
+                                   vjust=0.5), legend.position="top") + 
   ylab("Ratio of Missing Values") + 
   xlab("Variable") 
 
-ggsave("00_data/output_paper/02_missings.pdf",plot =  missings, width = 7, height = 3)
+# ggsave("00_data/output_paper/02_missings.pdf",plot =  missings, width = 7, height = 3)
 
 # We have identified some variables which have massive amounts of missing values
 # Proposal: Remove all variables with average missing above a cutoff
@@ -42,7 +43,7 @@ wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) < 0.60) %>%
 wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) < 0.75) %>% 
   drop_na() %>% dim()
 
-wine <- wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) < 0.50) %>% 
+wine <- wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) <= 0.50) %>% 
   drop_na()
 
 # Levels of factors after keeping complete cases:
