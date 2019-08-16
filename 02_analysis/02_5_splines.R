@@ -16,7 +16,7 @@ for(i in 1:20){
                 data = train_df)
   sp.pred <- predict(sp.fit, newdata = test_df)
   rmse_splines[i] <- sqrt(mean((sp.pred - test_df$y.test)^2)) # Bullshit
-  progress(i, max.value = 10, progress.bar = T)
+  progress(i, max.value = 20, progress.bar = T)
 }
 
 dir.create("02_analysis/cv/splines/", recursive = T, showWarnings = F)
