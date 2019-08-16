@@ -36,6 +36,29 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
+<!---
+Grobe Einteilung der Seiten:
+
+1 - 2 Introduction und Dataset
+3 Validation Method (Hier würde ich auf CV und RMSE eingehen)
+4-13 Modelle mit den Spezifikationen, den RMSEs etc. Wir haben jetzt folgende Modelle:
+
+# Lineare Modelle:
+- Baseline => Mean Regression and Linear Regression
+- Selection / Reduction => Lasso, PCR, PLS,
+- Nonlinearity => Splines
+
+# Tree based:
+- Bagging
+- Random Forest
+- Boosting
+
+Das sind also grob 6 Modelle und die aktuelle Planung sieht ca. 9 Seiten vor.
+Die regel sollte also eine Seite pro Modell sein, und die ausgewählten Modelle dürfen etwas mehr Raum einnehmen.
+
+14-15 Ich denke hier sollten wir uns nicht kurz fassen sondern richtig arbeit investieren. Alles an Infos raus holen was so geht und vieleicht auch noch einmal auf die Vor und Nachteile unserer Modelle eingehen.
+-->
+
 # Introduction
 
 This paper presents a forecasting study on global wine sales. This study is based on the friberg gronqvist wine data set which is publicly available and was previously analyzed by [Textcite AER Friberg, Grönqvist]. Recent technological advancements led to an significant increase in techniques that are computationally demanding and are potentially outperforming classical statistical methods, especially in terms of forecasting. Those techniques are usually reffered as statistical- or machine learning methods.
