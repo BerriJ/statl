@@ -39,7 +39,10 @@ wine <- apply(Wein_train, 2, FUN = remove_backslashes) %>%
     .funs = as.factor) %>%
   dplyr::select(-time_segm_price, -artikpr)
 
-apply(wine, MARGIN = 2, FUN = typeof) %>% table()
+wine %>% data.frame(wine)
+
+# typeof_vec <- sapply(wine, class) %>% table()
+# save(file = "00_data/output_paper/01_typeof_vec.rda", typeof_vec)
 
 save(file = "00_data/wine_preprocessed.rda", wine)
 

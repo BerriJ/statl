@@ -9,10 +9,20 @@ wine %>% drop_na() %>% dim()
 
 # model.matix  hence complains having factors with <= 1 level
 # Overview about the missings:
-av_na <- apply(wine, MARGIN = 2, FUN = function(x) is.na(x) %>% sum()) %>% 
-  sort(dec = T) / nrow(wine)
+av_na <- apply(wine, MARGIN = 2, FUN = function(x) is.na(x) %>% sum())/ nrow(wine)
+plot(1:length(av_na), av_na)
+av_na[av_na >= 0.50]
 
-av_na[av_na >= 0.5]
+df <- data.frame(Var = names(av_na), NA_Ratio = av_na, Type = sapply(wine, class))
+
+missings <- ggplot(df, aes(x = Var, y = NA_Ratio, col = Type)) + 
+  geom_point(size = 2) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90), legend.position="top") + 
+  ylab("Ratio of Missing Values") + 
+  xlab("Variable") 
+
+ggsave("00_data/output_paper/02_missings.pdf",plot =  missings, width = 7, height = 3)
 
 # We have identified some variables which have massive amounts of missing values
 # Proposal: Remove all variables with average missing above a cutoff

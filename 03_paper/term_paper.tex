@@ -236,7 +236,7 @@ some ideas for future research.
 The datset contains 145179 observations with 59 variables. The variables
 include the name of the wine, the country of origin, its price, the
 amount sold per week in litre, the taste segment and variables releated
-to diffeerent reviews among others. We had to omit two variables
+to diffeerent reviews among others. We need to omit two variables
 beforehand, namely \enquote{time\_segm\_price} and \enquote{artikpr},
 because those are combinations of other existing variables. Hence
 inclusion would lead to the problem of multicollinearity in some models.
@@ -250,6 +250,10 @@ Date & factor & logical & numeric\tabularnewline
 1 & 8 & 19 & 29\tabularnewline
 \bottomrule
 \end{longtable}
+
+Figure 1 depicts the amount of missing values in each variable.
+
+\includegraphics{../00_data/output_paper/02_missings.pdf}
 
 Furthermore, we exlude those variables with a ratio of missing values to
 number of observations larger than \(50\%\). Finally, for some models it

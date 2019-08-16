@@ -76,13 +76,18 @@ The variable of interest, which we want to predict, is the variable "litre" desc
 Llitre = \log{Litre}*1000000.
 \end{equation}
 -->
-We had to omit two variables beforehand, namely "time_segm_price" and "artikpr", because those are combinations of other existing variables. Hence inclusion would lead to the problem of multicollinearity in some models. After omitting those two we have left the following types of variables:
+We need to omit two variables beforehand, namely "time_segm_price" and "artikpr", because those are combinations of other existing variables. Hence inclusion would lead to the problem of multicollinearity in some models. After omitting those two we have left the following types of variables:
 
 ```{r, echo=FALSE}
 load("../00_data/output_paper/01_typeof_vec.rda")
 knitr::kable(t(typeof_vec))
 ```
 
+Figure 1 depicts the amount of missing values in each variable. 
+
+```{r, echo=F}
+knitr::include_graphics("../00_data/output_paper/02_missings.pdf")
+```
 
 
 Furthermore, we exlude those variables with a ratio of missing values to number of observations larger than $50\%$.
