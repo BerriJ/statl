@@ -576,6 +576,12 @@ Version=1.2.4
 Source=CRAN
 Hash=b0395d2a1a6786159086284cea759a8d
 
+[R/Package/misc3d]
+Package=misc3d
+Version=0.8-4
+Source=CRAN
+Hash=368e18fdca5af03f054d3cc7e674c4d9
+
 [R/Package/miscTools]
 Package=miscTools
 Version=0.6-22
@@ -683,6 +689,12 @@ Package=plogr
 Version=0.2.0
 Source=CRAN
 Hash=e33de17b3d41d70c32e716536104d3fb
+
+[R/Package/plot3D]
+Package=plot3D
+Version=1.1.1
+Source=CRAN
+Hash=6473da6b85566e8fee69da81a6c1a776
 
 [R/Package/plotmo]
 Package=plotmo

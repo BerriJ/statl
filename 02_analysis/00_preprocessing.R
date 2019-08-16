@@ -39,6 +39,8 @@ wine <- apply(Wein_train, 2, FUN = remove_backslashes) %>%
     .funs = as.factor) %>%
   dplyr::select(-time_segm_price, -artikpr)
 
+apply(wine, MARGIN = 2, FUN = typeof) %>% table()
+
 save(file = "00_data/wine_preprocessed.rda", wine)
 
 # We have to give special attention to: -v10_dn, -v10_exp, -v10_svd, -v10_aom

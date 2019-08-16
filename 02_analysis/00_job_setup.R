@@ -69,26 +69,25 @@ for(i in 1:5){
   #                          workingDir = "../statl",
   #                          importEnv = T)
   # 
-  # # Single Tree
+  # Single Tree
   # rstudioapi::jobRunScript("02_analysis/02_6_single_tree.R",
   #                          workingDir = "../statl",
   #                          importEnv = T)
   # 
-  # # Bagging 
-  # rstudioapi::jobRunScript("02_analysis/02_1_Bagging.R",
-  #                          workingDir = "../statl", 
-  #                          importEnv = T)
-  # 
-  # # Random Forest 
-  # rstudioapi::jobRunScript("02_analysis/02_7_random_forest.R",
-  #                          workingDir = "../statl", 
-  #                          importEnv = T)
+  # Bagging
+  rstudioapi::jobRunScript("02_analysis/02_1_Bagging.R",
+                           workingDir = "../statl",
+                           importEnv = T)
+
+  # Random Forest
+  rstudioapi::jobRunScript("02_analysis/02_7_random_forest.R",
+                           workingDir = "../statl",
+                           importEnv = T)
   # 
   # # Boosting 
   # rstudioapi::jobRunScript("02_analysis/02_7_boosting.R",
   #                          workingDir = "../statl", 
   #                          importEnv = T)
-  
 }
 
 files <- dir(recursive = T, path = "02_analysis/cv")
