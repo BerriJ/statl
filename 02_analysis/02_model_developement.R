@@ -67,64 +67,6 @@ models[min(which(is.na(models$rmse))), "rmse"] <- (y.test-preds)^2 %>%
 models
 
 ################################################################################
-################## Stepwise Forward / Backward Selection #######################
-################################################################################
-print("Start Stepwise Selection")
-# => Hier noch auf die Matrix anpassen
-
-# Übersicht über die Levels
-wine_train[,sapply(wine_train, is.factor)] %>% drop_na() %>% sapply(levels)
-
-regfit_forward <- regsubsets(y = y.train, x = x.train[,2:550],
-                             method = "forward", nvmax = 1000)
-
-regfit_backward <- regsubsets(y = y.train, x = x.train[,2:550],
-                              method = "backward", nvmax = 1000)
-test.rmse_fwd <- c()
-test.rmse_bwd <- c()
-for (i in 1:(min(regfit_backward$nvmax, regfit_backward$nvmax)-1)) {
-  coefi = coef(regfit_forward, id = i)
-  pred = x.test[,names(coefi)] %*% coefi
-  test.rmse_fwd[i] = sqrt(mean((wine_test$litre - pred)^2))
-  
-  coefi = coef(regfit_backward, id = i)
-  pred = x.test[,names(coefi)] %*% coefi
-  test.rmse_bwd[i] = sqrt(mean((wine_test$litre - pred)^2))
-}
-
-plot(test.rmse_bwd, ylim = c(5000, 13000), col = "black", pch = 19)
-points(sqrt(regfit_forward$rss[1:regfit_forward$nvmax]/dim(wine_train)[1]), col = "red", pch = 19, type = "b")
-points(sqrt(regfit_backward$rss[1:regfit_backward$nvmax]/dim(wine_train)[1]), col = "darkgreen", pch = 19, type = "b")
-points(test.rmse_fwd, col = "deeppink", pch = 19, type = "b")
-
-models[min(which(is.na(models$mod))),1] <- "regsubsets_bwd"
-models[min(which(is.na(models$rmse))), "rmse"] <- test.rmse_bwd %>% min()
-
-models[min(which(is.na(models$mod))),1] <- "regsubsets_fwd"
-models[min(which(is.na(models$rmse))), "rmse"] <- test.rmse_fwd %>% min()
-
-# legend("topright", legend = c("Training", "Validation"), col = c("grey", "black"),
-#        pch = 19)
-
-
-#colnames(train_df)[587] # Macht Probleme!
-
-#summary(train_df[,587])
-
-# rankifremoved <- c()
-# d <- c()
-# for(i in 1:ncol(x.train[,-1])){
-#   x <- Sys.time()
-#   rankifremoved[i] <- qr(x.train[,-1][,-i])$rank
-#   d[i] <- Sys.time() - x
-#   print(paste(round(mean(d)*(ncol(x.train)-i)), "Seconds Remaining"))
-# }
-# 
-# which(rankifremoved == max(rankifremoved))
-# lin_dependend <- colnames(x.train[,-1])[which(rankifremoved == max(rankifremoved))]
-# save(file = "00_data/lin_dependend.rda", lin_dependend)
-
-################################################################################
 ################################## LASSO #######################################
 ################################################################################
 print("Start Lasso")
