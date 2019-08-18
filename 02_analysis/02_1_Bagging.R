@@ -24,6 +24,6 @@ for(i in 1:length(trees)){
 }
 toc()
 
-dir.create("02_analysis/cv/", recursive = T, showWarnings = F)
-save(file = paste("02_analysis/cv/Bagging_data",unique_identifier,".rda", sep = ""),
-     trees, rmse_BA,)
+dir.create("02_analysis/cv/bagging/", recursive = T, showWarnings = F)
+save(file = paste("02_analysis/cv/bagging/bagging_data",unique_identifier,".rda", sep = ""),
+     trees, rmse_BA)
