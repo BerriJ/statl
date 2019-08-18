@@ -152,7 +152,10 @@ load("../02_analysis/cv/lasso/models_df_20190816_1222_1.rda")
 
 ## Splines
 
-## Regression Trees and Random Forests
+## Decision tree methods
+
+Tree-based methods utilze decision rules to split the feature space into a number of different regions. ``Since the set of splitting rules used to segment the predictor space can be summarized in a tree, these type of approaches are known as decision tree methods'' [Textcite Hastie, p. 303]. The base of tree-based methods are regression trees
+For improvement of the predictive power of these methods, while losing interpretability, one can combine different regression trees for a single prediction. Those approaches, including bagging, random forests and boosting, are described in more detail when being applied.
 
 ### Regression Tree
 
