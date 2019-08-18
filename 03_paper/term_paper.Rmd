@@ -3,9 +3,9 @@ title: "A Forecasting Study on Global Wine Sales"
 author: "Jonathan Berrisch, Timo Rammert"
 subtitle: "Statistical Learning"
 type: "Term Paper"
-discipline: "Study Path"
+discipline: "VWL M.Sc."
 date: "today"
-studid: "3071485 | XXXXXXX"
+studid: "3071485 | 3030862"
 supervisor: "Prof. Dr. Christoph Hanck"
 secondsupervisor: "NA"
 ssemester: "1"
@@ -63,13 +63,13 @@ Die regel sollte also eine Seite pro Modell sein, und die ausgewählten Modelle 
 
 This paper presents a forecasting study on global wine sales. This study is based on the friberg gronqvist wine data set which is publicly available and was previously analyzed by [Textcite AER Friberg, Grönqvist]. Recent technological advancements led to an significant increase in techniques that are computationally demanding and are potentially outperforming classical statistical methods, especially in terms of forecasting. Those techniques are usually reffered as statistical- or machine learning methods.
 
-We presents various models which are increasingly complex. Those models potentially gain forecasting power while losing interpretability. The applied models range from linear regressions to tree based methods like Random Forests and Boosting. The goal is to develop the best possible model to forecast wine sales in litre.
+We present various models which are increasingly complex. Those models potentially gain forecasting power while losing interpretability. The applied models range from linear regressions to tree based methods like Random Forests and Boosting. The goal is to develop the best possible model to forecast wine sales in litre.
 
-The remainder of this paper is strctures as followes. Chapter 2 gives and overview about the dataset and the preprocessing. Chapter 3 describes the validation approach. Chapter 4 presents the models and their specification. Chapter 5 provides the results, a conclusion and some ideas for future research.
+The remainder of this paper is structured as follows. Chapter 2 gives an overview about the dataset and the preprocessing. Chapter 3 describes the validation approach. Chapter 4 presents the models and their specification. Chapter 5 provides the results, a conclusion and some ideas for future research.
 
 # Data and Variables
 
-The datset contains 145179 observations with 59 variables. The variables include the name of the wine, the country of origin, its price, the amount sold per week in litre, the taste segment and variables releated to diffeerent reviews among others.
+The datset contains 145179 observations with 59 variables. The variables include the name of the wine, the country of origin, its price, the amount sold per week in litre, the taste segment and variables related to different reviews among others.
 <!---
 The variable of interest, which we want to predict, is the variable "litre" describing the weekly sale of a specific wine in log litre. It therefore is a transformation of the variable "Litre" which is the weekly sale of a specific wine in litre. The relationship can be written mathematically as 
 \begin{equation}
@@ -83,7 +83,7 @@ load("../00_data/output_paper/01_typeof_vec.rda")
 knitr::kable(t(typeof_vec))
 ```
 
-Figure 1 depicts the amount of missing values in each variable. The number of complete cases would be zero without further selection. Therefore we exclude every variable with a ratio of missing values that exceeds $50\%$. In consequence 41416 Observations with 45 Variables are used for building the forecasting models.
+Figure 1 depicts the amount of missing values in each variable. The number of complete cases would be zero without further selection. Therefore we exclude every variable with a ratio of missing values that exceeds $50\%$. In consequence 41416 observations with 45 variables are used for building the forecasting models.
 
 ```{r, echo=F}
 knitr::include_graphics("../00_data/output_paper/02_missings.pdf")
@@ -96,6 +96,8 @@ Finally, for some models it is important that the same levels of factor variable
 # Validation Approach
 
 Here we go describing our approach to evaluate overall model performance and tune parameters. => CV and loops for hyperparameters... We should make it very clear that every rmse that is presented is the results of a 5 fold cross validation!
+
+For validation of the results obtained in this paper a 5-fold cross-validation of each method is performed. This also includes a validation and thus a more robust estimate of the criterion for comparison of the models. When cross-validating it is important to make sure that the exact same variables are part of either the training and test set.
 
 # Analysis
 
@@ -115,7 +117,7 @@ load("../00_data/wine_preprocessed.rda")
 models <- data.frame(mod = c("Mean", "Basic_lm"), rmse = c(NA, NA))
 
 residuals <- wine$llitre-mean(wine$llitre, na.rm = T) %>% na.omit()
-plot(residuals)
+# plot(residuals)
 models[models$mod == "Mean","rmse"] <- (wine$llitre-mean(wine$llitre, na.rm = T))^2 %>% 
   na.omit() %>%
   sqrt() %>%
@@ -132,13 +134,18 @@ lines(density(na.omit(residuals)), col = "deeppink", lwd = 2)
 
 
 
-## Subset Selection
-
-### Forward Stepwise Selection
-
-### Backward Stepwise Selection
 
 ## Lasso
+
+The Least Absolute Shrinkage and Selection Operator (Lasso) is a method combining shrinkage of the coefficent estimates as well as variable selection. Basically it fits a linear model but is constrained by a penalty term, i.e. the lasso coefficients minimize
+
+$$
+\sum_{i=1}^{n}(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij})+\lambda\sum_{j=1}^{p}|\beta_j|.
+$$
+
+```{r Lasso}
+load("../02_analysis/cv/lasso/models_df_20190816_1222_1.rda")
+```
 
 ## PLS and PCR
 
