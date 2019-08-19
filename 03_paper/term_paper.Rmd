@@ -70,7 +70,7 @@ The remainder of this paper is structured as follows. Chapter 2 gives an overvie
 
 # Data and Variables
 
-The datset contains 145179 observations with 59 variables. The variables include the name of the wine, the country of origin, its price, the amount sold per week in litre, the taste segment and variables related to different reviews among others.
+The data set used in this paper contains 145179 observations with 59 variables. The variables include the name of the wine, the country of origin, its price, the amount sold per week in litre, the taste segment and variables related to different reviews among others.
 <!---
 The variable of interest, which we want to predict, is the variable "litre" describing the weekly sale of a specific wine in log litre. It therefore is a transformation of the variable "Litre" which is the weekly sale of a specific wine in litre. The relationship can be written mathematically as 
 \begin{equation}
@@ -173,7 +173,14 @@ For improvement of the predictive power of these methods, while losing interpret
 
 ### Regression Tree
 
-### Pruned Tree
+For growing a regression tree `The algorithm needs to automatically decide on the splitting variables and split points [...] <!--- , and also what topology (shape)---> the tree should have'[@Hastie2013, p.349]. The tree is grown when a splitting is found that minimizes the sum of squared residuals. The splitting is done with a greedy algorithm, i.e., at first all the data is split into just two groups while the search of the splitting variable and split point includes all possible variables and points [cf. @Hastie2013, p.349]. After the data is split this process is repeated for the now obtained two splitted regions until the tree is large enough that the nodes reach a set minimum size.
+
+```{r tree}
+
+```
+
+
+As regression trees may tend to grow quite large, a possible way to get smaller trees is pruning back the grown larger tree. The goal of pruning is `to select a subtree that leads to the lowest test error rate [which] we can estimate [...] using cross-validation or the validation set approach' [@James2014, p. 308].
 
 ### Bagging
 
