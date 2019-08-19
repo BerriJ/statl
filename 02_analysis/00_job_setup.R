@@ -107,19 +107,30 @@ save(file = "00_data/output_paper/03_baseline.rda", df)
 
 ### Summary Lasso Model
 
-files <- dir(recursive = T, path = "02_analysis/cv/lasso")
+files <- dir(path = "02_analysis/cv/lasso")
 
 bestlam_mod <- list()
 lasso_flexlam <- list()
-df <- data.frame(RMSE_Lasso = rep(NA,5), RMSE_lasso_log = rep(NA,5))
+df <- data.frame(RMSE_Lasso = rep(NA,5), RMSE_lasso_log = rep(NA,5),
+                 loglam = rep(NA,5), ncoef = rep(NA, 5))
 
-for(i in seq_along(files)){
+for(i in 1:(length(files)-1)){
   load(file = paste("02_analysis/cv/lasso/", files[i], sep = ""))
   bestlam_mod[[i]] <- lasso.mod
   lasso_flexlam[[i]] <- mod
   df$RMSE_Lasso[i] <- rmse_lasso
   df$RMSE_lasso_log[i] <- rmse_lasso_log
+  df$loglam[i] <- bestlam %>% log()
+  df$ncoef[i] <- ((bestlam_mod[[i]]$beta %>% as.numeric()) != 0) %>% sum()
 }
 
-save(file = "00_data/output_paper/03_baseline.rda", df)
+names <- rownames(bestlam_mod[[5]]$beta)
+beta <- bestlam_mod[[5]]$beta %>% as.numeric()
+coef <- data.frame(beta, names)
+coef <- arrange(coef, desc(abs(beta)))
+tail(coef)
+
+df <- colMeans(df) %>% round(2)
+
+save(file = "00_data/output_paper/05_lasso.rda", df)
 

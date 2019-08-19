@@ -143,14 +143,23 @@ The mean regression yields an average RMSE of $\approx `r paste(colMeans(df)[2] 
 
 ## Lasso
 
-The Least Absolute Shrinkage and Selection Operator (Lasso) is a method combining shrinkage of the coefficent estimates as well as variable selection. Basically it fits a linear model but is constrained by a penalty term, i.e. the lasso coefficients minimize
+```{r, echo = F}
+# Load Baseline Summary
+load(file = "../00_data/output_paper/05_lasso.rda")
+```
+
+The Least Absolute Shrinkage and Selection Operator (Lasso) is a method combining shrinkage of the coefficent estimates to do variable selection. It fits a linear model that is constrained by a penalty term, i.e. the lasso coefficients minimize:
 
 $$
 \sum_{i=1}^{n}(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij})+\lambda\sum_{j=1}^{p}|\beta_j|.
 $$
 
-```{r Lasso}
-load("../02_analysis/cv/lasso/models_df_20190816_1222_1.rda")
+Figure XY depicts the relation between lambda and the coefficients. The crossvalidated log lambda, which minimizes the test error is $\approx `r df[2]`$. At that level a total of $\approx `r df[4]`$ out of $713$ coefficients are nonzero. The other coefficients are exactly zero due to the sparsitiy property of the lasso estimator. Furthermore, the plot includes abbreviated variable names of the 10 biggest coefficients. All of those coefficients are dummys for specific wine names.
+The average RMSE of the lasso approach is $\approx `r df[1]`$. This is a slight improvement above the linear baseline model.
+The lasso does not significantly reduce the feature set. It shows, that the name variable is the most important explaining the sold litre per week, followed by the Vintage, the Region, the taste segment and the Country of the wine. The least influence important variables are the review variables which are not present in the 400 biggest coefficients. 
+
+```{r, echo = FALSE}
+knitr::include_graphics("../00_data/output_paper/06_lasso_vars.pdf")
 ```
 
 ## PLS and PCR
