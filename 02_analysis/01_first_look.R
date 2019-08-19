@@ -76,6 +76,18 @@ apply(MM, MARGIN = 2, function(x) sum(x==0)==length(x)) %>% which()
 
 # Visual inspection:
 
+# Histogram of the Litre variable
+
+litre <- ggplot(wine) + 
+  geom_histogram(aes(x=litre,y=..density..), binwidth = 2500) + 
+  geom_density(aes(x=litre,y=..density..), col = "gray13") + 
+  xlab("Litre") + 
+  ylab("Density") + theme_minimal()
+
+ggsave(filename = "00_data/output_paper/04_hist_litre.pdf", plot =  litre, width = 7, height = 3)
+
+min(wine$litre)
+
 # Name: ####
 
 # Boxplot der Logliter nach Name

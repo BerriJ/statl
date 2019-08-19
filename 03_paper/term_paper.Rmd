@@ -77,7 +77,7 @@ The variable of interest, which we want to predict, is the variable "litre" desc
 Llitre = \log{Litre}*1000000.
 \end{equation}
 -->
-We need to omit two variables beforehand, namely "time_segm_price" and "artikpr", because those are combinations of other existing variables. Hence inclusion would lead to the problem of multicollinearity in some models. After omitting those two we have left the following types of variables:
+We need to omit two variables beforehand, namely "time_segm_price" and "artikpr", because those are combinations of other existing variables. Hence inclusion would lead to the problem of multicollinearity. After omitting those two we have left the following types of variables:
 
 ```{r, echo=FALSE}
 load("../00_data/output_paper/01_typeof_vec.rda")
@@ -90,51 +90,60 @@ Figure 1 depicts the amount of missing values in each variable. The number of co
 knitr::include_graphics("../00_data/output_paper/02_missings.pdf")
 ```
 
-<!---
-Finally, for some models it is important that the same levels of factor variables (as the levels of these are converted into dummy variables) are included in the used training and test datasets. To achieve these we only do use the intersection of variables included in both sets.
--->
+Figure XY depicts the distribution of the litre variable which is the dependend variable in our models. One can see that the observations are heavily skewed. The Maximum is at $184200$ litres sold weekly while it's minimum is near zero with only $0.75$ litres sold per week.
+
+```{r, echo = FALSE}
+knitr::include_graphics("../00_data/output_paper/04_hist_litre.pdf")
+```
 
 # Validation Approach
 
-Here we go describing our approach to evaluate overall model performance and tune parameters. => CV and loops for hyperparameters... We should make it very clear that every rmse that is presented is the results of a 5 fold cross validation!
+Sampling may influence the model selection process because a sample could be in favor of one specific method while another sample could lead to different results. Therefore we validate the results of each method using a 5-fold cross-validation. This reduces the influence of sampling when building a training and test set while it's computationally feasible. 
 
-For validation of the results obtained in this paper a 5-fold cross-validation of each method is performed. This also includes a validation and thus a more robust estimate of the criterion for comparison of the models. When cross-validating it is important to make sure that the exact same variables are part of either the training and test set.
+In order to compute a prediction it's necessary that the test set includes, at least all, features of the training set. Due to the high number of levels in the countries and name variable this was not always the case. Therefore we are using only the intersection of training and test features to be included in the estimation.
 
 # Analysis
 
 ## Mean Regression and Linear Regression
 
-At first a mean regression and a linear regression are calculated and used as a baseline for further methods.
+```{r, echo = F}
+# Load Baseline Summary
+load(file = "../00_data/output_paper/03_baseline.rda")
+```
+
+At first a mean regression and a linear regression are calculated. Those models are representing the baseline.
 For comparison of the different models, the Root Mean Sqaured Error (RMSE) $$\sqrt{\frac{1}{n}\sum_{i = 1}^{n}\left(y_i-\hat{y}_i\right)^2}$$ is calculated.
+
+The mean regression yields an average RMSE of $\approx `r paste(colMeans(df)[2] %>% round())`$ litre sold per week. The linear regression where all variables are included yields an average RMSE of $\approx `r colMeans(df)[1] %>% round()`$. The latter results is probably influenced by overfitting. To cope with this problem we are using variable selection and dimension reduction methods which are discussed in the proceeding sections. 
 
 ```{r Mean Regression, echo = FALSE, fig.cap = "Residuals of the Mean Regression.", message = FALSE}
 
-library(MASS)
-
-load("../00_data/wine_preprocessed.rda")
-
-# Baseline Model: Mean
-
-models <- data.frame(mod = c("Mean", "Basic_lm"), rmse = c(NA, NA))
-
-residuals <- wine$llitre-mean(wine$llitre, na.rm = T) %>% na.omit()
-# plot(residuals)
-models[models$mod == "Mean","rmse"] <- (wine$llitre-mean(wine$llitre, na.rm = T))^2 %>% 
-  na.omit() %>%
-  sqrt() %>%
-  mean()
-print(models)
+# library(MASS)
+# 
+# load("../00_data/wine_preprocessed.rda")
+# 
+# # Baseline Model: Mean
+# 
+# models <- data.frame(mod = c("Mean", "Basic_lm"), rmse = c(NA, NA))
+# 
+# residuals <- wine$llitre-mean(wine$llitre, na.rm = T) %>% na.omit()
+# # plot(residuals)
+# models[models$mod == "Mean","rmse"] <- (wine$llitre-mean(wine$llitre, na.rm = T))^2 %>% 
+#   na.omit() %>%
+#   sqrt() %>%
+#   mean()
+# print(models)
 ```
-
 
 ```{r ResPlotMR, echo = FALSE, fig.cap = "Histogram and Density of the Residuals of the Mean Regression."}
 
-truehist(residuals)
-lines(density(na.omit(residuals)), col = "deeppink", lwd = 2)
+# truehist(residuals)
+# lines(density(na.omit(residuals)), col = "deeppink", lwd = 2)
 ```
 
+```{r}
 
-
+```
 
 ## Lasso
 

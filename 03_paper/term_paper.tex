@@ -33,6 +33,46 @@
 \usepackage[backend=biber, maxbibnames = 99, style = apa]{biblatex}
 \setlength\bibitemsep{1.5\itemsep}
 \bibliography{references.bib}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{longtable,booktabs}
 \usepackage{graphicx}
 \makeatletter
@@ -146,14 +186,14 @@
   \IfLanguageName{english}{Matriculation Number}{Matrikelnummer}
   \end{minipage}
   \begin{minipage}[t]{0.7\textwidth}
-  \hspace{1cm}3071485 \textbar{} XXXXXXX
+  \hspace{1cm}3071485 \textbar{} 3030862
   \end{minipage}
 
   \noindent\begin{minipage}[t]{0.3\textwidth}
   \IfLanguageName{english}{Study Path:}{Studienfach:}
   \end{minipage}
   \begin{minipage}[t]{0.7\textwidth}
-  \hspace{1cm}Study Path
+  \hspace{1cm}VWL M.Sc.
   \end{minipage}
 
   \noindent\begin{minipage}[t]{0.3\textwidth}
@@ -218,29 +258,35 @@ potentially outperforming classical statistical methods, especially in
 terms of forecasting. Those techniques are usually reffered as
 statistical- or machine learning methods.
 
-We presents various models which are increasingly complex. Those models
+We present various models which are increasingly complex. Those models
 potentially gain forecasting power while losing interpretability. The
 applied models range from linear regressions to tree based methods like
 Random Forests and Boosting. The goal is to develop the best possible
-model to forecast wine sales in litre.
+model to forecast wine sales in litre. Although the main goal is an
+accurate forecast, some of the methods used in this paper can also be
+used to check whether there is an impact of expert reviews on the sales.
+This effect of expert opinion on consumer demand is a quite popular
+topic. E.g. {[}Textcite Hilger, Rafert, Villas Boas{]} use a field
+experiment to study a review-based demand effect using wine score labels
+in a retail grocery chain.
 
-The remainder of this paper is strctures as followes. Chapter 2 gives
-and overview about the dataset and the preprocessing. Chapter 3
-describes the validation approach. Chapter 4 presents the models and
-their specification. Chapter 5 provides the results, a conclusion and
-some ideas for future research.
+The remainder of this paper is structured as follows. Chapter 2 gives an
+overview about the dataset and the preprocessing. Chapter 3 describes
+the validation approach. Chapter 4 presents the models and their
+specification. Chapter 5 provides the results, a conclusion and some
+ideas for future research.
 
 \hypertarget{data-and-variables}{%
 \section{Data and Variables}\label{data-and-variables}}
 
 The datset contains 145179 observations with 59 variables. The variables
 include the name of the wine, the country of origin, its price, the
-amount sold per week in litre, the taste segment and variables releated
-to diffeerent reviews among others. We need to omit two variables
+amount sold per week in litre, the taste segment and variables related
+to different reviews among others. We need to omit two variables
 beforehand, namely \enquote{time\_segm\_price} and \enquote{artikpr},
 because those are combinations of other existing variables. Hence
-inclusion would lead to the problem of multicollinearity in some models.
-After omitting those two we have left the following types of variables:
+inclusion would lead to the problem of multicollinearity. After omitting
+those two we have left the following types of variables:
 
 \begin{longtable}[]{@{}rrrr@{}}
 \toprule
@@ -254,18 +300,33 @@ Date & factor & logical & numeric\tabularnewline
 Figure 1 depicts the amount of missing values in each variable. The
 number of complete cases would be zero without further selection.
 Therefore we exclude every variable with a ratio of missing values that
-exceeds \(50\%\). In consequence 41416 Observations with 45 Variables
+exceeds \(50\%\). In consequence 41416 observations with 45 variables
 are used for building the forecasting models.
 
 \includegraphics{../00_data/output_paper/02_missings.pdf}
 
+Figure XY depicts the distribution of the litre variable which is the
+dependend variable in our models. One can see that the observations are
+heavily skewed. The Maximum is at \(184200\) litres sold weekly while
+it's minimum is near zero with only \(0.75\) litres sold per week.
+
+\includegraphics{../00_data/output_paper/04_hist_litre.pdf}
+
 \hypertarget{validation-approach}{%
 \section{Validation Approach}\label{validation-approach}}
 
-Here we go describing our approach to evaluate overall model performance
-and tune parameters. =\textgreater{} CV and loops for
-hyperparameters\ldots{} We should make it very clear that every rmse
-that is presented is the results of a 5 fold cross validation!
+Sampling may influence the model selection process because a sample
+could be in favor of one specific method while another sample could lead
+to different results. Therefore we validate the results of each method
+using a 5-fold cross-validation. This reduces the influence of sampling
+when building a training and test set while it's computationally
+feasible.
+
+In order to compute a prediction it's necessary that the test set
+includes, at least all, features of the training set. Due to the high
+number of levels in the countries and name variable this was not always
+the case. Therefore we are using only the intersection of training and
+test features to be included in the estimation.
 
 \hypertarget{analysis}{%
 \section{Analysis}\label{analysis}}
@@ -274,43 +335,36 @@ that is presented is the results of a 5 fold cross validation!
 \subsection{Mean Regression and Linear
 Regression}\label{mean-regression-and-linear-regression}}
 
-At first a mean regression and a linear regression are calculated and
-used as a baseline for further methods. For comparison of the different
+At first a mean regression and a linear regression are calculated. Those
+models are representing the baseline. For comparison of the different
 models, the Root Mean Sqaured Error (RMSE)
 \[\sqrt{\frac{1}{n}\sum_{i = 1}^{n}\left(y_i-\hat{y}_i\right)^2}\] is
 calculated.
 
-\begin{figure}
-\centering
-\includegraphics{term_paper_files/figure-latex/Mean Regression-1.pdf}
-\caption{Residuals of the Mean Regression.}
-\end{figure}
-
-\begin{verbatim}
-##        mod    rmse
-## 1     Mean 2193578
-## 2 Basic_lm      NA
-\end{verbatim}
-
-\begin{figure}
-\centering
-\includegraphics{term_paper_files/figure-latex/ResPlotMR-1.pdf}
-\caption{Histogram and Density of the Residuals of the Mean Regression.}
-\end{figure}
-
-\hypertarget{subset-selection}{%
-\subsection{Subset Selection}\label{subset-selection}}
-
-\hypertarget{forward-stepwise-selection}{%
-\subsubsection{Forward Stepwise
-Selection}\label{forward-stepwise-selection}}
-
-\hypertarget{backward-stepwise-selection}{%
-\subsubsection{Backward Stepwise
-Selection}\label{backward-stepwise-selection}}
+The mean regression yields an average RMSE of \(\approx 13340\) litre
+sold per week. The linear regression where all variables are included
+yields an average RMSE of \(\approx 5572\). The latter results is
+probably influenced by overfitting. To cope with this problem we are
+using variable selection and dimension reduction methods which are
+discussed in the proceeding sections.
 
 \hypertarget{lasso}{%
 \subsection{Lasso}\label{lasso}}
+
+The Least Absolute Shrinkage and Selection Operator (Lasso) is a method
+combining shrinkage of the coefficent estimates as well as variable
+selection. Basically it fits a linear model but is constrained by a
+penalty term, i.e.~the lasso coefficients minimize
+
+\[
+\sum_{i=1}^{n}(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij})+\lambda\sum_{j=1}^{p}|\beta_j|.
+\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{load}\NormalTok{(}\StringTok{"../02\_analysis/cv/lasso/models\_df\_20190816\_1222\_1.rda"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{pls-and-pcr}{%
 \subsection{PLS and PCR}\label{pls-and-pcr}}
@@ -318,9 +372,18 @@ Selection}\label{backward-stepwise-selection}}
 \hypertarget{splines}{%
 \subsection{Splines}\label{splines}}
 
-\hypertarget{regression-trees-and-random-forests}{%
-\subsection{Regression Trees and Random
-Forests}\label{regression-trees-and-random-forests}}
+\hypertarget{decision-tree-methods}{%
+\subsection{Decision tree methods}\label{decision-tree-methods}}
+
+Tree-based methods utilze decision rules to split the feature space into
+a number of different regions. ``Since the set of splitting rules used
+to segment the predictor space can be summarized in a tree, these type
+of approaches are known as decision tree methods'' {[}Textcite Hastie,
+p.~303{]}. The base of tree-based methods are regression trees For
+improvement of the predictive power of these methods, while losing
+interpretability, one can combine different regression trees for a
+single prediction. Those approaches, including bagging, random forests
+and boosting, are described in more detail when being applied.
 
 \hypertarget{regression-tree}{%
 \subsubsection{Regression Tree}\label{regression-tree}}

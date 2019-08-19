@@ -101,3 +101,16 @@ for(i in 1:(length(files)-1)){
   models <- models %>% full_join(models_[[i+1]], by = "mod") %>% drop_na()
 }
 models$Mean <- rowMeans(models[,-1])
+
+### Summary Baseline Models
+
+files <- dir(recursive = T, path = "02_analysis/cv/baseline")
+df <- data.frame(RMSE_Lin = rep(NA,5), RMSE_mean = rep(NA,5))
+for(i in seq_along(files)){
+  load(file = paste("02_analysis/cv/baseline/", files[i], sep = ""))
+  df$RMSE_Lin[i] <- rmse_lin_reg
+  df$RMSE_mean[i] <- rmse_mean_reg
+}
+
+save(file = "00_data/output_paper/03_baseline.rda", df)
+
