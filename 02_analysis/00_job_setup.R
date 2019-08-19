@@ -139,12 +139,15 @@ files <- dir(path = "02_analysis/cv/pcr_pls")
 
 bestlam_mod <- list()
 lasso_flexlam <- list()
-df <- data.frame(RMSE_pcr = rep(NA,5), RMSE_pls = rep(NA,5))
+df <- data.frame(RMSE_pcr = rep(NA,5), RMSE_pls = rep(NA,5),
+                 ncomp_pls = rep(NA,5), ncomp_pcr = rep(NA,5))
 
 for(i in 1:(length(files))){
   load(file = paste("02_analysis/cv/pcr_pls/", files[i], sep = ""))
   df$RMSE_pcr[i] <- rmse_pcr
   df$RMSE_pls[i] <- rmse_pls
+  df$ncomp_pls[i] <- n_comp_pls
+  df$ncomp_pcr[i] <- n_comp_pcr
 }
 
 colMeans(df)

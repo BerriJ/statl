@@ -170,12 +170,11 @@ While lasso is a technique for variable selection, PCR and PLS are methods that 
 Figure XY shows the first two principal components from a principal components analysis. The first principal components represent roughly 3\% of the total variance. This is a sign that the PCA doesn't work well in our data which is due to the large amount of dummy variables. 
 
 ```{r, echo = FALSE}
+
 knitr::include_graphics("../00_data/output_paper/07_pca.png")
 ```
 
-<!---
-In principle, PLS should perform better because it takes the variance in the response variable into account when computing the new feature set.
--->
+
 
 
 ## Splines
