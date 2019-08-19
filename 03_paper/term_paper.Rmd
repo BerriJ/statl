@@ -141,10 +141,6 @@ The mean regression yields an average RMSE of $\approx `r paste(colMeans(df)[2] 
 # lines(density(na.omit(residuals)), col = "deeppink", lwd = 2)
 ```
 
-```{r}
-
-```
-
 ## Lasso
 
 The Least Absolute Shrinkage and Selection Operator (Lasso) is a method combining shrinkage of the coefficent estimates as well as variable selection. Basically it fits a linear model but is constrained by a penalty term, i.e. the lasso coefficients minimize

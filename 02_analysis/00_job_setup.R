@@ -90,17 +90,6 @@ for(i in 1:5){
   #                          importEnv = T)
 }
 
-files <- dir(recursive = T, path = "02_analysis/cv")
-models_ <- list()
-for(i in files){
-  load(file = paste("02_analysis/cv/", i, sep = ""))
-  models_[[i]] <- models
-}
-models <- models_[[1]]
-for(i in 1:(length(files)-1)){
-  models <- models %>% full_join(models_[[i+1]], by = "mod") %>% drop_na()
-}
-models$Mean <- rowMeans(models[,-1])
 
 ### Summary Baseline Models
 
@@ -110,6 +99,24 @@ for(i in seq_along(files)){
   load(file = paste("02_analysis/cv/baseline/", files[i], sep = ""))
   df$RMSE_Lin[i] <- rmse_lin_reg
   df$RMSE_mean[i] <- rmse_mean_reg
+}
+
+save(file = "00_data/output_paper/03_baseline.rda", df)
+
+### Summary Lasso Model
+
+files <- dir(recursive = T, path = "02_analysis/cv/lasso")
+
+bestlam_mod <- list()
+lasso_flexlam <- list()
+df <- data.frame(RMSE_Lasso = rep(NA,5), RMSE_lasso_log = rep(NA,5))
+
+for(i in seq_along(files)){
+  load(file = paste("02_analysis/cv/lasso/", files[i], sep = ""))
+  bestlam_mod[[i]] <- lasso.mod
+  lasso_flexlam[[i]] <- mod
+  df$RMSE_Lasso[i] <- rmse_lasso
+  df$RMSE_lasso_log[i] <- rmse_lasso_log
 }
 
 save(file = "00_data/output_paper/03_baseline.rda", df)

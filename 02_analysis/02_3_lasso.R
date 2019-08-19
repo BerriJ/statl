@@ -29,14 +29,6 @@ rmse_lasso_log <- mean((y.test - pred)^2) %>% sqrt()
 
 dir.create("02_analysis/cv/lasso/", recursive = T, showWarnings = F)
 save(file = paste("02_analysis/cv/lasso/models_df_",unique_identifier,".rda", sep = ""),
-     lasso.mod, mod, rmse_lasso, rmse_lasso_log)
+     lasso.mod, mod, rmse_lasso, rmse_lasso_log, bestlam)
 
 
-
-# test <- lasso.mod$beta[,1]
-# df <- data.frame(coef = names(test), beta = round(test))
-# df$coef %in% names(notdummy)
-# 
-# # The following shows the notdummys that are included in lasso with their coefficients
-# 
-# df[df$coef %in% names(notdummy),] %>% arrange(beta)
