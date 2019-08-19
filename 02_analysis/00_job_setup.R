@@ -1,32 +1,34 @@
-rm(list = ls())
-load("00_data/wine_preprocessed.rda")
-# Remove variables with average na >= 50%
-wine <- wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) < 0.50) %>% 
-  # Only keep complete cases
-  drop_na() %>% 
-  # Drop llitre because we are using litre
-  dplyr::select(-llitre) %>%
-  # Remove unused levels from factor variables
-  droplevels()
+# rm(list = ls())
+# load("00_data/wine_preprocessed.rda")
+# # Remove variables with average na >= 50%
+# wine <- wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) < 0.50) %>% 
+#   # Only keep complete cases
+#   drop_na() %>% 
+#   # Drop llitre because we are using litre
+#   dplyr::select(-llitre) %>%
+#   # Remove unused levels from factor variables
+#   droplevels()
+# 
+# # Create Training and Test Datasets
+# index <- data.frame(index = 1:nrow(wine), obs = 1:nrow(wine))
+# sets <- list()
+# 
+# for(i in 1:5){
+#   sets[[i]] <- sample(na.omit(index$obs), size = (floor(nrow(wine)/5)), replace = F)
+#   index[sets[[i]],2] <- NA 
+# }
+# 
+# train_list <- list()
+# test_list <- list()
+# 
+# for(i in 1:5){
+#   train_list[[i]] <- wine[sets[setdiff(c(1,2,3,4,5), c(i))] %>% unlist(),]
+#   test_list[[i]] <- wine[sets[i] %>% unlist(),]
+# }
+# 
+# rm(i, index, sets)
 
-# Create Training and Test Datasets
-index <- data.frame(index = 1:nrow(wine), obs = 1:nrow(wine))
-sets <- list()
-
-for(i in 1:5){
-  sets[[i]] <- sample(na.omit(index$obs), size = (floor(nrow(wine)/5)), replace = F)
-  index[sets[[i]],2] <- NA 
-}
-
-train_list <- list()
-test_list <- list()
-
-for(i in 1:5){
-  train_list[[i]] <- wine[sets[setdiff(c(1,2,3,4,5), c(i))] %>% unlist(),]
-  test_list[[i]] <- wine[sets[i] %>% unlist(),]
-}
-
-rm(i, index, sets)
+load("02_analysis/cv_env.rda")
 
 for(i in 1:5){
   
