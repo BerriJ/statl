@@ -323,23 +323,37 @@ i.e.~the lasso coefficients minimize:
 
 Figure XY depicts the relation between lambda and the coefficients. The
 crossvalidated log lambda, which minimizes the test error is
-\(\approx 5812.24\). At that level a total of \(\approx 666.6\) out of
-\(713\) coefficients are nonzero. The other coefficients are exactly
-zero due to the sparsitiy property of the lasso estimator. Furthermore,
-the plot includes abbreviated variable names of the 10 biggest
-coefficients. All of those coefficients are dummys for specific wine
-names. The average RMSE of the lasso approach is \(\approx 5547.76\).
-This is a slight improvement above the linear baseline model. The lasso
-does not significantly reduce the feature set. It shows, that the name
-variable is the most important explaining the sold litre per week,
-followed by the Vintage, the Region, the taste segment and the Country
-of the wine. The least influence important variables are the review
+\(\approx -8.94\). At that level a total of \(\approx 666\) out of
+\(713\) coefficients are
+nonzero\footnote{$\approx 666.6$ to be exact, but we couldn't resists to round down.}.
+The other coefficients are exactly zero due to the sparsitiy property of
+the lasso estimator. Furthermore, the plot includes abbreviated variable
+names of the 10 biggest coefficients. All of those coefficients are
+dummys for specif*ic wine names. The average RMSE of the lasso approach
+is \(\approx 5547.76\). This is a slight improvement above the linear
+baseline model. The lasso slightly reduce the feature set while also
+reducing the RMSE. This is evidence which supports our prior assimption
+that the linear model was exposed to the problem of overfitting.
+Furthermore, the coefficients of the lasso model show that the name
+variable is the most important variable to explain the sold litre per
+week. It is followed by the Vintage, the Region, the taste segment and
+the Country of the wine. The least important variables are the review
 variables which are not present in the 400 biggest coefficients.
 
 \includegraphics{../00_data/output_paper/06_lasso_vars.pdf}
 
-\hypertarget{pls-and-pcr}{%
-\subsection{PLS and PCR}\label{pls-and-pcr}}
+\hypertarget{pcr-and-pls}{%
+\subsection{PCR and PLS}\label{pcr-and-pls}}
+
+While lasso is a technique for variable selection, PCR and PLS are
+methods that reduce the dimension of the feature set. Thus, the least
+squares estimation is performed using a transformation of the
+explanatory variables.
+
+Figure XY shows the first two principal components from a principal
+components analysis. While it's possible to see that the taste\_segment
+
+\includegraphics{../00_data/output_paper/07_pca.png}
 
 \hypertarget{splines}{%
 \subsection{Splines}\label{splines}}

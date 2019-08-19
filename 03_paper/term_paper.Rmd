@@ -154,15 +154,29 @@ $$
 \sum_{i=1}^{n}(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij})+\lambda\sum_{j=1}^{p}|\beta_j|.
 $$
 
-Figure XY depicts the relation between lambda and the coefficients. The crossvalidated log lambda, which minimizes the test error is $\approx `r df[2]`$. At that level a total of $\approx `r df[4]`$ out of $713$ coefficients are nonzero. The other coefficients are exactly zero due to the sparsitiy property of the lasso estimator. Furthermore, the plot includes abbreviated variable names of the 10 biggest coefficients. All of those coefficients are dummys for specific wine names.
+Figure XY depicts the relation between lambda and the coefficients. The crossvalidated log lambda, which minimizes the test error is $\approx `r df[3]`$. At that level a total of $\approx `r floor(df[4])`$ out of $713$ coefficients are nonzero\footnote{$\approx `r df[4]`$ to be exact, but we couldn't resists to round down.}. The other coefficients are exactly zero due to the sparsitiy property of the lasso estimator. Furthermore, the plot includes abbreviated variable names of the 10 biggest coefficients. All of those coefficients are dummys for specif*ic wine names.
 The average RMSE of the lasso approach is $\approx `r df[1]`$. This is a slight improvement above the linear baseline model.
-The lasso does not significantly reduce the feature set. It shows, that the name variable is the most important explaining the sold litre per week, followed by the Vintage, the Region, the taste segment and the Country of the wine. The least influence important variables are the review variables which are not present in the 400 biggest coefficients. 
+The lasso slightly reduce the feature set while also reducing the RMSE. This is evidence which supports our prior assimption that the linear model was exposed to the problem of overfitting.
+Furthermore, the coefficients of the lasso model show that the name variable is the most important variable to explain the sold litre per week. It is followed by the Vintage, the Region, the taste segment and the Country of the wine. The least important variables are the review variables which are not present in the 400 biggest coefficients. 
 
 ```{r, echo = FALSE}
 knitr::include_graphics("../00_data/output_paper/06_lasso_vars.pdf")
 ```
 
-## PLS and PCR
+## PCR and PLS
+
+While lasso is a technique for variable selection, PCR and PLS are methods that reduce the dimension of the feature set. Thus, the least squares estimation is performed using a transformation of the explanatory variables.
+
+Figure XY shows the first two principal components from a principal components analysis. The first principal components represent roughly 3\% of the total variance. This is a sign that the PCA doesn't work well in our data which is due to the large amount of dummy variables. 
+
+```{r, echo = FALSE}
+knitr::include_graphics("../00_data/output_paper/07_pca.png")
+```
+
+<!---
+In principle, PLS should perform better because it takes the variance in the response variable into account when computing the new feature set.
+-->
+
 
 ## Splines
 
@@ -178,7 +192,6 @@ For growing a regression tree `The algorithm needs to automatically decide on th
 ```{r tree}
 
 ```
-
 
 As regression trees may tend to grow quite large, a possible way to get smaller trees is pruning back the grown larger tree. The goal of pruning is `to select a subtree that leads to the lowest test error rate [which] we can estimate [...] using cross-validation or the validation set approach' [@James2014, p. 308].
 
