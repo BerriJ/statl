@@ -87,7 +87,7 @@ knitr::kable(t(typeof_vec))
 Figure 1 depicts the amount of missing values in each variable. The number of complete cases would be zero without further selection. Therefore we exclude every variable with a ratio of missing values that exceeds $50\%$. In consequence 41416 observations with 45 variables are used for building the forecasting models.
 
 ```{r, echo=F}
-knitr::include_graphics("../00_data/output_paper/02_missings.pdf")
+knitr::include_graphics("../00_data/output_paper/02_missings_alt.pdf")
 ```
 
 Figure XY depicts the distribution of the litre variable which is the dependend variable in our models. One can see that the observations are heavily skewed. The Maximum is at $184200$ litres sold weekly while it's minimum is near zero with only $0.75$ litres sold per week.

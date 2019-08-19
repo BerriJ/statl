@@ -25,6 +25,18 @@ missings <- ggplot(df, aes(x = Var, y = NA_Ratio, col = Type)) +
 
 # ggsave("00_data/output_paper/02_missings.pdf",plot =  missings, width = 7, height = 3)
 
+missings <- wine %>% 
+  inspectdf::inspect_na() %>% 
+  inspectdf::show_plot() + 
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1,
+                                   vjust=0.5), legend.position="top") + 
+  ylab("Share of NA's (Percent)") + 
+  xlab("Variable") + ggtitle("", subtitle = "")
+
+# ggsave("00_data/output_paper/02_missings_alt.pdf",plot =  missings, width = 7, height = 3)
+
+
 # We have identified some variables which have massive amounts of missing values
 # Proposal: Remove all variables with average missing above a cutoff
 
