@@ -213,12 +213,3 @@ rf_plot <- plot_ly(x = rf_df$mtry, y = rf_df$trees, z = rf_df$mean,
 orca(rf_plot, file = "00_data/output_paper/10_rf_plot.svg")
 
 ### Trees
-
-files <- dir(path = "02_analysis/cv/rpart")
-rparts <- list()
-
-for(i in 1:(length(files))){
-  load(file = paste("02_analysis/cv/rpart/", files[i], sep = ""))
-  rparts[[i]] <- rpa
-  rpart.plot(rparts[[i]], roundint = F)
-}

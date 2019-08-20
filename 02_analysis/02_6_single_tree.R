@@ -31,6 +31,13 @@ print("Packages loaded")
 
 rpa <- rpart(y.train ~., data = data.frame(train_df)) 
 
-dir.create("02_analysis/cv/tree/", recursive = T, showWarnings = F)
-save(file = paste("02_analysis/cv/tree/rpart_",unique_identifier,".rda", sep = ""),
+# Open a pdf file
+pdf(paste("02_analysis/cv/rpart/tree_plot_",unique_identifier,".pdf", sep = ""), width = 7, height = 4) 
+# 2. Create a plot
+rpart.plot(rpa, roundint = F)
+# Close the pdf file
+dev.off() 
+
+dir.create("02_analysis/cv/rpart/", recursive = T, showWarnings = F)
+save(file = paste("02_analysis/cv/rpart/rpart_",unique_identifier,".rda", sep = ""),
      rpa)
