@@ -183,7 +183,11 @@ The results confirms the expectation. PCR has a cross validated RMSE of $\approx
 
 ## Splines
 
-
+The previous methods assumed linear relationships between the independend variables and the dependend variable. Considering the amount of dummy variables in the featureset the usage of nonlinear methods is quite limited. 
+However, to recognize potential nonlinear relationships we add natural splines to the $year$, $price$, and $rprice_litre$ variable. Thos variables indicate the year in which the wine was distributed, the price and the real price with Jan 2004 as base respectively. Each natural spline was allowed to have up to 20 knots which is sufficient to estimate complex linear relationships.
+The respective RMSE's depending on the knots are presented in Figure XY.
+Splines are able to improve the prediction a little which indicates that at least some nonlinear relationship is present. However, like the methods before, splines reduce the interpretability of the coefficients. In this case, this tradeoff isn't offset enough by the gain in precision.
+Furthermore, Figure XY shows, that the RMSE's depend to some extend on the Fold which was used for Crossvalidation. This approves our theoretically founded motivation to use crossvalidation.
 
 ```{r, echo = FALSE}
 knitr::include_graphics("../00_data/output_paper/08_splines.pdf")
