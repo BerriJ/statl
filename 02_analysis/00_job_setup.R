@@ -180,15 +180,5 @@ ggsave(filename = "00_data/output_paper/08_splines.pdf", plot =  splines_plot, w
 
 
 
-### Trees
-
-files <- dir(path = "02_analysis/cv/rpart")
-rparts <- list()
-
-for(i in 1:(length(files))){
-  load(file = paste("02_analysis/cv/rpart/", files[i], sep = ""))
-  rparts[[i]] <- rpa
-  rpart.plot(rparts[[i]], roundint = F)
-}
 
 
