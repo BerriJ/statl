@@ -61,9 +61,9 @@ for(i in 1:5){
   #                          importEnv = T)
   #
   # # PCR and PLS 
-  rstudioapi::jobRunScript("02_analysis/02_4_pcr_pls.R",
-                           workingDir = "../statl",
-                           importEnv = T)
+  # rstudioapi::jobRunScript("02_analysis/02_4_pcr_pls.R",
+  #                          workingDir = "../statl",
+  #                          importEnv = T)
   # 
   # Splines
   # rstudioapi::jobRunScript("02_analysis/02_5_splines.R",
@@ -152,6 +152,8 @@ for(i in 1:(length(files))){
 
 colMeans(df)
 
+save(file = "00_data/output_paper/07_pca_pls.rda", df)
+
 ### Summary Splines
 
 files <- dir(path = "02_analysis/cv/splines")
@@ -163,6 +165,15 @@ for(i in 1:(length(files))){
   df[i,] <- rmse_splines
 }
 
-colMeans(df)
+df_splines <- data.frame(knots = 1:20, t(df), average = colMeans(df)) %>% 
+  gather(key = var, value = RMSE, -knots)
 
-plot(1:20, colMeans(df))
+splines_plot <- ggplot(df_try, aes(x = knots, y = RMSE)) + 
+  geom_line(aes(color = var), size = 1) +
+  theme_minimal() +
+  xlab("Knots") + ylab("RMSE in Litre") +
+  scale_color_manual(values = c("grey20", "grey", "grey", "grey", "grey", "grey"),
+                     labels = c("Average", paste("Fold", 1:5))) +
+  labs(col = "Legend:") 
+
+ggsave(filename = "00_data/output_paper/08_splines.pdf", plot =  splines_plot, width = 7, height = 3)

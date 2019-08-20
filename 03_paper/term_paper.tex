@@ -348,17 +348,29 @@ variables which are not present in the 400 biggest coefficients.
 While lasso is a technique for variable selection, PCR and PLS are
 methods that reduce the dimension of the feature set. Thus, the least
 squares estimation is performed using a transformation of the
-explanatory variables.
+explanatory variables. Thereby, PLS includes the dependend variable when
+computing the new feature set while PCR builds the principal components
+independend of the dependend variable.
 
 Figure XY shows the first two principal components from a principal
-components analysis. The first principal components represent roughly
-3\% of the total variance. This is a sign that the PCA doesn't work well
-in our data which is due to the large amount of dummy variables.
+components analysis. The first two principal components represent
+roughly 3\% of the total variance. This is a sign that the PCA doesn't
+work well in our data which is might be due to the large amount of dummy
+variables.
 
 \includegraphics{../00_data/output_paper/07_pca.png}
 
+The results confirms the expectation. PCR has a cross validated RMSE of
+\(\approx 5546.05\) while PLS leads to an RMSE of \(\approx 6201.15\).
+While \(\approx 635\) principal component where included in the PCR,
+only \(\approx 35.2\) components where used in the PLS. Thus PLS
+significantly reduced the dimension of the featureset. While sacrificing
+interpretability of the results, it leads to a higher RMSE.
+
 \hypertarget{splines}{%
 \subsection{Splines}\label{splines}}
+
+\includegraphics{../00_data/output_paper/08_splines.pdf}
 
 \hypertarget{decision-tree-methods}{%
 \subsection{Decision tree methods}\label{decision-tree-methods}}
@@ -377,8 +389,8 @@ and boosting, are described in more detail when being applied.
 \subsubsection{Regression Tree}\label{regression-tree}}
 
 For growing a regression tree `The algorithm needs to automatically
-decide on the splitting variables and split points {[}\ldots{}{]} the
-tree should have'\autocite[p.349]{Hastie2013}. The tree is grown when a
+decide on the splitting variables and split points {[}\ldots{]} the tree
+should have'\autocite[p.349]{Hastie2013}. The tree is grown when a
 splitting is found that minimizes the sum of squared residuals. The
 splitting is done with a greedy algorithm, i.e., at first all the data
 is split into just two groups while the search of the splitting variable
@@ -390,7 +402,7 @@ large enough that the nodes reach a set minimum size.
 As regression trees may tend to grow quite large, a possible way to get
 smaller trees is pruning back the grown larger tree. The goal of pruning
 is `to select a subtree that leads to the lowest test error rate
-{[}which{]} we can estimate {[}\ldots{}{]} using cross-validation or the
+{[}which{]} we can estimate {[}\ldots{]} using cross-validation or the
 validation set approach' \autocite[p.~308]{James2014}.
 
 \hypertarget{random-forest}{%
