@@ -198,8 +198,8 @@ For improvement of the predictive power of these methods, while losing interpret
 
 For growing a regression tree `The algorithm needs to automatically decide on the splitting variables and split points [...] <!--- , and also what topology (shape)---> the tree should have'[@Hastie2013, p.349]. The tree is grown when a splitting is found that minimizes the sum of squared residuals. The splitting is done with a greedy algorithm, i.e., at first all the data is split into just two groups while the search of the splitting variable and split point includes all possible variables and points [cf. @Hastie2013, p.349]. After the data is split this process is repeated for the now obtained two splitted regions until the tree is large enough that the nodes reach a set minimum size.
 
-```{r tree}
-
+```{r tree, echo = FALSE, fig.cap = "Example of a Regression Tree."}
+knitr::include_graphics("../00_data/output_paper/09_tree.pdf")
 ```
 
 As regression trees may tend to grow quite large, a possible way to get smaller trees is pruning back the grown larger tree. The goal of pruning is `to select a subtree that leads to the lowest test error rate [which] we can estimate [...] using cross-validation or the validation set approach' [@James2014, p. 308].
