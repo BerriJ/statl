@@ -200,16 +200,17 @@ rf_plot <- plot_ly(x = rf_df$mtry, y = rf_df$trees, z = rf_df$mean,
         type="scatter3d",
         mode = "markers",
         marker = list(color = rf_df$mean,
-                      colorscale = list(c(0, 1), c('0f8000', 'bf0000')),
+                      colorscale = list(c(0, 1), c('25c900', 'bf0000')),
                       showscale = TRUE,
-                      line = list(width = 0)),
-        size = 4) %>% layout(
+                      line = list(width = 0), size = 6)) %>% layout(
           title = "",
           scene = list(
             xaxis = list(title = "Vars per Split"),
-            yaxis = list(title = "Numer of Trees"),
+            yaxis = list(title = "Trees"),
             zaxis = list(title = "RMSE")
           ))
+
+orca(rf_plot, file = "00_data/output_paper/10_rf_plot.svg")
 
 ### Trees
 
