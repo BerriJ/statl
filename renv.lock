@@ -378,6 +378,18 @@ RemoteRef=master
 RemoteSha=7325e880485bea4c07465a0304c470608fffb5d9
 Hash=7af2a0ba2cce552dc839db76cbf2998f
 
+[R/Package/ggfittext]
+Package=ggfittext
+Version=0.8.1
+Source=CRAN
+Hash=efa792c5f60f15ae77d5cd7654b47fe8
+
+[R/Package/ggfortify]
+Package=ggfortify
+Version=0.4.7
+Source=CRAN
+Hash=3bd29d6175356e8d0ea0c67b77677dad
+
 [R/Package/ggplot2]
 Package=ggplot2
 Version=3.2.0
@@ -443,6 +455,12 @@ Package=httr
 Version=1.4.0
 Source=CRAN
 Hash=ac878be52f9a4a40236b4a6102c473e6
+
+[R/Package/inspectdf]
+Package=inspectdf
+Version=0.0.4
+Source=CRAN
+Hash=d34cd4631ed1af889b3f32b01c1d1a7a
 
 [R/Package/ipred]
 Package=ipred
@@ -887,6 +905,12 @@ Package=selectr
 Version=0.4-1
 Source=CRAN
 Hash=1fb5dfb3e338005d14339d1f89fbc15c
+
+[R/Package/shades]
+Package=shades
+Version=1.4.0
+Source=CRAN
+Hash=c06955ce17ab7fc4e5757de9f9f79698
 
 [R/Package/sp]
 Package=sp

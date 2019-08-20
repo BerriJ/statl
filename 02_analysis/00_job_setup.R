@@ -151,3 +151,18 @@ for(i in 1:(length(files))){
 }
 
 colMeans(df)
+
+### Summary Splines
+
+files <- dir(path = "02_analysis/cv/splines")
+
+df <- data.frame(matrix(ncol = 20, nrow = 5))
+
+for(i in 1:(length(files))){
+  load(file = paste("02_analysis/cv/splines/", files[i], sep = ""))
+  df[i,] <- rmse_splines
+}
+
+colMeans(df)
+
+plot(1:20, colMeans(df))
