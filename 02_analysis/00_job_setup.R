@@ -210,6 +210,6 @@ rf_plot <- plot_ly(x = rf_df$mtry, y = rf_df$trees, z = rf_df$mean,
             zaxis = list(title = "RMSE")
           ))
 
-orca(rf_plot, file = "00_data/output_paper/10_rf_plot.svg")
+orca(rf_plot, file = "00_data/output_paper/10_rf_plot.png")
 
 ### Trees
