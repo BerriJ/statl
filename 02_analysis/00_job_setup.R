@@ -1,31 +1,31 @@
 # rm(list = ls())
 # load("00_data/wine_preprocessed.rda")
 # # Remove variables with average na >= 50%
-# wine <- wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) < 0.50) %>% 
+# wine <- wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) < 0.50) %>%
 #   # Only keep complete cases
-#   drop_na() %>% 
+#   drop_na() %>%
 #   # Drop llitre because we are using litre
 #   dplyr::select(-llitre) %>%
 #   # Remove unused levels from factor variables
 #   droplevels()
-# 
+#
 # # Create Training and Test Datasets
 # index <- data.frame(index = 1:nrow(wine), obs = 1:nrow(wine))
 # sets <- list()
-# 
+#
 # for(i in 1:5){
 #   sets[[i]] <- sample(na.omit(index$obs), size = (floor(nrow(wine)/5)), replace = F)
-#   index[sets[[i]],2] <- NA 
+#   index[sets[[i]],2] <- NA
 # }
-# 
+#
 # train_list <- list()
 # test_list <- list()
-# 
+#
 # for(i in 1:5){
 #   train_list[[i]] <- wine[sets[setdiff(c(1,2,3,4,5), c(i))] %>% unlist(),]
 #   test_list[[i]] <- wine[sets[i] %>% unlist(),]
 # }
-# 
+#
 # rm(i, index, sets)
 
 load("02_analysis/cv_env.rda")
@@ -34,7 +34,7 @@ for(i in 1:5){
   # Create an Identifier for every iteration
   unique_identifier <- Sys.time() %>% as.character(format = "%Y%m%d_%H%M")
   unique_identifier <- paste(unique_identifier,i, sep = "_")
-  
+
   # Assign training and test data
   wine_train <- train_list[[i]]
   wine_test <- test_list[[i]]
@@ -47,44 +47,44 @@ for(i in 1:5){
   x.test <- x.test[, intsct]
   train_df <- cbind(y.train, x.train) %>% as.data.frame()
   test_df <- cbind(y.test, x.test) %>% as.data.frame()
-  
+
   # Run the models
-  
-  # # Mean Regression and Linear Regression 
+
+  # # Mean Regression and Linear Regression
   # rstudioapi::jobRunScript("02_analysis/02_2_mean_and_lin_reg.R",
   #                          workingDir = "../statl",
   #                          importEnv = T)
-  # 
+  #
   # Lasso
   # rstudioapi::jobRunScript("02_analysis/02_3_lasso.R",
   #                          workingDir = "../statl",
   #                          importEnv = T)
   #
-  # # PCR and PLS 
+  # # PCR and PLS
   # rstudioapi::jobRunScript("02_analysis/02_4_pcr_pls.R",
   #                          workingDir = "../statl",
   #                          importEnv = T)
-  # 
+  #
   # Splines
   # rstudioapi::jobRunScript("02_analysis/02_5_splines.R",
   #                          workingDir = "../statl",
   #                          importEnv = T)
-  # 
+  #
   # Single Tree
   # rstudioapi::jobRunScript("02_analysis/02_6_single_tree.R",
   #                          workingDir = "../statl",
   #                          importEnv = T)
-  # 
+  #
   # Bagging
   # rstudioapi::jobRunScript("02_analysis/02_1_Bagging.R",
   #                          workingDir = "../statl",
   #                          importEnv = T)
-  # 
+  #
   # # Random Forest
   # rstudioapi::jobRunScript("02_analysis/02_7_random_forest.R",
   #                          workingDir = "../statl",
   #                          importEnv = T)
-  # 
+  #
   # Boosting
   # rstudioapi::jobRunScript("02_analysis/02_7_boosting.R",
   #                          workingDir = "../statl",
@@ -165,20 +165,18 @@ for(i in 1:(length(files))){
   df[i,] <- rmse_splines
 }
 
-df_splines <- data.frame(knots = 1:20, t(df), average = colMeans(df)) %>% 
+df_splines <- data.frame(knots = 1:20, t(df), average = colMeans(df)) %>%
   gather(key = var, value = RMSE, -knots)
 
-splines_plot <- ggplot(df_try, aes(x = knots, y = RMSE)) + 
+splines_plot <- ggplot(df_try, aes(x = knots, y = RMSE)) +
   geom_line(aes(color = var), size = 1) +
   theme_minimal() +
   xlab("Knots") + ylab("RMSE in Litre") +
   scale_color_manual(values = c("grey20", "grey", "grey", "grey", "grey", "grey"),
                      labels = c("Average", paste("Fold", 1:5))) +
-  labs(col = "Legend:") 
+  labs(col = "Legend:")
 
 ggsave(filename = "00_data/output_paper/08_splines.pdf", plot =  splines_plot, width = 7, height = 3)
-
-
 ### Random Forest
 
 files <- dir(path = "02_analysis/cv/rf")
@@ -191,18 +189,18 @@ for(i in 1:(length(files))){
   colnames(df_rf_list[[i]]) <- c("mtry", "trees", paste("rmse_fold_",i, sep = ""))
 }
 
-rf_df <- purrr::reduce(df_rf_list, .f = full_join) %>% 
+rf_df <- purrr::reduce(df_rf_list, .f = full_join) %>%
   mutate(mean = rowMeans(.[3:7])) %>%
   arrange(desc(mean))
 
 
 library(plotly)
 
-rf_plot <- plot_ly(x = rf_df$mtry, y = rf_df$trees, z = rf_df$mean, 
+rf_plot <- plot_ly(x = rf_df$mtry, y = rf_df$trees, z = rf_df$mean,
         type="scatter3d",
         mode = "markers",
-        marker = list(color = rf_df$mean, 
-                      colorscale = list(c(0, 1), c('0f8000', 'bf0000')), 
+        marker = list(color = rf_df$mean,
+                      colorscale = list(c(0, 1), c('0f8000', 'bf0000')),
                       showscale = TRUE,
                       line = list(width = 0)),
         size = 4) %>% layout(
@@ -213,3 +211,13 @@ rf_plot <- plot_ly(x = rf_df$mtry, y = rf_df$trees, z = rf_df$mean,
             zaxis = list(title = "RMSE")
           ))
 
+### Trees
+
+files <- dir(path = "02_analysis/cv/rpart")
+rparts <- list()
+
+for(i in 1:(length(files))){
+  load(file = paste("02_analysis/cv/rpart/", files[i], sep = ""))
+  rparts[[i]] <- rpa
+  rpart.plot(rparts[[i]], roundint = F)
+}
