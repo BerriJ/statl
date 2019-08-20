@@ -177,3 +177,39 @@ splines_plot <- ggplot(df_try, aes(x = knots, y = RMSE)) +
   labs(col = "Legend:") 
 
 ggsave(filename = "00_data/output_paper/08_splines.pdf", plot =  splines_plot, width = 7, height = 3)
+
+
+### Random Forest
+
+files <- dir(path = "02_analysis/cv/rf")
+
+df_rf_list <- list()
+
+for(i in 1:(length(files))){
+  load(file = paste("02_analysis/cv/rf/", files[i], sep = ""))
+  df_rf_list[[i]] <- cbind(grid, rmse_RF)
+  colnames(df_rf_list[[i]]) <- c("mtry", "trees", paste("rmse_fold_",i, sep = ""))
+}
+
+rf_df <- purrr::reduce(df_rf_list, .f = full_join) %>% 
+  mutate(mean = rowMeans(.[3:7])) %>%
+  arrange(desc(mean))
+
+
+library(plotly)
+
+rf_plot <- plot_ly(x = rf_df$mtry, y = rf_df$trees, z = rf_df$mean, 
+        type="scatter3d",
+        mode = "markers",
+        marker = list(color = rf_df$mean, 
+                      colorscale = list(c(0, 1), c('0f8000', 'bf0000')), 
+                      showscale = TRUE,
+                      line = list(width = 0)),
+        size = 4) %>% layout(
+          title = "",
+          scene = list(
+            xaxis = list(title = "Vars per Split"),
+            yaxis = list(title = "Numer of Trees"),
+            zaxis = list(title = "RMSE")
+          ))
+
