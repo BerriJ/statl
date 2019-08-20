@@ -177,3 +177,18 @@ splines_plot <- ggplot(df_try, aes(x = knots, y = RMSE)) +
   labs(col = "Legend:") 
 
 ggsave(filename = "00_data/output_paper/08_splines.pdf", plot =  splines_plot, width = 7, height = 3)
+
+
+
+### Trees
+
+files <- dir(path = "02_analysis/cv/rpart")
+rparts <- list()
+
+for(i in 1:(length(files))){
+  load(file = paste("02_analysis/cv/rpart/", files[i], sep = ""))
+  rparts[[i]] <- rpa
+  rpart.plot(rparts[[i]], roundint = F)
+}
+
+
