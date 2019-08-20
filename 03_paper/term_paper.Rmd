@@ -209,7 +209,7 @@ As regression trees may tend to grow quite large, a possible way to get smaller 
 Random forests are in basic a combination of different regression trees. The name random forest arises from the fact that at each split of the tree a set number of randomly chosen variables are considered for the next splitting. This results in a different tree for each iteration off the random forest and thus by averaging leads to a lower variance <!--- in terms of forecasting error --> than the single trees. This is especially the case 
 
 ```{r, echo = FALSE}
-knitr::include_graphics("../00_data/output_paper/10_rf_plot.svg")
+knitr::include_graphics("../00_data/output_paper/10_rf_plot.pdf")
 ```
 
 ### Bagging
