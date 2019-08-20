@@ -206,6 +206,10 @@ For growing a regression tree `The algorithm needs to automatically decide on th
 knitr::include_graphics("../00_data/output_paper/09_tree.pdf")
 ```
 
+Figure XY shows that only a few of the available variables are used. These are namely $ms_segm$, $segmred$, $price$, and $period$ and split the dataset into $10$ parts, i.e. the tree has got $10$ terminal nodes. The figure does also tell us what share of the data can be sorted to each node, as well as the mean price of the allocated observations. [[[ The regression trees build in the other four folds of the cross-validation are almost exactly the same as the shown tree. ]]] The selected variables indicate that according to this method the market share, the color of the wine, the price as well as the period. Concerning the graph and the variable $segmred$ it is important to keep in mind that this is a dummy variable meaning that a value $< 0.5$ (the left track) stands for a wine that isn't red. Conversely the right track stands for red wines.
+
+The RMSE 
+
 As regression trees may tend to grow quite large, a possible way to get smaller trees is pruning back the grown larger tree. The goal of pruning is `to select a subtree that leads to the lowest test error rate [which] we can estimate [...] using cross-validation or the validation set approach' [@James2014, p. 308].
 
 ### Random Forest
