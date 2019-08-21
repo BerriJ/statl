@@ -164,7 +164,8 @@ The lasso slightly reduce the feature set while also reducing the RMSE. This is 
 Furthermore, the coefficients of the lasso model show that the name variable is the most important variable to explain the sold litre per week. It is followed by the Vintage, the Region, the taste segment and the Country of the wine. The least important variables are the review variables which are not present in the 400 biggest coefficients.
 
 ```{r, echo = FALSE, fig.cap= "Relation of Coefficients and Shrinkage"}
-knitr::include_graphics("../00_data/output_paper/06_lasso_vars.pdf")
+image_read("../00_data/output_paper/06_lasso_vars.png") %>%
+  crop(bottom = 50)
 ```
 
 ## PCR and PLS

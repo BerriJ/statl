@@ -19,7 +19,7 @@ rmse_lasso <- mean((y.test - pred)^2) %>% sqrt()
 
 dir.create("02_analysis/cv/lasso_plots/", recursive = T, showWarnings = F)
 # Open a pdf file
-pdf(paste("02_analysis/cv/lasso_plots/lasso_var_imp_",unique_identifier,".png", sep = ""), width = 7, height = 4) 
+png(paste("02_analysis/cv/lasso_plots/lasso_var_imp_",unique_identifier,".pdf", sep = ""), width = 7, height = 4) 
 # 2. Create a plot
 plotmo::plot_glmnet(mod)
 # Close the pdf file
