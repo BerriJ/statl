@@ -96,7 +96,7 @@ litre <- ggplot(wine) +
   xlab("Litre") + 
   ylab("Density") + theme_minimal()
 
-ggsave(filename = "00_data/output_paper/04_hist_litre.pdf", plot =  litre, width = 7, height = 3)
+ggsave(filename = "00_data/output_paper/04_hist_litre.pdf", plot =  litre, width = 7, height = 2)
 
 min(wine$litre)
 

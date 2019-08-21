@@ -105,6 +105,9 @@
 \usepackage[super]{nth}
 \usepackage[ngerman, english]{babel}
 
+% Multicols for the Title page
+\usepackage{multicol}
+
 \begin{document}
 
 \selectlanguage{english}
@@ -140,21 +143,9 @@
   \vspace{0.5cm}
   Jonathan Berrisch, Timo Rammert\\
   \end{center}
-  \vspace{4cm}
-
-  \noindent\begin{minipage}[t]{0.3\textwidth}
-  \IfLanguageName{english}{Matriculation Number}{Matrikelnummer}
-  \end{minipage}
-  \begin{minipage}[t]{0.7\textwidth}
-  \hspace{1cm}3071485 \textbar{} 3030862
-  \end{minipage}
-
-  \noindent\begin{minipage}[t]{0.3\textwidth}
-  \IfLanguageName{english}{Study Path:}{Studienfach:}
-  \end{minipage}
-  \begin{minipage}[t]{0.7\textwidth}
-  \hspace{1cm}VWL M.Sc.
-  \end{minipage}
+  %\vspace{2cm}
+  \vfill
+  \hrulefill
 
   \noindent\begin{minipage}[t]{0.3\textwidth}
   \IfLanguageName{english}{Reviewer:}{Erstgutachter:}
@@ -164,37 +155,62 @@
   \end{minipage}
 
   \noindent\begin{minipage}[t]{0.3\textwidth}
-  \IfLanguageName{english}{Secondary Reviewer:}{Zweitgutachter}
-  \end{minipage}
-  \begin{minipage}[t]{0.7\textwidth}
-  \hspace{1cm}NA
-  \end{minipage}
-
-  \noindent\begin{minipage}[t]{0.3\textwidth}
-  Semester:
-  \end{minipage}
-  \begin{minipage}[t]{0.7\textwidth}
-  \hspace{1cm}\IfLanguageName{english}{\nth{1} Semester}{1. Fachsemester}
-  \end{minipage}
-
-  \noindent\begin{minipage}[t]{0.3\textwidth}
-  \IfLanguageName{english}{Graduation (est.):}{Vsl. Studienabschluss:}
-  \end{minipage}
-  \begin{minipage}[t]{0.7\textwidth}
-  \hspace{1cm}Summer Term 2019
-  \end{minipage}
-
-  \noindent\begin{minipage}[t]{0.3\textwidth}
   \IfLanguageName{english}{Deadline:}{Abgabefrist:}
   \end{minipage}
   \begin{minipage}[t]{0.7\textwidth}
   \hspace{1cm}Aug.~27th 2019
   \end{minipage}
 
+  \hrulefill
+
+  \begin{multicols}{3}
+
+  Name:
+
+  Matriculation Number:
+
+  E-Mail:
+
+  Study Path:
+
+  Semester:
+
+  Graduation (est.):
+
+  \columnbreak
+
+  Jonathan Berrisch
+
+  3071485
+
+  Jonathan@Berrisch.biz
+
+  M.Sc. Economics
+
+  \nth{4}
+
+  Summer Term 2020
+
+  \columnbreak
+
+  Timo Rammert
+
+  3030862
+
+  t.rammert03@gmail.com
+
+  M.Sc. Economics
+
+  \nth{2}
+
+  Winter Term 2020/2021
+
+  \end{multicols}
+
 \end{titlepage}
 
 
-\pagenumbering{Roman} 
+\pagenumbering{Roman}
 {
 \hypersetup{linkcolor=black}
 \setcounter{tocdepth}{3}
@@ -205,7 +221,7 @@
 \newpage
 \listoffigures
 \newpage
-\pagenumbering{arabic} 
+\pagenumbering{arabic}
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
@@ -250,6 +266,11 @@ multicollinearity. After omitting those two we have left the following
 types of variables:
 
 \begin{longtable}[]{@{}rrrr@{}}
+\caption{Frequency of Variable Types}\tabularnewline
+\toprule
+Date & factor & logical & numeric\tabularnewline
+\midrule
+\endfirsthead
 \toprule
 Date & factor & logical & numeric\tabularnewline
 \midrule
@@ -264,14 +285,22 @@ Therefore we exclude every variable with a ratio of missing values that
 exceeds \(50\%\). In consequence 41416 observations with 45 variables
 are used for building the forecasting models.
 
+\begin{figure}
+\centering
 \includegraphics{../00_data/output_paper/02_missings_alt.pdf}
+\caption{Share of Missing Values in the Wine Dataset}
+\end{figure}
 
 Figure XY depicts the distribution of the litre variable which is the
 dependend variable in our models. One can see that the observations are
 heavily skewed. The Maximum is at \(184200\) litres sold weekly while
 it's minimum is near zero with only \(0.75\) litres sold per week.
 
+\begin{figure}
+\centering
 \includegraphics{../00_data/output_paper/04_hist_litre.pdf}
+\caption{Histogram and Estimated Density of the Litre Variable}
+\end{figure}
 
 \hypertarget{validation-approach}{%
 \section{Validation Approach}\label{validation-approach}}
@@ -340,7 +369,11 @@ week. It is followed by the Vintage, the Region, the taste segment and
 the Country of the wine. The least important variables are the review
 variables which are not present in the 400 biggest coefficients.
 
-\includegraphics{../00_data/output_paper/06_lasso_vars.pdf}
+\begin{figure}
+\centering
+\includegraphics{term_paper_files/figure-latex/unnamed-chunk-6-1.png}
+\caption{Relation of Coefficients and Shrinkage}
+\end{figure}
 
 \hypertarget{pcr-and-pls}{%
 \subsection{PCR and PLS}\label{pcr-and-pls}}
@@ -358,7 +391,11 @@ roughly 3\% of the total variance. This is a sign that the PCA doesn't
 work well in our data which is might be due to the large amount of dummy
 variables.
 
-\includegraphics{../00_data/output_paper/07_pca.png}
+\begin{figure}
+\centering
+\includegraphics{term_paper_files/figure-latex/unnamed-chunk-8-1.png}
+\caption{Principal Component One and Two}
+\end{figure}
 
 The results confirms the expectation. PCR has a cross validated RMSE of
 \(\approx 5546.05\) while PLS leads to an RMSE of \(\approx 6201.15\).
@@ -388,7 +425,11 @@ precision. Furthermore, Figure XY shows, that the RMSE's depend to some
 extend on the Fold which was used for Crossvalidation. This approves our
 theoretically founded motivation to use crossvalidation.
 
+\begin{figure}
+\centering
 \includegraphics{../00_data/output_paper/08_splines.pdf}
+\caption{Dependency Between Knots and RMSE}
+\end{figure}
 
 \hypertarget{decision-tree-methods}{%
 \subsection{Decision tree methods}\label{decision-tree-methods}}
@@ -407,8 +448,8 @@ and boosting, are described in more detail when being applied.
 \subsubsection{Regression Tree}\label{regression-tree}}
 
 For growing a regression tree `The algorithm needs to automatically
-decide on the splitting variables and split points {[}\ldots{}{]} the
-tree should have'\autocite[p.349]{Hastie2013}. The tree is grown when a
+decide on the splitting variables and split points {[}\ldots{]} the tree
+should have'\autocite[p.349]{Hastie2013}. The tree is grown when a
 splitting is found that minimizes the sum of squared residuals. The
 splitting is done with a greedy algorithm, i.e., at first all the data
 is split into just two groups while the search of the splitting variable
@@ -440,7 +481,7 @@ Conversely the right track stands for red wines.
 As regression trees may tend to grow quite large, a possible way to get
 smaller trees is pruning back the grown larger tree. The goal of pruning
 is `to select a subtree that leads to the lowest test error rate
-{[}which{]} we can estimate {[}\ldots{}{]} using cross-validation or the
+{[}which{]} we can estimate {[}\ldots{]} using cross-validation or the
 validation set approach' \autocite[p.~308]{James2014}. This is done by
 \emph{cost complexity pruning}.
 
@@ -465,7 +506,14 @@ next splitting. This results in a different tree for each iteration off
 the random forest and thus by averaging leads to a lower variance than
 the single trees. This is especially the case
 
-\includegraphics{../00_data/output_paper/10_rf_plot.pdf}
+\begin{figure}
+
+{\centering \includegraphics{../00_data/output_paper/10_rf_plot} 
+
+}
+
+\caption[RMSE's of the Random Forest for Different Parameters]{Dependency between RMSE, the Number of Trees and the Number of Variables Included at each Split}\label{fig:unnamed-chunk-10}
+\end{figure}
 
 \hypertarget{bagging}{%
 \subsubsection{Bagging}\label{bagging}}
@@ -478,7 +526,14 @@ iteration which thus ca be highly correlated.
 \hypertarget{boosting}{%
 \subsubsection{Boosting}\label{boosting}}
 
-\includegraphics{../00_data/output_paper/11_boosting_plot.pdf}
+\begin{figure}
+
+{\centering \includegraphics{../00_data/output_paper/11_boosting_plot} 
+
+}
+
+\caption[RMSE's of the Boosting Model for Different Parameters]{Dependency between RMSE, Lambda, the Depths and the Number of Trees that are Grown}\label{fig:unnamed-chunk-11}
+\end{figure}
 
 In contrast to random forests boosting grows tree sequentially meaning
 that for every new tree information from already grown trees is used

@@ -21,13 +21,6 @@ print("Start PCA")
 #   theme_minimal() + theme(legend.position = "right") + labs(col = "Teste Segment")
 # 
 # ggsave("00_data/output_paper/07_pca.png",plot =  pca, width = 7, height = 4)
-# 
-# # Open a pdf file
-# pdf("00_data/output_paper/07_pca.pdf", width = 7, height = 4) 
-# # 2. Create a plot
-# pca
-# # Close the pdf file
-# dev.off() 
 
 
 wine.pcr.fit <- pcr(y.train ~ ., 

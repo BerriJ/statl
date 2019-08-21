@@ -200,6 +200,9 @@ $endif$
 \usepackage[super]{nth}
 \usepackage[ngerman, english]{babel}
 
+% Multicols for the Title page
+\usepackage{multicol}
+
 \begin{document}
 
 $if(language)$
@@ -243,21 +246,9 @@ $endif$
   \vspace{0.5cm}
   $author$\\
   \end{center}
-  \vspace{4cm}
-
-  \noindent\begin{minipage}[t]{0.3\textwidth}
-  \IfLanguageName{english}{Matriculation Number}{Matrikelnummer}
-  \end{minipage}
-  \begin{minipage}[t]{0.7\textwidth}
-  \hspace{1cm}$studid$
-  \end{minipage}
-
-  \noindent\begin{minipage}[t]{0.3\textwidth}
-  \IfLanguageName{english}{Study Path:}{Studienfach:}
-  \end{minipage}
-  \begin{minipage}[t]{0.7\textwidth}
-  \hspace{1cm}$discipline$
-  \end{minipage}
+  %\vspace{2cm}
+  \vfill
+  \hrulefill
 
   \noindent\begin{minipage}[t]{0.3\textwidth}
   \IfLanguageName{english}{Reviewer:}{Erstgutachter:}
@@ -267,32 +258,57 @@ $endif$
   \end{minipage}
 
   \noindent\begin{minipage}[t]{0.3\textwidth}
-  \IfLanguageName{english}{Secondary Reviewer:}{Zweitgutachter}
-  \end{minipage}
-  \begin{minipage}[t]{0.7\textwidth}
-  \hspace{1cm}$secondsupervisor$
-  \end{minipage}
-
-  \noindent\begin{minipage}[t]{0.3\textwidth}
-  Semester:
-  \end{minipage}
-  \begin{minipage}[t]{0.7\textwidth}
-  \hspace{1cm}\IfLanguageName{english}{\nth{$ssemester$} Semester}{$ssemester$. Fachsemester}
-  \end{minipage}
-
-  \noindent\begin{minipage}[t]{0.3\textwidth}
-  \IfLanguageName{english}{Graduation (est.):}{Vsl. Studienabschluss:}
-  \end{minipage}
-  \begin{minipage}[t]{0.7\textwidth}
-  \hspace{1cm}$estdegree_emester$
-  \end{minipage}
-
-  \noindent\begin{minipage}[t]{0.3\textwidth}
   \IfLanguageName{english}{Deadline:}{Abgabefrist:}
   \end{minipage}
   \begin{minipage}[t]{0.7\textwidth}
   \hspace{1cm}$deadline$
   \end{minipage}
+
+  \hrulefill
+
+  \begin{multicols}{3}
+
+  Name:
+
+  Matriculation Number:
+
+  E-Mail:
+
+  Study Path:
+
+  Semester:
+
+  Graduation (est.):
+
+  \columnbreak
+
+  Jonathan Berrisch
+
+  3071485
+
+  Jonathan@Berrisch.biz
+
+  M.Sc. Economics
+
+  \nth{4}
+
+  Summer Term 2020
+
+  \columnbreak
+
+  Timo Rammert
+
+  3030862
+
+  t.rammert03@gmail.com
+
+  M.Sc. Economics
+
+  \nth{2}
+
+  Winter Term 2020/2021
+
+  \end{multicols}
 
 \end{titlepage}
 
@@ -307,7 +323,7 @@ $include-before$
 
 $endfor$
 $if(toc)$
-\pagenumbering{Roman} 
+\pagenumbering{Roman}
 {
 \hypersetup{linkcolor=black}
 \setcounter{tocdepth}{$toc-depth$}
@@ -323,7 +339,7 @@ $if(lof)$
 \listoffigures
 $endif$
 \newpage
-\pagenumbering{arabic} 
+\pagenumbering{arabic}
 $body$
 $if(natbib)$
 
