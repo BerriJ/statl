@@ -180,6 +180,19 @@ splines_plot <- ggplot(df_try, aes(x = knots, y = RMSE)) +
 
 ggsave(filename = "00_data/output_paper/08_splines.pdf", plot =  splines_plot, width = 7, height = 3)
 
+
+### Single Tree ###
+
+files <- dir(recursive = T, path = "02_analysis/cv/rpart")
+df <- data.frame(RMSE_Tree = rep(NA,5), RMSE_Tree_Pruned = rep(NA,5))
+for(i in seq_along(files)){
+  load(file = paste("02_analysis/cv/rpart/", files[i], sep = ""))
+  df$RMSE_Tree[i] <- rmse_tree
+  df$RMSE_Tree_Pruned[i] <- rmse_tree_pruned
+}
+
+save(file = "00_data/output_paper/09_tree.rda", df)
+
 ### Random Forest  ####
 
 files <- dir(path = "02_analysis/cv/rf")
