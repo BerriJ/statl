@@ -32,8 +32,12 @@ biblio-files: references.bib
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-
+library(magick)
 library(tidyverse)
+crop <- function(im, left = 0, top = 0, right = 0, bottom = 0) {
+  d <- dim(im[[1]]); w <- d[2]; h <- d[3]
+  image_crop(im, glue::glue("{w-left-right}x{h-top-bottom}+{left}+{top}"))
+}
 ```
 
 <!---
@@ -81,18 +85,18 @@ We need to omit two variables beforehand, namely "time_segm_price" and "artikpr"
 
 ```{r, echo=FALSE}
 load("../00_data/output_paper/01_typeof_vec.rda")
-knitr::kable(t(typeof_vec))
+knitr::kable(t(typeof_vec), caption = "Frequency of Variable Types")
 ```
 
 Figure 1 depicts the amount of missing values in each variable. The number of complete cases would be zero without further selection. Therefore we exclude every variable with a ratio of missing values that exceeds $50\%$. In consequence 41416 observations with 45 variables are used for building the forecasting models.
 
-```{r, echo=F}
+```{r, echo=F, fig.cap= "Share of Missing Values in the Wine Dataset"}
 knitr::include_graphics("../00_data/output_paper/02_missings_alt.pdf")
 ```
 
 Figure XY depicts the distribution of the litre variable which is the dependend variable in our models. One can see that the observations are heavily skewed. The Maximum is at $184200$ litres sold weekly while it's minimum is near zero with only $0.75$ litres sold per week.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.cap= "Histogram and Estimated Density of the Litre Variable"}
 knitr::include_graphics("../00_data/output_paper/04_hist_litre.pdf")
 ```
 
@@ -157,9 +161,9 @@ $$
 Figure XY depicts the relation between lambda and the coefficients. The crossvalidated log lambda, which minimizes the test error is $\approx `r df[3]`$. At that level a total of $\approx `r floor(df[4])`$ out of $713$ coefficients are nonzero\footnote{$\approx `r df[4]`$ to be exact, but we couldn't resists to round down.}. The other coefficients are exactly zero due to the sparsitiy property of the lasso estimator. Furthermore, the plot includes abbreviated variable names of the 10 biggest coefficients. All of those coefficients are dummys for specif*ic wine names.
 The average RMSE of the lasso approach is $\approx `r df[1]`$. This is a slight improvement above the linear baseline model.
 The lasso slightly reduce the feature set while also reducing the RMSE. This is evidence which supports our prior assimption that the linear model was exposed to the problem of overfitting.
-Furthermore, the coefficients of the lasso model show that the name variable is the most important variable to explain the sold litre per week. It is followed by the Vintage, the Region, the taste segment and the Country of the wine. The least important variables are the review variables which are not present in the 400 biggest coefficients. 
+Furthermore, the coefficients of the lasso model show that the name variable is the most important variable to explain the sold litre per week. It is followed by the Vintage, the Region, the taste segment and the Country of the wine. The least important variables are the review variables which are not present in the 400 biggest coefficients.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.cap= "Relation of Coefficients and Shrinkage"}
 knitr::include_graphics("../00_data/output_paper/06_lasso_vars.pdf")
 ```
 
@@ -175,8 +179,9 @@ While lasso is a technique for variable selection, PCR and PLS are methods that 
 
 Figure XY shows the first two principal components from a principal components analysis. The first two principal components represent roughly 3\% of the total variance. This is a sign that the PCA doesn't work well in our data which is might be due to the large amount of dummy variables. 
 
-```{r, echo = FALSE}
-knitr::include_graphics("../00_data/output_paper/07_pca.png")
+```{r, echo = FALSE, fig.cap= "Principal Component One and Two", message=FALSE}
+image_read("../00_data/output_paper/07_pca.png") %>%
+  crop(bottom = 120)
 ```
 
 The results confirms the expectation. PCR has a cross validated RMSE of $\approx `r cm_df[1]`$ while PLS leads to an RMSE of $\approx `r cm_df[2]`$. While $\approx `r cm_df[4]`$ principal component where included in the PCR, only $\approx `r cm_df[3]`$ components where used in the PLS. Thus PLS significantly reduced the dimension of the featureset. While sacrificing interpretability of the results, it leads to a higher RMSE.
@@ -189,7 +194,7 @@ The respective RMSE's depending on the knots are presented in Figure XY.
 Splines are able to improve the prediction a little which indicates that at least some nonlinear relationship is present. However, like the methods before, splines reduce the interpretability of the coefficients. In this case, this tradeoff isn't offset enough by the gain in precision.
 Furthermore, Figure XY shows, that the RMSE's depend to some extend on the Fold which was used for Crossvalidation. This approves our theoretically founded motivation to use crossvalidation.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.cap= "Dependency Between Knots and RMSE"}
 knitr::include_graphics("../00_data/output_paper/08_splines.pdf")
 ```
 
@@ -222,7 +227,7 @@ The mean cross-validated rmse of the pruned trees is ca. $7438$.
 
 Random forests are in basic a combination of different regression trees. The name random forest arises from the fact that at each split of the tree a set number of randomly chosen variables are considered for the next splitting. This results in a different tree for each iteration off the random forest and thus by averaging leads to a lower variance <!--- in terms of forecasting error --> than the single trees. This is especially the case 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.cap= "Dependency between RMSE, the Number of Trees and the Number of Variables Included at each Split", fig.scap= "RMSE's of the Random Forest for Different Parameters", fig.align= 'center'}
 knitr::include_graphics("../00_data/output_paper/10_rf_plot.pdf")
 ```
 
@@ -232,7 +237,7 @@ Bagging is a special version of a random forest in which at each split all possi
 
 ### Boosting
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.cap= "Dependency between RMSE, Lambda, the Depths and the Number of Trees that are Grown", fig.scap= "RMSE's of the Boosting Model for Different Parameters", fig.align= 'center'}
 knitr::include_graphics("../00_data/output_paper/11_boosting_plot.pdf")
 ```
 
