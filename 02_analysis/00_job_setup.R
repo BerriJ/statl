@@ -237,7 +237,7 @@ colorScale <- data.frame(z=c(0,0.2,0.2,0.4,0.4,0.6,0.6,0.8,0.8,1),
 
 colorScale$col <- as.character(colorScale$col)
 
-plot_ly(x = boosting_df$Lambda, y = boosting_df$Depth, z = boosting_df$mean,
+boosting_plot <- plot_ly(x = boosting_df$Lambda, y = boosting_df$Depth, z = boosting_df$mean,
                    type="scatter3d",
                    mode = "markers",
                    symbol= 25,
@@ -277,4 +277,4 @@ plot_ly(x = boosting_df$Lambda, y = boosting_df$Depth, z = boosting_df$mean,
                                        )))
                                    ))
 
-orca(rf_plot, file = "00_data/output_paper/11_boosting_plot.pdf")
+orca(boosting_plot, file = "00_data/output_paper/11_boosting_plot.pdf")
