@@ -220,8 +220,14 @@ As regression trees may tend to grow quite large, a possible way to get smaller 
 knitr::include_graphics("../00_data/output_paper/09_tree_pruned.pdf")
 ```
 
+```{r, echo = F}
+# Load Tree Summary
+load(file = "../00_data/output_paper/09_tree.rda")
+cm_df <- df %>% colMeans() %>% round(2)
+```
+
 While the pruned tree might be easier to interpret, it does also come with a higher rmse.
-The mean cross-validated rmse of the pruned trees is ca. $7438$.
+The mean cross-validated rmse of the pruned trees is ca. `r cm_df[2]` while the mean rmse of the normal regression trees is about `r cm_df[1]`.
 
 
 ### Random Forest
