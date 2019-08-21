@@ -259,3 +259,5 @@ plot_ly(x = boosting_df$Lambda, y = boosting_df$Depth, z = boosting_df$mean,
                                                   tick0 = 4500,
                                                   dtick = 1000)
                                    ))
+
+orca(rf_plot, file = "00_data/output_paper/11_boosting_plot.pdf")
