@@ -292,6 +292,15 @@ In contrast to random forests boosting grows tree sequentially meaning that for 
 
 ## Some Appendix 1
 
+```{r, echo = F, results = 'asis', message = F}
+library(stargazer)
+load("../00_data/wine_preprocessed.rda")
+
+stargazer(as.data.frame(wine), summary.stat = c("min","max","mean","sd"),
+          title = "Summary Statistics of the Data Set.")
+
+```
+
 ```{r RMSE, message = F, echo = F}
 library(knitr)
 library(kableExtra)
