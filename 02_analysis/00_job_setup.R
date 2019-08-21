@@ -235,22 +235,32 @@ df_boosting_list <- list()
 
 for(i in 1:(length(files))){
   load(file = paste("02_analysis/cv/boosting/", files[i], sep = ""))
-  df_boosting_list[[i]] <- grid
-  colnames(df_boosting_list[[i]]) <- c("Lambda", "Depth", "Trees",paste("RMSE_fold_",i, sep = ""))
+  df_boosting_list[[i]] <- results
+  colnames(df_boosting_list[[i]]) <- c("lambda", "int.depth", "bag.frac",paste("fold_",i,"_nrees",1:25, sep = ""))
 }
 
-boosting_df <- purrr::reduce(df_boosting_list, .f = full_join) %>%
-  mutate(mean = rowMeans(.[4:8])) %>%
-  arrange(desc(mean))
+boosting_df <- purrr::reduce(df_boosting_list, .f = full_join)
 
+for(i in 1:25){
+  boosting_df <- boosting_df %>% dplyr::mutate(!!paste(i) := rowMeans(.[,seq(3+i,103+i, 25)]))
+}
 
-colorScale <- data.frame(z=c(0,0.2,0.2,0.4,0.4,0.6,0.6,0.8,0.8,1),
-                         col=c("#00A600FF","#00A600FF","#63C600FF","#63C600FF", "#E6E600FF",
-                               "#E6E600FF", "#EAB64EFF","#EAB64EFF","#EEB99FFF","#EEB99FFF"))
+boosting_df <- boosting_df[, c(1:3, 129:153)] %>% gather(key = Trees, value = RMSE, "1":"25")
+boosting_df$Trees <- as.numeric(boosting_df$Trees)
 
+colorScale <- data.frame(z=c(0,1),
+                         col=c("#ff0000","#00ff0d"))
 colorScale$col <- as.character(colorScale$col)
+boosting_df_full <- boosting_df
+boosting_df <- boosting_df[boosting_df$bag.frac == 1 & 
+                             (boosting_df$Trees == 1 |
+                                boosting_df$Trees == 5 | 
+                                boosting_df$Trees == 10 | 
+                                boosting_df$Trees == 15 | 
+                                boosting_df$Trees == 20 | 
+                                boosting_df$Trees == 25),]
 
-boosting_plot <- plot_ly(x = boosting_df$Lambda, y = boosting_df$Depth, z = boosting_df$mean,
+plot_ly(x = boosting_df$lambda, y = boosting_df$int.depth, z = boosting_df$RMSE,
                    type="scatter3d",
                    mode = "markers",
                    symbol= 25,
@@ -258,11 +268,12 @@ boosting_plot <- plot_ly(x = boosting_df$Lambda, y = boosting_df$Depth, z = boos
                                  colorscale = colorScale,
                                  showscale = TRUE,
                                  symbol = 'circle',
-                                 opacity = 1,
+                                 opacity = 0.5,
                                  colorbar = list(title = "Number of Trees",
-                                                 tickvals = c(35,55,75,95,115),
-                                                 ticktext = c("25","50","75","100","125")),
-                                 line = list(width = 0), size = 6)) %>% 
+                                                 tickvals = c(1,5,10,15,20,25)#,
+                                                 #ticktext = c("25","50","75","100","125")
+                                                 ),
+                                 line = list(width = 0), size = 2)) %>% 
   layout(
                                    title = "",
                                    scene = list(
@@ -274,11 +285,11 @@ boosting_plot <- plot_ly(x = boosting_df$Lambda, y = boosting_df$Depth, z = boos
                                                   dtick = 1000),
                                      annotations = list(list(
                                        showarrow = T,
-                                       z = 4632.6,
-                                       y = 15,
-                                       x = 0.4,
-                                       ay = -170,
-                                       ax = 0,
+                                       z = min(boosting_df$RMSE),
+                                       y = boosting_df$int.depth[which.min(boosting_df$RMSE)],
+                                       x = boosting_df$lambda[which.min(boosting_df$RMSE)],
+                                       ay = -50,
+                                       ax = -150,
                                        text = "Minimum",
                                        arrowcolor = "black",
                                        arrowsize = 1,
@@ -288,6 +299,11 @@ boosting_plot <- plot_ly(x = boosting_df$Lambda, y = boosting_df$Depth, z = boos
                                          size = 14
                                        )))
                                    ))
+
+best.boosting <- boosting_df_full$RMSE %>% which.min()
+boosting_df_full[best.boosting,]
+boosting_df_full$RMSE[boosting_df_full$bag.frac == 0.5] %>% mean()
+boosting_df_full$RMSE[boosting_df_full$bag.frac == 1] %>% mean()
 
 # orca(boosting_plot, file = "00_data/output_paper/11_boosting_plot.pdf")
 

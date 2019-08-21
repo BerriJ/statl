@@ -236,7 +236,7 @@ The mean cross-validated rmse of the pruned trees is ca. `r cm_df[2]` while the 
 
 Random forests are in basic a combination of different regression trees. The name random forest arises from the fact that at each split of the tree a set number of randomly chosen variables are considered for the next splitting. This results in a different tree for each iteration off the random forest and thus by averaging leads to a lower variance <!--- in terms of forecasting error --> than the single trees. This is especially the case 
 
-```{r, echo = FALSE, fig.cap= "Dependency between RMSE, the Number of Trees and the Number of Variables Included at each Split", fig.scap= "RMSE's of the Random Forest for Different Parameters", fig.align= 'center'}
+```{r, echo = FALSE, fig.cap= "Random Forest: Dependency between RMSE, the Number of Trees and the Number of Variables Included at each Split", fig.scap= "RMSE's of the Random Forest for Different Parameters", fig.align= 'center'}
 knitr::include_graphics("../00_data/output_paper/10_rf_plot.pdf")
 ```
 
@@ -246,12 +246,15 @@ Bagging is a special version of a random forest in which, at each split, all pos
 
 ### Boosting
 
-```{r, echo = FALSE, fig.cap= "Dependency between RMSE, Lambda, the Depths and the Number of Trees that are Grown", fig.scap= "RMSE's of the Boosting Model for Different Parameters", fig.align= 'center'}
-knitr::include_graphics("../00_data/output_paper/11_boosting_plot.pdf")
+```{r, echo = FALSE, fig.cap= "Boosting: Dependency between RMSE, Lambda, the Depths and the Number of Trees that are Grown", fig.scap= "RMSE's of the Boosting Model for Different Parameters", fig.align= 'center'}
+knitr::include_graphics("../00_data/output_paper/11_boosting_neu.png")
 ```
 
 In contrast to random forests boosting grows tree sequentially meaning that for every new tree information from already grown trees is used [@James2014, p.322]. For boosting rather small regression trees are used to improve the boosting tree slowly. This is achieved by taking the residuals from the current boosting tree, fitting a (small) tree to these residuals and then fiiting this tree into the boosting tree in areas where the performance of the boosting tree could be improved [@James2014, p.322].
 
+```{r, echo = FALSE, fig.cap= "Boosting: Variable Importance Plot"}
+knitr::include_graphics("../00_data/output_paper/12_var_imp_boosting_bp.pdf")
+```
 
 bag.fraction eklären! Wir nutzen hier jeweils nur 50% unserer Observations (jedes mal neue Ziehung bevor ein Baum erstellt wird.)
 

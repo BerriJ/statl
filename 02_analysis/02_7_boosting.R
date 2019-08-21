@@ -18,22 +18,19 @@ colnames(results) <- c("lambda", "int.depth", "bag.frac", paste("n.tree_",1:25, 
 results <- results %>% arrange(desc(int.depth))
 d <- c()
 tic()
-for(i in 1:nrow(grid)){
+for(i in 1:nrow(results)){
   x <- Sys.time()
   boost_wine <- gbm.fit(y.train, x = x.train, distribution = "gaussian",
-                        n.trees = 25, interaction.depth = grid[i,2],
-                        shrinkage = grid[i,1], verbose = FALSE, bag.fraction = grid[i,3])
+                        n.trees = 25, interaction.depth = results[i,2],
+                        shrinkage = results[i,1], verbose = FALSE, bag.fraction = results[i,3])
   #Generating a Prediction matrix for each Tree
   predmatrix<-predict(boost_wine,x.test,n.trees = n.trees)
   #Calculating The Mean squared Test Error
   results[i,4:28] <- apply((predmatrix-y.test)^2,2,mean) %>% sqrt()
   d[i] <- Sys.time() - x
-  print(paste("~",(round(mean(d)*(nrow(grid)-i)/60)), " minutes remaining.", sep = ""))
+  print(paste("~",(round(mean(d)*(nrow(results)-i)/60)), " minutes remaining.", sep = ""))
 }
 toc()
-
-# Maybe use this for variable importance plots:
-# https://www.r-bloggers.com/in-search-of-the-perfect-partial-plot/
 
 dir.create("02_analysis/cv/boosting/", recursive = T, showWarnings = F)
 save(file = paste("02_analysis/cv/boosting/boost_grid_",unique_identifier,".rda", sep = ""),

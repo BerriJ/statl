@@ -9,7 +9,7 @@ print("Packages loaded")
 print("Now doing the Random Forest-Loop")
 
 m <- seq(10,100,10)
-trees <- seq(25,125,25)
+trees <- seq(1,25,5)
 grid <- expand.grid(m,trees)
 rmse_RF <- c()
 d <- c()
@@ -24,8 +24,6 @@ for(i in 1:nrow(grid)){
   print(paste("Iteration No. ",i, " ~ ",round(mean(d)*(nrow(grid)-i)), " minutes remaining.", sep = ""))
 }
 toc()
-
-grid
 
 dir.create("02_analysis/cv/rf/", recursive = T, showWarnings = F)
 save(file = paste("02_analysis/cv/rf/rf_",unique_identifier,".rda", sep = ""),
