@@ -31,13 +31,33 @@ print("Packages loaded")
 
 rpa <- rpart(y.train ~., data = data.frame(train_df)) 
 
+# # Open a pdf file
+# pdf(paste("02_analysis/cv/rpart/tree_plot_",unique_identifier,".pdf", sep = ""), width = 7, height = 4)
+# # 2. Create a plot
+# rpart.plot(rpa, roundint = F)
+# # Close the pdf file
+# dev.off()
+
 # Open a pdf file
-pdf(paste("02_analysis/cv/rpart/tree_plot_",unique_identifier,".pdf", sep = ""), width = 7, height = 4) 
+pdf(paste("02_analysis/cv/rpart/cv_prune_plot_",unique_identifier,".pdf", sep = ""), width = 7, height = 4)
 # 2. Create a plot
-rpart.plot(rpa, roundint = F)
+plotcp(rpa)
 # Close the pdf file
-dev.off() 
+dev.off()
+
+
+rpa_prune <- prune(rpa, cp = 0.038) # cp-curves clearly flatten out for values <0.038
+pred_pruned <- predict(rpa_prune, newdata = data.frame(test_df))
+rmse_tree_pruned <- mean((wine_test$litre - pred_pruned)^2) %>% sqrt()
+
+
+# Open a pdf file
+pdf(paste("02_analysis/cv/rpart/prune_plot_",unique_identifier,".pdf", sep = ""), width = 7, height = 4)
+# 2. Create a plot
+rpart.plot(rpa_prune, roundint = F)
+# Close the pdf file
+dev.off()
 
 dir.create("02_analysis/cv/rpart/", recursive = T, showWarnings = F)
 save(file = paste("02_analysis/cv/rpart/rpart_",unique_identifier,".rda", sep = ""),
-     rpa)
+     rpa, rmse_tree_pruned)
