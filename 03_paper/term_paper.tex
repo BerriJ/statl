@@ -437,13 +437,22 @@ important to keep in mind that this is a dummy variable meaning that a
 value \(< 0.5\) (the left track) stands for a wine that isn't red.
 Conversely the right track stands for red wines.
 
-The RMSE
-
 As regression trees may tend to grow quite large, a possible way to get
 smaller trees is pruning back the grown larger tree. The goal of pruning
 is `to select a subtree that leads to the lowest test error rate
 {[}which{]} we can estimate {[}\ldots{}{]} using cross-validation or the
-validation set approach' \autocite[p.~308]{James2014}.
+validation set approach' \autocite[p.~308]{James2014}. This is done by
+\emph{cost complexity pruning}.
+
+\begin{figure}
+\centering
+\includegraphics{../00_data/output_paper/09_tree_pruned.pdf}
+\caption{Example of a Pruned Tree.}
+\end{figure}
+
+While the pruned tree might be easier to interpret, it does also come
+with a higher rmse. The mean cross-validated rmse of the pruned trees is
+ca. \(7438\).
 
 \hypertarget{random-forest}{%
 \subsubsection{Random Forest}\label{random-forest}}

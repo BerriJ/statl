@@ -29,35 +29,37 @@ print("Packages loaded")
 # rmse_tree <- mean((wine_test$litre - pred_tree)^2) %>% sqrt()
 # rmse_tree_pruned <- mean((wine_test$litre - pred_pruned)^2) %>% sqrt()
 
-rpa <- rpart(y.train ~., data = data.frame(train_df)) 
-
-# # Open a pdf file
-# pdf(paste("02_analysis/cv/rpart/tree_plot_",unique_identifier,".pdf", sep = ""), width = 7, height = 4)
-# # 2. Create a plot
-# rpart.plot(rpa, roundint = F)
-# # Close the pdf file
-# dev.off()
+tree_wine <- rpart(y.train ~., data = data.frame(train_df)) 
+pred_tree <- predict(tree_wine, newdata = data.frame(test_df))
+rmse_tree <- mean((wine_test$litre - pred_tree)^2) %>% sqrt()
 
 # Open a pdf file
-pdf(paste("02_analysis/cv/rpart/cv_prune_plot_",unique_identifier,".pdf", sep = ""), width = 7, height = 4)
+pdf(paste("02_analysis/cv/rpart_plots/tree_plot_",unique_identifier,".pdf", sep = ""), width = 7, height = 4)
 # 2. Create a plot
-plotcp(rpa)
+rpart.plot(tree_wine, roundint = F)
+# Close the pdf file
+dev.off()
+
+# Open a pdf file
+pdf(paste("02_analysis/cv/rpart_plots/cv_prune_plot_",unique_identifier,".pdf", sep = ""), width = 7, height = 4)
+# 2. Create a plot
+plotcp(tree_wine)
 # Close the pdf file
 dev.off()
 
 
-rpa_prune <- prune(rpa, cp = 0.038) # cp-curves clearly flatten out for values <0.038
-pred_pruned <- predict(rpa_prune, newdata = data.frame(test_df))
+tree_pruned <- prune(tree_wine, cp = 0.088) # cp-curves clearly flatten out for values <0.088
+pred_pruned <- predict(tree_pruned, newdata = data.frame(test_df))
 rmse_tree_pruned <- mean((wine_test$litre - pred_pruned)^2) %>% sqrt()
 
 
 # Open a pdf file
-pdf(paste("02_analysis/cv/rpart/prune_plot_",unique_identifier,".pdf", sep = ""), width = 7, height = 4)
+pdf(paste("02_analysis/cv/rpart_plots/prune_plot_",unique_identifier,".pdf", sep = ""), width = 7, height = 4)
 # 2. Create a plot
-rpart.plot(rpa_prune, roundint = F)
+rpart.plot(tree_pruned, roundint = F)
 # Close the pdf file
 dev.off()
 
 dir.create("02_analysis/cv/rpart/", recursive = T, showWarnings = F)
 save(file = paste("02_analysis/cv/rpart/rpart_",unique_identifier,".rda", sep = ""),
-     rpa, rmse_tree_pruned)
+     tree_wine, tree_pruned, rmse_tree, rmse_tree_pruned)
