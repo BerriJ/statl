@@ -219,8 +219,10 @@
 }
 \newpage
 \listoftables
+\addcontentsline{toc}{section}{List of Tables}
 \newpage
 \listoffigures
+\addcontentsline{toc}{section}{List of Figures}
 \newpage
 \pagenumbering{arabic}
 \hypertarget{introduction}{%
@@ -513,7 +515,7 @@ the single trees. This is especially the case
 
 }
 
-\caption[RMSE's of the Random Forest for Different Parameters]{Dependency between RMSE, the Number of Trees and the Number of Variables Included at each Split}\label{fig:unnamed-chunk-10}
+\caption[RMSE's of the Random Forest for Different Parameters]{Dependency between RMSE, the Number of Trees and the Number of Variables Included at each Split}\label{fig:unnamed-chunk-11}
 \end{figure}
 
 \hypertarget{bagging}{%
@@ -533,7 +535,7 @@ iteration which thus ca be highly correlated.
 
 }
 
-\caption[RMSE's of the Boosting Model for Different Parameters]{Dependency between RMSE, Lambda, the Depths and the Number of Trees that are Grown}\label{fig:unnamed-chunk-11}
+\caption[RMSE's of the Boosting Model for Different Parameters]{Dependency between RMSE, Lambda, the Depths and the Number of Trees that are Grown}\label{fig:unnamed-chunk-12}
 \end{figure}
 
 In contrast to random forests boosting grows tree sequentially meaning
