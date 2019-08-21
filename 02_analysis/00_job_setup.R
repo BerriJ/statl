@@ -249,7 +249,8 @@ plot_ly(x = boosting_df$Lambda, y = boosting_df$Depth, z = boosting_df$mean,
                                  colorbar = list(title = "Number of Trees",
                                                  tickvals = c(35,55,75,95,115),
                                                  ticktext = c("25","50","75","100","125")),
-                                 line = list(width = 0), size = 6)) %>% layout(
+                                 line = list(width = 0), size = 6)) %>% 
+  layout(
                                    title = "",
                                    scene = list(
                                      xaxis = list(title = "Lambda"),
@@ -257,7 +258,23 @@ plot_ly(x = boosting_df$Lambda, y = boosting_df$Depth, z = boosting_df$mean,
                                      zaxis = list(title = "RMSE",
                                                   range=c(4200,10000),
                                                   tick0 = 4500,
-                                                  dtick = 1000)
+                                                  dtick = 1000),
+                                     annotations = list(list(
+                                       showarrow = T,
+                                       z = 4632.6,
+                                       y = 15,
+                                       x = 0.4,
+                                       ay = -170,
+                                       ax = 0,
+                                       text = "Minimum",
+                                       arrowcolor = "black",
+                                       arrowsize = 1,
+                                       arrowwidth = 1,
+                                       arrowhead = 1,
+                                       font = list(
+                                         color = "black",
+                                         size = 14
+                                       )))
                                    ))
 
 orca(rf_plot, file = "00_data/output_paper/11_boosting_plot.pdf")
