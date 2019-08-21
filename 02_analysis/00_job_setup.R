@@ -1,3 +1,5 @@
+# Crossvalidation  ####
+#
 # rm(list = ls())
 # load("00_data/wine_preprocessed.rda")
 # # Remove variables with average na >= 50%
@@ -92,7 +94,7 @@ for(i in 1:5){
 }
 
 
-### Summary Baseline Models
+### Summary Baseline Models  ####
 
 files <- dir(recursive = T, path = "02_analysis/cv/baseline")
 df <- data.frame(RMSE_Lin = rep(NA,5), RMSE_mean = rep(NA,5))
@@ -104,7 +106,7 @@ for(i in seq_along(files)){
 
 save(file = "00_data/output_paper/03_baseline.rda", df)
 
-### Summary Lasso Model
+### Summary Lasso Model  ####
 
 files <- dir(path = "02_analysis/cv/lasso")
 
@@ -133,7 +135,7 @@ df <- colMeans(df) %>% round(2)
 
 save(file = "00_data/output_paper/05_lasso.rda", df)
 
-### Summary PCR/PLS
+### Summary PCR/PLS  ####
 
 files <- dir(path = "02_analysis/cv/pcr_pls")
 
@@ -154,7 +156,7 @@ colMeans(df)
 
 save(file = "00_data/output_paper/07_pca_pls.rda", df)
 
-### Summary Splines
+### Summary Splines  ####
 
 files <- dir(path = "02_analysis/cv/splines")
 
@@ -177,7 +179,8 @@ splines_plot <- ggplot(df_try, aes(x = knots, y = RMSE)) +
   labs(col = "Legend:")
 
 ggsave(filename = "00_data/output_paper/08_splines.pdf", plot =  splines_plot, width = 7, height = 3)
-### Random Forest
+
+### Random Forest  ####
 
 files <- dir(path = "02_analysis/cv/rf")
 
@@ -192,7 +195,6 @@ for(i in 1:(length(files))){
 rf_df <- purrr::reduce(df_rf_list, .f = full_join) %>%
   mutate(mean = rowMeans(.[3:7])) %>%
   arrange(desc(mean))
-
 
 library(plotly)
 
@@ -210,6 +212,50 @@ rf_plot <- plot_ly(x = rf_df$mtry, y = rf_df$trees, z = rf_df$mean,
             zaxis = list(title = "RMSE")
           ))
 
-orca(rf_plot, file = "00_data/output_paper/10_rf_plot.png")
+# orca(rf_plot, file = "00_data/output_paper/10_rf_plot.png")
 
-### Trees
+### Boosting ####
+
+files <- dir(path = "02_analysis/cv/boosting")
+
+df_boosting_list <- list()
+
+for(i in 1:(length(files))){
+  load(file = paste("02_analysis/cv/boosting/", files[i], sep = ""))
+  df_boosting_list[[i]] <- grid
+  colnames(df_boosting_list[[i]]) <- c("Lambda", "Depth", "Trees",paste("RMSE_fold_",i, sep = ""))
+}
+
+boosting_df <- purrr::reduce(df_boosting_list, .f = full_join) %>%
+  mutate(mean = rowMeans(.[4:8])) %>%
+  arrange(desc(mean))
+
+
+colorScale <- data.frame(z=c(0,0.2,0.2,0.4,0.4,0.6,0.6,0.8,0.8,1),
+                         col=c("#00A600FF","#00A600FF","#63C600FF","#63C600FF", "#E6E600FF",
+                               "#E6E600FF", "#EAB64EFF","#EAB64EFF","#EEB99FFF","#EEB99FFF"))
+
+colorScale$col <- as.character(colorScale$col)
+
+plot_ly(x = boosting_df$Lambda, y = boosting_df$Depth, z = boosting_df$mean,
+                   type="scatter3d",
+                   mode = "markers",
+                   symbol= 25,
+                   marker = list(color = boosting_df$Trees,
+                                 colorscale = colorScale,
+                                 showscale = TRUE,
+                                 symbol = 'circle',
+                                 opacity = 1,
+                                 colorbar = list(title = "Number of Trees",
+                                                 tickvals = c(35,55,75,95,115),
+                                                 ticktext = c("25","50","75","100","125")),
+                                 line = list(width = 0), size = 6)) %>% layout(
+                                   title = "",
+                                   scene = list(
+                                     xaxis = list(title = "Lambda"),
+                                     yaxis = list(title = "Depth"),
+                                     zaxis = list(title = "RMSE",
+                                                  range=c(4200,10000),
+                                                  tick0 = 4500,
+                                                  dtick = 1000)
+                                   ))
