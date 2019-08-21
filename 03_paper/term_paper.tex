@@ -105,6 +105,9 @@
 \usepackage[super]{nth}
 \usepackage[ngerman, english]{babel}
 
+% Multicols for the Title page
+\usepackage{multicol}
+
 \begin{document}
 
 \selectlanguage{english}
@@ -140,21 +143,9 @@
   \vspace{0.5cm}
   Jonathan Berrisch, Timo Rammert\\
   \end{center}
-  \vspace{4cm}
-
-  \noindent\begin{minipage}[t]{0.3\textwidth}
-  \IfLanguageName{english}{Matriculation Number}{Matrikelnummer}
-  \end{minipage}
-  \begin{minipage}[t]{0.7\textwidth}
-  \hspace{1cm}3071485 \textbar{} 3030862
-  \end{minipage}
-
-  \noindent\begin{minipage}[t]{0.3\textwidth}
-  \IfLanguageName{english}{Study Path:}{Studienfach:}
-  \end{minipage}
-  \begin{minipage}[t]{0.7\textwidth}
-  \hspace{1cm}VWL M.Sc.
-  \end{minipage}
+  %\vspace{2cm}
+  \vfill
+  \hrulefill
 
   \noindent\begin{minipage}[t]{0.3\textwidth}
   \IfLanguageName{english}{Reviewer:}{Erstgutachter:}
@@ -164,37 +155,62 @@
   \end{minipage}
 
   \noindent\begin{minipage}[t]{0.3\textwidth}
-  \IfLanguageName{english}{Secondary Reviewer:}{Zweitgutachter}
-  \end{minipage}
-  \begin{minipage}[t]{0.7\textwidth}
-  \hspace{1cm}NA
-  \end{minipage}
-
-  \noindent\begin{minipage}[t]{0.3\textwidth}
-  Semester:
-  \end{minipage}
-  \begin{minipage}[t]{0.7\textwidth}
-  \hspace{1cm}\IfLanguageName{english}{\nth{1} Semester}{1. Fachsemester}
-  \end{minipage}
-
-  \noindent\begin{minipage}[t]{0.3\textwidth}
-  \IfLanguageName{english}{Graduation (est.):}{Vsl. Studienabschluss:}
-  \end{minipage}
-  \begin{minipage}[t]{0.7\textwidth}
-  \hspace{1cm}Summer Term 2019
-  \end{minipage}
-
-  \noindent\begin{minipage}[t]{0.3\textwidth}
   \IfLanguageName{english}{Deadline:}{Abgabefrist:}
   \end{minipage}
   \begin{minipage}[t]{0.7\textwidth}
   \hspace{1cm}Aug.~27th 2019
   \end{minipage}
 
+  \hrulefill
+
+  \begin{multicols}{3}
+
+  Name:
+
+  Matriculation Number:
+
+  E-Mail:
+
+  Study Path:
+
+  Semester:
+
+  Graduation (est.):
+
+  \columnbreak
+
+  Jonathan Berrisch
+
+  3071485
+
+  Jonathan@Berrisch.biz
+
+  M.Sc. Economics
+
+  \nth{4}
+
+  Summer Term 2020
+
+  \columnbreak
+
+  Timo Rammert
+
+  3030862
+
+  t.rammert03@gmail.com
+
+  M.Sc. Economics
+
+  \nth{2}
+
+  Winter Term 2020/2021
+
+  \end{multicols}
+
 \end{titlepage}
 
 
-\pagenumbering{Roman} 
+\pagenumbering{Roman}
 {
 \hypersetup{linkcolor=black}
 \setcounter{tocdepth}{3}
@@ -205,7 +221,7 @@
 \newpage
 \listoffigures
 \newpage
-\pagenumbering{arabic} 
+\pagenumbering{arabic}
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
