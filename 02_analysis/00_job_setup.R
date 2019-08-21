@@ -272,9 +272,29 @@ boosting_plot <- plot_ly(x = boosting_df$Lambda, y = boosting_df$Depth, z = boos
                                        arrowwidth = 1,
                                        arrowhead = 1,
                                        font = list(
-                                         color = "black",
                                          size = 14
                                        )))
                                    ))
 
-orca(boosting_plot, file = "00_data/output_paper/11_boosting_plot.pdf")
+# orca(boosting_plot, file = "00_data/output_paper/11_boosting_plot.pdf")
+
+save(file = "00_data/output_paper/12_boosting.rda", boosting_df)
+
+# Bagging ####
+
+files <- dir(path = "02_analysis/cv/bagging")
+
+df_bagging_list <- list()
+
+for(i in 1:(length(files))){
+  load(file = paste("02_analysis/cv/bagging/", files[i], sep = ""))
+  df_bagging_list[[i]] <- data.frame(trees,rmse_BA)
+  colnames(df_bagging_list[[i]])[2] <- paste("RMSE_fold_",i, sep = "")
+}
+
+bagging_df <- df_bagging_list %>% purrr::reduce(.f = full_join) %>%
+  mutate(mean = rowMeans(.[,2:6])) %>%
+  arrange(desc(mean))
+
+save(file = "00_data/output_paper/13_bagging.rda", bagging_df)
+
