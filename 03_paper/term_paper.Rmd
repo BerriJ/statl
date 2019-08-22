@@ -197,7 +197,7 @@ The respective RMSE's depending on the knots are presented in Figure XY.
 Splines are able to improve the prediction a little which indicates that at least some nonlinear relationship is present. However, like the methods before, splines reduce the interpretability of the coefficients. In this case, this tradeoff isn't offset enough by the gain in precision.
 Furthermore, Figure \ref{fig:splines} shows, that the RMSE's depend to some extend on the Fold which was used for Crossvalidation. This approves our theoretically founded motivation to use crossvalidation.
 
-```{r splines, echo = FALSE, fig.cap= "\\label{fig:splines}Regression with Splines: Dependency Between Knots and RMSE", fig.align= T, fig.scap= "RMSE Values of Different Spline Models", ref.label= "splines"}
+```{r splines, echo = FALSE, fig.cap= "\\label{fig:splines}Regression with Splines: Dependency Between Knots and RMSE", fig.align= T, fig.scap= "RMSE Values of Different Spline Models"}
 knitr::include_graphics("../00_data/output_paper/08_splines.pdf")
 ```
 
@@ -250,7 +250,7 @@ Bagging, in general, takes all possible variables into consideration at each spl
 Random forests combine different regression trees. The name random forest arises from the fact that at each split of the tree building process only a pre specified number of randomly chosen variables are taken into consideration. This results in a different tree for each iteration off the random forest and thus by averaging leads to a lower variance, in terms of forecasting error, than the single trees. This is especially the case 
 
 ```{r, echo = FALSE, fig.cap= "Random Forest: Dependency between RMSE, the Number of Trees and the Number of Variables Included at each Split", fig.scap= "RMSE's of the Random Forest for Different Parameters", fig.align= 'center'}
-knitr::include_graphics("../00_data/output_paper/10_rf_plot.pdf")
+knitr::include_graphics("../00_data/output_paper/10_rf_plot.png")
 ```
 
 
