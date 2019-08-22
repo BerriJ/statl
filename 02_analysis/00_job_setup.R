@@ -330,3 +330,32 @@ bagging_df <- df_bagging_list %>% purrr::reduce(.f = full_join) %>%
 
 save(file = "00_data/output_paper/13_bagging.rda", bagging_df)
 
+knitr::write_bib(x = c("base",
+                "stargazer",
+                "haven",
+                "stringr",
+                "tidyr",
+                "dplyr",
+                "glmnet",
+                "class",
+                "MASS",
+                "plm",
+                "leaps",
+                "caret",
+                "reshape2",
+                "tree",
+                "gbm",
+                "plotmo",
+                "pls",
+                "splines",
+                "tictoc",
+                "plotly",
+                "inspectdf",
+                "rpart",
+                "rpart.plot",
+                "stargazer",
+                "knitr",
+                "rstudioapi"), file = "03_paper/R_packages_draft.bib")
+
+# Dont forget to add Rstudio
+RStudio.Version()$citation
