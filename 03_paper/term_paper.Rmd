@@ -231,6 +231,10 @@ cm_df <- df %>% colMeans() %>% round(2)
 While the pruned tree might be easier to interpret, it does also come with a higher rmse.
 The mean cross-validated rmse of the pruned trees is ca. `r cm_df[2]` while the mean rmse of the normal regression trees is about `r cm_df[1]`.
 
+### Bootstrap Aggregation
+
+Bootsrap aggregation (Bagging) is a special version of a random forest in which, at each split, all possible variables are taken in consideration for selection. In contrast to random forests this may lead to very similar trees at each iteration. Thus, the trees ca be highly correlated. Furthermore, bagging is computationally more demanding since all variables are taken into consideration at each split.
+
 ### Random Forest
 
 Random forests combine different regression trees. The name random forest arises from the fact that at each split of the tree building process only a pre specified number of randomly chosen variables are taken into consideration. This results in a different tree for each iteration off the random forest and thus by averaging leads to a lower variance, in terms of forecasting error, than the single trees. This is especially the case 
@@ -239,9 +243,6 @@ Random forests combine different regression trees. The name random forest arises
 knitr::include_graphics("../00_data/output_paper/10_rf_plot.pdf")
 ```
 
-### Bootstrap Aggregation
-
-Bootsrap aggregation (Bagging) is a special version of a random forest in which, at each split, all possible variables are taken in consideration for selection. In contrast to random forests this may lead to very similar trees at each iteration. Thus, the trees ca be highly correlated. Furthermore, bagging is computationally more demanding since all variables are taken into consideration at each split.
 
 ### Boosting
 
