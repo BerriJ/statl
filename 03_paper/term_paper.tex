@@ -434,14 +434,16 @@ Splines are able to improve the prediction a little which indicates that
 at least some nonlinear relationship is present. However, like the
 methods before, splines reduce the interpretability of the coefficients.
 In this case, this tradeoff isn't offset enough by the gain in
-precision. Furthermore, Figure XY shows, that the RMSE's depend to some
-extend on the Fold which was used for Crossvalidation. This approves our
-theoretically founded motivation to use crossvalidation.
+precision. Furthermore, Figure \ref{fig:splines} shows, that the RMSE's
+depend to some extend on the Fold which was used for Crossvalidation.
+This approves our theoretically founded motivation to use
+crossvalidation.
 
 \begin{figure}
-\centering
-\includegraphics{../00_data/output_paper/08_splines.pdf}
-\caption{Dependency Between Knots and RMSE}
+
+\includegraphics{../00_data/output_paper/08_splines} \hfill{}
+
+\caption[RMSE Values of Different Spline Models]{\label{fig:splines}Regression with Splines: Dependency Between Knots and RMSE}\label{fig:splines}
 \end{figure}
 
 \hypertarget{decision-tree-methods}{%
@@ -522,6 +524,13 @@ of the trees are averaged. By bootstrapping bagging brings down the
 variance and thus, adresses the main problem of single regression trees
 which are very dependend on the actual sample.
 
+\begin{figure}
+
+\includegraphics{../00_data/output_paper/14_bagging} \hfill{}
+
+\caption[Bagging: RMSE's at Different Tree Sizes]{Bagging: RMSE's at Different Tree Sizes (Smoothed)}\label{fig:bag}
+\end{figure}
+
 =\textgreater{} Bagging Ergebniss und Disskussion der Ergebnisse
 
 Bagging, in general, takes all possible variables into consideration at
@@ -546,7 +555,7 @@ especially the case
 
 }
 
-\caption[RMSE's of the Random Forest for Different Parameters]{Random Forest: Dependency between RMSE, the Number of Trees and the Number of Variables Included at each Split}\label{fig:unnamed-chunk-11}
+\caption[RMSE's of the Random Forest for Different Parameters]{Random Forest: Dependency between RMSE, the Number of Trees and the Number of Variables Included at each Split}\label{fig:unnamed-chunk-10}
 \end{figure}
 
 \hypertarget{boosting}{%
@@ -558,7 +567,7 @@ especially the case
 
 }
 
-\caption[RMSE's of the Boosting Model for Different Parameters]{Boosting: Dependency between RMSE, Lambda, the Depths and the Number of Trees that are Grown}\label{fig:unnamed-chunk-12}
+\caption[RMSE's of the Boosting Model for Different Parameters]{Boosting: Dependency between RMSE, Lambda, the Depths and the Number of Trees that are Grown}\label{fig:unnamed-chunk-11}
 \end{figure}
 
 In contrast to random forests boosting grows tree sequentially meaning

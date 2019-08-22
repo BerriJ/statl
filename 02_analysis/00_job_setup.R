@@ -169,13 +169,13 @@ for(i in 1:(length(files))){
 df_splines <- data.frame(knots = 1:20, t(df), average = colMeans(df)) %>%
   gather(key = var, value = RMSE, -knots)
 
-splines_plot <- ggplot(df_try, aes(x = knots, y = RMSE)) +
-  geom_line(aes(color = var), size = 1) +
+splines_plot <- ggplot(df_splines, aes(x = knots, y = RMSE, color = var)) +
+  geom_smooth(se = F, span = 0.5) +
   theme_minimal() +
-  xlab("Knots") + ylab("RMSE in Litre") +
-  scale_color_manual(values = c("grey20", "grey", "grey", "grey", "grey", "grey"),
+  xlab("Number of Knots") + ylab("RMSE in Litre") +
+  scale_color_manual(values = c("grey20", terrain.colors(n = 6, rev = T)[2:6]),
                      labels = c("Average", paste("Fold", 1:5))) +
-  labs(col = "Legend:")
+  labs(col = "Legend:") + geom_point()
 
 ggsave(filename = "00_data/output_paper/08_splines.pdf", plot =  splines_plot, width = 7, height = 3)
 
@@ -344,6 +344,24 @@ bagging_df <- df_bagging_list %>% purrr::reduce(.f = full_join) %>%
   arrange(desc(mean))
 
 save(file = "00_data/output_paper/13_bagging.rda", bagging_df)
+
+bagging_df <- bagging_df %>% gather(key = var, value = RMSE, -trees)
+
+bagging_df <- bagging_df %>% arrange(var)
+
+bagging_smoothed <- ggplot(bagging_df, aes(x = trees, y = RMSE,color = var)) +
+  geom_smooth(se = F, span = 0.5) +
+  theme_minimal() +
+  xlab("Number of Trees") + ylab("RMSE in Litre") +
+  scale_color_manual(values = c("grey20", terrain.colors(n = 6, rev = T)[2:6]),
+                     labels = c("Average", paste("Fold", 1:5))) +
+  labs(col = "Legend:") + 
+  geom_point()
+
+ggsave(filename = "00_data/output_paper/14_bagging.pdf", plot =  bagging_smoothed, width = 7, height = 3)
+
+
+
 
 # files <- dir(path = "02_analysis/cv/bagging")
 # 

@@ -195,9 +195,9 @@ The previous methods assumed linear relationships between the independend variab
 However, to recognize potential nonlinear relationships we add natural splines to the $year$, $price$, and $rprice_litre$ variable. Thos variables indicate the year in which the wine was distributed, the price and the real price with Jan 2004 as base respectively. Each natural spline was allowed to have up to 20 knots which is sufficient to estimate complex linear relationships.
 The respective RMSE's depending on the knots are presented in Figure XY.
 Splines are able to improve the prediction a little which indicates that at least some nonlinear relationship is present. However, like the methods before, splines reduce the interpretability of the coefficients. In this case, this tradeoff isn't offset enough by the gain in precision.
-Furthermore, Figure XY shows, that the RMSE's depend to some extend on the Fold which was used for Crossvalidation. This approves our theoretically founded motivation to use crossvalidation.
+Furthermore, Figure \ref{fig:splines} shows, that the RMSE's depend to some extend on the Fold which was used for Crossvalidation. This approves our theoretically founded motivation to use crossvalidation.
 
-```{r, echo = FALSE, fig.cap= "Dependency Between Knots and RMSE"}
+```{r splines, echo = FALSE, fig.cap= "\\label{fig:splines}Regression with Splines: Dependency Between Knots and RMSE", fig.align= T, fig.scap= "RMSE Values of Different Spline Models", ref.label= "splines"}
 knitr::include_graphics("../00_data/output_paper/08_splines.pdf")
 ```
 
@@ -236,6 +236,10 @@ The mean cross-validated rmse of the pruned trees is ca. `r cm_df[2]` while the 
 Bootsrap aggregation (Bagging) is a general method of repeatedly taking bootsrap samples from the dataset, estimating a model for every sample and averaging the predictions of every model afteward.
 The bagging algorithm can also be used to improve decision tree models. For this, a bootsrap sample is drawn before growing the tree. This process is repeated several times to grow multiple trees. Finally, the predictions of the trees are averaged.
 By bootstrapping bagging brings down the variance and thus, adresses the main problem of single regression trees which are very dependend on the actual sample.
+
+```{r bag, echo = FALSE, fig.cap = "Bagging: RMSE's at Different Tree Sizes (Smoothed)", fig.align=T, fig.scap="Bagging: RMSE's at Different Tree Sizes"}
+knitr::include_graphics("../00_data/output_paper/14_bagging.pdf")
+```
 
 => Bagging Ergebniss und Disskussion der Ergebnisse
 
