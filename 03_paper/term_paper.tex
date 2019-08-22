@@ -241,19 +241,19 @@ methods.
 We present various models which are increasingly complex. Those models
 potentially gain forecasting power while losing interpretability. The
 applied models range from linear regressions to tree based methods like
-Random Forests and Boosting. The goal is to develop the best possible
+random forests and boosting. The goal is to develop the best possible
 model to forecast weekly wine sales in litre in out of sample data.
 
 Although the main goal is an accurate forecast, some of the methods used
 in this paper can also be used to quantify the impact of expert reviews
 on the sales, if there is any. The effect of expert opinions on consumer
 demand was analyzed in preceeding research. Notably,
-\textcite[][]{Hilger2011} use a field experiment to study a review-based
-demand effect using wine score labels in a retail grocery chain.
-\textcite[][p. 293.]{Ashenfelter2013} analyzed, wether expert reviews
-influence the prices of wine. They conclude, that expert reviews contain
-public as well as private information. They only validate an influence
-on the highest rated whines. Furthermore,
+\textcite[][]{Hilger2011} used a field experiment to study a
+review-based demand effect using wine score labels in a retail grocery
+chain. \textcite[][p. 293.]{Ashenfelter2013} analyzed, wether expert
+reviews influence the prices of wine. They conclude, that expert reviews
+contain public as well as private information. They only validate an
+influence on the highest rated wines. Furthermore,
 \textcite[][p. 182-183.]{Bicknell2012} delivered research concerning the
 market for new zealand wine. They validate a significant regional
 influence on wine prices. This influence is substantially lower for wine
@@ -325,10 +325,10 @@ using a 5-fold cross-validation. This reduces the influence of sampling
 when building a training and test set while it's computationally
 feasible.
 
-In order to compute a prediction it's necessary that the test set
-includes, at least all, features of the training set. Due to the high
+In order to compute a prediction it is necessary that the test set
+includes, at least, all features of the training set. Due to the high
 number of levels in the countries and name variable this was not always
-the case. Therefore we are using only the intersection of training and
+the case. Therefore, we are using only the intersection of training and
 test features to be included in the estimation.
 
 \hypertarget{analysis}{%
@@ -346,8 +346,8 @@ calculated.
 
 The mean regression yields an average RMSE of \(\approx 13340\) litre
 sold per week. The linear regression where all variables are included
-yields an average RMSE of \(\approx 5572\). The latter results is
-probably influenced by overfitting. To cope with this problem we are
+yields an average RMSE of \(\approx 5572\). The latter result is
+probably influenced by overfitting. To cope with this problem, we are
 using variable selection and dimension reduction methods which are
 discussed in the proceeding sections.
 
@@ -355,9 +355,9 @@ discussed in the proceeding sections.
 \subsection{Lasso}\label{lasso}}
 
 The Least Absolute Shrinkage and Selection Operator (Lasso) is a method
-combining shrinkage of the coefficent estimates to do variable
-selection. It fits a linear model that is constrained by a penalty term,
-i.e.~the lasso coefficients minimize:
+combining linear regression and shrinkage of the coefficent estimates to
+do variable selection. It fits a linear model that is constrained by a
+penalty term, i.e., the lasso coefficients minimize:
 
 \[
 \sum_{i=1}^{n}(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij})+\lambda\sum_{j=1}^{p}|\beta_j|.
@@ -372,9 +372,9 @@ The other coefficients are exactly zero due to the sparsitiy property of
 the lasso estimator. Furthermore, the plot includes abbreviated variable
 names of the 10 biggest coefficients. All of those coefficients are
 dummys for specif*ic wine names. The average RMSE of the lasso approach
-is \(\approx 5547.76\). This is a slight improvement above the linear
-baseline model. The lasso slightly reduce the feature set while also
-reducing the RMSE. This is evidence which supports our prior assimption
+is \(\approx 5547.76\). This is a slight improvement compared to the
+linear baseline model. The lasso slightly reduces the feature set while
+also reducing the RMSE. This is evidence supporting our prior assimption
 that the linear model was exposed to the problem of overfitting.
 Furthermore, the coefficients of the lasso model show that the name
 variable is the most important variable to explain the sold litre per
@@ -391,17 +391,18 @@ variables which are not present in the 400 biggest coefficients.
 \hypertarget{pcr-and-pls}{%
 \subsection{PCR and PLS}\label{pcr-and-pls}}
 
-While lasso is a technique for variable selection, PCR and PLS are
-methods that reduce the dimension of the feature set. Thus, the least
-squares estimation is performed using a transformation of the
-explanatory variables. Thereby, PLS includes the dependend variable when
-computing the new feature set while PCR builds the principal components
-independend of the dependend variable.
+While lasso is a technique for variable selection, PCR (principal
+components regression) and PLS (partial least squares) are methods that
+reduce the dimension of the feature set. Thus, the least squares
+estimation is performed using a transformation of the explanatory
+variables. Thereby, PLS includes the dependent variable when computing
+the new feature set while PCR builds the principal components
+independent of the dependent variable.
 
 Figure XY shows the first two principal components from a principal
 components analysis. The first two principal components represent
 roughly 3\% of the total variance. This is a sign that the PCA doesn't
-work well in our data which is might be due to the large amount of dummy
+work well in our data which might be due to the large amount of dummy
 variables.
 
 \begin{figure}
@@ -410,7 +411,7 @@ variables.
 \caption{Principal Component One and Two}
 \end{figure}
 
-The results confirms the expectation. PCR has a cross validated RMSE of
+The results confirm the expectation. PCR has a cross-validated RMSE of
 \(\approx 5546.05\) while PLS leads to an RMSE of \(\approx 6201.15\).
 While \(\approx 635\) principal component where included in the PCR,
 only \(\approx 35.2\) components where used in the PLS. Thus PLS
@@ -421,23 +422,23 @@ interpretability of the results, it leads to a higher RMSE.
 \subsection{Splines}\label{splines}}
 
 The previous methods assumed linear relationships between the
-independend variables and the dependend variable. Considering the amount
-of dummy variables in the featureset the usage of nonlinear methods is
+independent variables and the dependent variable. Considering the amount
+of dummy variables in the feature set the usage of nonlinear methods is
 quite limited. However, to recognize potential nonlinear relationships
-we add natural splines to the \(year\), \(price\), and \(rprice_litre\)
-variable. Thos variables indicate the year in which the wine was
+we add natural splines to the \(year\), \(price\), and \(rprice\_litre\)
+variable. Those variables indicate the year in which the wine was
 distributed, the price and the real price with Jan 2004 as base
 respectively. Each natural spline was allowed to have up to 20 knots
 which is sufficient to estimate complex linear relationships. The
-respective RMSE's depending on the knots are presented in Figure XY.
+respective RMSEs depending on the knots are presented in Figure XY.
 Splines are able to improve the prediction a little which indicates that
 at least some nonlinear relationship is present. However, like the
 methods before, splines reduce the interpretability of the coefficients.
 In this case, this tradeoff isn't offset enough by the gain in
-precision. Furthermore, Figure \ref{fig:splines} shows, that the RMSE's
-depend to some extend on the Fold which was used for Crossvalidation.
+precision. Furthermore, Figure \ref{fig:splines} shows, that the RMSEs
+depend to some extend on the Fold which was used for cross-validation.
 This approves our theoretically founded motivation to use
-crossvalidation.
+cross-validation.
 
 \begin{figure}
 
@@ -462,9 +463,9 @@ and boosting, are described in more detail when being applied.
 \hypertarget{regression-tree}{%
 \subsubsection{Regression Tree}\label{regression-tree}}
 
-For growing a regression tree `The algorithm needs to automatically
-decide on the splitting variables and split points {[}\ldots{]} the tree
-should have'\autocite[p.349]{Hastie2013}. The tree is grown when a
+For growing a regression tree `the algorithm needs to automatically
+decide on the splitting variables and split points {[}\ldots{}{]} the
+tree should have'\autocite[p.349]{Hastie2013}. The tree is grown when a
 splitting is found that minimizes the sum of squared residuals. The
 splitting is done with a greedy algorithm, i.e., at first all the data
 is split into just two groups while the search of the splitting variable
@@ -480,8 +481,8 @@ large enough that the nodes reach a set minimum size.
 \end{figure}
 
 Figure XY shows that only a few of the available variables are used.
-These are namely \(ms_segm\), \(segmred\), \(price\), and \(period\) and
-split the dataset into \(10\) parts, i.e.~the tree has got \(10\)
+These are namely \(ms\_segm\), \(segmred\), \(price\), and \(period\)
+and split the dataset into \(10\) parts, i.e.~the tree has got \(10\)
 terminal nodes. The figure does also tell us what share of the data can
 be sorted to each node, as well as the mean price of the allocated
 observations. {[}{[}{[} The regression trees build in the other four
@@ -496,9 +497,9 @@ Conversely the right track stands for red wines.
 As regression trees may tend to grow quite large, a possible way to get
 smaller trees is pruning back the grown larger tree. The goal of pruning
 is `to select a subtree that leads to the lowest test error rate
-{[}which{]} we can estimate {[}\ldots{]} using cross-validation or the
-validation set approach' \autocite[][p. 308]{James2014}, p.~308{]}. This
-is done by \emph{cost complexity pruning}.
+{[}which{]} we can estimate {[}\ldots{}{]} using cross-validation or the
+validation set approach' \autocite[p.~308]{James2014}. This is done by
+\emph{cost complexity pruning}.
 
 \begin{figure}
 \centering
@@ -507,22 +508,22 @@ is done by \emph{cost complexity pruning}.
 \end{figure}
 
 While the pruned tree might be easier to interpret, it does also come
-with a higher rmse. The mean cross-validated rmse of the pruned trees is
-ca. 7935.64 while the mean rmse of the normal regression trees is about
+with a higher RMSE. The mean cross-validated RMSE of the pruned trees is
+ca. 7935.64 while the mean RMSE of the normal regression trees is about
 6494.75.
 
 \hypertarget{bootstrap-aggregation}{%
 \subsubsection{Bootstrap Aggregation}\label{bootstrap-aggregation}}
 
-Bootsrap aggregation (Bagging) is a general method of repeatedly taking
-bootsrap samples from the dataset, estimating a model for every sample
-and averaging the predictions of every model afteward. The bagging
+Bootstrap aggregation (Bagging) is a general method of repeatedly taking
+bootstrap samples from the dataset, estimating a model for every sample
+and averaging the predictions of every model afterwards. The bagging
 algorithm can also be used to improve decision tree models. For this, a
-bootsrap sample is drawn before growing the tree. This process is
+bootstrap sample is drawn before growing the tree. This process is
 repeated several times to grow multiple trees. Finally, the predictions
 of the trees are averaged. By bootstrapping bagging brings down the
 variance and thus, adresses the main problem of single regression trees
-which are very dependend on the actual sample.
+which are very dependent on the actual sample.
 
 Figure \ref{fig:rmsebag} shows the RMSE values of different bagging
 models. One can see that even small models with down to 15 Trees
@@ -549,8 +550,8 @@ would increase the RMSE the most when being omitted.
 
 Bagging, in general, takes all possible variables into consideration at
 each split. This makes bagging computationally demanding. Moreover, this
-may lead to similar trees at each iteration. Thus, the trees ca be
-highly correlated.
+may lead to similar trees at each iteration. Thus, the trees are
+probably highly correlated.
 
 \hypertarget{random-forest}{%
 \subsubsection{Random Forest}\label{random-forest}}
@@ -565,7 +566,7 @@ especially the case
 
 \begin{figure}
 
-{\centering \includegraphics{../00_data/output_paper/10_rf_plot} 
+{\centering \includegraphics{../00_data/output_paper/10_rf_plot}
 
 }
 
@@ -583,7 +584,7 @@ especially the case
 
 \begin{figure}
 
-{\centering \includegraphics{../00_data/output_paper/11_boosting_plot} 
+{\centering \includegraphics{../00_data/output_paper/11_boosting_plot}
 
 }
 
@@ -649,64 +650,64 @@ Observations (jedes mal neue Ziehung bevor ein Baum erstellt wird.)
 
 \newgeometry{top=1cm, left = 5cm, right = 2.5cm, bottom = 2cm}
 
-\begin{table}[!htbp] \centering 
-  \caption{Summary Statistics of the Data Set.} 
-  \label{} 
-\begin{tabular}{@{\extracolsep{5pt}}lcccc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
-Statistic & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} \\ 
-\hline \\[-1.8ex] 
-artikelnr & 200,001 & 4,236,201 & 1,008,268.000 & 847,223.200 \\ 
-artikelid & 2,000 & 42,362 & 10,082.660 & 8,472.232 \\ 
-year & 2,002 & 2,006 & 2,003.849 & 1.157 \\ 
-week & 1 & 53 & 26.655 & 15.464 \\ 
-period & 1 & 215 & 123.181 & 60.995 \\ 
-litre & 0.000 & 184,200.000 & 6,100.028 & 11,361.840 \\ 
-llitre & $-$0.288 & 9,999,979.000 & 6,357,811.000 & 2,766,722.000 \\ 
-price & 38 & 1,149 & 109.710 & 86.164 \\ 
-lp & 4,199 & 7,350,033 & 4,224,377.000 & 1,374,042.000 \\ 
-rprice\_litre & 43 & 9,997,986 & 4,786,868.000 & 3,294,301.000 \\ 
-old & 0 & 6,294 & 1,013.839 & 1,670.369 \\ 
-ma\_split & 0.000 & 9,992,891.000 & 103,908.700 & 731,760.500 \\ 
-v10\_a & 0.000 & 9,996,812.000 & 139,915.000 & 839,263.000 \\ 
-v10\_dn & 0.000 & 1.000 & 0.866 & 0.341 \\ 
-v10\_di & 0.000 & 6,666,667.000 & 700,363.200 & 1,870,385.000 \\ 
-v10\_exp & 0.000 & 1.000 & 0.987 & 0.115 \\ 
-v10\_svd & 0.000 & 1.000 & 0.983 & 0.130 \\ 
-v10\_aom & 0.000 & 1.000 & 0.862 & 0.345 \\ 
-v10\_am & 0.000 & 9,642,858.000 & 843,582.100 & 2,364,607.000 \\ 
-v10\_dnm & 0.000 & 9,791,667.000 & 2,781,325.000 & 3,473,845.000 \\ 
-v10\_dim & 0.000 & 9,642,858.000 & 2,152,525.000 & 3,281,604.000 \\ 
-v10\_expm & 0.000 & 9,714,286.000 & 1,306,189.000 & 2,935,431.000 \\ 
-v10\_svdm & 0.000 & 9,833,333.000 & 868,634.200 & 2,474,596.000 \\ 
-v10\_aomm & 0.000 & 9,629,629.000 & 3,414,758.000 & 2,908,400.000 \\ 
-v10\_all & 0.000 & 9,710,261.000 & 3,998,467.000 & 2,944,359.000 \\ 
-rev\_all & 0.000 & 9,816,509.000 & 77,025.290 & 679,549.600 \\ 
-rev\_all\_hi & 0 & 1 & 0.038 & 0.190 \\ 
-rev\_all\_lo & 0 & 1 & 0.019 & 0.137 \\ 
-rev\_eve & 0 & 1 & 0.015 & 0.122 \\ 
-rev\_eve\_hi & 0 & 1 & 0.010 & 0.098 \\ 
-rev\_eve\_lo & 0 & 1 & 0.003 & 0.058 \\ 
-rev\_ex & 0 & 1 & 0.010 & 0.101 \\ 
-rev\_ex\_hi & 0 & 1 & 0.008 & 0.089 \\ 
-rev\_ex\_lo & 0 & 1 & 0.006 & 0.079 \\ 
-rev\_nyaom & 0 & 1 & 0.033 & 0.179 \\ 
-rev\_nyaom\_hi & 0 & 1 & 0.029 & 0.169 \\ 
-rev\_nyaom\_lo & 0 & 1 & 0.013 & 0.113 \\ 
-rev\_all\_p50 & 0 & 1 & 0.024 & 0.152 \\ 
-rev\_all\_p80 & 0 & 1 & 0.017 & 0.130 \\ 
-rev\_all\_p20 & 0 & 1 & 0.010 & 0.101 \\ 
-m\_rev & 0 & 1 & 0.009 & 0.094 \\ 
-m\_rev\_hi & 0 & 1 & 0.003 & 0.058 \\ 
-m\_rev\_lo & 0 & 1 & 0.001 & 0.031 \\ 
-nrarom & 0 & 793 & 14.917 & 74.440 \\ 
-pri\_m & 0 & 9,990,796 & 3,046,590.000 & 3,513,496.000 \\ 
-ms\_segm & 0 & 9,984,732 & 1,846,902.000 & 3,136,838.000 \\ 
-ind & 0.00000 & 1.000 & 0.014 & 0.097 \\ 
-...59 & 1.000 & 1.000 & 1.000 & 0.000 \\ 
-\hline \\[-1.8ex] 
-\end{tabular} 
+\begin{table}[!htbp] \centering
+  \caption{Summary Statistics of the Data Set.}
+  \label{}
+\begin{tabular}{@{\extracolsep{5pt}}lcccc}
+\\[-1.8ex]\hline
+\hline \\[-1.8ex]
+Statistic & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} \\
+\hline \\[-1.8ex]
+artikelnr & 200,001 & 4,236,201 & 1,008,268.000 & 847,223.200 \\
+artikelid & 2,000 & 42,362 & 10,082.660 & 8,472.232 \\
+year & 2,002 & 2,006 & 2,003.849 & 1.157 \\
+week & 1 & 53 & 26.655 & 15.464 \\
+period & 1 & 215 & 123.181 & 60.995 \\
+litre & 0.000 & 184,200.000 & 6,100.028 & 11,361.840 \\
+llitre & $-$0.288 & 9,999,979.000 & 6,357,811.000 & 2,766,722.000 \\
+price & 38 & 1,149 & 109.710 & 86.164 \\
+lp & 4,199 & 7,350,033 & 4,224,377.000 & 1,374,042.000 \\
+rprice\_litre & 43 & 9,997,986 & 4,786,868.000 & 3,294,301.000 \\
+old & 0 & 6,294 & 1,013.839 & 1,670.369 \\
+ma\_split & 0.000 & 9,992,891.000 & 103,908.700 & 731,760.500 \\
+v10\_a & 0.000 & 9,996,812.000 & 139,915.000 & 839,263.000 \\
+v10\_dn & 0.000 & 1.000 & 0.866 & 0.341 \\
+v10\_di & 0.000 & 6,666,667.000 & 700,363.200 & 1,870,385.000 \\
+v10\_exp & 0.000 & 1.000 & 0.987 & 0.115 \\
+v10\_svd & 0.000 & 1.000 & 0.983 & 0.130 \\
+v10\_aom & 0.000 & 1.000 & 0.862 & 0.345 \\
+v10\_am & 0.000 & 9,642,858.000 & 843,582.100 & 2,364,607.000 \\
+v10\_dnm & 0.000 & 9,791,667.000 & 2,781,325.000 & 3,473,845.000 \\
+v10\_dim & 0.000 & 9,642,858.000 & 2,152,525.000 & 3,281,604.000 \\
+v10\_expm & 0.000 & 9,714,286.000 & 1,306,189.000 & 2,935,431.000 \\
+v10\_svdm & 0.000 & 9,833,333.000 & 868,634.200 & 2,474,596.000 \\
+v10\_aomm & 0.000 & 9,629,629.000 & 3,414,758.000 & 2,908,400.000 \\
+v10\_all & 0.000 & 9,710,261.000 & 3,998,467.000 & 2,944,359.000 \\
+rev\_all & 0.000 & 9,816,509.000 & 77,025.290 & 679,549.600 \\
+rev\_all\_hi & 0 & 1 & 0.038 & 0.190 \\
+rev\_all\_lo & 0 & 1 & 0.019 & 0.137 \\
+rev\_eve & 0 & 1 & 0.015 & 0.122 \\
+rev\_eve\_hi & 0 & 1 & 0.010 & 0.098 \\
+rev\_eve\_lo & 0 & 1 & 0.003 & 0.058 \\
+rev\_ex & 0 & 1 & 0.010 & 0.101 \\
+rev\_ex\_hi & 0 & 1 & 0.008 & 0.089 \\
+rev\_ex\_lo & 0 & 1 & 0.006 & 0.079 \\
+rev\_nyaom & 0 & 1 & 0.033 & 0.179 \\
+rev\_nyaom\_hi & 0 & 1 & 0.029 & 0.169 \\
+rev\_nyaom\_lo & 0 & 1 & 0.013 & 0.113 \\
+rev\_all\_p50 & 0 & 1 & 0.024 & 0.152 \\
+rev\_all\_p80 & 0 & 1 & 0.017 & 0.130 \\
+rev\_all\_p20 & 0 & 1 & 0.010 & 0.101 \\
+m\_rev & 0 & 1 & 0.009 & 0.094 \\
+m\_rev\_hi & 0 & 1 & 0.003 & 0.058 \\
+m\_rev\_lo & 0 & 1 & 0.001 & 0.031 \\
+nrarom & 0 & 793 & 14.917 & 74.440 \\
+pri\_m & 0 & 9,990,796 & 3,046,590.000 & 3,513,496.000 \\
+ms\_segm & 0 & 9,984,732 & 1,846,902.000 & 3,136,838.000 \\
+ind & 0.00000 & 1.000 & 0.014 & 0.097 \\
+...59 & 1.000 & 1.000 & 1.000 & 0.000 \\
+\hline \\[-1.8ex]
+\end{tabular}
 \end{table}
 
 \restoregeometry
