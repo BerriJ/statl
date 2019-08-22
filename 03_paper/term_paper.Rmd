@@ -231,18 +231,17 @@ cm_df <- df %>% colMeans() %>% round(2)
 While the pruned tree might be easier to interpret, it does also come with a higher rmse.
 The mean cross-validated rmse of the pruned trees is ca. `r cm_df[2]` while the mean rmse of the normal regression trees is about `r cm_df[1]`.
 
-
 ### Random Forest
 
-Random forests are in basic a combination of different regression trees. The name random forest arises from the fact that at each split of the tree a set number of randomly chosen variables are considered for the next splitting. This results in a different tree for each iteration off the random forest and thus by averaging leads to a lower variance <!--- in terms of forecasting error --> than the single trees. This is especially the case 
+Random forests combine different regression trees. The name random forest arises from the fact that at each split of the tree building process only a pre specified number of randomly chosen variables are taken into consideration. This results in a different tree for each iteration off the random forest and thus by averaging leads to a lower variance, in terms of forecasting error, than the single trees. This is especially the case 
 
 ```{r, echo = FALSE, fig.cap= "Random Forest: Dependency between RMSE, the Number of Trees and the Number of Variables Included at each Split", fig.scap= "RMSE's of the Random Forest for Different Parameters", fig.align= 'center'}
 knitr::include_graphics("../00_data/output_paper/10_rf_plot.pdf")
 ```
 
-### Bagging
+### Bootstrap Aggregation
 
-Bagging is a special version of a random forest in which, at each split, all possible variables are taken in consideration for selection. In contrast to random forests this may lead to very similar trees at each iteration which thus ca be highly correlated.
+Bootsrap aggregation (Bagging) is a special version of a random forest in which, at each split, all possible variables are taken in consideration for selection. In contrast to random forests this may lead to very similar trees at each iteration. Thus, the trees ca be highly correlated. Furthermore, bagging is computationally more demanding since all variables are taken into consideration at each split.
 
 ### Boosting
 
@@ -293,7 +292,8 @@ bag.fraction eklären! Wir nutzen hier jeweils nur 50% unserer Observations (jed
 
 \cleardoublepage
 \appendix
-
+\setcounter{table}{0}
+\renewcommand{\thetable}{A\arabic{table}}
 # Appendices
 
 ## Some Appendix 1
@@ -320,6 +320,4 @@ df <- data.frame(
 )
 
 kable(df, "latex")
-
-
 ```
