@@ -358,7 +358,7 @@ save(file = "00_data/output_paper/13_bagging.rda", bagging_df)
 #   trees_2 <- trees
 #   rmse_BA <- c(rmse_BA_1, rmse_BA_2)
 #   trees <- c(trees_1, trees_2)
-#   save(file = paste("02_analysis/cv/bagging/bagging_data_small20190822_1152_",i,".rda", sep = ""),
+#   save(file = paste("02_analysis/cv/bagging/bagging_data_small20190822_1320_",i,".rda", sep = ""),
 #        trees, rmse_BA)
 # }
 

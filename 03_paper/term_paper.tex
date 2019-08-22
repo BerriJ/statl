@@ -509,15 +509,36 @@ with a higher rmse. The mean cross-validated rmse of the pruned trees is
 ca. 7935.64 while the mean rmse of the normal regression trees is about
 6494.75.
 
+\hypertarget{bootstrap-aggregation}{%
+\subsubsection{Bootstrap Aggregation}\label{bootstrap-aggregation}}
+
+Bootsrap aggregation (Bagging) is a general method of repeatedly taking
+bootsrap samples from the dataset, estimating a model for every sample
+and averaging the predictions of every model afteward. The bagging
+algorithm can also be used to improve decision tree models. For this, a
+bootsrap sample is drawn before growing the tree. This process is
+repeated several times to grow multiple trees. Finally, the predictions
+of the trees are averaged. By bootstrapping bagging brings down the
+variance and thus, adresses the main problem of single regression trees
+which are very dependend on the actual sample.
+
+=\textgreater{} Bagging Ergebniss und Disskussion der Ergebnisse
+
+Bagging, in general, takes all possible variables into consideration at
+each split. This makes bagging computationally demanding. Moreover, this
+may lead to similar trees at each iteration. Thus, the trees ca be
+highly correlated.
+
 \hypertarget{random-forest}{%
 \subsubsection{Random Forest}\label{random-forest}}
 
-Random forests are in basic a combination of different regression trees.
-The name random forest arises from the fact that at each split of the
-tree a set number of randomly chosen variables are considered for the
-next splitting. This results in a different tree for each iteration off
-the random forest and thus by averaging leads to a lower variance than
-the single trees. This is especially the case
+Random forests combine different regression trees. The name random
+forest arises from the fact that at each split of the tree building
+process only a pre specified number of randomly chosen variables are
+taken into consideration. This results in a different tree for each
+iteration off the random forest and thus by averaging leads to a lower
+variance, in terms of forecasting error, than the single trees. This is
+especially the case
 
 \begin{figure}
 
@@ -527,14 +548,6 @@ the single trees. This is especially the case
 
 \caption[RMSE's of the Random Forest for Different Parameters]{Random Forest: Dependency between RMSE, the Number of Trees and the Number of Variables Included at each Split}\label{fig:unnamed-chunk-11}
 \end{figure}
-
-\hypertarget{bagging}{%
-\subsubsection{Bagging}\label{bagging}}
-
-Bagging is a special version of a random forest in which, at each split,
-all possible variables are taken in consideration for selection. In
-contrast to random forests this may lead to very similar trees at each
-iteration which thus ca be highly correlated.
 
 \hypertarget{boosting}{%
 \subsubsection{Boosting}\label{boosting}}
@@ -596,6 +609,8 @@ Observations (jedes mal neue Ziehung bevor ein Baum erstellt wird.)
 
 \cleardoublepage
 \appendix
+\setcounter{table}{0}
+\renewcommand{\thetable}{A\arabic{table}}
 
 \hypertarget{appendices}{%
 \section{Appendices}\label{appendices}}
