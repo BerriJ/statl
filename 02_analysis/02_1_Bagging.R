@@ -10,7 +10,7 @@ models <- list()
 
 print("Now doing the Bagging-Loop")
 
-trees <- c(50, 100, 150) # We should think about what sizes we want to try
+trees <- c(1, 5, 10, 25, 50, 100, 150) # We should think about what sizes we want to try
 rmse_BA <- c()
 d <- c()
 tic()
