@@ -16,7 +16,7 @@ d <- c()
 tic()
 for(i in 1:length(trees)){
   x <- Sys.time()
-  models[[i]] <- randomForest(x = x.train, y = y.train, mtry = ncol(x.train)-1, importance = T, ntree = trees[i])
+  models[[i]] <- randomForest(x = x.train, y = y.train, mtry = ncol(x.train), importance = T, ntree = trees[i])
   pred_bag <- predict(models[[i]], newdata = x.test, n.trees = trees[i])
   rmse_BA[i] <- mean((y.test - pred_bag)^2) %>% sqrt()
   d[i] <- Sys.time() - x
