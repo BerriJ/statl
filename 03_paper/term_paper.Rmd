@@ -247,7 +247,7 @@ Bagging is a special version of a random forest in which, at each split, all pos
 ### Boosting
 
 ```{r, echo = FALSE, fig.cap= "Boosting: Dependency between RMSE, Lambda, the Depths and the Number of Trees that are Grown", fig.scap= "RMSE's of the Boosting Model for Different Parameters", fig.align= 'center'}
-knitr::include_graphics("../00_data/output_paper/11_boosting_neu.png")
+knitr::include_graphics("../00_data/output_paper/11_boosting_plot.png")
 ```
 
 In contrast to random forests boosting grows tree sequentially meaning that for every new tree information from already grown trees is used [@James2014, p.322]. For boosting rather small regression trees are used to improve the boosting tree slowly. This is achieved by taking the residuals from the current boosting tree, fitting a (small) tree to these residuals and then fiiting this tree into the boosting tree in areas where the performance of the boosting tree could be improved [@James2014, p.322].

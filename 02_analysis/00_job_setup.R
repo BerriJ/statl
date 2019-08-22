@@ -83,16 +83,15 @@ for(i in 1:5){
   #                          importEnv = T)
   #
   # # Random Forest
-  # rstudioapi::jobRunScript("02_analysis/02_7_random_forest.R",
-  #                          workingDir = "../statl",
-  #                          importEnv = T)
+  rstudioapi::jobRunScript("02_analysis/02_7_random_forest.R",
+                           workingDir = "../statl",
+                           importEnv = T)
   #
   # Boosting
   # rstudioapi::jobRunScript("02_analysis/02_7_boosting.R",
   #                          workingDir = "../statl",
   #                          importEnv = T)
 }
-
 
 ### Summary Baseline Models  ####
 
@@ -193,7 +192,7 @@ for(i in seq_along(files)){
 
 save(file = "00_data/output_paper/09_tree.rda", df)
 
-### Random Forest  ####
+### Summary Random Forest  ####
 
 files <- dir(path = "02_analysis/cv/rf")
 
@@ -225,9 +224,11 @@ rf_plot <- plot_ly(x = rf_df$mtry, y = rf_df$trees, z = rf_df$mean,
             zaxis = list(title = "RMSE")
           ))
 
+rf_df[which.min(rf_df$mean),]
+
 # orca(rf_plot, file = "00_data/output_paper/10_rf_plot.png")
 
-### Boosting ####
+### Summary Boosting ####
 
 files <- dir(path = "02_analysis/cv/boosting")
 
@@ -248,8 +249,10 @@ for(i in 1:25){
 boosting_df <- boosting_df[, c(1:3, 129:153)] %>% gather(key = Trees, value = RMSE, "1":"25")
 boosting_df$Trees <- as.numeric(boosting_df$Trees)
 
-colorScale <- data.frame(z=c(0,1),
-                         col=c("#ff0000","#00ff0d"))
+colorScale <- data.frame(z=c(0,0.16,0.16,0.32,0.32,0.49,0.49,0.67,0.67,0.84,0.84,1),
+                         col=c("#b00000","#b00000","#ff0000","#ff0000","#ff9900","#ff9900", "#E6E600FF",
+                               "#E6E600FF", "#63C600FF","#63C600FF","#00A600FF","#00A600FF"))
+colorScale$col <- as.character(colorScale$col)
 colorScale$col <- as.character(colorScale$col)
 boosting_df_full <- boosting_df
 boosting_df <- boosting_df[boosting_df$bag.frac == 1 & 
@@ -268,16 +271,16 @@ plot_ly(x = boosting_df$lambda, y = boosting_df$int.depth, z = boosting_df$RMSE,
                                  colorscale = colorScale,
                                  showscale = TRUE,
                                  symbol = 'circle',
-                                 opacity = 0.5,
+                                 opacity = 0.75,
                                  colorbar = list(title = "Number of Trees",
-                                                 tickvals = c(1,5,10,15,20,25)#,
-                                                 #ticktext = c("25","50","75","100","125")
-                                                 ),
+                                                 tickvals = seq(1, 25, length = 13)[c(2,4,6,8,10,12)],
+                                                 ticktext = c("1","5","10","15","20","25")),
                                  line = list(width = 0), size = 2)) %>% 
   layout(
                                    title = "",
                                    scene = list(
-                                     xaxis = list(title = "Lambda"),
+                                     xaxis = list(title = "Lambda",
+                                                  dtick = 0.1),
                                      yaxis = list(title = "Depth"),
                                      zaxis = list(title = "RMSE",
                                                   range=c(4200,10000),
@@ -288,8 +291,8 @@ plot_ly(x = boosting_df$lambda, y = boosting_df$int.depth, z = boosting_df$RMSE,
                                        z = min(boosting_df$RMSE),
                                        y = boosting_df$int.depth[which.min(boosting_df$RMSE)],
                                        x = boosting_df$lambda[which.min(boosting_df$RMSE)],
-                                       ay = -50,
-                                       ax = -150,
+                                       ay = -100,
+                                       ax = 100,
                                        text = "Minimum",
                                        arrowcolor = "black",
                                        arrowsize = 1,
@@ -309,7 +312,7 @@ boosting_df_full$RMSE[boosting_df_full$bag.frac == 1] %>% mean()
 
 save(file = "00_data/output_paper/12_boosting.rda", boosting_df)
 
-# Bagging ####
+# Summary Bagging ####
 
 files <- dir(path = "02_analysis/cv/bagging")
 

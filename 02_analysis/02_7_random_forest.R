@@ -9,7 +9,7 @@ print("Packages loaded")
 print("Now doing the Random Forest-Loop")
 
 m <- seq(10,100,10)
-trees <- seq(1,25,5)
+trees <- c(1,3,5,10,15,20,25)
 grid <- expand.grid(m,trees)
 rmse_RF <- c()
 d <- c()
