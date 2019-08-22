@@ -87,18 +87,18 @@ We need to omit two variables beforehand, namely "time_segm_price" and "artikpr"
 
 ```{r, echo=FALSE}
 load("../00_data/output_paper/01_typeof_vec.rda")
-knitr::kable(t(typeof_vec), caption = "Frequency of Variable Types")
+knitr::kable(t(typeof_vec), caption = "Frequency of Variable Types.")
 ```
 
 Figure 1 depicts the amount of missing values in each variable. The number of complete cases would be zero without further selection. Therefore we exclude every variable with a ratio of missing values that exceeds $50\%$. In consequence 41416 observations with 45 variables are used for building the forecasting models.
 
-```{r, echo=F, fig.cap= "Share of Missing Values in the Wine Dataset"}
+```{r, echo=F, fig.cap= "Share of Missing Values in the Wine Dataset."}
 knitr::include_graphics("../00_data/output_paper/02_missings_alt.pdf")
 ```
 
 Figure XY depicts the distribution of the litre variable which is the dependend variable in our models. One can see that the observations are heavily skewed. The Maximum is at $184200$ litres sold weekly while it's minimum is near zero with only $0.75$ litres sold per week.
 
-```{r, echo = FALSE, fig.cap= "Histogram and Estimated Density of the Litre Variable"}
+```{r, echo = FALSE, fig.cap= "Histogram and Estimated Density of the Litre Variable."}
 knitr::include_graphics("../00_data/output_paper/04_hist_litre.pdf")
 ```
 
@@ -165,7 +165,7 @@ The average RMSE of the lasso approach is $\approx `r df[1]`$. This is a slight 
 The lasso slightly reduces the feature set while also reducing the RMSE. This is evidence supporting our prior assimption that the linear model was exposed to the problem of overfitting.
 Furthermore, the coefficients of the lasso model show that the name variable is the most important variable to explain the sold litre per week. It is followed by the Vintage, the Region, the taste segment and the Country of the wine. The least important variables are the review variables which are not present in the 400 biggest coefficients.
 
-```{r, echo = FALSE, fig.cap= "Relation of Coefficients and Shrinkage"}
+```{r, echo = FALSE, fig.cap= "Relation of Coefficients and Shrinkage."}
 image_read("../00_data/output_paper/06_lasso_vars.png") %>%
   crop(bottom = 50)
 ```
@@ -182,7 +182,7 @@ While lasso is a technique for variable selection, PCR (principal components reg
 
 Figure XY shows the first two principal components from a principal components analysis. The first two principal components represent roughly 3\% of the total variance. This is a sign that the PCA doesn't work well in our data which might be due to the large amount of dummy variables.
 
-```{r, echo = FALSE, fig.cap= "Principal Component One and Two", message=FALSE}
+```{r, echo = FALSE, fig.cap= "Principal Component One and Two.", message=FALSE}
 image_read("../00_data/output_paper/07_pca.png") %>%
   crop(bottom = 120)
 ```
@@ -197,7 +197,7 @@ The respective RMSEs depending on the knots are presented in Figure XY.
 Splines are able to improve the prediction a little which indicates that at least some nonlinear relationship is present. However, like the methods before, splines reduce the interpretability of the coefficients. In this case, this tradeoff isn't offset enough by the gain in precision.
 Furthermore, Figure \ref{fig:splines} shows, that the RMSEs depend to some extend on the Fold which was used for cross-validation. This approves our theoretically founded motivation to use cross-validation.
 
-```{r splines, echo = FALSE, fig.cap= "\\label{fig:splines}Regression with Splines: Dependency Between Knots and RMSE", fig.align= T, fig.scap= "RMSE Values of Different Spline Models"}
+```{r splines, echo = FALSE, fig.cap= "\\label{fig:splines}Regression with Splines: Dependency Between Knots and RMSE.", fig.align= T, fig.scap= "RMSE Values of Different Spline Models"}
 knitr::include_graphics("../00_data/output_paper/08_splines.pdf")
 ```
 
@@ -239,13 +239,13 @@ By bootstrapping bagging brings down the variance and thus, adresses the main pr
 
 Figure \ref{fig:rmsebag} shows the RMSE values of different bagging models. The bootstrap sample size was chosen to be two thirds of the total number of observations. One can see that even small models with down to 15 Trees significantly outperform the single tree model of the previous chapter.
 
-```{r bag, echo = FALSE, fig.cap = "\\label{fig:rmsebag}Bagging: RMSE's at Different Tree Sizes (Smoothed)", fig.align=T, fig.scap="Bagging: RMSE's at Different Tree Sizes"}
+```{r bag, echo = FALSE, fig.cap = "\\label{fig:rmsebag}Bagging: RMSE's at Different Tree Sizes (Smoothed).", fig.align=T, fig.scap="Bagging: RMSE's at Different Tree Sizes"}
 knitr::include_graphics("../00_data/output_paper/14_bagging.pdf")
 ```
 
 To further analyze the bagging model, we estimated a bagging model with 25 trees for the whole dataset. Figure \ref{fig:bagvarimp} is a variable importance plot for this model. It presents those 20 variables which would increase the RMSE the most when being omitted. The plot shows that the influence of 'ms_segm' which is the market share of the wine as well as 'segmred' which is a dummy, indicating if the whine is red, substantially contribute to our model. Intuitively, the price also influences how many litres per week are sold. More surpisingly however is the fact, that also the date substantially contributes to our mode. This indicates that prices have changed oder time.
 
-```{r bag_varimp, echo = FALSE, fig.cap = "\\label{fig:bagvarimp}Bagging: Variable Importance", fig.align=T}
+```{r bag_varimp, echo = FALSE, fig.cap = "\\label{fig:bagvarimp}Bagging: Variable Importance.", fig.align=T}
 knitr::include_graphics("../00_data/output_paper/15_var_imp_bagging.pdf")
 ```
 
@@ -255,7 +255,7 @@ Bagging, in general, takes all possible variables into consideration at each spl
 
 The Random Forest algorithm is a special case of Bagging. The name random forest arises from the fact that, in cotrast to the usual Bagging algorithm, at each split of the tree building process only a pre specified number of randomly chosen variables are taken into consideration. This results in a different tree for each iteration off the random forest and therefore decorrelates the trees. In consequence, the Random Forest reduces the overall variance in comparison to Bagging. This effect is especially valid for homogenous datasets in which the trees of the bagging algorithm are highly correlated.
 
-```{r, echo = FALSE, fig.cap= "\\label{fig:rfrmse}Random Forest: Dependency between RMSE, the Number of Trees and the Number of Variables Included at each Split", fig.scap= "RMSE's of the Random Forest for Different Parameters", fig.align= 'center'}
+```{r, echo = FALSE, fig.cap= "\\label{fig:rfrmse}Random Forest: Dependency between RMSE, the Number of Trees and the Number of Variables Included at each Split.", fig.scap= "RMSE's of the Random Forest for Different Parameters", fig.align= 'center'}
 knitr::include_graphics("../00_data/output_paper/10_rf_plot.png")
 ```
 
@@ -263,19 +263,19 @@ We calculated RMSE values for a range of Random Forest models to evaluate which 
 
 The 25 Tree Bagging Model (RMSE of $\approx4305$) outperforms the Random Forest Model (with 25 Trees and 100 Variables) only by a small margin (RMSE of $4374.330$). However, training the Random Forest demands only $15\%$ of the time, that the Bagging Model needs.
 
-```{r, echo = FALSE, fig.cap= "Random Forest: Variable Importance"}
+```{r, echo = FALSE, fig.cap= "Random Forest: Variable Importance."}
 knitr::include_graphics("../00_data/output_paper/11_var_imp_random_forest_bp.pdf")
 ```
 
 ### Boosting
 
-```{r boosting_hyper, echo = FALSE, fig.cap= "Boosting: Dependency between RMSE, Lambda, the Depths and the Number of Trees that are Grown", fig.scap= "RMSE's of the Boosting Model for Different Parameters", fig.align= 'center'}
+```{r boosting_hyper, echo = FALSE, fig.cap= "Boosting: Dependency between RMSE, Lambda, the Depths and the Number of Trees that are Grown.", fig.scap= "RMSE's of the Boosting Model for Different Parameters", fig.align= 'center'}
 knitr::include_graphics("../00_data/output_paper/11_boosting_plot.png")
 ```
 
 In contrast to random forests boosting grows tree sequentially meaning that for every new tree information from already grown trees is used [@James2014, p.322]. For boosting rather small regression trees are used to improve the boosting tree slowly. This is achieved by taking the residuals from the current boosting tree, fitting a (small) tree to these residuals and then fiiting this tree into the boosting tree in areas where the performance of the boosting tree could be improved \autocite[Cf.][p.322.]{James2014}.
 
-```{r boosting_varimp, echo = FALSE, fig.cap= "Boosting: Variable Importance Plot"}
+```{r boosting_varimp, echo = FALSE, fig.cap= "Boosting: Variable Importance Plot."}
 knitr::include_graphics("../00_data/output_paper/12_var_imp_boosting_bp.pdf")
 ```
 

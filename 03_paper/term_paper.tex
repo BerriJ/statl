@@ -281,7 +281,7 @@ multicollinearity. After omitting those two we have left the following
 types of variables:
 
 \begin{longtable}[]{@{}rrrr@{}}
-\caption{Frequency of Variable Types}\tabularnewline
+\caption{Frequency of Variable Types.}\tabularnewline
 \toprule
 Date & factor & logical & numeric\tabularnewline
 \midrule
@@ -303,7 +303,7 @@ are used for building the forecasting models.
 \begin{figure}
 \centering
 \includegraphics{../00_data/output_paper/02_missings_alt.pdf}
-\caption{Share of Missing Values in the Wine Dataset}
+\caption{Share of Missing Values in the Wine Dataset.}
 \end{figure}
 
 Figure XY depicts the distribution of the litre variable which is the
@@ -314,7 +314,7 @@ it's minimum is near zero with only \(0.75\) litres sold per week.
 \begin{figure}
 \centering
 \includegraphics{../00_data/output_paper/04_hist_litre.pdf}
-\caption{Histogram and Estimated Density of the Litre Variable}
+\caption{Histogram and Estimated Density of the Litre Variable.}
 \end{figure}
 
 \hypertarget{validation-approach}{%
@@ -387,7 +387,7 @@ variables which are not present in the 400 biggest coefficients.
 \begin{figure}
 \centering
 \includegraphics{term_paper_files/figure-latex/unnamed-chunk-6-1.png}
-\caption{Relation of Coefficients and Shrinkage}
+\caption{Relation of Coefficients and Shrinkage.}
 \end{figure}
 
 \hypertarget{pcr-and-pls}{%
@@ -410,7 +410,7 @@ variables.
 \begin{figure}
 \centering
 \includegraphics{term_paper_files/figure-latex/unnamed-chunk-8-1.png}
-\caption{Principal Component One and Two}
+\caption{Principal Component One and Two.}
 \end{figure}
 
 The results confirm the expectation. PCR has a cross-validated RMSE of
@@ -446,7 +446,7 @@ cross-validation.
 
 \includegraphics{../00_data/output_paper/08_splines} \hfill{}
 
-\caption[RMSE Values of Different Spline Models]{\label{fig:splines}Regression with Splines: Dependency Between Knots and RMSE}\label{fig:splines}
+\caption[RMSE Values of Different Spline Models]{\label{fig:splines}Regression with Splines: Dependency Between Knots and RMSE.}\label{fig:splines}
 \end{figure}
 
 \hypertarget{decision-tree-methods}{%
@@ -541,7 +541,7 @@ previous chapter.
 
 \includegraphics{../00_data/output_paper/14_bagging} \hfill{}
 
-\caption[Bagging: RMSE's at Different Tree Sizes]{\label{fig:rmsebag}Bagging: RMSE's at Different Tree Sizes (Smoothed)}\label{fig:bag}
+\caption[Bagging: RMSE's at Different Tree Sizes]{\label{fig:rmsebag}Bagging: RMSE's at Different Tree Sizes (Smoothed).}\label{fig:bag}
 \end{figure}
 
 To further analyze the bagging model, we estimated a bagging model with
@@ -560,7 +560,7 @@ time.
 
 \includegraphics{../00_data/output_paper/15_var_imp_bagging} \hfill{}
 
-\caption{\label{fig:bagvarimp}Bagging: Variable Importance}\label{fig:bag_varimp}
+\caption{\label{fig:bagvarimp}Bagging: Variable Importance.}\label{fig:bag_varimp}
 \end{figure}
 
 Bagging, in general, takes all possible variables into consideration at
@@ -587,7 +587,7 @@ trees of the bagging algorithm are highly correlated.
 
 }
 
-\caption[RMSE's of the Random Forest for Different Parameters]{\label{fig:rfrmse}Random Forest: Dependency between RMSE, the Number of Trees and the Number of Variables Included at each Split}\label{fig:unnamed-chunk-10}
+\caption[RMSE's of the Random Forest for Different Parameters]{\label{fig:rfrmse}Random Forest: Dependency between RMSE, the Number of Trees and the Number of Variables Included at each Split.}\label{fig:unnamed-chunk-10}
 \end{figure}
 
 We calculated RMSE values for a range of Random Forest models to
@@ -608,7 +608,7 @@ demands only \(15\%\) of the time, that the Bagging Model needs.
 \begin{figure}
 \centering
 \includegraphics{../00_data/output_paper/11_var_imp_random_forest_bp.pdf}
-\caption{Random Forest: Variable Importance}
+\caption{Random Forest: Variable Importance.}
 \end{figure}
 
 \hypertarget{boosting}{%
@@ -620,7 +620,7 @@ demands only \(15\%\) of the time, that the Bagging Model needs.
 
 }
 
-\caption[RMSE's of the Boosting Model for Different Parameters]{Boosting: Dependency between RMSE, Lambda, the Depths and the Number of Trees that are Grown}\label{fig:boosting_hyper}
+\caption[RMSE's of the Boosting Model for Different Parameters]{Boosting: Dependency between RMSE, Lambda, the Depths and the Number of Trees that are Grown.}\label{fig:boosting_hyper}
 \end{figure}
 
 In contrast to random forests boosting grows tree sequentially meaning
@@ -635,7 +635,7 @@ areas where the performance of the boosting tree could be improved
 \begin{figure}
 \centering
 \includegraphics{../00_data/output_paper/12_var_imp_boosting_bp.pdf}
-\caption{Boosting: Variable Importance Plot}
+\caption{Boosting: Variable Importance Plot.}
 \end{figure}
 
 bag.fraction eklären! Wir nutzen hier jeweils 100\% unserer Observations
