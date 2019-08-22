@@ -248,14 +248,16 @@ Although the main goal is an accurate forecast, some of the methods used
 in this paper can also be used to quantify the impact of expert reviews
 on the sales, if there is any. The effect of expert opinions on consumer
 demand was analyzed in preceeding research. Notably,
-\textcite[][]{Hilger2011} used a field experiment to study a
+\textcite[][p.1289]{Hilger2011} used a field experiment to study a
 review-based demand effect using wine score labels in a retail grocery
-chain. \textcite[][p. 293.]{Ashenfelter2013} analyzed, wether expert
+chain. They find that providing information based on expert opinions
+increases the sales; this effect does depend on the score a wine has
+gotten. \textcite[][p. 293]{Ashenfelter2013} analyze, wether expert
 reviews influence the prices of wine. They conclude, that expert reviews
 contain public as well as private information. They only validate an
 influence on the highest rated wines. Furthermore,
-\textcite[][p. 182-183.]{Bicknell2012} delivered research concerning the
-market for new zealand wine. They validate a significant regional
+\textcite[][p. 182-183]{Bicknell2012} delivered research concerning the
+market for wine from new zealand. They validate a significant regional
 influence on wine prices. This influence is substantially lower for wine
 which is designated for the export market.
 
@@ -598,6 +600,11 @@ models profit only by a small margin. The model with 20 Trees and 80
 Variables at each split still has a RMSE of \(\approx 4456\), which is
 an increase of less than \(1.9\%\).
 
+The 25 Tree Bagging Model (RMSE of \(\approx4305\)) outperforms the
+Random Forest Model (with 25 Trees and 100 Variables) only by a small
+margin (RMSE of \(4374.330\)). However, training the Random Forest
+demands only \(15\%\) of the time, that the Bagging Model needs.
+
 \begin{figure}
 \centering
 \includegraphics{../00_data/output_paper/11_var_imp_random_forest_bp.pdf}
@@ -631,8 +638,9 @@ areas where the performance of the boosting tree could be improved
 \caption{Boosting: Variable Importance Plot}
 \end{figure}
 
-bag.fraction eklären! Wir nutzen hier jeweils nur 50\% unserer
-Observations (jedes mal neue Ziehung bevor ein Baum erstellt wird.)
+bag.fraction eklären! Wir nutzen hier jeweils 100\% unserer Observations
+da dies optimal ist. Man kann es aber tunen. Siehe Zeile 328 im 00er
+script
 
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
