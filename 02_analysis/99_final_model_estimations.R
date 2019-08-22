@@ -30,10 +30,10 @@ ggsave("00_data/output_paper/15_var_imp_bagging.pdf", var_imp_random_forest_bp,
 
 
 # Random Forest ####
-
+tic()
 rf <- randomForest(x = x.train, y = y.train, mtry = 100, ntree = 25, 
                    importance = T, keep.forest = F)
-
+toc()
 # Save importance
 imp_df <- data.frame(importance(rf, scale = FALSE, type = 1)) %>% 
   mutate(names = rownames(.)) %>% 

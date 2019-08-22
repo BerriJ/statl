@@ -237,28 +237,29 @@ Bootstrap aggregation (Bagging) is a general method of repeatedly taking bootstr
 The bagging algorithm can also be used to improve decision tree models. For this, a bootstrap sample is drawn before growing the tree. This process is repeated several times to grow multiple trees. Finally, the predictions of the trees are averaged.
 By bootstrapping bagging brings down the variance and thus, adresses the main problem of single regression trees which are very dependent on the actual sample.
 
-Figure \ref{fig:rmsebag} shows the RMSE values of different bagging models. One can see that even small models with down to 15 Trees significantly outperform the single tree model of the previous chapter.
+Figure \ref{fig:rmsebag} shows the RMSE values of different bagging models. The bootstrap sample size was chosen to be two thirds of the total number of observations. One can see that even small models with down to 15 Trees significantly outperform the single tree model of the previous chapter.
 
 ```{r bag, echo = FALSE, fig.cap = "\\label{fig:rmsebag}Bagging: RMSE's at Different Tree Sizes (Smoothed)", fig.align=T, fig.scap="Bagging: RMSE's at Different Tree Sizes"}
 knitr::include_graphics("../00_data/output_paper/14_bagging.pdf")
 ```
 
-To further analyze the bagging model, we estimated a bagging model with 25 trees for the whole dataset. Figure \ref{fig:bagvarimp} is a variable importance plot for this model. It presents those 20 variables which would increase the RMSE the most when being omitted.
+To further analyze the bagging model, we estimated a bagging model with 25 trees for the whole dataset. Figure \ref{fig:bagvarimp} is a variable importance plot for this model. It presents those 20 variables which would increase the RMSE the most when being omitted. The plot shows that the influence of 'ms_segm' which is the market share of the wine as well as 'segmred' which is a dummy, indicating if the whine is red, substantially contribute to our model. Intuitively, the price also influences how many litres per week are sold. More surpisingly however is the fact, that also the date substantially contributes to our mode. This indicates that prices have changed oder time.
 
 ```{r bag_varimp, echo = FALSE, fig.cap = "\\label{fig:bagvarimp}Bagging: Variable Importance", fig.align=T}
 knitr::include_graphics("../00_data/output_paper/15_var_imp_bagging.pdf")
 ```
 
-
 Bagging, in general, takes all possible variables into consideration at each split. This makes bagging computationally demanding. Moreover, this may lead to similar trees at each iteration. Thus, the trees are probably highly correlated.
 
 ### Random Forest
 
-Random forests combine different regression trees. The name random forest arises from the fact that at each split of the tree building process only a pre specified number of randomly chosen variables are taken into consideration. This results in a different tree for each iteration off the random forest and thus by averaging leads to a lower variance, in terms of forecasting error, than the single trees. This is especially the case
+The Random Forest algorithm is a special case of Bagging. The name random forest arises from the fact that, in cotrast to the usual Bagging algorithm, at each split of the tree building process only a pre specified number of randomly chosen variables are taken into consideration. This results in a different tree for each iteration off the random forest and therefore decorrelates the trees. In consequence, the Random Forest reduces the overall variance in comparison to Bagging. This effect is especially valid for homogenous datasets in which the trees of the bagging algorithm are highly correlated.
 
-```{r, echo = FALSE, fig.cap= "Random Forest: Dependency between RMSE, the Number of Trees and the Number of Variables Included at each Split", fig.scap= "RMSE's of the Random Forest for Different Parameters", fig.align= 'center'}
+```{r, echo = FALSE, fig.cap= "\\label{fig:rfrmse}Random Forest: Dependency between RMSE, the Number of Trees and the Number of Variables Included at each Split", fig.scap= "RMSE's of the Random Forest for Different Parameters", fig.align= 'center'}
 knitr::include_graphics("../00_data/output_paper/10_rf_plot.png")
 ```
+
+We calculated RMSE values for a range of Random Forest models to evaluate which combination of the number of trees to grow and the number of variables taken into account at each split leads to the best results. The results are plotted in Figure \ref{fig:rfrmse}. The smallest RMSE is $\approx4374$. Moreover, the plot shows, reveals, that very small models profit substantially from increasing complexity while bigger models profit only by a small margin. The model with 20 Trees and 80 Variables at each split still has a RMSE of $\approx 4456$, which is an increase of less than $1.9\%$.
 
 ```{r, echo = FALSE, fig.cap= "Random Forest: Variable Importance"}
 knitr::include_graphics("../00_data/output_paper/11_var_imp_random_forest_bp.pdf")

@@ -78,9 +78,9 @@ for(i in 1:5){
   #                          importEnv = T)
   #
   # Bagging
-  rstudioapi::jobRunScript("02_analysis/02_1_Bagging.R",
-                           workingDir = "../statl",
-                           importEnv = T)
+  # rstudioapi::jobRunScript("02_analysis/02_1_Bagging.R",
+  #                          workingDir = "../statl",
+  #                          importEnv = T)
   #
   # # Random Forest
   # rstudioapi::jobRunScript("02_analysis/02_7_random_forest.R",
@@ -366,23 +366,6 @@ ggsave(filename = "00_data/output_paper/14_bagging.pdf", plot =  bagging_smoothe
 
 
 
-
-# files <- dir(path = "02_analysis/cv/bagging")
-# 
-# df_bagging_list <- list()
-# 
-# for(i in 1:5){
-#   load(file = paste("02_analysis/cv/bagging/", files[i], sep = ""))
-#   rmse_BA_1 <- rmse_BA
-#   trees_1 <- trees
-#   load(file = paste("02_analysis/cv/bagging/", files[i+5], sep = ""))
-#   rmse_BA_2 <- rmse_BA
-#   trees_2 <- trees
-#   rmse_BA <- c(rmse_BA_1, rmse_BA_2)
-#   trees <- c(trees_1, trees_2)
-#   save(file = paste("02_analysis/cv/bagging/bagging_data_small20190822_1320_",i,".rda", sep = ""),
-#        trees, rmse_BA)
-# }
 
 
 
