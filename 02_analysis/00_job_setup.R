@@ -210,7 +210,7 @@ rf_df <- purrr::reduce(df_rf_list, .f = full_join) %>%
 
 library(plotly)
 
-plot_ly(x = rf_df$mtry, y = rf_df$trees, z = rf_df$mean,
+rf_plot <- plot_ly(x = rf_df$mtry, y = rf_df$trees, z = rf_df$mean,
         type="scatter3d",
         mode = "markers",
         marker = list(color = rf_df$mean,
@@ -227,7 +227,7 @@ plot_ly(x = rf_df$mtry, y = rf_df$trees, z = rf_df$mean,
               z = min(rf_df$mean),
               y = rf_df$trees[which.min(rf_df$mean)],
               x = rf_df$mtry[which.min(rf_df$mean)],
-              ay = 50,
+              ay = 25,
               ax = 0,
               text = "Minimum",
               arrowcolor = "black",
@@ -241,7 +241,7 @@ plot_ly(x = rf_df$mtry, y = rf_df$trees, z = rf_df$mean,
 
 rf_df[which.min(rf_df$mean),]
 
-# orca(rf_plot, file = "00_data/output_paper/10_rf_plot.png")
+# orca(rf_plot, file = "00_data/output_paper/10_rf_plot.pdf")
 
 ### Summary Boosting ####
 
