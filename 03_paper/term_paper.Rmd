@@ -279,7 +279,7 @@ In contrast to random forests boosting grows tree sequentially meaning that for 
 knitr::include_graphics("../00_data/output_paper/12_var_imp_boosting_bp.pdf")
 ```
 
-bag.fraction eklären! Wir nutzen hier jeweils nur 50% unserer Observations (jedes mal neue Ziehung bevor ein Baum erstellt wird.)
+bag.fraction eklären! Wir nutzen hier jeweils 100% unserer Observations da dies optimal ist. Man kann es aber tunen. Siehe Zeile 328 im 00er script
 
 # Conclusion
 
