@@ -210,7 +210,7 @@ rf_df <- purrr::reduce(df_rf_list, .f = full_join) %>%
 
 library(plotly)
 
-rf_plot <- plot_ly(x = rf_df$mtry, y = rf_df$trees, z = rf_df$mean,
+plot_ly(x = rf_df$mtry, y = rf_df$trees, z = rf_df$mean,
         type="scatter3d",
         mode = "markers",
         marker = list(color = rf_df$mean,
@@ -221,8 +221,23 @@ rf_plot <- plot_ly(x = rf_df$mtry, y = rf_df$trees, z = rf_df$mean,
           scene = list(
             xaxis = list(title = "Vars per Split"),
             yaxis = list(title = "Trees"),
-            zaxis = list(title = "RMSE")
-          ))
+            zaxis = list(title = "RMSE"),
+            annotations = list(list(
+              showarrow = T,
+              z = min(rf_df$mean),
+              y = rf_df$trees[which.min(rf_df$mean)],
+              x = rf_df$mtry[which.min(rf_df$mean)],
+              ay = 50,
+              ax = 0,
+              text = "Minimum",
+              arrowcolor = "black",
+              arrowsize = 1,
+              arrowwidth = 1,
+              arrowhead = 1,
+              font = list(
+                size = 14
+              ))
+          )))
 
 rf_df[which.min(rf_df$mean),]
 
