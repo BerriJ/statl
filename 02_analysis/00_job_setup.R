@@ -336,7 +336,7 @@ df_bagging_list <- list()
 for(i in 1:(length(files))){
   load(file = paste("02_analysis/cv/bagging/", files[i], sep = ""))
   df_bagging_list[[i]] <- data.frame(trees,rmse_BA)
-  colnames(df_bagging_list[[i]])[2] <- paste("RMSE_fold_",i, sep = "")
+  colnames(df_bagging_list[[i]])[2] <- paste("RMSE_fold_",c(1:5,1:5)[i], sep = "")
 }
 
 bagging_df <- df_bagging_list %>% purrr::reduce(.f = full_join) %>%
@@ -344,6 +344,8 @@ bagging_df <- df_bagging_list %>% purrr::reduce(.f = full_join) %>%
   arrange(desc(mean))
 
 save(file = "00_data/output_paper/13_bagging.rda", bagging_df)
+
+# Package Citation
 
 knitr::write_bib(x = c("base",
                 "stargazer",
