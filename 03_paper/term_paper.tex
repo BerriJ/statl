@@ -497,8 +497,8 @@ As regression trees may tend to grow quite large, a possible way to get
 smaller trees is pruning back the grown larger tree. The goal of pruning
 is `to select a subtree that leads to the lowest test error rate
 {[}which{]} we can estimate {[}\ldots{]} using cross-validation or the
-validation set approach' \autocite[p.~308]{James2014}. This is done by
-\emph{cost complexity pruning}.
+validation set approach' \autocite[][p. 308]{James2014}, p.~308{]}. This
+is done by \emph{cost complexity pruning}.
 
 \begin{figure}
 \centering
@@ -524,20 +524,27 @@ of the trees are averaged. By bootstrapping bagging brings down the
 variance and thus, adresses the main problem of single regression trees
 which are very dependend on the actual sample.
 
+Figure \ref{fig:rmsebag} shows the RMSE values of different bagging
+models. One can see that even small models with down to 15 Trees
+significantly outperform the single tree model of the previous chapter.
+
 \begin{figure}
 
 \includegraphics{../00_data/output_paper/14_bagging} \hfill{}
 
-\caption[Bagging: RMSE's at Different Tree Sizes]{Bagging: RMSE's at Different Tree Sizes (Smoothed)}\label{fig:bag}
+\caption[Bagging: RMSE's at Different Tree Sizes]{\label{fig:rmsebag}Bagging: RMSE's at Different Tree Sizes (Smoothed)}\label{fig:bag}
 \end{figure}
 
-=\textgreater{} Bagging Ergebniss und Disskussion der Ergebnisse
+To further analyze the bagging model, we estimated a bagging model with
+25 trees for the whole dataset. Figure \ref{fig:bagvarimp} is a variable
+importance plot for this model. It presents those 20 variables which
+would increase the RMSE the most when being omitted.
 
 \begin{figure}
 
 \includegraphics{../00_data/output_paper/15_var_imp_bagging} \hfill{}
 
-\caption{Bagging: Variable Importance}\label{fig:bag_varimp}
+\caption{\label{fig:bagvarimp}Bagging: Variable Importance}\label{fig:bag_varimp}
 \end{figure}
 
 Bagging, in general, takes all possible variables into consideration at

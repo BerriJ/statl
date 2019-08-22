@@ -216,7 +216,7 @@ knitr::include_graphics("../00_data/output_paper/09_tree.pdf")
 
 Figure XY shows that only a few of the available variables are used. These are namely $ms_segm$, $segmred$, $price$, and $period$ and split the dataset into $10$ parts, i.e. the tree has got $10$ terminal nodes. The figure does also tell us what share of the data can be sorted to each node, as well as the mean price of the allocated observations. [[[ The regression trees build in the other four folds of the cross-validation are almost exactly the same as the shown tree. ]]] The selected variables indicate that according to this method the market share, the color of the wine, the price as well as the period. Concerning the graph and the variable $segmred$ it is important to keep in mind that this is a dummy variable meaning that a value $< 0.5$ (the left track) stands for a wine that isn't red. Conversely the right track stands for red wines.
 
-As regression trees may tend to grow quite large, a possible way to get smaller trees is pruning back the grown larger tree. The goal of pruning is `to select a subtree that leads to the lowest test error rate [which] we can estimate [...] using cross-validation or the validation set approach' [@James2014, p. 308]. This is done by *cost complexity pruning*.
+As regression trees may tend to grow quite large, a possible way to get smaller trees is pruning back the grown larger tree. The goal of pruning is `to select a subtree that leads to the lowest test error rate [which] we can estimate [...] using cross-validation or the validation set approach' \autocite[][p. 308]{James2014}, p. 308]. This is done by *cost complexity pruning*.
 
 ```{r prune, echo = FALSE, fig.cap = "Example of a Pruned Tree."}
 knitr::include_graphics("../00_data/output_paper/09_tree_pruned.pdf")
@@ -237,15 +237,17 @@ Bootsrap aggregation (Bagging) is a general method of repeatedly taking bootsrap
 The bagging algorithm can also be used to improve decision tree models. For this, a bootsrap sample is drawn before growing the tree. This process is repeated several times to grow multiple trees. Finally, the predictions of the trees are averaged.
 By bootstrapping bagging brings down the variance and thus, adresses the main problem of single regression trees which are very dependend on the actual sample.
 
-```{r bag, echo = FALSE, fig.cap = "Bagging: RMSE's at Different Tree Sizes (Smoothed)", fig.align=T, fig.scap="Bagging: RMSE's at Different Tree Sizes"}
+Figure \ref{fig:rmsebag} shows the RMSE values of different bagging models. One can see that even small models with down to 15 Trees significantly outperform the single tree model of the previous chapter.
+
+```{r bag, echo = FALSE, fig.cap = "\\label{fig:rmsebag}Bagging: RMSE's at Different Tree Sizes (Smoothed)", fig.align=T, fig.scap="Bagging: RMSE's at Different Tree Sizes"}
 knitr::include_graphics("../00_data/output_paper/14_bagging.pdf")
 ```
 
-=> Bagging Ergebniss und Disskussion der Ergebnisse
-```{r bag_varimp, echo = FALSE, fig.cap = "Bagging: Variable Importance", fig.align=T}
+To further analyze the bagging model, we estimated a bagging model with 25 trees for the whole dataset. Figure \ref{fig:bagvarimp} is a variable importance plot for this model. It presents those 20 variables which would increase the RMSE the most when being omitted.
+
+```{r bag_varimp, echo = FALSE, fig.cap = "\\label{fig:bagvarimp}Bagging: Variable Importance", fig.align=T}
 knitr::include_graphics("../00_data/output_paper/15_var_imp_bagging.pdf")
 ```
-
 
 Bagging, in general, takes all possible variables into consideration at each split. This makes bagging computationally demanding. Moreover, this may lead to similar trees at each iteration. Thus, the trees ca be highly correlated.
 
