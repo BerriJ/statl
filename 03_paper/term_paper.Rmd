@@ -233,7 +233,13 @@ The mean cross-validated rmse of the pruned trees is ca. `r cm_df[2]` while the 
 
 ### Bootstrap Aggregation
 
-Bootsrap aggregation (Bagging) is a special version of a random forest in which, at each split, all possible variables are taken in consideration for selection. In contrast to random forests this may lead to very similar trees at each iteration. Thus, the trees ca be highly correlated. Furthermore, bagging is computationally more demanding since all variables are taken into consideration at each split.
+Bootsrap aggregation (Bagging) is a general method of repeatedly taking bootsrap samples from the dataset, estimating a model for every sample and averaging the predictions of every model afteward.
+The bagging algorithm can also be used to improve decision tree models. For this, a bootsrap sample is drawn before growing the tree. This process is repeated several times to grow multiple trees. Finally, the predictions of the trees are averaged.
+By bootstrapping bagging brings down the variance and thus, adresses the main problem of single regression trees which are very dependend on the actual sample.
+
+=> Bagging Ergebniss und Disskussion der Ergebnisse
+
+Bagging, in general, takes all possible variables into consideration at each split. This makes bagging computationally demanding. Moreover, this may lead to similar trees at each iteration. Thus, the trees ca be highly correlated.
 
 ### Random Forest
 
