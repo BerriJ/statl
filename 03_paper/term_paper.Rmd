@@ -283,6 +283,8 @@ bag.fraction eklären! Wir nutzen hier jeweils 100% unserer Observations da dies
 
 # Conclusion
 
+In this paper we tried to find an acurate forecasting model based on the friberg gringvist wine data set. To achieve this goal we used different techniques from the field of statistical learning methods and compare those in terms of their mean RMSE (averaged over all folds of the cross-validation). For comparison we set the RMSEs of the mean regression and the simple linear regression as two baseline. The RMSE obtained from the mean regression is $\approx `r paste(colMeans(df)[2] %>% round())`$ litres sold per week, which is a rather high value. This becomes clear when comparing it to the mean RMSE of the linear regression model which is $\approx `r colMeans(df)[1] %>% round()`$. This shows that the linear regression gives in basic a better forecast than the mean regression, which probably is due to the many more variables included in the linear regression.
+
 \pagebreak
 
 \addcontentsline{toc}{section}{References}
