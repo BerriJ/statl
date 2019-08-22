@@ -464,8 +464,8 @@ and boosting, are described in more detail when being applied.
 \subsubsection{Regression Tree}\label{regression-tree}}
 
 For growing a regression tree `the algorithm needs to automatically
-decide on the splitting variables and split points {[}\ldots{]} the tree
-should have'\autocite[p.349]{Hastie2013}. The tree is grown when a
+decide on the splitting variables and split points {[}\ldots{}{]} the
+tree should have'\autocite[p.349]{Hastie2013}. The tree is grown when a
 splitting is found that minimizes the sum of squared residuals. The
 splitting is done with a greedy algorithm, i.e., at first all the data
 is split into just two groups while the search of the splitting variable
@@ -477,40 +477,44 @@ large enough that the nodes reach a set minimum size.
 \begin{figure}
 \centering
 \includegraphics{../00_data/output_paper/09_tree.pdf}
-\caption{Example of a Regression Tree.}
+\caption{\label{fig:tree}Example of a Regression Tree.}
 \end{figure}
 
-Figure XY shows that only a few of the available variables are used.
-These are namely \(ms\_segm\), \(segmred\), \(price\), and \(period\)
-and split the dataset into \(10\) parts, i.e.~the tree has got \(10\)
-terminal nodes. The figure does also tell us what share of the data can
-be sorted to each node, as well as the mean price of the allocated
-observations. {[}{[}{[} The regression trees build in the other four
-folds of the cross-validation are almost exactly the same as the shown
-tree. {]}{]}{]} The selected variables indicate that according to this
-method the market share, the color of the wine, the price as well as the
-period. Concerning the graph and the variable \(segmred\) it is
-important to keep in mind that this is a dummy variable meaning that a
-value \(< 0.5\) (the left track) stands for a wine that isn't red.
+Figure \ref{fig:tree} shows that only a few of the available variables
+are used. These are namely \(ms\_segm\), \(segmred\), \(price\), and
+\(period\) and split the dataset into \(10\) parts, i.e., the tree has
+got \(10\) terminal nodes. The figure does also tell us what share of
+the data can be sorted to each node, as well as the mean price of the
+allocated observations. {[}{[}{[} The regression trees build in the
+other four folds of the cross-validation are almost exactly the same as
+the shown tree. {]}{]}{]} The selected variables indicate that according
+to this method the market share, the color of the wine, the price as
+well as the period. Concerning the graph and the variable \(segmred\) it
+is important to keep in mind that this is a dummy variable meaning that
+a value \(< 0.5\) (the left track) stands for a wine that isn't red.
 Conversely the right track stands for red wines.
 
 As regression trees may tend to grow quite large, a possible way to get
 smaller trees is pruning back the grown larger tree. The goal of pruning
 is `to select a subtree that leads to the lowest test error rate
-{[}which{]} we can estimate {[}\ldots{]} using cross-validation or the
+{[}which{]} we can estimate {[}\ldots{}{]} using cross-validation or the
 validation set approach' \autocite[][p. 308]{James2014}, p.~308{]}. This
 is done by \emph{cost complexity pruning}.
 
 \begin{figure}
 \centering
 \includegraphics{../00_data/output_paper/09_tree_pruned.pdf}
-\caption{Example of a Pruned Tree.}
+\caption{\label{fig:tree_pruned}Example of a Pruned Tree.}
 \end{figure}
 
-While the pruned tree might be easier to interpret, it does also come
-with a higher RMSE. The mean cross-validated RMSE of the pruned trees is
-ca. 7935.64 while the mean RMSE of the normal regression trees is about
-6494.75.
+The pruned tree (see Figure \ref{fig:tree_pruned}) does only utilze the
+dummy whether the wine is a red wine and the mean market share within
+color during weeks the wine is distributed. \(ms\_segm\) is used twice
+and thus the pruned tree splits the data set into four terinal nodes.
+While the pruned tree thus might be easier to interpret, it does also
+come with a higher RMSE. The mean cross-validated RMSE of the pruned
+trees is ca. 7935.64, while the mean RMSE of the normal regression trees
+is about 6494.75.
 
 \hypertarget{bootstrap-aggregation}{%
 \subsubsection{Bootstrap Aggregation}\label{bootstrap-aggregation}}
