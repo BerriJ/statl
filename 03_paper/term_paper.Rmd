@@ -283,7 +283,13 @@ bag.fraction eklären! Wir nutzen hier jeweils 100% unserer Observations da dies
 
 # Conclusion
 
-In this paper we tried to find an accurate forecasting model based on the friberg gringvist wine data set. To achieve this goal we used different techniques from the field of statistical learning methods and compare those in terms of their mean \ac{rmse} (averaged over all folds of the cross-validation). For comparison we set the \ac{rmse}s of the mean regression and the simple linear regression as two baseline. The \ac{rmse} obtained from the mean regression is $\approx 13340$ litres sold per week, which is a rather high value. This becomes clear when comparing it to the mean \ac{rmse} of the linear regression model which is $\approx 5572$. This shows that the linear regression gives in principle a better forecast than the mean regression, which probably is due to the many more variables included in the linear regression.
+```{r summary, echo = F}
+load("../00_data/output_paper/16_summary.rda")
+```
+
+In this paper we tried to find an accurate forecasting model based on the friberg gringvist wine data set. To achieve this goal we used different techniques from the field of statistical learning methods and compare those in terms of their mean \ac{rmse} (averaged over all folds of the cross-validation). For comparison we set the \ac{rmse}s of the mean regression and the simple linear regression as two baseline. The \ac{rmse} obtained from the mean regression is $\approx `r round(Summary[1,7])`$ litres sold per week, which is a rather high value. This becomes clear when comparing it to the mean \ac{rmse} of the linear regression model which is $\approx round(Summary[2,7])$. This shows that the linear regression gives in principle a better forecast than the mean regression, which probably is due to the many more variables included in the linear regression.
+Following the basic regression methods we introduced the \ac{lasso} as a combination of linear regression and variable selection, hoping that this dimension reduction of the feature space reduces the possible overfit and therefore improving the forecast. As seen the mean \ac{rmse} calculated for the lasso is $\approx round(Summary[3,7])$ which is a small improvement compared to the linear regression with all variables of the feature space.
+As other methods for dimension reduction of the feature set we also tried \ac{pcr} and \ac{pls}. The \ac{pls} resulted in a mean \ac{rmse} of $\approx round(Summary[6,7])$ wheres the cross-validated \ac{rmse} obtained from the \ac{pcr} has a value of $\approx round(Summary[5,7])$ which is nearly exact the same value as obtained from the \ac{lasso}. 
 
 \pagebreak
 
