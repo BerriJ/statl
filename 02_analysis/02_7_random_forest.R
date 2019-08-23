@@ -18,7 +18,7 @@ for(i in 1:nrow(grid)){
   x <- Sys.time()
   rf_wine <- randomForest(x = x.train, y = y.train, importance = T,
                           mtry = grid[i,1], ntree = grid[i,2])
-  pred_rf <- predict(rf_wine, newdata = x.test, n.trees = grid[i,2])
+  pred_rf <- predict(rf_wine, newdata = x.test)
   rmse_RF[i] <- mean((y.test - pred_rf)^2) %>% sqrt()
   d[i] <- Sys.time() - x
   print(paste("Iteration No. ",i, " ~ ",round(mean(d)*(nrow(grid)-i)), " minutes remaining.", sep = ""))

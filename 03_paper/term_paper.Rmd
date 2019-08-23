@@ -341,12 +341,11 @@ stargazer(as.data.frame(wine), summary.stat = c("min","max","mean","sd"),
           title = "Summary Statistics of the Data Set.", header = FALSE)
 ```
 
+\restoregeometry
+
 ```{r RMSE, message = F, echo = F, include=T}
 library(knitr)
 kable(Summary, "latex", digits = 0, caption = "RMSEs of every fold for every method.", booktabs = T)
 ```
 
-
-\restoregeometry
-
-
+\cleardoublepage
