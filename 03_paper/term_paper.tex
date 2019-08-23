@@ -342,24 +342,25 @@ Regression}\label{mean-regression-and-linear-regression}}
 
 At first a mean regression and a linear regression are calculated. Those
 models are representing the baseline. For comparison of the different
-models, the Root Mean Sqaured Error (RMSE)
+models, the \ac{rmse}{[}RMSE{]}\{Root Mean Sqaured Error\}
 \[\sqrt{\frac{1}{n}\sum_{i = 1}^{n}\left(y_i-\hat{y}_i\right)^2}\] is
 calculated.
 
-The mean regression yields an average RMSE of \(\approx 13340\) litre
-sold per week. The linear regression where all variables are included
-yields an average RMSE of \(\approx 5572\). The latter result is
-probably influenced by overfitting. To cope with this problem, we are
-using variable selection and dimension reduction methods which are
-discussed in the proceeding sections.
+The mean regression yields an average \ac{rmse} of \(\approx 13340\)
+litre sold per week. The linear regression where all variables are
+included yields an average \ac{rmse} of \(\approx 5572\). The latter
+result is probably influenced by overfitting. To cope with this problem,
+we are using variable selection and dimension reduction methods which
+are discussed in the proceeding sections.
 
 \hypertarget{lasso}{%
 \subsection{Lasso}\label{lasso}}
 
-The Least Absolute Shrinkage and Selection Operator (Lasso) is a method
-combining linear regression and shrinkage of the coefficent estimates to
-do variable selection. It fits a linear model that is constrained by a
-penalty term, i.e., the lasso coefficients minimize:
+The \ac{lasso}\protect\hyperlink{lasso}{lasso}\{Least Absolute Shrinkage
+and Selection Operator\} is a method combining linear regression and
+shrinkage of the coefficent estimates to do variable selection. It fits
+a linear model that is constrained by a penalty term, i.e., the
+\ac{lasso} coefficients minimize:
 
 \[
 \sum_{i=1}^{n}(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij})+\lambda\sum_{j=1}^{p}|\beta_j|.
@@ -371,18 +372,19 @@ crossvalidated log lambda, which minimizes the test error is
 \(713\) coefficients are
 nonzero\footnote{$\approx 666.6$ to be exact, but we couldn't resists to round down.}.
 The other coefficients are exactly zero due to the sparsitiy property of
-the lasso estimator. Furthermore, the plot includes abbreviated variable
-names of the 10 biggest coefficients. All of those coefficients are
-dummys for specif*ic wine names. The average RMSE of the lasso approach
-is \(\approx 5547.76\). This is a slight improvement compared to the
-linear baseline model. The lasso slightly reduces the feature set while
-also reducing the RMSE. This is evidence supporting our prior assimption
-that the linear model was exposed to the problem of overfitting.
-Furthermore, the coefficients of the lasso model show that the name
-variable is the most important variable to explain the sold litre per
-week. It is followed by the Vintage, the Region, the taste segment and
-the Country of the wine. The least important variables are the review
-variables which are not present in the 400 biggest coefficients.
+the \ac{lasso} estimator. Furthermore, the plot includes abbreviated
+variable names of the 10 biggest coefficients. All of those coefficients
+are dummys for specif*ic wine names. The average \ac{rmse} of the
+\ac{lasso} approach is \(\approx 5547.76\). This is a slight improvement
+compared to the linear baseline model. The \ac{lasso} slightly reduces
+the feature set while also reducing the \ac{rmse}. This is evidence
+supporting our prior assimption that the linear model was exposed to the
+problem of overfitting. Furthermore, the coefficients of the \ac{lasso}
+model show that the name variable is the most important variable to
+explain the sold litre per week. It is followed by the Vintage, the
+Region, the taste segment and the Country of the wine. The least
+important variables are the review variables which are not present in
+the 400 biggest coefficients.
 
 \begin{figure}
 \centering
@@ -393,32 +395,34 @@ variables which are not present in the 400 biggest coefficients.
 \hypertarget{pcr-and-pls}{%
 \subsection{PCR and PLS}\label{pcr-and-pls}}
 
-While lasso is a technique for variable selection, PCR (principal
-components regression) and PLS (partial least squares) are methods that
-reduce the dimension of the feature set. Thus, the least squares
-estimation is performed using a transformation of the explanatory
-variables. Thereby, PLS includes the dependent variable when computing
-the new feature set while PCR builds the principal components
-independent of the dependent variable.
+While \ac{lasso} is a technique for variable selection,
+\ac{pcr}{[}PCR{]}\{principal components regression\} and
+\ac{pls}{[}PLS{]}\{partial least squares\} are methods that reduce the
+dimension of the feature set. Thus, the least squares estimation is
+performed using a transformation of the explanatory variables. Thereby,
+\ac{pls} includes the dependent variable when computing the new feature
+set while \ac{pcr} builds the principal components independent of the
+dependent variable.
 
-Figure XY shows the first two principal components from a principal
-components analysis. The first two principal components represent
-roughly 3\% of the total variance. This is a sign that the PCA doesn't
-work well in our data which might be due to the large amount of dummy
-variables.
+Figure \ref{fig:PrincCom} shows the first two principal components from
+a \ac{pca}{[}PCA{]}\{principal components analysis\}. The first two
+principal components represent roughly 3\% of the total variance. This
+is a sign that the \ac{pca} does not work well on our data which might
+be due to the large amount of dummy variables.
 
 \begin{figure}
 \centering
 \includegraphics{term_paper_files/figure-latex/unnamed-chunk-8-1.png}
-\caption{Principal Component One and Two.}
+\caption{\label{fig:PrincCom}Principal Component One and Two.}
 \end{figure}
 
-The results confirm the expectation. PCR has a cross-validated RMSE of
-\(\approx 5546.05\) while PLS leads to an RMSE of \(\approx 6201.15\).
-While \(\approx 635\) principal component where included in the PCR,
-only \(\approx 35.2\) components where used in the PLS. Thus PLS
-significantly reduced the dimension of the featureset. While sacrificing
-interpretability of the results, it leads to a higher RMSE.
+The results confirm the expectation. \ac{pcr} has a cross-validated
+\ac{rmse} of \(\approx 5546.05\) while \ac{pls} leads to an \ac{rmse} of
+\(\approx 6201.15\). While \(\approx 635\) principal component where
+included in the \ac{pcr}, only \(\approx 35.2\) components where used in
+the \ac{pls}. Thus \ac{pls} significantly reduced the dimension of the
+featureset. While sacrificing interpretability of the results, it leads
+to a higher \ac{rmse}.
 
 \hypertarget{splines}{%
 \subsection{Splines}\label{splines}}
@@ -432,13 +436,13 @@ variable. Those variables indicate the year in which the wine was
 distributed, the price and the real price with Jan 2004 as base
 respectively. Each natural spline was allowed to have up to 20 knots
 which is sufficient to estimate complex linear relationships. The
-respective RMSEs depending on the knots are presented in figure
+respective \ac{rmse}s depending on the knots are presented in figure
 \ref{fig:splines}. Splines are able to improve the prediction a little
 which indicates that at least some nonlinear relationship is present.
 However, like the methods before, splines reduce the interpretability of
 the coefficients. In this case, this tradeoff isn't offset enough by the
 gain in precision. Furthermore, figure \ref{fig:splines} shows, that the
-RMSEs depend to some extend on the fold which was used for
+\ac{rmse}s depend to some extend on the fold which was used for
 cross-validation. This approves our theoretically founded motivation to
 use cross-validation.
 
@@ -450,7 +454,7 @@ use cross-validation.
 \end{figure}
 
 \hypertarget{decision-tree-methods}{%
-\subsection{Decision tree methods}\label{decision-tree-methods}}
+\subsection{Decision Tree Methods}\label{decision-tree-methods}}
 
 Tree-based methods utilze decision rules to split the feature space into
 a number of different regions. `Since the set of splitting rules used to
@@ -515,28 +519,29 @@ dummy whether the wine is a red wine and the mean market share within
 color during weeks the wine is distributed. \(ms\_segm\) is used twice
 and thus the pruned tree splits the data set into four terinal nodes.
 While the pruned tree thus might be easier to interpret, it does also
-come with a higher RMSE. The mean cross-validated RMSE of the pruned
-trees is ca. 7935.64, while the mean RMSE of the normal regression trees
-is about 6494.75.
+come with a higher \ac{rmse}. The mean cross-validated \ac{rmse} of the
+pruned trees is ca. 7935.64, while the mean \ac{rmse} of the normal
+regression trees is about 6494.75.
 
 \hypertarget{bootstrap-aggregation}{%
 \subsubsection{Bootstrap Aggregation}\label{bootstrap-aggregation}}
 
-Bootstrap aggregation (Bagging) is a general method of repeatedly taking
-bootstrap samples from the dataset, estimating a model for every sample
-and averaging the predictions of every model afterwards. The bagging
-algorithm can also be used to improve decision tree models. For this, a
-bootstrap sample is drawn before growing the tree. This process is
-repeated several times to grow multiple trees. Finally, the predictions
-of the trees are averaged. By bootstrapping bagging brings down the
-variance and thus, adresses the main problem of single regression trees
-which are very dependent on the actual sample.
+\ac{bagging}{[}bagging{]}\{bootstrap aggegration\} is a general method
+of repeatedly taking bootstrap samples from the dataset, estimating a
+model for every sample and averaging the predictions of every model
+afterwards. The \ac{bagging} algorithm can also be used to improve
+decision tree models. For this, a bootstrap sample is drawn before
+growing the tree. This process is repeated several times to grow
+multiple trees. Finally, the predictions of the trees are averaged. By
+bootstrapping \ac{bagging} brings down the variance and thus, adresses
+the main problem of single regression trees which are very dependent on
+the actual sample.
 
-Figure \ref{fig:rmsebag} shows the RMSE values of different bagging
-models. The bootstrap sample size was chosen to be two thirds of the
-total number of observations. One can see that even small models with
-down to 15 Trees significantly outperform the single tree model of the
-previous chapter.
+Figure \ref{fig:rmsebag} shows the \ac{rmse} values of different
+\ac{bagging} models. The bootstrap sample size was chosen to be two
+thirds of the total number of observations. One can see that even small
+models with down to 15 Trees significantly outperform the single tree
+model of the previous chapter.
 
 \begin{figure}
 
@@ -545,17 +550,17 @@ previous chapter.
 \caption[Bagging: RMSE's at Different Tree Sizes]{\label{fig:rmsebag}Bagging: RMSE's at Different Tree Sizes (Smoothed).}\label{fig:bag}
 \end{figure}
 
-To further analyze the bagging model, we estimated a bagging model with
-25 trees for the whole dataset. Figure \ref{fig:bagvarimp} is a variable
-importance plot for this model. It presents those 20 variables which
-would increase the RMSE the most when being omitted. The plot shows that
-the influence of \enquote{ms\_segm} which is the market share of the
-wine as well as \enquote{segmred} which is a dummy, indicating if the
-whine is red, substantially contribute to our model. Intuitively, the
-price also influences how many litres per week are sold. More
-surpisingly however is the fact, that also the date substantially
-contributes to our mode. This indicates that prices have changed oder
-time.
+To further analyze the \ac{bagging} model, we estimated a \ac{bagging}
+model with 25 trees for the whole dataset. Figure \ref{fig:bagvarimp} is
+a variable importance plot for this model. It presents those 20
+variables which would increase the \ac{rmse} the most when being
+omitted. The plot shows that the influence of \enquote{ms\_segm} which
+is the market share of the wine as well as \enquote{segmred} which is a
+dummy, indicating if the whine is red, substantially contribute to our
+model. Intuitively, the price also influences how many litres per week
+are sold. More surpisingly however is the fact, that also the date
+substantially contributes to our mode. This indicates that prices have
+changed oder time.
 
 \begin{figure}
 
@@ -565,22 +570,22 @@ time.
 \end{figure}
 
 Bagging, in general, takes all possible variables into consideration at
-each split. This makes bagging computationally demanding. Moreover, this
-may lead to similar trees at each iteration. Thus, the trees are
+each split. This makes \ac{bagging} computationally demanding. Moreover,
+this may lead to similar trees at each iteration. Thus, the trees are
 probably highly correlated.
 
 \hypertarget{random-forest}{%
 \subsubsection{Random Forest}\label{random-forest}}
 
-The Random Forest algorithm is a special case of Bagging. The name
-random forest arises from the fact that, in cotrast to the usual Bagging
-algorithm, at each split of the tree building process only a pre
-specified number of randomly chosen variables are taken into
+The Random Forest algorithm is a special case of \ac{bagging}. The name
+random forest arises from the fact that, in cotrast to the usual
+\ac{bagging} algorithm, at each split of the tree building process only
+a pre specified number of randomly chosen variables are taken into
 consideration. This results in a different tree for each iteration off
 the random forest and therefore decorrelates the trees. In consequence,
-the Random Forest reduces the overall variance in comparison to Bagging.
-This effect is especially valid for homogenous datasets in which the
-trees of the bagging algorithm are highly correlated.
+the Random Forest reduces the overall variance in comparison to
+\ac{bagging}. This effect is especially valid for homogenous datasets in
+which the trees of the \ac{bagging} algorithm are highly correlated.
 
 \begin{figure}
 
@@ -591,20 +596,21 @@ trees of the bagging algorithm are highly correlated.
 \caption[RMSE's of the Random Forest for Different Parameters]{\label{fig:rfrmse}Random Forest: Dependency between RMSE, the Number of Trees and the Number of Variables Included at each Split.}\label{fig:unnamed-chunk-10}
 \end{figure}
 
-We calculated RMSE values for a range of Random Forest models to
+We calculated \ac{rmse} values for a range of Random Forest models to
 evaluate which combination of the number of trees to grow and the number
 of variables taken into account at each split leads to the best results.
-The results are plotted in Figure \ref{fig:rfrmse}. The smallest RMSE is
-\(\approx 4374\). Moreover, the plot shows, reveals, that very small
-models profit substantially from increasing complexity while bigger
-models profit only by a small margin. The model with 20 Trees and 80
-Variables at each split still has a RMSE of \(\approx 4456\), which is
-an increase of less than \(1.9\%\).
+The results are plotted in Figure \ref{fig:rfrmse}. The smallest
+\ac{rmse} is \(\approx 4374\). Moreover, the plot shows, reveals, that
+very small models profit substantially from increasing complexity while
+bigger models profit only by a small margin. The model with 20 Trees and
+80 Variables at each split still has a \ac{rmse} of \(\approx 4456\),
+which is an increase of less than \(1.9\%\).
 
-The 25 Tree Bagging Model (RMSE of \(\approx 4305\)) outperforms the
-Random Forest Model (with 25 Trees and 100 Variables) only by a small
-margin (RMSE of \(4374.330\)). However, training the Random Forest
-demands only \(15\%\) of the time, that the Bagging Model needs.
+The 25 Tree \ac{bagging} Model (\ac{rmse} of \(\approx 4305\))
+outperforms the Random Forest Model (with 25 Trees and 100 Variables)
+only by a small margin (\ac{rmse} of \(4374.330\)). However, training
+the Random Forest demands only \(15\%\) of the time, that the
+\ac{bagging} Model needs.
 
 \begin{figure}
 \centering
@@ -646,18 +652,18 @@ script
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
 
-In this paper we tried to find an acurate forecasting model based on the
-friberg gringvist wine data set. To achieve this goal we used different
-techniques from the field of statistical learning methods and compare
-those in terms of their mean RMSE (averaged over all folds of the
-cross-validation). For comparison we set the RMSEs of the mean
-regression and the simple linear regression as two baseline. The RMSE
-obtained from the mean regression is \(\approx 7936\) litres sold per
-week, which is a rather high value. This becomes clear when comparing it
-to the mean RMSE of the linear regression model which is
-\(\approx 6495\). This shows that the linear regression gives in basic a
-better forecast than the mean regression, which probably is due to the
-many more variables included in the linear regression.
+In this paper we tried to find an accurate forecasting model based on
+the friberg gringvist wine data set. To achieve this goal we used
+different techniques from the field of statistical learning methods and
+compare those in terms of their mean \ac{rmse} (averaged over all folds
+of the cross-validation). For comparison we set the \ac{rmse}s of the
+mean regression and the simple linear regression as two baseline. The
+\ac{rmse} obtained from the mean regression is \(\approx 13340\) litres
+sold per week, which is a rather high value. This becomes clear when
+comparing it to the mean \ac{rmse} of the linear regression model which
+is \(\approx 5572\). This shows that the linear regression gives in
+principle a better forecast than the mean regression, which probably is
+due to the many more variables included in the linear regression.
 
 \pagebreak
 
