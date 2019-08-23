@@ -14,10 +14,6 @@ y.train <- wine$litre
 
 colnames(x.train) <- colnames(x.train) %>% iconv(to='ASCII', sub='') %>% abbreviate(minlength=15)
 
-# We should estimate all models, only load the data necessary (create new .rda 
-# file only for that). At the bottom: delete everything uneccesary and save 
-# final models AND data as .rda for submission
-
 # Bagging ####
 tic()
 bagging_model <- randomForest(x = x.train, y = y.train, mtry = ncol(x.train),
@@ -71,16 +67,40 @@ imp_df
 
 par(mfrow = c(2,5))
 
-partialPlot(rf, pred.data = x.train, x.var = imp_df$names[1])
-partialPlot(rf, pred.data = x.train, x.var = imp_df$names[2])
-partialPlot(rf, pred.data = x.train, x.var = imp_df$names[3])
-partialPlot(rf, pred.data = x.train, x.var = imp_df$names[4])
-partialPlot(rf, pred.data = x.train, x.var = imp_df$names[5])
-partialPlot(rf, pred.data = x.train, x.var = imp_df$names[6])
-partialPlot(rf, pred.data = x.train, x.var = imp_df$names[7])
-partialPlot(rf, pred.data = x.train, x.var = imp_df$names[8])
-partialPlot(rf, pred.data = x.train, x.var = imp_df$names[9])
-partialPlot(rf, pred.data = x.train, x.var = imp_df$names[10])
+test <- partialPlot(rf, pred.data = x.train, x.var = imp_df$names[1], plot = FALSE)
+names(test)
+
+
+pd_list <- list()
+
+for(i in 1:20){
+  pd_list[[i]] <- partialPlot(rf, pred.data = x.train, x.var = imp_df$names[i]) %>% 
+    as.data.frame() %>%
+    round(2)
+  colnames(pd_list[[i]]) <- c(LETTERS[i],"y")
+  cat(i)
+}
+
+pd_df <- purrr::reduce(pd_list[1:10], .f = full_join) %>% round(2)
+
+pd_df <- apply(pd_df[,-2], 2, function(x) x/max(x, na.rm = T)) %>% data.frame(y = pd_df[,2], .) %>% 
+  gather(key = var, value = x, -y) %>% drop_na()
+
+# Facet Labels
+pd_df.labs <- imp_df$names[1:10]
+names(pd_df.labs) <- LETTERS[1:10]
+
+cols <- replicate("#0080db", n = 363)
+cols[pd_df$var == "F" | pd_df$var == "I" |pd_df$var == "J"] <- "#ff6633"
+
+ggplot(pd_df, aes(y = y/1000, x = x)) + 
+  geom_line(col = cols, size = 1) +
+  facet_wrap("var", scales = "free", nrow = 2, 
+             labeller = labeller(var = pd_df.labs), strip.position = "bottom") + 
+  scale_x_continuous(breaks = NULL) + 
+  ylab("Litre (Thousands)") + 
+  xlab(label = NULL)
+
 
 # Boosting ####
 
