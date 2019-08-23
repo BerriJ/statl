@@ -603,13 +603,13 @@ probably highly correlated.
 \hypertarget{random-forest}{%
 \subsubsection{Random Forest}\label{random-forest}}
 
-The Random Forest algorithm is a special case of \ac{bagging}. The name
+The random forest algorithm is a special case of \ac{bagging}. The name
 random forest arises from the fact that, in cotrast to the usual
 \ac{bagging} algorithm, at each split of the tree building process only
 a pre specified number of randomly chosen variables are taken into
 consideration. This results in a different tree for each iteration off
 the random forest and therefore decorrelates the trees. In consequence,
-the Random Forest reduces the overall variance in comparison to
+the random forest reduces the overall variance in comparison to
 \ac{bagging}. This effect is especially valid for homogenous datasets in
 which the trees of the \ac{bagging} algorithm are highly correlated.
 
@@ -628,20 +628,20 @@ of variables taken into account at each split leads to the best results.
 The results are plotted in Figure \ref{fig:rfrmse}. The smallest
 \ac{rmse} is \(\approx 4374\). Moreover, the plot shows, reveals, that
 very small models profit substantially from increasing complexity while
-bigger models profit only by a small margin. The model with 20 Trees and
-80 Variables at each split still has a \ac{rmse} of \(\approx 4456\),
+bigger models profit only by a small margin. The model with 20 trees and
+80 variables at each split still has a \ac{rmse} of \(\approx 4456\),
 which is an increase of less than \(1.9\%\).
 
-The 25 Tree \ac{bagging} Model (\ac{rmse} of \(\approx 4305\))
-outperforms the Random Forest Model (with 25 Trees and 100 Variables)
+The \ac{bagging} model with \(25\) trees (\ac{rmse} of \(\approx 4305\))
+outperforms the random forest Model (with 25 trees and 100 variables)
 only by a small margin (\ac{rmse} of \(4374.330\)). However, training
-the Random Forest demands only \(15\%\) of the time, that the
+the random forest demands only \(15\%\) of the time, that the
 \ac{bagging} Model needs.
 
 \begin{figure}
 \centering
 \includegraphics{../00_data/output_paper/11_var_imp_random_forest_bp.pdf}
-\caption{Random Forest: Variable Importance.}
+\caption{\label{fig:rfimp}Random Forest: Variable Importance.}
 \end{figure}
 
 \hypertarget{boosting}{%
@@ -653,7 +653,7 @@ the Random Forest demands only \(15\%\) of the time, that the
 
 }
 
-\caption[RMSE's of the Boosting Model for Different Parameters]{Boosting: Dependency between RMSE, Lambda, the Depths and the Number of Trees that are Grown.}\label{fig:boosting_hyper}
+\caption[RMSEs of the Boosting Model for Different Parameters]{\label{fig:boostrmse}Boosting: Dependency between RMSE, Lambda, the Depths and the Number of Trees that are Grown.}\label{fig:boosting_hyper}
 \end{figure}
 
 In contrast to random forests boosting grows tree sequentially meaning
@@ -661,48 +661,131 @@ that for every new tree information from already grown trees is used
 \autocite[cf.][p. 322]{James2014}. For boosting rather small regression
 trees are used to improve the boosting tree slowly. This is achieved by
 taking the residuals from the current boosting tree, fitting a (small)
-tree to these residuals and then fiiting this tree into the boosting
+tree to these residuals and then fitting this tree into the boosting
 tree in areas where the performance of the boosting tree could be
-improved \autocite[cf.][p. 322]{James2014}.
+improved \autocite[cf.][p. 322]{James2014}. Thus the existing tree is
+expanded with the new tree. This means that, in contrast to bagging, the
+newly grown trees do depend on the earlier grown trees. The boosting
+models possess three parameters for tuning: The number of trees, the
+interaction depth and the shrinkage parameter \(\lambda\). The resulting
+\ac{rmse}s for different combinations of those tuning parameters are
+shown in figure \ref{fig:boostrmse}. An other tuning parameter
+implemented in the function for running boosting in R, \emph{gbm()}, is
+the \emph{bag.fraction}. This argument tells us which fraction of the
+data is used to build the next tree for expanding the existing tree. We
+set this value to \(1\) meaning that allways all observations in the
+training set have been used, which is optimal in our case. This also
+made sure that running the code more than once resulted in the same fit,
+which isn't necessaary the case when setting the argument to a value
+\(< 1\). According to our calculations the optimal boosting model is the
+one with \(25\) trees used, an interaction depth of \(14\) and a
+shrinkage parameter of \(0.4\).
 
 \begin{figure}
 \centering
 \includegraphics{../00_data/output_paper/12_var_imp_boosting_bp.pdf}
-\caption{Boosting: Variable Importance Plot.}
+\caption{\label{fig:boostimp}Boosting: Variable Importance Plot.}
 \end{figure}
 
-bag.fraction eklären! Wir nutzen hier jeweils 100\% unserer Observations
-da dies optimal ist. Man kann es aber tunen. Siehe Zeile 328 im 00er
-script
+Figure \ref{fig:boostimp} shows the importance of the \(20\) most
+important variables according to the optimal boosting model. The values
+shown is the relative importance in percent. The most important variable
+is \(ms\_segm\), while the second most important variable is
+\(segmred\), followed by \(period\) and \(price\). This also does
+confirm the results of the single tree as well as the pruned tree, as
+those utilzes exactly those variables.
 
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
 
-In this paper we tried to find an accurate forecasting model based on
-the friberg gringvist wine data set. To achieve this goal we used
-different techniques from the field of statistical learning methods and
-compare those in terms of their mean \ac{rmse} (averaged over all folds
-of the cross-validation). For comparison we set the \ac{rmse}s of the
-mean regression and the simple linear regression as two baseline. The
-\ac{rmse} obtained from the mean regression is
-\(\approx \ensuremath{1.334\times 10^{4}}\) litres sold per week, which
-is a rather high value. This becomes clear when comparing it to the mean
-\ac{rmse} of the linear regression model which is \(\approx 5572\). This
-shows that the linear regression gives in principle a better forecast
-than the mean regression, which probably is due to the many more
-variables included in the linear regression. Following the basic
-regression methods we introduced the \ac{lasso} as a combination of
-linear regression and variable selection, hoping that this dimension
-reduction of the feature space reduces the possible overfit and
-therefore improving the forecast. As seen the mean \ac{rmse} calculated
-for the lasso is \(\approx 5548\) which is a small improvement compared
-to the linear regression with all variables of the feature space. As
-other methods for dimension reduction of the feature set we also tried
-\ac{pcr} and \ac{pls}. The \ac{pls} resulted in a mean \ac{rmse} of
-\(\approx 6201\) wheres the cross-validated \ac{rmse} obtained from the
-\ac{pcr} has a value of \(\approx 5546\) which is nearly exact the same
-value as obtained from the \ac{lasso}.
+In this paper we identified an accurate forecasting model based on the
+friberg gringvist wine data set. To achieve this goal we used different
+techniques from the field of statistical learning methods and compare
+those in terms of their mean \ac{rmse} (averaged over all folds of the
+cross-validation). All obtained \ac{rmse}s can be found in table
+\ref{tab:RMSESum}.
 
+\begin{table}[t]
+
+\caption{\label{tab:RMSE}\label{tab:RMSESum}RMSEs of every fold for every method.}
+\centering
+\begin{tabular}{lrrrrrr}
+\toprule
+Model & Fold 1 & Fold 2 & Fold 3 & Fold 4 & Fold 5 & Mean\\
+\midrule
+Mean Regression & 13334 & 13462 & 13205 & 13329 & 13371 & 13340\\
+Linear Regression & 5493 & 5410 & 5647 & 5711 & 5600 & 5572\\
+Lasso & 5491 & 5394 & 5635 & 5707 & 5512 & 5548\\
+Lasso Loglitre & 5861 & 5526 & 6014 & 5883 & 5777 & 5812\\
+PCR & 5485 & 5404 & 5629 & 5705 & 5507 & 5546\\
+\addlinespace
+PLS & 5773 & 5802 & 6054 & 7204 & 6174 & 6201\\
+Splines (1 Knot) & 5493 & 5410 & 5647 & 5711 & 5600 & 5572\\
+Splines (20 Knots) & 5457 & 5351 & 5572 & 5649 & 5507 & 5507\\
+Single Tree & 6392 & 6373 & 6594 & 6680 & 6436 & 6495\\
+Single Tree (Pruned) & 7923 & 7861 & 8143 & 7901 & 7850 & 7936\\
+\addlinespace
+Bagging (5 Trees) & 4373 & 4609 & 4617 & 4763 & 4530 & 4578\\
+Bagging (25 Trees) & 4169 & 4451 & 4343 & 4324 & 4242 & 4306\\
+Random Forest (Best) & 4243 & 4317 & 4492 & 4487 & 4332 & 4374\\
+Boosting (Best) & 4425 & 4455 & 4548 & 4632 & 4336 & 4479\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+For comparison we set the \ac{rmse}s of the mean regression and the
+simple linear regression as two baseline. The \ac{rmse} obtained from
+the mean regression is \(\approx \ensuremath{1.334\times 10^{4}}\)
+litres sold per week, which is a rather high value. This becomes clear
+when comparing it to the mean \ac{rmse} of the linear regression model
+which is \(\approx 5572\). This shows that the linear regression gives
+in principle a better forecast than the mean regression, which probably
+is due to the many more variables included in the linear regression.\\
+Following the basic regression methods we introduced the \ac{lasso} as a
+combination of linear regression and variable selection, hoping that
+this dimension reduction of the feature space reduces the possible
+overfit and therefore improving the forecast. As seen the mean \ac{rmse}
+calculated for the lasso is \(\approx 5548\) which is a small
+improvement compared to the linear regression with all variables of the
+feature space.\\
+As other methods for dimension reduction of the feature set we also
+tried \ac{pcr} and \ac{pls}. The \ac{pls} resulted in a mean \ac{rmse}
+of \(\approx 6201\) wheres the cross-validated \ac{rmse} obtained from
+the \ac{pcr} has a value of \(\approx 5546\) which is nearly exact the
+same value as obtained from the \ac{lasso}.\\
+Next we considered splines as a way to include nonlinearity to our
+estimated models. For comparison we calculated those with a different
+number of knots. The splines model with only one knot results in a mean
+rmse \(\approx 5572\) of while the one with \(20\) knots resulted in the
+mean rmse of \(\approx 5507\).\\
+After this we thematised tree-based methods. The single regression tree
+(\ac{rmse}: \(\approx 6495\)) as well as the pruned regression tree
+(\ac{rmse}: \(\approx 7936\)) weren't quite as good in terms of the
+\ac{rmse} compared to the other methods. For improving the prediction
+power of the tree-based methods we then used techniques combining
+several decision trees. We validated the different models with a range
+of parameters. For example we compared the bagging model with \(5\)
+trees with the one with \(25\) trees. The bagging model in which we
+average \(25\) trees, resulting in a mean \ac{rmse} of \(\approx 4306\),
+does outperform the model with only \(5\) tress (\ac{rmse}:
+\(\approx 4578\)). Following bagging we compared the \ac{rmse} from a
+random forest fitted to our data with the previous results. When fitting
+a random forest there are different tuning parameters to be considered.
+We contrasted a range of combinations of those parameters and then
+selected the one among them with the lowest \ac{rmse}. This random
+forest with \(100\) considered variables at each split and \(25\)
+compared trees results in a \ac{rmse} of \(\approx 4374\). Finally we
+repeated the procedure for boosting models and again selected the one
+with the lowest \ac{rmse}. The chosen model considered an interaction
+depth of \(14\) combined with a shrinkage factor of \(0.4\) and
+averaging over \(25\) trees, resulting in a \ac{rmse} of
+\(\approx 4479\).
+
+In conclusion the two best performing models in terms of the \ac{rmse}
+are the bagging model with \(25\) trees and the selected random forest
+model. As the bagging model is computationally more demanding, there are
+scenarioses in which the random forest should be preferred over bagging.
+Therefore, we will base our forecast with new data on the MODEL.
 \pagebreak
 
 \addcontentsline{toc}{section}{References}
@@ -801,9 +884,11 @@ ind & 0.00000 & 1.000 & 0.014 & 0.097 \\
 \end{tabular} 
 \end{table}
 
+\restoregeometry
+
 \begin{table}[t]
 
-\caption{\label{tab:RMSE}RMSEs of every fold for every method.}
+\caption{\label{tab:RMSEold}RMSEs of every fold for every method.}
 \centering
 \begin{tabular}{lrrrrrr}
 \toprule
@@ -829,7 +914,7 @@ Boosting (Best) & 4425 & 4455 & 4548 & 4632 & 4336 & 4479\\
 \end{tabular}
 \end{table}
 
-\restoregeometry
+\cleardoublepage
 
 \newpage
 \textbf{Eidesstattliche Versicherung}
