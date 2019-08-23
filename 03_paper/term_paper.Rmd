@@ -178,9 +178,9 @@ load(file = "../00_data/output_paper/07_pca_pls.rda")
 cm_df <- df %>% colMeans() %>% round(2)
 ```
 
-While \ac{lasso} is a technique for variable selection, \ac{pcr}[PCR]{principal components regression} and \ac{pls}[PLS]{partial least squares} are methods that reduce the dimension of the feature set. Thus, the least squares estimation is performed using a transformation of the explanatory variables. Thereby, \ac{pls} includes the dependent variable when computing the new feature set while \ac{pcr} builds the principal components independent of the dependent variable.
+While \ac{lasso} is a technique for variable selection, \ac{pcr}and \ac{pls}[PLS] are methods that reduce the dimension of the feature set. Thus, the least squares estimation is performed using a transformation of the explanatory variables. Thereby, \ac{pls} includes the dependent variable when computing the new feature set while \ac{pcr} builds the principal components independent of the dependent variable.
 
-Figure \ref{fig:PrincCom} shows the first two principal components from a \ac{pca}[PCA]{principal components analysis}. The first two principal components represent roughly 3\% of the total variance. This is a sign that the \ac{pca} does not work well on our data which might be due to the large amount of dummy variables.
+Figure \ref{fig:PrincCom} shows the first two principal components from a \ac{pca}[PCA]{principal components analysis}. The first two principal components represent roughly 3\% of the total variance. This is a sign that the \ac{pcr} does not work well on our data which might be due to the large amount of dummy variables.
 
 ```{r, echo = FALSE, fig.cap= "\\label{fig:PrincCom}Principal Component One and Two.", message=FALSE}
 image_read("../00_data/output_paper/07_pca.png") %>%

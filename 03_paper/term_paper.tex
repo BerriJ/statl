@@ -49,7 +49,7 @@
               unicode=false, % unicode breaks when used with xetex
               xetex]{hyperref}
 \else
-  \usepackage[unicode=true]{hyperref}
+  \usepackage[unicode=true, linktocpage = TRUE]{hyperref}
 \fi
 \hypersetup{breaklinks=true,
             bookmarks=true,
@@ -105,6 +105,10 @@
 \usepackage{iflang}
 \usepackage[super]{nth}
 \usepackage[ngerman, english]{babel}
+
+%Acronyms
+\usepackage[printonlyused, withpage]{acronym}
+\usepackage{changepage}
 
 % Multicols for the Title page
 \usepackage{multicol}
@@ -217,12 +221,36 @@
 \setcounter{tocdepth}{3}
 \tableofcontents
 }
-\newpage
-\listoftables
-\addcontentsline{toc}{section}{List of Tables}
+
 \newpage
 \listoffigures
 \addcontentsline{toc}{section}{List of Figures}
+
+%\newpage
+\listoftables
+\addcontentsline{toc}{section}{List of Tables}
+
+\section*{List of Abbreviations}
+\addcontentsline{toc}{section}{List of Abbreviations}
+
+\begin{adjustwidth}{1.5em}{0pt}
+
+\begin{acronym}[dummyyyy]
+ \acro{bagging}{Bootstrap Aggregation}
+ \acro{rmse}{Root Mean Squared Error}
+ \acro{lasso}{Least Absolute Shrinkage and Selection Operator}
+ \acro{pcr}{Principal Components Regression}
+ \acro{pls}{Partial Least Squares}
+ \acroplural{LRG}[LRG]{längefristige Refinanzierungsgeschäfte}
+
+%Falls eine Abkürzung in der Mehrzahl nicht einfach auf "s" endet muss das speziell eingestellt werden.
+% \acro{slmtA}{super lange mega tolle Abkürzung} %Einzahl
+ %\acroplural{slmtA}[slmtAs]{super lange mega tolle Abkürzungen} %Mehrzahl
+ \acro{dummyyyy}{dummyyy}
+\end{acronym}
+
+\end{adjustwidth}
+
 \newpage
 \pagenumbering{arabic}
 \hypertarget{introduction}{%
@@ -395,19 +423,17 @@ the 400 biggest coefficients.
 \hypertarget{pcr-and-pls}{%
 \subsection{PCR and PLS}\label{pcr-and-pls}}
 
-While \ac{lasso} is a technique for variable selection,
-\ac{pcr}{[}PCR{]}\{principal components regression\} and
-\ac{pls}{[}PLS{]}\{partial least squares\} are methods that reduce the
-dimension of the feature set. Thus, the least squares estimation is
-performed using a transformation of the explanatory variables. Thereby,
-\ac{pls} includes the dependent variable when computing the new feature
-set while \ac{pcr} builds the principal components independent of the
-dependent variable.
+While \ac{lasso} is a technique for variable selection, \ac{pcr}and
+\ac{pls}{[}PLS{]} are methods that reduce the dimension of the feature
+set. Thus, the least squares estimation is performed using a
+transformation of the explanatory variables. Thereby, \ac{pls} includes
+the dependent variable when computing the new feature set while \ac{pcr}
+builds the principal components independent of the dependent variable.
 
 Figure \ref{fig:PrincCom} shows the first two principal components from
 a \ac{pca}{[}PCA{]}\{principal components analysis\}. The first two
 principal components represent roughly 3\% of the total variance. This
-is a sign that the \ac{pca} does not work well on our data which might
+is a sign that the \ac{pcr} does not work well on our data which might
 be due to the large amount of dummy variables.
 
 \begin{figure}
@@ -471,12 +497,12 @@ being applied.
 \subsubsection{Regression Tree}\label{regression-tree}}
 
 For growing a regression tree `the algorithm needs to automatically
-decide on the splitting variables and split points {[}\ldots{}{]} the
-tree should have' \autocite[][p. 349]{Hastie2013}. The tree is grown
-when a splitting is found that minimizes the sum of squared residuals.
-The splitting is done with a greedy algorithm, i.e., at first all the
-data is split into just two groups while the search of the splitting
-variable and split point includes all possible variables and points
+decide on the splitting variables and split points {[}\ldots{]} the tree
+should have' \autocite[][p. 349]{Hastie2013}. The tree is grown when a
+splitting is found that minimizes the sum of squared residuals. The
+splitting is done with a greedy algorithm, i.e., at first all the data
+is split into just two groups while the search of the splitting variable
+and split point includes all possible variables and points
 \autocite[cf.][p. 349]{Hastie2013}. After the data is split this process
 is repeated for the now obtained two splitted regions until the tree is
 large enough that the nodes reach a set minimum size.
@@ -504,7 +530,7 @@ the right track stands for red wines.
 As regression trees may tend to grow quite large, a possible way to get
 smaller trees is pruning back the grown larger tree. The goal of pruning
 is `to select a subtree that leads to the lowest test error rate
-{[}which{]} we can estimate {[}\ldots{}{]} using cross-validation or the
+{[}which{]} we can estimate {[}\ldots{]} using cross-validation or the
 validation set approach' \autocite[][p. 308]{James2014}. This is done by
 \emph{cost complexity pruning}.
 
