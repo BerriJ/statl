@@ -103,7 +103,7 @@ $endif$
               unicode=false, % unicode breaks when used with xetex
               xetex]{hyperref}
 \else
-  \usepackage[unicode=true]{hyperref}
+  \usepackage[unicode=true, linktocpage = TRUE]{hyperref}
 \fi
 \hypersetup{breaklinks=true,
             bookmarks=true,
@@ -200,6 +200,10 @@ $endif$
 \usepackage{iflang}
 \usepackage[super]{nth}
 \usepackage[ngerman, english]{babel}
+
+%Acronyms
+\usepackage[printonlyused, withpage]{acronym}
+\usepackage{changepage}
 
 % Multicols for the Title page
 \usepackage{multicol}
@@ -331,16 +335,40 @@ $if(toc)$
 \tableofcontents
 }
 $endif$
-$if(lot)$
-\newpage
-\listoftables
-\addcontentsline{toc}{section}{List of Tables}
-$endif$
+
 $if(lof)$
 \newpage
 \listoffigures
 \addcontentsline{toc}{section}{List of Figures}
 $endif$
+
+$if(lot)$
+%\newpage
+\listoftables
+\addcontentsline{toc}{section}{List of Tables}
+$endif$
+
+\section*{List of Abbreviations}
+\addcontentsline{toc}{section}{List of Abbreviations}
+
+\begin{adjustwidth}{1.5em}{0pt}
+
+\begin{acronym}[dummyyyy]
+ \acro{bagging}{Bootstrap Aggregation}
+ \acro{rmse}{Root Mean Squared Error}
+ \acro{lasso}{Least Absolute Shrinkage and Selection Operator}
+ \acro{pcr}{Principal Components Regression}
+ \acro{pls}{Partial Least Squares}
+ \acroplural{LRG}[LRG]{längefristige Refinanzierungsgeschäfte}
+
+%Falls eine Abkürzung in der Mehrzahl nicht einfach auf "s" endet muss das speziell eingestellt werden.
+% \acro{slmtA}{super lange mega tolle Abkürzung} %Einzahl
+ %\acroplural{slmtA}[slmtAs]{super lange mega tolle Abkürzungen} %Mehrzahl
+ \acro{dummyyyy}{dummyyy}
+\end{acronym}
+
+\end{adjustwidth}
+
 \newpage
 \pagenumbering{arabic}
 $body$
