@@ -105,8 +105,8 @@ for(i in seq_along(files)){
   df$RMSE_Lin[i] <- rmse_lin_reg
   df$RMSE_mean[i] <- rmse_mean_reg
 }
-
-save(file = "00_data/output_paper/03_baseline.rda", df)
+df_base <- df
+# save(file = "00_data/output_paper/03_baseline.rda", df)
 
 ### Summary Lasso Model  ####
 
@@ -117,7 +117,7 @@ lasso_flexlam <- list()
 df <- data.frame(RMSE_Lasso = rep(NA,5), RMSE_lasso_log = rep(NA,5),
                  loglam = rep(NA,5), ncoef = rep(NA, 5))
 
-for(i in 1:(length(files)-1)){
+for(i in 1:(length(files))){
   load(file = paste("02_analysis/cv/lasso/", files[i], sep = ""))
   bestlam_mod[[i]] <- lasso.mod
   lasso_flexlam[[i]] <- mod
@@ -132,10 +132,10 @@ beta <- bestlam_mod[[5]]$beta %>% as.numeric()
 coef <- data.frame(beta, names)
 coef <- arrange(coef, desc(abs(beta)))
 tail(coef)
-
+df_lasso <- df
 df <- colMeans(df) %>% round(2)
 
-save(file = "00_data/output_paper/05_lasso.rda", df)
+# save(file = "00_data/output_paper/05_lasso.rda", df)
 
 ### Summary PCR/PLS  ####
 
@@ -154,9 +154,11 @@ for(i in 1:(length(files))){
   df$ncomp_pcr[i] <- n_comp_pcr
 }
 
+df_pcr_pls <- df
+
 colMeans(df)
 
-save(file = "00_data/output_paper/07_pca_pls.rda", df)
+# save(file = "00_data/output_paper/07_pca_pls.rda", df)
 
 ### Summary Splines  ####
 
@@ -169,6 +171,8 @@ for(i in 1:(length(files))){
   df[i,] <- rmse_splines
 }
 
+df_splines <- df
+
 df_splines <- data.frame(knots = 1:20, t(df), average = colMeans(df)) %>%
   gather(key = var, value = RMSE, -knots)
 
@@ -180,7 +184,7 @@ splines_plot <- ggplot(df_splines, aes(x = knots, y = RMSE, color = var)) +
                      labels = c("Average", paste("Fold", 1:5))) +
   labs(col = "Legend:") + geom_point()
 
-ggsave(filename = "00_data/output_paper/08_splines.pdf", plot =  splines_plot, width = 7, height = 3)
+# ggsave(filename = "00_data/output_paper/08_splines.pdf", plot =  splines_plot, width = 7, height = 3)
 
 
 ### Single Tree ###
@@ -193,7 +197,9 @@ for(i in seq_along(files)){
   df$RMSE_Tree_Pruned[i] <- rmse_tree_pruned
 }
 
-save(file = "00_data/output_paper/09_tree.rda", df)
+df_tree <- df
+
+# save(file = "00_data/output_paper/09_tree.rda", df)
 
 ### Summary Random Forest  ####
 
@@ -206,6 +212,8 @@ for(i in 1:(length(files))){
   df_rf_list[[i]] <- cbind(grid, rmse_RF)
   colnames(df_rf_list[[i]]) <- c("mtry", "trees", paste("rmse_fold_",i, sep = ""))
 }
+
+df_rand_frst <- rf_df
 
 rf_df <- purrr::reduce(df_rf_list, .f = full_join) %>%
   mutate(mean = rowMeans(.[3:7])) %>%
@@ -259,10 +267,11 @@ df_boosting_list <- list()
 for(i in 1:(length(files))){
   load(file = paste("02_analysis/cv/boosting/", files[i], sep = ""))
   df_boosting_list[[i]] <- results
-  colnames(df_boosting_list[[i]]) <- c("lambda", "int.depth", "bag.frac",paste("fold_",i,"_nrees",1:25, sep = ""))
+  colnames(df_boosting_list[[i]]) <- c("lambda", "int.depth", "bag.frac",paste("fold_",i,"_ntrees",1:25, sep = ""))
 }
 
 boosting_df <- purrr::reduce(df_boosting_list, .f = full_join)
+df_boosting <- boosting_df %>% gather(key = "Fold_Trees", "RMSE", -lambda, -int.depth, -bag.frac)
 
 for(i in 1:25){
   boosting_df <- boosting_df %>% dplyr::mutate(!!paste(i) := rowMeans(.[,seq(3+i,103+i, 25)]))
@@ -332,7 +341,7 @@ boosting_df_full$RMSE[boosting_df_full$bag.frac == 1] %>% mean()
 
 # orca(boosting_plot, file = "00_data/output_paper/11_boosting_plot.pdf")
 
-save(file = "00_data/output_paper/12_boosting.rda", boosting_df)
+# save(file = "00_data/output_paper/12_boosting.rda", boosting_df)
 
 # Summary Bagging ####
 
@@ -346,11 +355,11 @@ for(i in 1:(length(files))){
   colnames(df_bagging_list[[i]])[2] <- paste("RMSE_fold_",c(1:5,1:5)[i], sep = "")
 }
 
-bagging_df <- df_bagging_list %>% purrr::reduce(.f = full_join) %>%
+df_bagging <- df_bagging_list %>% purrr::reduce(.f = full_join) %>%
   mutate(mean = rowMeans(.[,2:6])) %>%
   arrange(desc(mean))
 
-save(file = "00_data/output_paper/13_bagging.rda", bagging_df)
+# save(file = "00_data/output_paper/13_bagging.rda", df_bagging)
 
 bagging_df <- bagging_df %>% gather(key = var, value = RMSE, -trees)
 
@@ -365,13 +374,67 @@ bagging_smoothed <- ggplot(bagging_df, aes(x = trees, y = RMSE,color = var)) +
   labs(col = "Legend:") + 
   geom_point()
 
-ggsave(filename = "00_data/output_paper/14_bagging.pdf", plot =  bagging_smoothed, width = 7, height = 3)
+# ggsave(filename = "00_data/output_paper/14_bagging.pdf", plot =  bagging_smoothed, width = 7, height = 3)
 
+# Aggregate RMSEs from all Models:
 
+Summary <- data.frame(matrix(ncol = 6, nrow = 50)) 
+colnames(Summary) <- c("Model", paste("Fold", 1:5))
 
+# Mean Regression
+Summary$Model[1] <- "Mean Regression"
+Summary[1,2:6] <- df_baseline$RMSE_mean
+# Linear Regression
+Summary$Model[2] <- "Linear Regression"
+Summary[2,2:6] <- df_baseline$RMSE_Lin
+# Lasso 
+Summary$Model[3] <- "Lasso"
+Summary[3,2:6] <- df_lasso$RMSE_Lasso
+# Lasso Loglitre
+Summary$Model[4] <- "Lasso Loglitre"
+Summary[4,2:6] <- df_lasso$RMSE_lasso_log
+# PCR
+Summary$Model[5] <- "PCR"
+Summary[5,2:6] <- df_pcr_pls$RMSE_pcr
+# PLS
+Summary$Model[6] <- "PLS"
+Summary[6,2:6] <- df_pcr_pls$RMSE_pls
+# Splines
+Summary$Model[7] <- "Splines (1 Knot)"
+Summary[7,2:6] <- df_splines$RMSE[df_splines$knots == 1][1:5]
+Summary$Model[8] <- "Splines (20 Knots)"
+Summary[8,2:6] <- df_splines$RMSE[df_splines$knots == 20][1:5]
+# Trees
+Summary$Model[9] <- "Single Tree"
+Summary[9,2:6] <- df_tree$RMSE_Tree
+Summary$Model[10] <- "Single Tree (Pruned)"
+Summary[10,2:6] <- df_tree$RMSE_Tree_Pruned
+# Bagging
+Summary$Model[11] <- "Bagging (5 Trees)"
+Summary[11,2:6] <- df_bagging[2,2:6]
+Summary$Model[12] <- "Bagging (25 Trees)"
+Summary[12,2:6] <- df_bagging[5,2:6]
+# Random Forest
+Summary$Model[13] <- "Random Forest (Best)"
+Summary[13,2:6] <- df_rand_frst[which.min(df_rand_frst$mean),3:8]
+# Boosting
+Summary$Model[14] <- "Boosting (Best)"
+Summary[14,2:6] <- df_boosting[
+  (df_boosting$lambda == 0.5 & 
+    df_boosting$int.depth == 15 & 
+    df_boosting$bag.frac == 1 &
+     (df_boosting$Fold_Trees == "fold_1_ntrees25" |
+        df_boosting$Fold_Trees == "fold_2_ntrees25" |
+        df_boosting$Fold_Trees == "fold_3_ntrees25" |
+        df_boosting$Fold_Trees == "fold_4_ntrees25" |
+        df_boosting$Fold_Trees == "fold_5_ntrees25")),
+  "RMSE"
+]
 
+Summary <- Summary %>% drop_na()
+Summary$Mean <- rowMeans(Summary[,2:6])
 
-
+save(file = "00_data/output_paper/16_summary.rda", Summary)
 
 # Package Citation
 
