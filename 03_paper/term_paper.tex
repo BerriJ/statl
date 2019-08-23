@@ -497,12 +497,12 @@ being applied.
 \subsubsection{Regression Tree}\label{regression-tree}}
 
 For growing a regression tree `the algorithm needs to automatically
-decide on the splitting variables and split points {[}\ldots{]} the tree
-should have' \autocite[][p. 349]{Hastie2013}. The tree is grown when a
-splitting is found that minimizes the sum of squared residuals. The
-splitting is done with a greedy algorithm, i.e., at first all the data
-is split into just two groups while the search of the splitting variable
-and split point includes all possible variables and points
+decide on the splitting variables and split points {[}\ldots{}{]} the
+tree should have' \autocite[][p. 349]{Hastie2013}. The tree is grown
+when a splitting is found that minimizes the sum of squared residuals.
+The splitting is done with a greedy algorithm, i.e., at first all the
+data is split into just two groups while the search of the splitting
+variable and split point includes all possible variables and points
 \autocite[cf.][p. 349]{Hastie2013}. After the data is split this process
 is repeated for the now obtained two splitted regions until the tree is
 large enough that the nodes reach a set minimum size.
@@ -530,7 +530,7 @@ the right track stands for red wines.
 As regression trees may tend to grow quite large, a possible way to get
 smaller trees is pruning back the grown larger tree. The goal of pruning
 is `to select a subtree that leads to the lowest test error rate
-{[}which{]} we can estimate {[}\ldots{]} using cross-validation or the
+{[}which{]} we can estimate {[}\ldots{}{]} using cross-validation or the
 validation set approach' \autocite[][p. 308]{James2014}. This is done by
 \emph{cost complexity pruning}.
 
@@ -684,19 +684,24 @@ different techniques from the field of statistical learning methods and
 compare those in terms of their mean \ac{rmse} (averaged over all folds
 of the cross-validation). For comparison we set the \ac{rmse}s of the
 mean regression and the simple linear regression as two baseline. The
-\ac{rmse} obtained from the mean regression is \(\approx 13340\) litres
-sold per week, which is a rather high value. This becomes clear when
-comparing it to the mean \ac{rmse} of the linear regression model which
-is \(\approx 5572\). This shows that the linear regression gives in
-principle a better forecast than the mean regression, which probably is
-due to the many more variables included in the linear regression.
-Following the basic regression methods we introduced the \ac{lasso} as a
-combination of linear regression and variable selection, hoping that
-this dimension reduction of the feature space reduces the possible
-overfit and therefore improving the forecast. As seen the mean \ac{rmse}
-calculated for the lasso is \(\approx 5548\) which is a small
-improvement compared to the linear regression with all variables of the
-feature space.
+\ac{rmse} obtained from the mean regression is
+\(\approx \ensuremath{1.334\times 10^{4}}\) litres sold per week, which
+is a rather high value. This becomes clear when comparing it to the mean
+\ac{rmse} of the linear regression model which is \(\approx 5572\). This
+shows that the linear regression gives in principle a better forecast
+than the mean regression, which probably is due to the many more
+variables included in the linear regression. Following the basic
+regression methods we introduced the \ac{lasso} as a combination of
+linear regression and variable selection, hoping that this dimension
+reduction of the feature space reduces the possible overfit and
+therefore improving the forecast. As seen the mean \ac{rmse} calculated
+for the lasso is \(\approx 5548\) which is a small improvement compared
+to the linear regression with all variables of the feature space. As
+other methods for dimension reduction of the feature set we also tried
+\ac{pcr} and \ac{pls}. The \ac{pls} resulted in a mean \ac{rmse} of
+\(\approx 6201\) wheres the cross-validated \ac{rmse} obtained from the
+\ac{pcr} has a value of \(\approx 5546\) which is nearly exact the same
+value as obtained from the \ac{lasso}.
 
 \pagebreak
 
@@ -794,6 +799,34 @@ ind & 0.00000 & 1.000 & 0.014 & 0.097 \\
 ...59 & 1.000 & 1.000 & 1.000 & 0.000 \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
+\end{table}
+
+\begin{table}[t]
+
+\caption{\label{tab:RMSE}RMSEs of every fold for every method.}
+\centering
+\begin{tabular}{lrrrrrr}
+\toprule
+Model & Fold 1 & Fold 2 & Fold 3 & Fold 4 & Fold 5 & Mean\\
+\midrule
+Mean Regression & 13334 & 13462 & 13205 & 13329 & 13371 & 13340\\
+Linear Regression & 5493 & 5410 & 5647 & 5711 & 5600 & 5572\\
+Lasso & 5491 & 5394 & 5635 & 5707 & 5512 & 5548\\
+Lasso Loglitre & 5861 & 5526 & 6014 & 5883 & 5777 & 5812\\
+PCR & 5485 & 5404 & 5629 & 5705 & 5507 & 5546\\
+\addlinespace
+PLS & 5773 & 5802 & 6054 & 7204 & 6174 & 6201\\
+Splines (1 Knot) & 5493 & 5410 & 5647 & 5711 & 5600 & 5572\\
+Splines (20 Knots) & 5457 & 5351 & 5572 & 5649 & 5507 & 5507\\
+Single Tree & 6392 & 6373 & 6594 & 6680 & 6436 & 6495\\
+Single Tree (Pruned) & 7923 & 7861 & 8143 & 7901 & 7850 & 7936\\
+\addlinespace
+Bagging (5 Trees) & 4373 & 4609 & 4617 & 4763 & 4530 & 4578\\
+Bagging (25 Trees) & 4169 & 4451 & 4343 & 4324 & 4242 & 4306\\
+Random Forest (Best) & 4243 & 4317 & 4492 & 4487 & 4332 & 4374\\
+Boosting (Best) & 4425 & 4455 & 4548 & 4632 & 4336 & 4479\\
+\bottomrule
+\end{tabular}
 \end{table}
 
 \restoregeometry
