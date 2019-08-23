@@ -1,4 +1,4 @@
-# Crossvalidation  ####
+# Load and prepare Data  ####
 #
 # rm(list = ls())
 # load("00_data/wine_preprocessed.rda")
@@ -11,6 +11,7 @@
 #   # Remove unused levels from factor variables
 #   droplevels()
 #
+# Crossvalidation  ####
 # # Create Training and Test Datasets
 # index <- data.frame(index = 1:nrow(wine), obs = 1:nrow(wine))
 # sets <- list()
@@ -30,14 +31,16 @@
 #
 # rm(i, index, sets)
 
-load("02_analysis/cv_env.rda")
+# load("00_data/cv_env.rda") # For reproducability
 
 for(i in 1:5){
-  # Create an Identifier for every iteration
+  
+  # Create an identifier for every iteration
   unique_identifier <- Sys.time() %>% as.character(format = "%Y%m%d_%H%M")
   unique_identifier <- paste(unique_identifier,i, sep = "_")
 
   # Assign training and test data
+  
   wine_train <- train_list[[i]]
   wine_test <- test_list[[i]]
   x.train <- model.matrix(litre~., data = wine_train)

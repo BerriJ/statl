@@ -1,5 +1,16 @@
+rm(list = ls())
 source("02_analysis/00_packages.R")
-load("02_analysis/cv_env.rda")
+load("00_data/wine_preprocessed.rda")
+# Remove variables with average na >= 50%
+wine <- wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) < 0.50) %>%
+  # Only keep complete cases
+  drop_na() %>%
+  # Drop llitre because we are using litre
+  dplyr::select(-llitre) %>%
+  # Remove unused levels from factor variables
+  droplevels()
+x.train <- model.matrix(litre~., data = wine)
+y.train <- wine$litre
 
 # We should estimate all models, only load the data necessary (create new .rda 
 # file only for that). At the bottom: delete everything uneccesary and save 
