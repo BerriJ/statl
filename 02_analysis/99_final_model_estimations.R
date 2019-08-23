@@ -12,6 +12,8 @@ wine <- wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) < 0.50
 x.train <- model.matrix(litre~., data = wine)
 y.train <- wine$litre
 
+colnames(x.train) <- colnames(x.train) %>% iconv(to='ASCII', sub='') %>% abbreviate(minlength=15)
+
 # We should estimate all models, only load the data necessary (create new .rda 
 # file only for that). At the bottom: delete everything uneccesary and save 
 # final models AND data as .rda for submission
@@ -86,7 +88,7 @@ boosting_model_final <- gbm.fit(y.train, x = x.train, distribution = "gaussian",
                       n.trees = 25, interaction.depth = 15,
                       shrinkage = 0.5, verbose = FALSE, bag.fraction = 1)
 
-var_imp_boost <- summary(boosting_model_final) #%>% arrange(desc(rel.inf))
+var_imp_boost <- summary(boosting_model_final) %>% arrange(desc(rel.inf))
 
 var_imp_boosting_bp <- ggplot(var_imp_boost[1:20,], 
        aes(x = reorder(var, -rel.inf), rel.inf)) + 
@@ -97,8 +99,18 @@ var_imp_boosting_bp <- ggplot(var_imp_boost[1:20,],
   xlab("Variable") +
   scale_x_discrete(label=function(x) abbreviate(x, minlength=15))
 
-ggsave("00_data/output_paper/12_var_imp_boosting_bp.pdf", var_imp_boosting_bp,
-       width = 7, height = 3)
+# ggsave("00_data/output_paper/12_var_imp_boosting_bp.pdf", var_imp_boosting_bp,
+#       width = 7, height = 3)
 
+var_imp_vars <- var_imp_boost$var %>% as.character()
 
-
+plot(boosting_model_final, i = var_imp_vars[1])
+plot(boosting_model_final, i = var_imp_vars[2])
+plot(boosting_model_final, i = var_imp_vars[3])
+plot(boosting_model_final, i = var_imp_vars[4])
+plot(boosting_model_final, i = var_imp_vars[5])
+plot(boosting_model_final, i = var_imp_vars[6])
+plot(boosting_model_final, i = var_imp_vars[7])
+plot(boosting_model_final, i = var_imp_vars[8])
+plot(boosting_model_final, i = var_imp_vars[9])
+plot(boosting_model_final, i = var_imp_vars[10])
