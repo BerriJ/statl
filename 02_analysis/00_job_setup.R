@@ -31,7 +31,7 @@
 #
 # rm(i, index, sets)
 
-# load("00_data/cv_env.rda") # For reproducability
+load("00_data/cv_env.rda") # For reproducability
 
 for(i in 1:5){
   
@@ -86,9 +86,9 @@ for(i in 1:5){
   #                          importEnv = T)
   #
   # # Random Forest
-  # rstudioapi::jobRunScript("02_analysis/02_7_random_forest.R",
-  #                          workingDir = "../statl",
-  #                          importEnv = T)
+  rstudioapi::jobRunScript("02_analysis/02_7_random_forest.R",
+                           workingDir = "../statl",
+                           importEnv = T)
   #
   # Boosting
   # rstudioapi::jobRunScript("02_analysis/02_7_boosting.R",
