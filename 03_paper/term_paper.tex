@@ -641,7 +641,7 @@ the random forest demands only \(15\%\) of the time, that the
 \begin{figure}
 \centering
 \includegraphics{../00_data/output_paper/11_var_imp_random_forest_bp.pdf}
-\caption{Random Forest: Variable Importance.}
+\caption{\label{fig:rfimp}Random Forest: Variable Importance.}
 \end{figure}
 
 \hypertarget{boosting}{%
@@ -674,19 +674,26 @@ implemented in the function for running boosting in R, \emph{gbm()}, is
 the \emph{bag.fraction}. This argument tells us which fraction of the
 data is used to build the next tree for expanding the existing tree. We
 set this value to \(1\) meaning that allways all observations in the
-training set have been used. This also made sure that running the code
-more than once resulted in the same fit, which isn't necessaary the case
-when setting the argument to a value \(< 1\).
+training set have been used, which is optimal in our case. This also
+made sure that running the code more than once resulted in the same fit,
+which isn't necessaary the case when setting the argument to a value
+\(< 1\). According to our calculations the optimal boosting model is the
+one with \(25\) trees used, an interaction depth of \(14\) and a
+shrinkage parameter of \(0.4\).
 
 \begin{figure}
 \centering
 \includegraphics{../00_data/output_paper/12_var_imp_boosting_bp.pdf}
-\caption{Boosting: Variable Importance Plot.}
+\caption{\label{fig:boostimp}Boosting: Variable Importance Plot.}
 \end{figure}
 
-bag.fraction eklären! Wir nutzen hier jeweils 100\% unserer Observations
-da dies optimal ist. Man kann es aber tunen. Siehe Zeile 328 im 00er
-script
+Figure \ref{fig:boostimp} shows the importance of the \(20\) most
+important variables according to the optimal boosting model. The values
+shown is the relative importance in percent. The most important variable
+is \(ms\_segm\), while the second most important variable is
+\(segmred\), followed by \(period\) and \(price\). This also does
+confirm the results of the single tree as well as the pruned tree, as
+those utilzes exactly those variables.
 
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
@@ -695,10 +702,40 @@ In this paper we identified an accurate forecasting model based on the
 friberg gringvist wine data set. To achieve this goal we used different
 techniques from the field of statistical learning methods and compare
 those in terms of their mean \ac{rmse} (averaged over all folds of the
-cross-validation). All obtained \ac{rmse}s can be found in table ADD
-LABEL For comparison we set the \ac{rmse}s of the mean regression and
-the simple linear regression as two baseline. The \ac{rmse} obtained
-from the mean regression is \(\approx \ensuremath{1.334\times 10^{4}}\)
+cross-validation). All obtained \ac{rmse}s can be found in table
+\ref{tab:RMSESum}.
+
+\begin{table}[t]
+
+\caption{\label{tab:RMSE}\label{tab:RMSESum}RMSEs of every fold for every method.}
+\centering
+\begin{tabular}{lrrrrrr}
+\toprule
+Model & Fold 1 & Fold 2 & Fold 3 & Fold 4 & Fold 5 & Mean\\
+\midrule
+Mean Regression & 13334 & 13462 & 13205 & 13329 & 13371 & 13340\\
+Linear Regression & 5493 & 5410 & 5647 & 5711 & 5600 & 5572\\
+Lasso & 5491 & 5394 & 5635 & 5707 & 5512 & 5548\\
+Lasso Loglitre & 5861 & 5526 & 6014 & 5883 & 5777 & 5812\\
+PCR & 5485 & 5404 & 5629 & 5705 & 5507 & 5546\\
+\addlinespace
+PLS & 5773 & 5802 & 6054 & 7204 & 6174 & 6201\\
+Splines (1 Knot) & 5493 & 5410 & 5647 & 5711 & 5600 & 5572\\
+Splines (20 Knots) & 5457 & 5351 & 5572 & 5649 & 5507 & 5507\\
+Single Tree & 6392 & 6373 & 6594 & 6680 & 6436 & 6495\\
+Single Tree (Pruned) & 7923 & 7861 & 8143 & 7901 & 7850 & 7936\\
+\addlinespace
+Bagging (5 Trees) & 4373 & 4609 & 4617 & 4763 & 4530 & 4578\\
+Bagging (25 Trees) & 4169 & 4451 & 4343 & 4324 & 4242 & 4306\\
+Random Forest (Best) & 4243 & 4317 & 4492 & 4487 & 4332 & 4374\\
+Boosting (Best) & 4425 & 4455 & 4548 & 4632 & 4336 & 4479\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+For comparison we set the \ac{rmse}s of the mean regression and the
+simple linear regression as two baseline. The \ac{rmse} obtained from
+the mean regression is \(\approx \ensuremath{1.334\times 10^{4}}\)
 litres sold per week, which is a rather high value. This becomes clear
 when comparing it to the mean \ac{rmse} of the linear regression model
 which is \(\approx 5572\). This shows that the linear regression gives
@@ -847,9 +884,11 @@ ind & 0.00000 & 1.000 & 0.014 & 0.097 \\
 \end{tabular} 
 \end{table}
 
+\restoregeometry
+
 \begin{table}[t]
 
-\caption{\label{tab:RMSE}RMSEs of every fold for every method.}
+\caption{\label{tab:RMSEold}RMSEs of every fold for every method.}
 \centering
 \begin{tabular}{lrrrrrr}
 \toprule
@@ -875,7 +914,7 @@ Boosting (Best) & 4425 & 4455 & 4548 & 4632 & 4336 & 4479\\
 \end{tabular}
 \end{table}
 
-\restoregeometry
+\cleardoublepage
 
 \newpage
 \textbf{Eidesstattliche Versicherung}
