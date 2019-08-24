@@ -66,7 +66,7 @@ Die regel sollte also eine Seite pro Modell sein, und die ausgewählten Modelle 
 
 # Introduction
 
-This paper presents a forecasting study on global wine sales. This study is based on the friberg gronqvist wine data set which is publicly available and was previously analyzed by \textcite[][p. 193f.]{Friberg2012}. Recent technological advancements led to a significant increase in statistical methods that are computationally demanding while potentially outperforming classical statistical methods, especially in terms of forecasting. Those techniques are usually reffered to as statistical or machine learning methods.
+This paper presents a forecasting study on global wine sales. This study is based on the friberg gronqvist wine data set which is publicly available and was previously analyzed by \textcite[][p. 193f.]{Friberg2012}. Recent technological advancements led to a significant increase in statistical methods that are computationally demanding while potentially outperforming classical statistical methods, especially in terms of forecasting. Those techniques are usually reffered to as statistical or machine learning methods. The methods and procedures we introduce in this paper are based on `An Introduction to Statistical Learning with Applications in R' \autocite[][]{James2014}.
 
 We present various models which are increasingly complex. Those models potentially gain forecasting power while losing interpretability. The applied models range from linear regressions to tree based methods like random forests and boosting. The goal is to develop the best possible model to forecast weekly wine sales in litre in out of sample data.
 
@@ -267,7 +267,6 @@ The \ac{bagging} model with $25$ trees (\ac{rmse} of $\approx 4305$) outperforms
 knitr::include_graphics("../00_data/output_paper/11_var_imp_random_forest_bp.pdf")
 ```
 
-WE NEED TO WRITE SOMETHING ABOT THE VARIMPPLOT 
 
 Figure \ref{fig:rfimp} shows the variable importance plot for the $20$ most important variables of the 'optimal' random forest, which minimizes the \ac{rmse} in the given range.  According to this plot the most important variable, in terms of the mean increase of the \ac{rmse}, is $ms\_segm$, followed by four variables with regard to the price: $price$, $lp$, the logarithmized price, $pri\_m$, the mean real litre price (base jan 2004) during the weeks the wine is distributed and $rprice\_litre$, real litre price (base jan 2004). Thus, the litres of wine sold per week is mainly determined by its segment and its price. Although, there are many more variables which, according to the random forest model, are important.
 
