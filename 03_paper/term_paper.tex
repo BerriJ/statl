@@ -727,13 +727,13 @@ parameter implemented in the function for running boosting in R,
 fraction of the data is used to build the next tree. The default value
 is \(0.5\), which means that a bootstrap sample of size \(50\%\) is
 drawn each time a new tree is estimated. This adds randomness to the
-estimation which reduces the problem of overfitting. We set this value
+estimation, which reduces the problem of overfitting. We set this value
 to \(1\). This consistently outperformed alternative estimations with
 bag.fraction set to the default by a \(\approx1.9\%\) decrease in out of
 sample cross-validated \ac{RMSE}. Hence all observations in the training
-set have been used at every iteration. According to our calculations the
-optimal boosting model is the one with \(25\) trees used, an interaction
-depth of \(15\) and a shrinkage parameter of \(0.4\).
+set have been used at every iteration. According to our calculations,
+the optimal boosting model is the one with \(25\) trees used, an
+interaction depth of \(15\) and a shrinkage parameter of \(0.4\).
 
 \begin{figure}
 
@@ -746,11 +746,11 @@ depth of \(15\) and a shrinkage parameter of \(0.4\).
 
 Figure \ref{fig:boostimp} shows the importance of the \(20\) most
 important variables according to the optimal boosting model. The values
-shown is the relative importance in percent. The most important variable
-is \(ms\_segm\), while the second most important variable is
+shown are the relative importances in percent. The most important
+variable is \(ms\_segm\), while the second most important variable is
 \(segmred\), followed by \(period\) and \(price\). This also does
 confirm the results of the single tree as well as the pruned tree, as
-those utilzes exactly those variables.
+those utilzed exactly those variables.
 
 \begin{figure}
 \centering
@@ -772,9 +772,9 @@ of our results. This was done by re-estimating the best random forest
 model and comparing the new results. As noted in chapter
 \ref{chap:data}, we excluded \enquote{\(time\_segm\_price\)} and
 \enquote{\(artikpr\)}. Those variables are combinations of other
-variables, thus they represent interactions terms. Including them yields
-a mean \ac{RMSE} of \(\approx4862.917\) and therefore doesn't improve
-our model.
+variables; thus, they represent interactions terms. Including them
+yields a mean \ac{RMSE} of \(\approx4862.917\) and therefore does not
+improve our model.
 
 Another crucial decision was to exclude all variables with more than
 \(50\%\) missing values. Reducing this to \(20\%\) means excluding \(6\)
@@ -782,8 +782,8 @@ additional variables. Those variables are all related to wine reviews.
 This increases the complete cases substantially from \(41416\) to
 \(144994\), which is nearly the whole dataset. Estimating the random
 forest model yields a \ac{RMSE} of \(\approx5010.796\), which is an
-underprerformance compared to the model developed in section
-\ref{chap:rand_for}. This shows, that the loss of explanatory power by
+underperformance compared to the model developed in section
+\ref{chap:rand_for}. This shows that the loss of explanatory power by
 excluding those \(6\) variables is not compensated by a higher precision
 due to the gain of observations.
 
@@ -793,13 +793,13 @@ due to the gain of observations.
 
 In this paper, we developed a forecasting model based on the friberg
 gronqvist wine data set. We used different statistical learning methods
-and evaluated them in terms of their cross validated out of sample
+and evaluated them in terms of their cross-validated out of sample
 \ac{RMSE}. Table \ref{tab:RMSESum} presents the results for the most
 relevant models.
 
 At first, we estimated a mean regression and a linear regression model
 without variable selection to establish a baseline. The linear
-regression yields a substantial improvement over the mean regression
+regression yields a substantial improvement over the mean regression,
 which hints at some explanatory power of our variables.
 
 Following, we introduced the \ac{lasso} to achieve a reduction of the
@@ -843,34 +843,33 @@ We calculated the model using a wide range of knots to identify even
 complex nonlinear structures. The splines model with \(20\) knots
 performs best but only marginally outperforms the \ac{lasso}.
 
-Subsequent, tree-based methods where applied. The results show, that the
-performance of a single regression tree isn't sufficient to outperform
+Afterward, tree-based methods where applied. The results show that the
+performance of a single regression tree is not sufficient to outperform
 the previous methods. In consequence, we used different methods to
-combine multiple decision trees. Namely, bagging, random forests, and
-boosting. We validated the performance of each model using a range of
+combine multiple decision trees. Namely bagging, random forests, and
+boosting. We validated the performance of each model, using a range of
 parameters.
 
-Our study shows that the litres of a wine sold per week are mainly
-determined by only a few determinants. Among those are the mean market
-share within the colour of the wine, it's price (in different
-variations) the colour of the wine, its place of origin and the time.
-Partial dependence plots revealed a nonlinear influence of many
-variables. Furthermore, red wine is is sold in a higher quantity than
-other wines, the overall litres sold per week decreased chonologically.
-We find little evidence that expert reviews and ratings have a great
-influence on the sales, if they have, they tend to have a strong
-influence only when they are very good. This contrasts the results of
-some of the studys mentioned in the introduction.
+Our study shows that only a few variables determine the litres of a wine
+sold per week. Among those are the mean market share within the color of
+the wine, its price (in different variations) the color of the wine, its
+place of origin, and the time. Partial dependence plots revealed a
+nonlinear influence of many variables. Furthermore, red wine is sold in
+a higher quantity than other wines; the overall litres sold per week
+decreased chronologically. We find little evidence that expert reviews
+and ratings have a great influence on the sales; if they have, they tend
+to have a strong influence only when they are excellent. This contrasts
+the results of some studies mentioned in the introduction.
 
-In conclusion, the two best performing models in terms of the cross
-validated out of sample \ac{RMSE} are the bagging model with \(25\)
-trees and the selected random forest model. While the bagging model
-yields the best cross validated out of sample \ac{RMSE} it's
+In conclusion, the two best performing models in terms of the
+cross-validated out of sample \ac{RMSE} are the bagging model with
+\(25\) trees and the selected random forest model. While the bagging
+model yields the best cross-validated out of sample \ac{RMSE} it is
 computationally demanding. Therefore we propose the use of a random
 forest model with 25 trees and 100 variables considered at each split.
-The use of more trees and / or more variables just barely increases the
+The use of more trees, more variables, or both barely increases the
 forecasting performance. Moreover, the proposed random forest model
-performs only little worse than the \ac{bagging} model but it demands
+performs only little worse than the \ac{bagging} model, but it demands
 substantially less computation time, which is why we prefer the
 application of a random forest model in contrast to a bagging model.
 
