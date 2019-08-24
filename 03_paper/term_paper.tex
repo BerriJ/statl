@@ -271,45 +271,46 @@
 \section{Introduction}\label{introduction}}
 
 This paper presents a forecasting study on global wine sales. This study
-is based on the friberg gronqvist wine data set which is publicly
+is based on the friberg gronqvist wine data set, which is publicly
 available and was previously analyzed by
 \textcite[][p. 193f.]{Friberg2012}. Recent technological advancements
 led to a significant increase in statistical methods that are
 computationally demanding while potentially outperforming classical
 statistical methods, especially in terms of forecasting. Those
-techniques are usually reffered to as statistical or machine learning
+techniques are usually referred to as statistical or machine learning
 methods. The methods and procedures we introduce in this paper are based
 on `An Introduction to Statistical Learning with Applications in R'
 \autocite[][]{James2014}.
 
 We present various models which are increasingly complex. Those models
 potentially gain forecasting power while losing interpretability. The
-applied models range from linear regressions to tree based methods like
+applied models range from linear regressions to tree-based methods like
 random forests and boosting. The goal is to develop the best possible
 model to forecast weekly wine sales in litre in out of sample data.
 
 Although the main goal is an accurate forecast, some of the methods used
 in this paper can also be used to quantify the impact of expert reviews
 on the sales, if there is any. The effect of expert opinions on consumer
-demand was analyzed in preceeding research. Notably,
+demand was analyzed in previous research. Notably,
 \textcite[][p. 1289]{Hilger2011} used a field experiment to study a
 review-based demand effect using wine score labels in a retail grocery
 chain. They find that providing information based on expert opinions
 increases the sales; this effect does depend on the score a wine has
 gotten. \textcite[][p. 293]{Ashenfelter2013} analyze, wether expert
-reviews influence the prices of wine. They conclude, that expert reviews
+reviews influence the prices of wine. They conclude that expert reviews
 contain public as well as private information. They only validate an
 influence on the highest rated wines. Furthermore,
 \textcite[][p. 182f.]{Bicknell2012} delivered research concerning the
-market for wine from new zealand. They validate a significant regional
-influence on wine prices. This influence is substantially lower for wine
-which is designated for the export market.
+market for wine from New Zealand. They validate a significant regional
+influence on wine prices. This influence is substantially lower for
+wine, which is designated for the export market.
 
-The remainder of this paper is structured as follows. Chapter 2 gives an
-overview about the dataset and the preprocessing. Chapter 3 describes
-the validation approach. Chapter 4 presents the models and their
-specification. Chapter 5 provides the results, a conclusion and some
-ideas for future research.
+The remainder of this paper is structured as follows. Chapter
+\ref{chap:data} gives an overview of the dataset and the preprocessing.
+Chapter \ref{chap:val} describes the validation approach. Chapter
+\ref{chap:anal} presents the models and their specification. Chapter
+\ref{chap:rob} presents the results of some robustness checks. Chapter
+\ref{chap:conc} provides the results, and concludes.
 
 \hypertarget{data-and-variables}{%
 \section{\texorpdfstring{Data and Variables
@@ -367,7 +368,8 @@ Litre Variable.}
 \end{figure}
 
 \hypertarget{validation-approach}{%
-\section{Validation Approach}\label{validation-approach}}
+\section{\texorpdfstring{Validation Approach
+\label{chap:val}}{Validation Approach }}\label{validation-approach}}
 
 Sampling may influence the model selection process because a sample
 could be in favor of one specific method while another sample could lead
@@ -383,7 +385,8 @@ the case. Therefore, we are using only the intersection of training and
 test features to be included in the estimation.
 
 \hypertarget{analysis}{%
-\section{Analysis}\label{analysis}}
+\section{\texorpdfstring{Analysis
+\label{chap:anal}}{Analysis }}\label{analysis}}
 
 \hypertarget{mean-regression-and-linear-regression}{%
 \subsection{Mean Regression and Linear
@@ -753,7 +756,8 @@ reasonable size, they are not discussed here but can be found in figure
 \ref{fig:bgpardep_main} in appendix \ref{chap:ap2}.
 
 \hypertarget{robustness}{%
-\section{Robustness}\label{robustness}}
+\section{\texorpdfstring{Robustness
+\label{chap:rob}}{Robustness }}\label{robustness}}
 
 We performed various alternative estimations to validate the robustness
 of our results. This was done by re-estimating the best random forest
@@ -776,7 +780,8 @@ excluding those \(6\) variables is not compensated by a higher precision
 due to the gain of observations.
 
 \hypertarget{conclusion}{%
-\section{Conclusion}\label{conclusion}}
+\section{\texorpdfstring{Conclusion
+\label{chap:conc}}{Conclusion }}\label{conclusion}}
 
 In this paper, we developed a forecasting model based on the friberg
 gronqvist wine data set. We used different statistical learning methods

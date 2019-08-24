@@ -32,7 +32,6 @@ biblio-files: references.bib
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-#knitr::opts_chunk$set(fig.pos = 'htbp')
 library(magick)
 library(tidyverse)
 library(stargazer)
@@ -42,38 +41,16 @@ crop <- function(im, left = 0, top = 0, right = 0, bottom = 0) {
 }
 ```
 
-<!---
-Grobe Einteilung der Seiten:
-
-1 - 2 Introduction und Dataset
-3 Validation Method (Hier würde ich auf CV und RMSE eingehen)
-4-13 Modelle mit den Spezifikationen, den RMSEs etc. Wir haben jetzt folgende Modelle:
-
-# Lineare Modelle:
-- Baseline => Mean Regression and Linear Regression
-- Selection / Reduction => Lasso, PCR, PLS,
-- Nonlinearity => Splines
-
-# Tree based:
-- Bagging
-- Random Forest
-- Boosting
-
-Das sind also grob 6 Modelle und die aktuelle Planung sieht ca. 9 Seiten vor.
-Die regel sollte also eine Seite pro Modell sein, und die ausgewählten Modelle dürfen etwas mehr Raum einnehmen.
-
-14-15 Ich denke hier sollten wir uns nicht kurz fassen sondern richtig arbeit investieren. Alles an Infos raus holen was so geht und vieleicht auch noch einmal auf die Vor und Nachteile unserer Modelle eingehen.
--->
 
 # Introduction
 
-This paper presents a forecasting study on global wine sales. This study is based on the friberg gronqvist wine data set which is publicly available and was previously analyzed by \textcite[][p. 193f.]{Friberg2012}. Recent technological advancements led to a significant increase in statistical methods that are computationally demanding while potentially outperforming classical statistical methods, especially in terms of forecasting. Those techniques are usually reffered to as statistical or machine learning methods. The methods and procedures we introduce in this paper are based on `An Introduction to Statistical Learning with Applications in R' \autocite[][]{James2014}.
+This paper presents a forecasting study on global wine sales. This study is based on the friberg gronqvist wine data set, which is publicly available and was previously analyzed by \textcite[][p. 193f.]{Friberg2012}. Recent technological advancements led to a significant increase in statistical methods that are computationally demanding while potentially outperforming classical statistical methods, especially in terms of forecasting. Those techniques are usually referred to as statistical or machine learning methods. The methods and procedures we introduce in this paper are based on `An Introduction to Statistical Learning with Applications in R' \autocite[][]{James2014}.
 
-We present various models which are increasingly complex. Those models potentially gain forecasting power while losing interpretability. The applied models range from linear regressions to tree based methods like random forests and boosting. The goal is to develop the best possible model to forecast weekly wine sales in litre in out of sample data.
+We present various models which are increasingly complex. Those models potentially gain forecasting power while losing interpretability. The applied models range from linear regressions to tree-based methods like random forests and boosting. The goal is to develop the best possible model to forecast weekly wine sales in litre in out of sample data.
 
-Although the main goal is an accurate forecast, some of the methods used in this paper can also be used to quantify the impact of expert reviews on the sales, if there is any. The effect of expert opinions on consumer demand was analyzed in preceeding research. Notably, \textcite[][p. 1289]{Hilger2011} used a field experiment to study a review-based demand effect using wine score labels in a retail grocery chain. They find that providing information based on expert opinions increases the sales; this effect does depend on the score a wine has gotten. \textcite[][p. 293]{Ashenfelter2013} analyze, wether expert reviews influence the prices of wine. They conclude, that expert reviews contain public as well as private information. They only validate an influence on the highest rated wines. Furthermore, \textcite[][p. 182f.]{Bicknell2012} delivered research concerning the market for wine from new zealand. They validate a significant regional influence on wine prices. This influence is substantially lower for wine which is designated for the export market.
+Although the main goal is an accurate forecast, some of the methods used in this paper can also be used to quantify the impact of expert reviews on the sales, if there is any. The effect of expert opinions on consumer demand was analyzed in previous research. Notably, \textcite[][p. 1289]{Hilger2011} used a field experiment to study a review-based demand effect using wine score labels in a retail grocery chain. They find that providing information based on expert opinions increases the sales; this effect does depend on the score a wine has gotten. \textcite[][p. 293]{Ashenfelter2013} analyze, wether expert reviews influence the prices of wine. They conclude that expert reviews contain public as well as private information. They only validate an influence on the highest rated wines. Furthermore, \textcite[][p. 182f.]{Bicknell2012} delivered research concerning the market for wine from New Zealand. They validate a significant regional influence on wine prices. This influence is substantially lower for wine, which is designated for the export market.
 
-The remainder of this paper is structured as follows. Chapter 2 gives an overview about the dataset and the preprocessing. Chapter 3 describes the validation approach. Chapter 4 presents the models and their specification. Chapter 5 provides the results, a conclusion and some ideas for future research.
+The remainder of this paper is structured as follows. Chapter \ref{chap:data} gives an overview of the dataset and the preprocessing. Chapter \ref{chap:val} describes the validation approach. Chapter \ref{chap:anal} presents the models and their specification. Chapter \ref{chap:rob} presents the results of some robustness checks. Chapter \ref{chap:conc} provides the results, and concludes.
 
 # Data and Variables \label{chap:data}
 
@@ -103,13 +80,13 @@ Figure \ref{fig:HistLitre} depicts the distribution of the variable $litre$, whi
 knitr::include_graphics("../00_data/output_paper/04_hist_litre.pdf")
 ```
 
-# Validation Approach
+# Validation Approach \label{chap:val}
 
 Sampling may influence the model selection process because a sample could be in favor of one specific method while another sample could lead to different results. Therefore we validate the results of each method using a 5-fold cross-validation. This reduces the influence of sampling when building a training and test set while it's computationally feasible.
 
 In order to compute a prediction it is necessary that the test set includes, at least, all features of the training set. Due to the high number of levels in the countries and name variable, this was not always the case. Therefore, we are using only the intersection of training and test features to be included in the estimation.
 
-# Analysis
+# Analysis \label{chap:anal}
 
 ## Mean Regression and Linear Regression
 
@@ -295,14 +272,14 @@ knitr::include_graphics("../00_data/output_paper/12_var_imp_boosting_bp.pdf")
 
 The corresponding partial dependence plots are very similar to those from the random forest model. Therefore, and to keep this paper at a reasonable size, they are not discussed here but can be found in figure \ref{fig:bgpardep_main} in appendix \ref{chap:ap2}.
 
-# Robustness
+# Robustness \label{chap:rob}
 
 We performed various alternative estimations to validate the robustness of our results. This was done by re-estimating the best random forest model and comparing the new results.
 As noted in chapter \ref{chap:data}, we excluded "$time\_segm\_price$" and "$artikpr$". Those variables are combinations of other variables, thus they represent interactions terms. Including them yields a mean \ac{RMSE} of $\approx4862.917$ and therefore doesn't improve our model.
 
 Another crucial decision was to exclude all variables with more than $50\%$ missing values. Reducing this to $20\%$ means excluding $6$ additional variables. Those variables are all related to wine reviews. This increases the complete cases substantially from $41416$ to $144994$, which is nearly the whole dataset. Estimating the random forest model yields a \ac{RMSE} of $\approx5010.796$, which is an underprerformance compared to the model developed in section \ref{chap:rand_for}. This shows, that the loss of explanatory power by excluding those $6$ variables is not compensated by a higher precision due to the gain of observations.
 
-# Conclusion
+# Conclusion \label{chap:conc}
 
 ```{r summary, echo = F}
 load("../00_data/output_paper/16_summary.rda")
