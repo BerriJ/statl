@@ -271,7 +271,7 @@ knitr::include_graphics("../00_data/output_paper/11_var_imp_random_forest_bp.pdf
 
 Figure \ref{fig:rfimp} shows the variable importance plot for the $20$ most important variables of the 'optimal' random forest, which minimizes the \ac{RMSE} in the given range. According to this plot the most important variable, in terms of the mean increase of the \ac{RMSE}, is $ms\_segm$, followed by four variables with regard to the price: $price$, $lp$, the logarithmized price, $pri\_m$, the mean real litre price (base jan 2004) during the weeks the wine is distributed and $rprice\_litre$, real litre price (base jan 2004). Thus, the litres of wine sold per week is mainly determined by its market share and its price. Although, there are many more variables which, according to the random forest model, are important. One should note, that those variables do not necessarily have the highest marginal effects.
 
-Figure \ref{fig:rfpardep} shows the partial dependence plots for the 10 most important variables. The plots present the marginal effect of the variable on the litres sold per week. Those plots clearly reveal some nonlinear dependencies in the data which explains the poor performances of the linear models. Furthermore, the figure validates some intuitive assumptions. For example, a higher market share leads to more litres sold, while high real prices lead to fewer litres sold. Furthermore the influence of $v10\_dim$, which is the 'Dagens Industri' review, is especially large, when the review is very good. We moved the full partial dependence plot with all 20 most important variables into appendix \ref{chap:ap2} as Figure \ref{fig:rfpardep_other} to keep this chapter at a reasonable size.
+Figure \ref{fig:rfpardep} shows the partial dependence plots for the 10 most important variables. The plots present the marginal effect of the variable on the litres sold per week. Those plots clearly reveal some nonlinear dependencies in the data which explains the poor performances of the linear models. Furthermore, the figure validates some intuitive assumptions. For example, a higher market share leads to more litres sold, while high real prices lead to fewer litres sold. Furthermore the influence of $v10\_dim$, which is the 'Dagens Industri' review, is especially large, when the review is very good. The complete partial dependence plot with all 20 most important variables can be found in the appendix \ref{chap:ap2} in figure \ref{fig:rfpardep_other} to keep this chapter at a reasonable size.
 
 ```{r, echo = FALSE, fig.cap = "\\label{fig:rfpardep}Random Forest: Partial Dependence Plots."}
 knitr::include_graphics("../00_data/output_paper/11_par_dep_random_forest.pdf")
@@ -293,7 +293,7 @@ Figure \ref{fig:boostimp} shows the importance of the $20$ most important variab
 knitr::include_graphics("../00_data/output_paper/12_var_imp_boosting_bp.pdf")
 ```
 
-The partial dependence plots are very similar to those from the random forest model. Therefore, and to keep this paper at a reasonable size, they are not discussed but included as \ref{fig:bgpardep_main} in appendix \ref{chap:ap2}.
+The corresponding partial dependence plots are very similar to those from the random forest model. Therefore, and to keep this paper at a reasonable size, they are not discussed here but can be found in \ref{fig:bgpardep_main} in appendix \ref{chap:ap2}.
 
 # Robustness
 
@@ -325,6 +325,8 @@ We considered splines as a way to introduce nonlinearity to our model. We calcul
 Subsequent, tree-based methods where applied. The results show, that the performance of a single regression tree isn't sufficient to outperform the previous methods. In consequence, we used different methods to combine multiple decision trees. Namely, bagging, random forests, and boosting. We validated the different models using a range of parameters.
 
 In conclusion, the two best performing models in terms of the \ac{RMSE} are the bagging model with $25$ trees and the selected random forest model. While the bagging model yields the best \ac{RMSE} it's computationally demanding. Our prefered model is therefore a random forest with 25 trees and 100 variables considered at each split. This model performs only little worse than the bagging but it demands substantially less computation time, which is why it's preferable for applications.
+
+Our study shows that the litres of a wine sold per week are mainly determined by only a few variables. Among those are the mean market share within the colour of the wine, it's price (in different variations) <!--- implying a nonlinear relationship ---> the colour of the wine and its place of origin. According to our results, expert reviews and ratings do not seem to have a great influence on the sales, which is in contrast to the results of some of the studys mentioned in the introduction.
 
 \pagebreak
 

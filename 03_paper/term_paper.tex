@@ -320,12 +320,12 @@ variables. The variables include the name of the wine, the country of
 origin, its price, the amount sold per week in litre, the taste segment
 and variables related to different reviews among others. A table with
 summary statistics of the data set can be found in appendix
-\ref{chap:ap1} in table \ref{tab:SumStat}.\\
-We need to omit two variables beforehand, namely
-\enquote{\(time\_segm\_price\)} and \enquote{\(artikpr\)}, because those
-are combinations of other existing variables. Hence inclusion would lead
-to the problem of multicollinearity. After omitting those two we have
-left the following types of variables (see table \ref{tab:VarTyp}).
+\ref{chap:ap1} in table \ref{tab:SumStat}. We need to omit two variables
+beforehand, namely \enquote{\(time\_segm\_price\)} and
+\enquote{\(artikpr\)}, because those are combinations of other existing
+variables. Hence inclusion would lead to the problem of
+multicollinearity. After omitting those two we have left the following
+types of variables (see table \ref{tab:VarTyp}).
 
 \begin{longtable}[]{@{}rrrr@{}}
 \caption{\label{tab:VarTyp}Frequency of Variable Types.}\tabularnewline
@@ -507,11 +507,11 @@ a number of different regions. `Since the set of splitting rules used to
 segment the predictor space can be summarized in a tree, these type of
 approaches are known as decision tree methods'
 \autocite[][p. 303]{Hastie2013}. The base of tree-based methods are
-regression trees.\\
-For improvement of the predictive power of these methods, while losing
-interpretability, one can combine different regression trees for a
-single prediction. Those approaches, including bagging, random forests
-and boosting, are described in more detail when being applied.
+regression trees. For improvement of the predictive power of these
+methods, while losing interpretability, one can combine different
+regression trees for a single prediction. Those approaches, including
+bagging, random forests and boosting, are described in more detail when
+being applied.
 
 \hypertarget{regression-tree}{%
 \subsubsection{Regression Tree}\label{regression-tree}}
@@ -635,7 +635,7 @@ which the trees of the \ac{bagging} algorithm are highly correlated.
 
 \begin{figure}
 
-{\centering \includegraphics{../00_data/output_paper/10_rf_plot}
+{\centering \includegraphics{../00_data/output_paper/10_rf_plot} 
 
 }
 
@@ -685,10 +685,10 @@ of the linear models. Furthermore, the figure validates some intuitive
 assumptions. For example, a higher market share leads to more litres
 sold, while high real prices lead to fewer litres sold. Furthermore the
 influence of \(v10\_dim\), which is the \enquote{Dagens Industri}
-review, is especially large, when the review is very good. We moved the
-full partial dependence plot with all 20 most important variables into
-appendix \ref{chap:ap2} as Figure \ref{fig:rfpardep_other} to keep this
-chapter at a reasonable size.
+review, is especially large, when the review is very good. The complete
+partial dependence plot with all 20 most important variables can be
+found in the appendix \ref{chap:ap2} in figure \ref{fig:rfpardep_other}
+to keep this chapter at a reasonable size.
 
 \begin{figure}
 \centering
@@ -726,7 +726,7 @@ shrinkage parameter of \(0.4\).
 
 \begin{figure}
 
-{\centering \includegraphics{../00_data/output_paper/11_boosting_plot}
+{\centering \includegraphics{../00_data/output_paper/11_boosting_plot} 
 
 }
 
@@ -747,28 +747,29 @@ those utilzes exactly those variables.
 \caption{\label{fig:boostimp}Boosting: Variable Importance Plot.}
 \end{figure}
 
-The partial dependence plots are very similar to those from the random
-forest model. Therefore, and to keep this paper at a reasonable size,
-they are not discussed but included as \ref{fig:bgpardep_main} in
-appendix \ref{chap:ap2}.
+The corresponding partial dependence plots are very similar to those
+from the random forest model. Therefore, and to keep this paper at a
+reasonable size, they are not discussed here but can be found in
+\ref{fig:bgpardep_main} in appendix \ref{chap:ap2}.
 
 \hypertarget{robustness}{%
 \section{Robustness}\label{robustness}}
 
 We performed various alternative estimations to validate the robustness
 of our results. This was done by re-estimating the best random forest
-model and comparing the new results. As noted in \autoref{chap:data}, we
-excluded \enquote{\(time\_segm\_price\)} and \enquote{\(artikpr\)}, thus
-they represent interactions terms. Including them yields a mean
-\ac{RMSE} of \(\approx4862.917\) and therefore doesn't improve our
-model.
+model and comparing the new results. As noted in chapter
+\ref{chap:data}, we excluded \enquote{\(time\_segm\_price\)} and
+\enquote{\(artikpr\)}. Those variables are combinations of other
+variables, thus they represent interactions terms. Including them yields
+a mean \ac{RMSE} of \(\approx4862.917\) and therefore doesn't improve
+our model.
 
 Another crucial decision was to exclude all variables with more than
 \(50\%\) missing values. Reducing this to \(20\%\) means excluding \(6\)
 additional variables. Those variables are all related to wine reviews.
 This increases the complete cases substantially from \(41416\) to
 \(144994\), which is nearly the whole dataset. Estimating the random
-forest model yields a \ac{rmse} of \(\approx5010.796\), which is an
+forest model yields a \ac{RMSE} of \(\approx5010.796\), which is an
 underprerformance compared to the model developed in section
 \ref{chap:rand_for}. This shows, that the loss of explanatory power by
 excluding those \(6\) variables is not compensated by a higher precision
@@ -844,6 +845,14 @@ model performs only little worse than the bagging but it demands
 substantially less computation time, which is why it's preferable for
 applications.
 
+Our study shows that the litres of a wine sold per week are mainly
+determined by only a few variables. Among those are the mean market
+share within the colour of the wine, it's price (in different
+variations) the colour of the wine and its place of origin. According to
+our results, expert reviews and ratings do not seem to have a great
+influence on the sales, which is in contrast to the results of some of
+the studys mentioned in the introduction.
+
 \pagebreak
 
 \addcontentsline{toc}{section}{References}
@@ -885,64 +894,64 @@ applications.
 
 \newgeometry{top=1cm, left = 5cm, right = 2.5cm, bottom = 2cm}
 
-\begin{table}[!htbp] \centering
-  \caption{Summary Statistics of the Data Set.}
-  \label{tab:SumStat}
-\begin{tabular}{@{\extracolsep{5pt}}lcccc}
-\\[-1.8ex]\hline
-\hline \\[-1.8ex]
-Statistic & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} \\
-\hline \\[-1.8ex]
-artikelnr & 200,001 & 4,236,201 & 1,008,268.000 & 847,223.200 \\
-artikelid & 2,000 & 42,362 & 10,082.660 & 8,472.232 \\
-year & 2,002 & 2,006 & 2,003.849 & 1.157 \\
-week & 1 & 53 & 26.655 & 15.464 \\
-period & 1 & 215 & 123.181 & 60.995 \\
-litre & 0.000 & 184,200.000 & 6,100.028 & 11,361.840 \\
-llitre & $-$0.288 & 9,999,979.000 & 6,357,811.000 & 2,766,722.000 \\
-price & 38 & 1,149 & 109.710 & 86.164 \\
-lp & 4,199 & 7,350,033 & 4,224,377.000 & 1,374,042.000 \\
-rprice\_litre & 43 & 9,997,986 & 4,786,868.000 & 3,294,301.000 \\
-old & 0 & 6,294 & 1,013.839 & 1,670.369 \\
-ma\_split & 0.000 & 9,992,891.000 & 103,908.700 & 731,760.500 \\
-v10\_a & 0.000 & 9,996,812.000 & 139,915.000 & 839,263.000 \\
-v10\_dn & 0.000 & 1.000 & 0.866 & 0.341 \\
-v10\_di & 0.000 & 6,666,667.000 & 700,363.200 & 1,870,385.000 \\
-v10\_exp & 0.000 & 1.000 & 0.987 & 0.115 \\
-v10\_svd & 0.000 & 1.000 & 0.983 & 0.130 \\
-v10\_aom & 0.000 & 1.000 & 0.862 & 0.345 \\
-v10\_am & 0.000 & 9,642,858.000 & 843,582.100 & 2,364,607.000 \\
-v10\_dnm & 0.000 & 9,791,667.000 & 2,781,325.000 & 3,473,845.000 \\
-v10\_dim & 0.000 & 9,642,858.000 & 2,152,525.000 & 3,281,604.000 \\
-v10\_expm & 0.000 & 9,714,286.000 & 1,306,189.000 & 2,935,431.000 \\
-v10\_svdm & 0.000 & 9,833,333.000 & 868,634.200 & 2,474,596.000 \\
-v10\_aomm & 0.000 & 9,629,629.000 & 3,414,758.000 & 2,908,400.000 \\
-v10\_all & 0.000 & 9,710,261.000 & 3,998,467.000 & 2,944,359.000 \\
-rev\_all & 0.000 & 9,816,509.000 & 77,025.290 & 679,549.600 \\
-rev\_all\_hi & 0 & 1 & 0.038 & 0.190 \\
-rev\_all\_lo & 0 & 1 & 0.019 & 0.137 \\
-rev\_eve & 0 & 1 & 0.015 & 0.122 \\
-rev\_eve\_hi & 0 & 1 & 0.010 & 0.098 \\
-rev\_eve\_lo & 0 & 1 & 0.003 & 0.058 \\
-rev\_ex & 0 & 1 & 0.010 & 0.101 \\
-rev\_ex\_hi & 0 & 1 & 0.008 & 0.089 \\
-rev\_ex\_lo & 0 & 1 & 0.006 & 0.079 \\
-rev\_nyaom & 0 & 1 & 0.033 & 0.179 \\
-rev\_nyaom\_hi & 0 & 1 & 0.029 & 0.169 \\
-rev\_nyaom\_lo & 0 & 1 & 0.013 & 0.113 \\
-rev\_all\_p50 & 0 & 1 & 0.024 & 0.152 \\
-rev\_all\_p80 & 0 & 1 & 0.017 & 0.130 \\
-rev\_all\_p20 & 0 & 1 & 0.010 & 0.101 \\
-m\_rev & 0 & 1 & 0.009 & 0.094 \\
-m\_rev\_hi & 0 & 1 & 0.003 & 0.058 \\
-m\_rev\_lo & 0 & 1 & 0.001 & 0.031 \\
-nrarom & 0 & 793 & 14.917 & 74.440 \\
-pri\_m & 0 & 9,990,796 & 3,046,590.000 & 3,513,496.000 \\
-ms\_segm & 0 & 9,984,732 & 1,846,902.000 & 3,136,838.000 \\
-ind & 0.00000 & 1.000 & 0.014 & 0.097 \\
-...59 & 1.000 & 1.000 & 1.000 & 0.000 \\
-\hline \\[-1.8ex]
-\end{tabular}
+\begin{table}[!htbp] \centering 
+  \caption{Summary Statistics of the Data Set.} 
+  \label{tab:SumStat} 
+\begin{tabular}{@{\extracolsep{5pt}}lcccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+Statistic & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} \\ 
+\hline \\[-1.8ex] 
+artikelnr & 200,001 & 4,236,201 & 1,008,268.000 & 847,223.200 \\ 
+artikelid & 2,000 & 42,362 & 10,082.660 & 8,472.232 \\ 
+year & 2,002 & 2,006 & 2,003.849 & 1.157 \\ 
+week & 1 & 53 & 26.655 & 15.464 \\ 
+period & 1 & 215 & 123.181 & 60.995 \\ 
+litre & 0.000 & 184,200.000 & 6,100.028 & 11,361.840 \\ 
+llitre & $-$0.288 & 9,999,979.000 & 6,357,811.000 & 2,766,722.000 \\ 
+price & 38 & 1,149 & 109.710 & 86.164 \\ 
+lp & 4,199 & 7,350,033 & 4,224,377.000 & 1,374,042.000 \\ 
+rprice\_litre & 43 & 9,997,986 & 4,786,868.000 & 3,294,301.000 \\ 
+old & 0 & 6,294 & 1,013.839 & 1,670.369 \\ 
+ma\_split & 0.000 & 9,992,891.000 & 103,908.700 & 731,760.500 \\ 
+v10\_a & 0.000 & 9,996,812.000 & 139,915.000 & 839,263.000 \\ 
+v10\_dn & 0.000 & 1.000 & 0.866 & 0.341 \\ 
+v10\_di & 0.000 & 6,666,667.000 & 700,363.200 & 1,870,385.000 \\ 
+v10\_exp & 0.000 & 1.000 & 0.987 & 0.115 \\ 
+v10\_svd & 0.000 & 1.000 & 0.983 & 0.130 \\ 
+v10\_aom & 0.000 & 1.000 & 0.862 & 0.345 \\ 
+v10\_am & 0.000 & 9,642,858.000 & 843,582.100 & 2,364,607.000 \\ 
+v10\_dnm & 0.000 & 9,791,667.000 & 2,781,325.000 & 3,473,845.000 \\ 
+v10\_dim & 0.000 & 9,642,858.000 & 2,152,525.000 & 3,281,604.000 \\ 
+v10\_expm & 0.000 & 9,714,286.000 & 1,306,189.000 & 2,935,431.000 \\ 
+v10\_svdm & 0.000 & 9,833,333.000 & 868,634.200 & 2,474,596.000 \\ 
+v10\_aomm & 0.000 & 9,629,629.000 & 3,414,758.000 & 2,908,400.000 \\ 
+v10\_all & 0.000 & 9,710,261.000 & 3,998,467.000 & 2,944,359.000 \\ 
+rev\_all & 0.000 & 9,816,509.000 & 77,025.290 & 679,549.600 \\ 
+rev\_all\_hi & 0 & 1 & 0.038 & 0.190 \\ 
+rev\_all\_lo & 0 & 1 & 0.019 & 0.137 \\ 
+rev\_eve & 0 & 1 & 0.015 & 0.122 \\ 
+rev\_eve\_hi & 0 & 1 & 0.010 & 0.098 \\ 
+rev\_eve\_lo & 0 & 1 & 0.003 & 0.058 \\ 
+rev\_ex & 0 & 1 & 0.010 & 0.101 \\ 
+rev\_ex\_hi & 0 & 1 & 0.008 & 0.089 \\ 
+rev\_ex\_lo & 0 & 1 & 0.006 & 0.079 \\ 
+rev\_nyaom & 0 & 1 & 0.033 & 0.179 \\ 
+rev\_nyaom\_hi & 0 & 1 & 0.029 & 0.169 \\ 
+rev\_nyaom\_lo & 0 & 1 & 0.013 & 0.113 \\ 
+rev\_all\_p50 & 0 & 1 & 0.024 & 0.152 \\ 
+rev\_all\_p80 & 0 & 1 & 0.017 & 0.130 \\ 
+rev\_all\_p20 & 0 & 1 & 0.010 & 0.101 \\ 
+m\_rev & 0 & 1 & 0.009 & 0.094 \\ 
+m\_rev\_hi & 0 & 1 & 0.003 & 0.058 \\ 
+m\_rev\_lo & 0 & 1 & 0.001 & 0.031 \\ 
+nrarom & 0 & 793 & 14.917 & 74.440 \\ 
+pri\_m & 0 & 9,990,796 & 3,046,590.000 & 3,513,496.000 \\ 
+ms\_segm & 0 & 9,984,732 & 1,846,902.000 & 3,136,838.000 \\ 
+ind & 0.00000 & 1.000 & 0.014 & 0.097 \\ 
+...59 & 1.000 & 1.000 & 1.000 & 0.000 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
 \end{table}
 
 \restoregeometry
