@@ -32,6 +32,7 @@ biblio-files: references.bib
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+#knitr::opts_chunk$set(fig.pos = 'htbp')
 library(magick)
 library(tidyverse)
 library(stargazer)
@@ -380,10 +381,18 @@ kable(Summary, "latex", digits = 0, caption = "RMSEs of every fold for every met
 
 ## Partial Dependence Plots for Random Forest
 
-\vspace{1cm}
-
 ```{r, echo = FALSE, fig.cap = "\\label{fig:rfpardep_other}Random Forest: Partial Dependence Plots."}
 knitr::include_graphics("../00_data/output_paper/11_par_dep_random_forest_other.pdf")
+```
+
+## Partial Dependence Plots for Bootstrap Aggregation
+
+```{r, echo = FALSE, fig.cap = "\\label{fig:bgpardep_main}Random Forest: Partial Dependence Plots."}
+knitr::include_graphics("../00_data/output_paper/16_pdp_boosting_main.pdf")
+```
+
+```{r, echo = FALSE, fig.cap = "\\label{fig:bgpardep_other}Random Forest: Partial Dependence Plots."}
+knitr::include_graphics("../00_data/output_paper/16_pdp_boosting_other.pdf")
 ```
 
 \cleardoublepage
