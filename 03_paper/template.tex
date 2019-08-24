@@ -326,6 +326,8 @@ $endif$
 
 \end{titlepage}
 
+\newgeometry{top=2cm, left = 5cm, right = 2.5cm, bottom = 2.5cm}
+
 $if(abstract)$
 \begin{abstract}
 $abstract$
@@ -340,6 +342,7 @@ $if(toc)$
 \pagenumbering{Roman}
 {
 \hypersetup{linkcolor=black}
+
 \setcounter{tocdepth}{$toc-depth$}
 \tableofcontents
 }
@@ -377,6 +380,8 @@ $endif$
 \end{acronym}
 
 \end{adjustwidth}
+
+\restoregeometry
 
 \newpage
 \pagenumbering{arabic}

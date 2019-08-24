@@ -223,10 +223,13 @@
 
 \end{titlepage}
 
+\newgeometry{top=2cm, left = 5cm, right = 2.5cm, bottom = 2.5cm}
+
 
 \pagenumbering{Roman}
 {
 \hypersetup{linkcolor=black}
+
 \setcounter{tocdepth}{3}
 \tableofcontents
 }
@@ -259,6 +262,8 @@
 \end{acronym}
 
 \end{adjustwidth}
+
+\restoregeometry
 
 \newpage
 \pagenumbering{arabic}
@@ -513,12 +518,12 @@ and boosting, are described in more detail when being applied.
 \subsubsection{Regression Tree}\label{regression-tree}}
 
 For growing a regression tree `the algorithm needs to automatically
-decide on the splitting variables and split points {[}\ldots{}{]} the
-tree should have' \autocite[][p. 349]{Hastie2013}. The tree is grown
-when a splitting is found that minimizes the sum of squared residuals.
-The splitting is done with a greedy algorithm, i.e., at first all the
-data is split into just two groups while the search of the splitting
-variable and split point includes all possible variables and points
+decide on the splitting variables and split points {[}\ldots{]} the tree
+should have' \autocite[][p. 349]{Hastie2013}. The tree is grown when a
+splitting is found that minimizes the sum of squared residuals. The
+splitting is done with a greedy algorithm, i.e., at first all the data
+is split into just two groups while the search of the splitting variable
+and split point includes all possible variables and points
 \autocite[cf.][p. 349]{Hastie2013}. After the data is split this process
 is repeated for the now obtained two splitted regions until the tree is
 large enough that the nodes reach a set minimum size.
@@ -546,7 +551,7 @@ the right track stands for red wines.
 As regression trees may tend to grow quite large, a possible way to get
 smaller trees is pruning back the grown larger tree. The goal of pruning
 is `to select a subtree that leads to the lowest test error rate
-{[}which{]} we can estimate {[}\ldots{}{]} using cross-validation or the
+{[}which{]} we can estimate {[}\ldots{]} using cross-validation or the
 validation set approach' \autocite[][p. 308]{James2014}. This is done by
 \emph{cost complexity pruning}.
 
@@ -695,15 +700,6 @@ next 10 important variables.
 \hypertarget{boosting}{%
 \subsubsection{Boosting}\label{boosting}}
 
-\begin{figure}
-
-{\centering \includegraphics{../00_data/output_paper/11_boosting_plot} 
-
-}
-
-\caption[RMSEs of the Boosting Model for Different Parameters]{\label{fig:boostrmse}Boosting: Dependency between RMSE, Lambda, the Depths and the Number of Trees that are Grown.}\label{fig:boosting_hyper}
-\end{figure}
-
 In contrast to random forests boosting grows tree sequentially meaning
 that for every new tree information from already grown trees is used
 \autocite[cf.][p. 322]{James2014}. For boosting rather small regression
@@ -730,9 +726,12 @@ one with \(25\) trees used, an interaction depth of \(14\) and a
 shrinkage parameter of \(0.4\).
 
 \begin{figure}
-\centering
-\includegraphics{../00_data/output_paper/12_var_imp_boosting_bp.pdf}
-\caption{\label{fig:boostimp}Boosting: Variable Importance Plot.}
+
+{\centering \includegraphics{../00_data/output_paper/11_boosting_plot} 
+
+}
+
+\caption[RMSEs of the Boosting Model for Different Parameters]{\label{fig:boostrmse}Boosting: Dependency between RMSE, Lambda, the Depths and the Number of Trees that are Grown.}\label{fig:boosting_hyper}
 \end{figure}
 
 Figure \ref{fig:boostimp} shows the importance of the \(20\) most
@@ -742,6 +741,12 @@ is \(ms\_segm\), while the second most important variable is
 \(segmred\), followed by \(period\) and \(price\). This also does
 confirm the results of the single tree as well as the pruned tree, as
 those utilzes exactly those variables.
+
+\begin{figure}
+\centering
+\includegraphics{../00_data/output_paper/12_var_imp_boosting_bp.pdf}
+\caption{\label{fig:boostimp}Boosting: Variable Importance Plot.}
+\end{figure}
 
 \hypertarget{robustness}{%
 \section{Robustness}\label{robustness}}
@@ -774,6 +779,19 @@ and evaluated them in terms of their mean \ac{rmse} (averaged over all
 folds of the cross-validation). Table \ref{tab:RMSESum} summarizes our
 results.
 
+We estimated a mean regression and a linear regression model without
+variable selection to establish a baseline. The linear regression yields
+a substantial improvement over the mean regression which hints at some
+explanatory power of our variables. Following, we introduced the
+\ac{lasso} to achieve a reduction of the feature set to reduce the
+possible overfit and therefore improve the out of sample forecasts. The
+lasso yields a small improvement compared to the basic linear regression
+model.
+
+Furthermore, we used \ac{pcr} and \ac{pls} for dimension reduction.
+While \ac{pls} reduced the feature set to \(\approx35\) components,
+neither \ac{pls} nor \ac{pcr} outperformed the \ac{lasso} approach.
+
 \begin{table}[t]
 
 \caption{\label{tab:RMSE}\label{tab:RMSESum}RMSEs of every fold for every method.}
@@ -801,19 +819,6 @@ Boosting (Best) & 4425 & 4455 & 4548 & 4632 & 4336 & 4479\\
 \bottomrule
 \end{tabular}
 \end{table}
-
-We estimated a mean regression and a linear regression model without
-variable selection to establish a baseline. The linear regression yields
-a substantial improvement over the mean regression which hints at some
-explanatory power of our variables. Following, we introduced the
-\ac{lasso} to achieve a reduction of the feature set to reduce the
-possible overfit and therefore improve the out of sample forecasts. The
-lasso yields a small improvement compared to the basic linear regression
-model.
-
-Furthermore, we used \ac{pcr} and \ac{pls} for dimension reduction.
-While \ac{pls} reduced the feature set to \(\approx35\) components,
-neither \ac{pls} nor \ac{pcr} outperformed the \ac{lasso} approach.
 
 We considered splines as a way to introduce nonlinearity to our model.
 We calculated the model using a wide range of knots to identify even
@@ -871,7 +876,8 @@ applications.
 \section{Appendices}\label{appendices}}
 
 \hypertarget{dataset}{%
-\subsection{Dataset}\label{dataset}}
+\subsection{\texorpdfstring{Dataset
+\label{chap:rand_for}}{Dataset }}\label{dataset}}
 
 \newgeometry{top=1cm, left = 5cm, right = 2.5cm, bottom = 2cm}
 
@@ -937,9 +943,9 @@ ind & 0.00000 & 1.000 & 0.014 & 0.097 \\
 
 \restoregeometry
 
-\hypertarget{partial-dependence-plots-for-random-forest}{%
-\subsection{Partial Dependence Plots for Random
-Forest}\label{partial-dependence-plots-for-random-forest}}
+\hypertarget{additional-partial-dependence-plots}{%
+\subsection{Additional Partial Dependence
+Plots}\label{additional-partial-dependence-plots}}
 
 \begin{figure}
 \centering
@@ -948,22 +954,10 @@ Forest}\label{partial-dependence-plots-for-random-forest}}
 Plots.}
 \end{figure}
 
-\hypertarget{partial-dependence-plots-for-bootstrap-aggregation}{%
-\subsection{Partial Dependence Plots for Bootstrap
-Aggregation}\label{partial-dependence-plots-for-bootstrap-aggregation}}
-
 \begin{figure}
 \centering
 \includegraphics{../00_data/output_paper/16_pdp_boosting_main.pdf}
-\caption{\label{fig:bgpardep_main}Random Forest: Partial Dependence
-Plots.}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics{../00_data/output_paper/16_pdp_boosting_other.pdf}
-\caption{\label{fig:bgpardep_other}Random Forest: Partial Dependence
-Plots.}
+\caption{\label{fig:bgpardep_main}Boosting: Partial Dependence Plots.}
 \end{figure}
 
 \cleardoublepage
