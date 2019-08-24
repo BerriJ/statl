@@ -77,9 +77,9 @@ knitr::include_graphics("../00_data/output_paper/04_hist_litre.pdf")
 
 # Validation Approach \label{chap:val}
 
-Sampling may influence the model selection process because a sample could be in favor of one specific method while another sample could lead to different results. Therefore we validate the results of each method using a 5-fold cross-validation. This reduces the influence of sampling when building a training and test set while it's computationally feasible.
+Sampling may influence the model selection process because a sample could be in favor of one specific method while another sample could lead to different results. Therefore we validate the results of each method using 5-fold cross-validation. This reduces the influence of sampling when building the training and the test set while it is computationally feasible.
 
-In order to compute a prediction it is necessary that the test set includes, at least, all features of the training set. Due to the high number of levels in the countries and name variable, this was not always the case. Therefore, we are using only the intersection of training and test features to be included in the estimation.
+In order to compute a prediction, the test set must include, at least, all features of the training set. Due to the high number of levels in the countries and name variable, this was not always the case. Therefore, we are using only the intersection of training and test features to be included in the estimation.
 
 # Analysis \label{chap:anal}
 

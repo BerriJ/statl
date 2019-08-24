@@ -318,15 +318,16 @@ Chapter \ref{chap:val} describes the validation approach. Chapter
 
 The data set used in this paper contains 145179 observations with 59
 variables. The variables include the name of the wine, the country of
-origin, its price, the amount sold per week in litre, the taste segment
-and variables related to different reviews among others. A table with
+origin, its price, the amount sold per week in litre, the taste segment,
+and variables related to different reviews, among others. A table with
 summary statistics of the data set can be found in appendix
-\ref{chap:ap1} in table \ref{tab:SumStat}. We need to omit two variables
-beforehand, namely \enquote{\(time\_segm\_price\)} and
-\enquote{\(artikpr\)}, because those are combinations of other existing
-variables. Hence inclusion would lead to the problem of
-multicollinearity. After omitting those two we have left the following
-types of variables (see table \ref{tab:VarTyp}).
+\ref{chap:ap1} in table \ref{tab:SumStat}.
+
+We need to omit two variables beforehand, namely
+\enquote{\(time\_segm\_price\)} and \enquote{\(artikpr\)}, because those
+are combinations of other existing variables. Hence inclusion would lead
+to the problem of multicollinearity. After omitting those two, we have
+left the following types of variables (see table \ref{tab:VarTyp}).
 
 \begin{longtable}[]{@{}rrrr@{}}
 \caption{\label{tab:VarTyp}Frequency of Variable Types.}\tabularnewline
@@ -342,11 +343,11 @@ Date & factor & logical & numeric\tabularnewline
 \bottomrule
 \end{longtable}
 
-Figure \ref{fig:NAs} depicts the amount of missing values in each
+Figure \ref{fig:NAs} depicts the number of missing values in each
 variable. The number of complete cases would be zero without further
 selection. Therefore we exclude every variable with a ratio of missing
-values that exceeds \(50\%\). In consequence \(41416\) observations with
-\(45\) variables are used for building the forecasting models.
+values that exceeds \(50\%\). In consequence, \(41416\) observations
+with \(45\) variables are used for building the forecasting models.
 
 \begin{figure}
 \centering
@@ -357,7 +358,7 @@ values that exceeds \(50\%\). In consequence \(41416\) observations with
 Figure \ref{fig:HistLitre} depicts the distribution of the variable
 \(litre\), which is the dependent variable in our models. One can see
 that the observations are heavily skewed. The maximum is at \(184200\)
-litres sold weekly while it's minimum is near zero with only \(0.75\)
+litres sold weekly while its minimum is near zero with only \(0.75\)
 litres sold per week.
 
 \begin{figure}
@@ -374,15 +375,15 @@ Litre Variable.}
 Sampling may influence the model selection process because a sample
 could be in favor of one specific method while another sample could lead
 to different results. Therefore we validate the results of each method
-using a 5-fold cross-validation. This reduces the influence of sampling
-when building a training and test set while it's computationally
+using 5-fold cross-validation. This reduces the influence of sampling
+when building the training and the test set while it is computationally
 feasible.
 
-In order to compute a prediction it is necessary that the test set
-includes, at least, all features of the training set. Due to the high
-number of levels in the countries and name variable, this was not always
-the case. Therefore, we are using only the intersection of training and
-test features to be included in the estimation.
+In order to compute a prediction, the test set must include, at least,
+all features of the training set. Due to the high number of levels in
+the countries and name variable, this was not always the case.
+Therefore, we are using only the intersection of training and test
+features to be included in the estimation.
 
 \hypertarget{analysis}{%
 \section{\texorpdfstring{Analysis
