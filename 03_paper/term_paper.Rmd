@@ -119,9 +119,9 @@ load(file = "../00_data/output_paper/03_baseline.rda")
 ```
 
 At first a mean regression and a linear regression are calculated. Those models are representing the baseline.
-For comparison of the different models, the \ac{rmse}[RMSE]{Root Mean Sqaured Error} $$\sqrt{\frac{1}{n}\sum_{i = 1}^{n}\left(y_i-\hat{y}_i\right)^2}$$ is calculated.
+For comparison of the different models, the \ac{RMSE} $$\sqrt{\frac{1}{n}\sum_{i = 1}^{n}\left(y_i-\hat{y}_i\right)^2}$$ is calculated.
 
-The mean regression yields an average \ac{rmse} of $\approx `r paste(colMeans(df)[2] %>% round())`$ litre sold per week. The linear regression where all variables are included yields an average \ac{rmse} of $\approx `r colMeans(df)[1] %>% round()`$. The latter result is probably influenced by overfitting. To cope with this problem, we are using variable selection and dimension reduction methods which are discussed in the proceeding sections.
+The mean regression yields an average \ac{RMSE} of $\approx `r paste(colMeans(df)[2] %>% round())`$ litre sold per week. The linear regression where all variables are included yields an average \ac{RMSE} of $\approx `r colMeans(df)[1] %>% round()`$. The latter result is probably influenced by overfitting. To cope with this problem, we are using variable selection and dimension reduction methods which are discussed in the proceeding sections.
 
 ```{r Mean Regression, echo = FALSE, fig.cap = "\\label{fig:ResMean}Residuals of the Mean Regression.", message = FALSE}
 
@@ -155,15 +155,15 @@ The mean regression yields an average \ac{rmse} of $\approx `r paste(colMeans(df
 load(file = "../00_data/output_paper/05_lasso.rda")
 ```
 
-The \ac{lasso}[lasso]{Least Absolute Shrinkage and Selection Operator} is a method combining linear regression and shrinkage of the coefficent estimates to do variable selection. It fits a linear model that is constrained by a penalty term, i.e., the \ac{lasso} coefficients minimize:
+The \ac{lasso} is a method combining linear regression and shrinkage of the coefficent estimates to do variable selection. It fits a linear model that is constrained by a penalty term, i.e., the \ac{lasso} coefficients minimize:
 
 $$
 \sum_{i=1}^{n}(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij})+\lambda\sum_{j=1}^{p}|\beta_j|.
 $$
 
 Figure \ref{fig:CoefLamb} depicts the relation between lambda and the coefficients. The cross-validated log lambda, which minimizes the test error is $\approx `r df[3]`$. At that level a total of $\approx `r floor(df[4])`$ out of $713$ coefficients are nonzero\footnote{$\approx `r df[4]`$ to be exact, but we couldn't resist to round down.}. The other coefficients are exactly zero due to the sparsity property of the \ac{lasso} estimator. Furthermore, the plot includes abbreviated variable names of the 10 biggest coefficients. All of those coefficients are dummys for specific wine names.
-The average \ac{rmse} of the \ac{lasso} approach is $\approx `r df[1]`$. This is a slight improvement compared to the linear baseline model.
-The \ac{lasso} slightly reduces the feature set while also reducing the \ac{rmse}. This is evidence supporting our prior assimption that the linear model was exposed to the problem of overfitting.
+The average \ac{RMSE} of the \ac{lasso} approach is $\approx `r df[1]`$. This is a slight improvement compared to the linear baseline model.
+The \ac{lasso} slightly reduces the feature set while also reducing the \ac{RMSE}. This is evidence supporting our prior assimption that the linear model was exposed to the problem of overfitting.
 Furthermore, the coefficients of the \ac{lasso} model indicates that the name variable is the most important variable to explain the litres sold per week. It is followed by the vintage, the region, the taste segment and the country of the wine. The least important variables are the review variables which are not present in the $400$ biggest coefficients.
 
 ```{r, echo = FALSE, fig.cap= "\\label{fig:CoefLamb}Relation of Coefficients and Shrinkage."}
@@ -179,7 +179,7 @@ load(file = "../00_data/output_paper/07_pca_pls.rda")
 cm_df <- df %>% colMeans() %>% round(2)
 ```
 
-While \ac{lasso} is a technique for variable selection, \ac{pcr}and \ac{pls} are other methods that reduce the dimension of the feature set while changing the features. Thus, the least squares estimation is performed using a transformation of the explanatory variables. Thereby, \ac{pls} includes the dependent variable when computing the new feature set while \ac{pcr} builds the principal components independent of the dependent variable.
+While \ac{lasso} is a technique for variable selection, \ac{pcr} and \ac{pls} are other methods that reduce the dimension of the feature set while changing the features. Thus, the least squares estimation is performed using a transformation of the explanatory variables. Thereby, \ac{pls} includes the dependent variable when computing the new feature set while \ac{pcr} builds the principal components independent of the dependent variable.
 
 Figure \ref{fig:PrincCom} shows the first two principal components from a \ac{pcr}. The first two principal components represent roughly 3\% of the total variance. This is a sign that the \ac{pcr} does not work well on our data which might be due to the large amount of dummy variables.
 
@@ -188,15 +188,15 @@ image_read("../00_data/output_paper/07_pca.png") %>%
   crop(bottom = 120)
 ```
 
-The results confirm the expectation. \ac{pcr} has a cross-validated \ac{rmse} of $\approx `r cm_df[1]`$ while \ac{pls} leads to an \ac{rmse} of $\approx `r cm_df[2]`$. While $\approx `r cm_df[4]`$ principal component where included in the \ac{pcr}, only $\approx `r cm_df[3]`$ components where used in the \ac{pls}. Thus \ac{pls} significantly reduced the dimension of the featureset. While sacrificing interpretability of the results, it leads to a higher \ac{rmse}.
+The results confirm the expectation. \ac{pcr} has a cross-validated \ac{RMSE} of $\approx `r cm_df[1]`$ while \ac{pls} leads to an \ac{RMSE} of $\approx `r cm_df[2]`$. While $\approx `r cm_df[4]`$ principal component where included in the \ac{pcr}, only $\approx `r cm_df[3]`$ components where used in the \ac{pls}. Thus \ac{pls} significantly reduced the dimension of the featureset. While sacrificing interpretability of the results, it leads to a higher \ac{RMSE}.
 
 ## Splines
 
 The previous methods assumed linear relationships between the independent variables and the dependent variable. Considering the amount of dummy variables in the feature set the usage of nonlinear methods is quite limited.
 However, to recognize potential nonlinear relationships we add natural splines to the variables $year$, $price$, and $rprice\_litre$. Those variables indicate the year in which the wine was distributed, the price and the real price with Jan 2004 as base respectively. Each natural spline was allowed to have up to 20 knots which is sufficient to estimate complex linear relationships.
-The respective \ac{rmse}s depending on the knots are presented in figure \ref{fig:splines}.
+The respective \ac{RMSE}s depending on the knots are presented in figure \ref{fig:splines}.
 Splines are able to improve the prediction a little which indicates that at least some nonlinear relationship is present. However, like the methods before, splines reduce the interpretability of the coefficients. In this case, this tradeoff isn't offset enough by the gain in precision.
-Furthermore, figure \ref{fig:splines} shows, that the \ac{rmse}s depend to some extend on the fold which was used for cross-validation. This approves our theoretically founded motivation to use cross-validation.
+Furthermore, figure \ref{fig:splines} shows, that the \ac{RMSE}s depend to some extend on the fold which was used for cross-validation. This approves our theoretically founded motivation to use cross-validation.
 
 ```{r splines, echo = FALSE, fig.cap= "\\label{fig:splines}Regression with Splines: Dependency Between Knots and RMSE.", fig.align= T, fig.scap= "RMSE Values of Different Spline Models"}
 knitr::include_graphics("../00_data/output_paper/08_splines.pdf")
@@ -229,22 +229,22 @@ load(file = "../00_data/output_paper/09_tree.rda")
 cm_df <- df %>% colMeans() %>% round(2)
 ```
 
-The pruned tree (see Figure \ref{fig:tree_pruned}) does only utilze the dummy whether the wine is a red wine and the mean market share within color during weeks the wine is distributed. $ms\_segm$ is used twice and thus the pruned tree splits the data set into four terinal nodes. While the pruned tree thus might be easier to interpret, it does also come with a higher \ac{rmse}.
-The mean cross-validated \ac{rmse} of the pruned trees is ca. `r cm_df[2]`, while the mean \ac{rmse} of the normal regression trees is about `r cm_df[1]`.
+The pruned tree (see Figure \ref{fig:tree_pruned}) does only utilze the dummy whether the wine is a red wine and the mean market share within color during weeks the wine is distributed. $ms\_segm$ is used twice and thus the pruned tree splits the data set into four terinal nodes. While the pruned tree thus might be easier to interpret, it does also come with a higher \ac{RMSE}.
+The mean cross-validated \ac{RMSE} of the pruned trees is ca. `r cm_df[2]`, while the mean \ac{RMSE} of the normal regression trees is about `r cm_df[1]`.
 
 ### Bootstrap Aggregation
 
-\ac{bagging}[bagging]{bootstrap aggegration} is a general method of repeatedly taking bootstrap samples from the dataset, estimating a model for every sample and averaging the predictions of every model afterwards.
+\ac{bagging} is a general method of repeatedly taking bootstrap samples from the dataset, estimating a model for every sample and averaging the predictions of every model afterwards.
 The \ac{bagging} algorithm can also be used to improve decision tree models. For this, a bootstrap sample is drawn before growing the tree. This process is repeated several times to grow multiple trees. Finally, the predictions of the trees are averaged.
 By bootstrapping \ac{bagging} brings down the variance and thus, adresses the main problem of single regression trees which are very dependent on the actual sample.
 
-Figure \ref{fig:rmsebag} shows the \ac{rmse} values of different \ac{bagging} models. The bootstrap sample size was chosen to be two thirds of the total number of observations. One can see that even small models with down to 15 Trees significantly outperform the single tree model of the previous chapter.
+Figure \ref{fig:rmsebag} shows the \ac{RMSE} values of different \ac{bagging} models. The bootstrap sample size was chosen to be two thirds of the total number of observations. One can see that even small models with down to 15 Trees significantly outperform the single tree model of the previous chapter.
 
 ```{r bag, echo = FALSE, fig.cap = "\\label{fig:rmsebag}Bagging: RMSE's at Different Tree Sizes (Smoothed).", fig.align=T, fig.scap="Bagging: RMSE's at Different Tree Sizes"}
 knitr::include_graphics("../00_data/output_paper/14_bagging.pdf")
 ```
 
-To further analyze the \ac{bagging} model, we estimated a \ac{bagging} model with 25 trees for the whole dataset. Figure \ref{fig:bagvarimp} presents the variable importance this model. It presents those 20 variables which would increase the \ac{rmse} the most when being omitted. The plot shows that the influence of 'ms_segm' which is the market share of the wine as well as 'segmred' which is a dummy, indicating if the whine is red, substantially contribute to our model. Intuitively, the price also influences how many litres per week are sold. More surpisingly however is the fact, that also the date substantially contributes to our mode. This indicates that prices have changed oder time. 
+To further analyze the \ac{bagging} model, we estimated a \ac{bagging} model with 25 trees for the whole dataset. Figure \ref{fig:bagvarimp} presents the variable importance this model. It presents those 20 variables which would increase the \ac{RMSE} the most when being omitted. The plot shows that the influence of 'ms_segm' which is the market share of the wine as well as 'segmred' which is a dummy, indicating if the whine is red, substantially contribute to our model. Intuitively, the price also influences how many litres per week are sold. More surpisingly however is the fact, that also the date substantially contributes to our mode. This indicates that prices have changed oder time. 
 
 ```{r bag_varimp, echo = FALSE, fig.cap = "\\label{fig:bagvarimp}Bagging: Variable Importance.", fig.align=T}
 knitr::include_graphics("../00_data/output_paper/15_var_imp_bagging.pdf")
@@ -260,16 +260,16 @@ The random forest algorithm is a special case of \ac{bagging}. The name random f
 knitr::include_graphics("../00_data/output_paper/10_rf_plot.png")
 ```
 
-We calculated \ac{rmse} values for a range of Random Forest models to evaluate which combination of the number of trees to grow and the number of variables taken into account at each split leads to the best results. The results are plotted in Figure \ref{fig:rfrmse}. The smallest \ac{rmse} is $\approx 4374$. Moreover, the plot shows, reveals, that very small models profit substantially from increasing complexity while bigger models profit only by a small margin. The model with 20 trees and 80 variables at each split still has a \ac{rmse} of $\approx 4456$, which is an increase of less than $1.9\%$.
+We calculated \ac{RMSE} values for a range of Random Forest models to evaluate which combination of the number of trees to grow and the number of variables taken into account at each split leads to the best results. The results are plotted in Figure \ref{fig:rfrmse}. The smallest \ac{RMSE} is $\approx 4374$. Moreover, the plot shows, reveals, that very small models profit substantially from increasing complexity while bigger models profit only by a small margin. The model with 20 trees and 80 variables at each split still has a \ac{RMSE} of $\approx 4456$, which is an increase of less than $1.9\%$.
 
-The \ac{bagging} model with $25$ trees (\ac{rmse} of $\approx 4305$) outperforms the random forest Model (with 25 trees and 100 variables) only by a small margin (\ac{rmse} of $4374.330$). However, training the random forest demands only $15\%$ of the time, that the \ac{bagging} model needs.
+The \ac{bagging} model with $25$ trees (\ac{RMSE} of $\approx 4305$) outperforms the random forest Model (with 25 trees and 100 variables) only by a small margin (\ac{RMSE} of $4374.330$). However, training the random forest demands only $15\%$ of the time, that the \ac{bagging} model needs.
 
 ```{r, echo = FALSE, fig.cap= "\\label{fig:rfimp}Random Forest: Variable Importance."}
 knitr::include_graphics("../00_data/output_paper/11_var_imp_random_forest_bp.pdf")
 ```
 
 
-Figure \ref{fig:rfimp} shows the variable importance plot for the $20$ most important variables of the 'optimal' random forest, which minimizes the \ac{rmse} in the given range. According to this plot the most important variable, in terms of the mean increase of the \ac{rmse}, is $ms\_segm$, followed by four variables with regard to the price: $price$, $lp$, the logarithmized price, $pri\_m$, the mean real litre price (base jan 2004) during the weeks the wine is distributed and $rprice\_litre$, real litre price (base jan 2004). Thus, the litres of wine sold per week is mainly determined by its market share and its price. Although, there are many more variables which, according to the random forest model, are important. One should note, that those variables do not necessarily have the highest marginal effects.
+Figure \ref{fig:rfimp} shows the variable importance plot for the $20$ most important variables of the 'optimal' random forest, which minimizes the \ac{RMSE} in the given range. According to this plot the most important variable, in terms of the mean increase of the \ac{RMSE}, is $ms\_segm$, followed by four variables with regard to the price: $price$, $lp$, the logarithmized price, $pri\_m$, the mean real litre price (base jan 2004) during the weeks the wine is distributed and $rprice\_litre$, real litre price (base jan 2004). Thus, the litres of wine sold per week is mainly determined by its market share and its price. Although, there are many more variables which, according to the random forest model, are important. One should note, that those variables do not necessarily have the highest marginal effects.
 
 Figure \ref{fig:rfpardep} shows the partial dependence plots for the 10 most important variables. The plots present the marginal effect of the variable on the litres sold per week. Those plots clearly reveal some nonlinear dependencies in the data which explains the poor performances of the linear models. Furthermore, the figure validates some intuitive assumptions. For example, a higher market share leads to more litres sold, while high real prices lead to fewer litres sold. Furthermore the influence of $v10\_dim$, which is the 'Dagens Industri' review, is especially large, when the review is very good. Figure \ref{fig:rfpardep_other} presents the partial dependence plots for the next 10 important variables.
 
@@ -280,7 +280,7 @@ knitr::include_graphics("../00_data/output_paper/11_par_dep_random_forest.pdf")
 ### Boosting
 
 In contrast to random forests boosting grows tree sequentially meaning that for every new tree information from already grown trees is used \autocite[cf.][p. 322]{James2014}. For boosting rather small regression trees are used to improve the boosting tree slowly. This is achieved by taking the residuals from the current boosting tree, fitting a (small) tree to these residuals and then fitting this tree into the boosting tree in areas where the performance of the boosting tree could be improved \autocite[cf.][p. 322]{James2014}. Thus the existing tree is expanded with the new tree. This means that, in contrast to bagging, the newly grown trees do depend on the earlier grown trees.
-The boosting models possess three parameters for tuning: The number of trees, the interaction depth and the shrinkage parameter $\lambda$. The resulting \ac{rmse}s for different combinations of those tuning parameters are shown in figure \ref{fig:boostrmse}. An other tuning parameter implemented in the function for running boosting in R, *gbm()*, is the *bag.fraction*. This argument tells us which fraction of the data is used to build the next tree for expanding the existing tree. We set this value to $1$ meaning that allways all observations in the training set have been used, which is optimal in our case. This also made sure that running the code more than once resulted in the same fit, which isn't necessaary the case when setting the argument to a value $< 1$.
+The boosting models possess three parameters for tuning: The number of trees, the interaction depth and the shrinkage parameter $\lambda$. The resulting \ac{RMSE}s for different combinations of those tuning parameters are shown in figure \ref{fig:boostrmse}. An other tuning parameter implemented in the function for running boosting in R, *gbm()*, is the *bag.fraction*. This argument tells us which fraction of the data is used to build the next tree for expanding the existing tree. We set this value to $1$ meaning that allways all observations in the training set have been used, which is optimal in our case. This also made sure that running the code more than once resulted in the same fit, which isn't necessaary the case when setting the argument to a value $< 1$.
 According to our calculations the optimal boosting model is the one with $25$ trees used, an interaction depth of $14$ and a shrinkage parameter of $0.4$.
 
 ```{r boosting_hyper, echo = FALSE, fig.cap= "\\label{fig:boostrmse}Boosting: Dependency between RMSE, Lambda, the Depths and the Number of Trees that are Grown.", fig.scap= "RMSEs of the Boosting Model for Different Parameters", fig.align= 'center'}
@@ -296,9 +296,9 @@ knitr::include_graphics("../00_data/output_paper/12_var_imp_boosting_bp.pdf")
 # Robustness
 
 We performed various alternative estimations to validate the robustness of our results. This was done by re-estimating the best random forest model and comparing the new results.
-As noted in \autoref{chap:data}, we excluded "$time\_segm\_price$" and "$artikpr$", thus they represent interactions terms. Including them yields a mean \ac{rmse} of $\approx4862.917$ and therefore doesn't improve our model.
+As noted in \autoref{chap:data}, we excluded "$time\_segm\_price$" and "$artikpr$", thus they represent interactions terms. Including them yields a mean \ac{RMSE} of $\approx4862.917$ and therefore doesn't improve our model.
 
-Another crucial decision was to exclude all variables with more than $50\%$ missing values. Reducing this to $20\%$ means excluding $6$ additional variables. Those variables are all related to wine reviews. This increases the complete cases substantially from $41416$ to $144994$, which is nearly the whole dataset. Estimating the random forest model yields a \ac{rmse} of $\approx5010.796$, which is an underprerformance compared to the model developed in \autoref{chap:rand_for}. This shows, that the loss of explanatory power by excluding those $6$ variables is not compensated by a higher precision due to the gain of observations. 
+Another crucial decision was to exclude all variables with more than $50\%$ missing values. Reducing this to $20\%$ means excluding $6$ additional variables. Those variables are all related to wine reviews. This increases the complete cases substantially from $41416$ to $144994$, which is nearly the whole dataset. Estimating the random forest model yields a \ac{RMSE} of $\approx5010.796$, which is an underprerformance compared to the model developed in \autoref{chap:rand_for}. This shows, that the loss of explanatory power by excluding those $6$ variables is not compensated by a higher precision due to the gain of observations. 
 
 # Conclusion
 
@@ -306,7 +306,7 @@ Another crucial decision was to exclude all variables with more than $50\%$ miss
 load("../00_data/output_paper/16_summary.rda")
 ```
 
-In this paper, we developed a forecasting model based on the friberg gronqvist wine data set. We used different statistical learning methods and evaluated them in terms of their mean \ac{rmse} (averaged over all folds of the cross-validation). Table \ref{tab:RMSESum} summarizes our results.
+In this paper, we developed a forecasting model based on the friberg gronqvist wine data set. We used different statistical learning methods and evaluated them in terms of their mean \ac{RMSE} (averaged over all folds of the cross-validation). Table \ref{tab:RMSESum} summarizes our results.
 
 We estimated a mean regression and a linear regression model without variable selection to establish a baseline. The linear regression yields a substantial improvement over the mean regression which hints at some explanatory power of our variables.
 Following, we introduced the \ac{lasso} to achieve a reduction of the feature set to reduce the possible overfit and therefore improve the out of sample forecasts. The lasso yields a small improvement compared to the basic linear regression model.
@@ -322,7 +322,7 @@ We considered splines as a way to introduce nonlinearity to our model. We calcul
 
 Subsequent, tree-based methods where applied. The results show, that the performance of a single regression tree isn't sufficient to outperform the previous methods. In consequence, we used different methods to combine multiple decision trees. Namely, bagging, random forests, and boosting. We validated the different models using a range of parameters. 
 
-In conclusion, the two best performing models in terms of the \ac{rmse} are the bagging model with $25$ trees and the selected random forest model. While the bagging model yields the best \ac{rmse} it's computationally demanding. Our prefered model is therefore a random forest with 25 trees and 100 variables considered at each split. This model performs only little worse than the bagging but it demands substantially less computation time, which is why it's preferable for applications.
+In conclusion, the two best performing models in terms of the \ac{RMSE} are the bagging model with $25$ trees and the selected random forest model. While the bagging model yields the best \ac{RMSE} it's computationally demanding. Our prefered model is therefore a random forest with 25 trees and 100 variables considered at each split. This model performs only little worse than the bagging but it demands substantially less computation time, which is why it's preferable for applications.
 
 \pagebreak
 
