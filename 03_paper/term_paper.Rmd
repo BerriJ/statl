@@ -293,7 +293,7 @@ Figure \ref{fig:boostimp} shows the importance of the $20$ most important variab
 knitr::include_graphics("../00_data/output_paper/12_var_imp_boosting_bp.pdf")
 ```
 
-The corresponding partial dependence plots are very similar to those from the random forest model. Therefore, and to keep this paper at a reasonable size, they are not discussed here but can be found in \ref{fig:bgpardep_main} in appendix \ref{chap:ap2}.
+The corresponding partial dependence plots are very similar to those from the random forest model. Therefore, and to keep this paper at a reasonable size, they are not discussed here but can be found in figure \ref{fig:bgpardep_main} in appendix \ref{chap:ap2}.
 
 # Robustness
 
@@ -308,25 +308,24 @@ Another crucial decision was to exclude all variables with more than $50\%$ miss
 load("../00_data/output_paper/16_summary.rda")
 ```
 
-In this paper, we developed a forecasting model based on the friberg gronqvist wine data set. We used different statistical learning methods and evaluated them in terms of their mean \ac{RMSE} (averaged over all folds of the cross-validation). Table \ref{tab:RMSESum} summarizes our results.
+In this paper, we developed a forecasting model based on the friberg gronqvist wine data set. We used different statistical learning methods and evaluated them in terms of their cross validated out of sample \ac{RMSE}. Table \ref{tab:RMSESum} presents the results for the most relevant models.
 
-We estimated a mean regression and a linear regression model without variable selection to establish a baseline. The linear regression yields a substantial improvement over the mean regression which hints at some explanatory power of our variables.
-Following, we introduced the \ac{lasso} to achieve a reduction of the feature set to reduce the possible overfit and therefore improve the out of sample forecasts. The lasso yields a small improvement compared to the basic linear regression model.
+At first, we estimated a mean regression and a linear regression model without variable selection to establish a baseline. The linear regression yields a substantial improvement over the mean regression which hints at some explanatory power of our variables. 
 
-Furthermore, we used \ac{pcr} and \ac{pls} for dimension reduction. While \ac{pls} reduced the feature set to $\approx35$ components, neither \ac{pls} nor \ac{pcr} outperformed the \ac{lasso} approach.
+Following, we introduced the \ac{lasso} to achieve a reduction of the feature set to reduce the possible overfit and therefore improve the out of sample forecasts. The lasso yields a small improvement compared to the basic linear regression model. Additionally, we used \ac{pcr} and \ac{pls} for dimension reduction. While \ac{pls} reduces the feature set to $\approx35$ components, neither \ac{pls} nor \ac{pcr} outperforms the \ac{lasso} approach.
 
 ```{r RMSE, message = F, echo = F, include=T}
 library(knitr)
 kable(Summary, "latex", digits = 0, caption = "\\label{tab:RMSESum}RMSEs of every fold for every method.", booktabs = T)
 ```
 
-We considered splines as a way to introduce nonlinearity to our model. We calculated the model using a wide range of knots to identify even complex nonlinear structures. The splines model with $20$ knots performed best but only marginally outperforms the \ac{lasso}.
+We considered splines as a way to introduce nonlinearity to our model. We calculated the model using a wide range of knots to identify even complex nonlinear structures. The splines model with $20$ knots performs best but only marginally outperforms the \ac{lasso}.
 
-Subsequent, tree-based methods where applied. The results show, that the performance of a single regression tree isn't sufficient to outperform the previous methods. In consequence, we used different methods to combine multiple decision trees. Namely, bagging, random forests, and boosting. We validated the different models using a range of parameters.
+Subsequent, tree-based methods where applied. The results show, that the performance of a single regression tree isn't sufficient to outperform the previous methods. In consequence, we used different methods to combine multiple decision trees. Namely, bagging, random forests, and boosting. We validated the performance of each model using a range of parameters.
 
-In conclusion, the two best performing models in terms of the \ac{RMSE} are the bagging model with $25$ trees and the selected random forest model. While the bagging model yields the best \ac{RMSE} it's computationally demanding. Our prefered model is therefore a random forest with 25 trees and 100 variables considered at each split. This model performs only little worse than the bagging but it demands substantially less computation time, which is why it's preferable for applications.
+Our study shows that the litres of a wine sold per week are mainly determined by only a few determinants. Among those are the mean market share within the colour of the wine, it's price (in different variations) the colour of the wine, its place of origin and the time. Partial dependence plots revealed a nonlinear influence of many variables. Furthermore, red wine is is sold in a higher quantity than other wines, the overall litres sold per week decreased chonologically. We find little evidence that expert reviews and ratings have a great influence on the sales, if they have, they tend to have a strong influence only when they are very good. This contrasts the results of some of the studys mentioned in the introduction.
 
-Our study shows that the litres of a wine sold per week are mainly determined by only a few variables. Among those are the mean market share within the colour of the wine, it's price (in different variations) <!--- implying a nonlinear relationship ---> the colour of the wine and its place of origin. According to our results, expert reviews and ratings do not seem to have a great influence on the sales, which is in contrast to the results of some of the studys mentioned in the introduction.
+In conclusion, the two best performing models in terms of the cross validated out of sample \ac{RMSE} are the bagging model with $25$ trees and the selected random forest model. While the bagging model yields the best cross validated out of sample \ac{RMSE} it's computationally demanding. Therefore we propose the use of a random forest model with 25 trees and 100 variables considered at each split. The use of more trees and / or more variables just barely increases the forecasting performance. Moreover, the proposed random forest model performs only little worse than the \ac{bagging} model but it demands substantially less computation time, which is why we prefer the application of a random forest model in contrast to a bagging model.
 
 \pagebreak
 
