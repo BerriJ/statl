@@ -298,7 +298,8 @@ specification. Chapter 5 provides the results, a conclusion and some
 ideas for future research.
 
 \hypertarget{data-and-variables}{%
-\section{Data and Variables}\label{data-and-variables}}
+\section{\texorpdfstring{Data and Variables
+\label{chap:data}}{Data and Variables }}\label{data-and-variables}}
 
 The data set used in this paper contains 145179 observations with 59
 variables. The variables include the name of the wine, the country of
@@ -430,18 +431,17 @@ the \(400\) biggest coefficients.
 \subsection{PCR and PLS}\label{pcr-and-pls}}
 
 While \ac{lasso} is a technique for variable selection, \ac{pcr}and
-\ac{pls}{[}PLS{]} are other methods that reduce the dimension of the
-feature set while changing the features. Thus, the least squares
-estimation is performed using a transformation of the explanatory
-variables. Thereby, \ac{pls} includes the dependent variable when
-computing the new feature set while \ac{pcr} builds the principal
-components independent of the dependent variable.
+\ac{pls} are other methods that reduce the dimension of the feature set
+while changing the features. Thus, the least squares estimation is
+performed using a transformation of the explanatory variables. Thereby,
+\ac{pls} includes the dependent variable when computing the new feature
+set while \ac{pcr} builds the principal components independent of the
+dependent variable.
 
 Figure \ref{fig:PrincCom} shows the first two principal components from
-a \ac{pca}{[}PCA{]}\{principal components analysis\}. The first two
-principal components represent roughly 3\% of the total variance. This
-is a sign that the \ac{pcr} does not work well on our data which might
-be due to the large amount of dummy variables.
+a \ac{pcr}. The first two principal components represent roughly 3\% of
+the total variance. This is a sign that the \ac{pcr} does not work well
+on our data which might be due to the large amount of dummy variables.
 
 \begin{figure}
 \centering
@@ -504,12 +504,12 @@ and boosting, are described in more detail when being applied.
 \subsubsection{Regression Tree}\label{regression-tree}}
 
 For growing a regression tree `the algorithm needs to automatically
-decide on the splitting variables and split points {[}\ldots{}{]} the
-tree should have' \autocite[][p. 349]{Hastie2013}. The tree is grown
-when a splitting is found that minimizes the sum of squared residuals.
-The splitting is done with a greedy algorithm, i.e., at first all the
-data is split into just two groups while the search of the splitting
-variable and split point includes all possible variables and points
+decide on the splitting variables and split points {[}\ldots{]} the tree
+should have' \autocite[][p. 349]{Hastie2013}. The tree is grown when a
+splitting is found that minimizes the sum of squared residuals. The
+splitting is done with a greedy algorithm, i.e., at first all the data
+is split into just two groups while the search of the splitting variable
+and split point includes all possible variables and points
 \autocite[cf.][p. 349]{Hastie2013}. After the data is split this process
 is repeated for the now obtained two splitted regions until the tree is
 large enough that the nodes reach a set minimum size.
@@ -537,7 +537,7 @@ the right track stands for red wines.
 As regression trees may tend to grow quite large, a possible way to get
 smaller trees is pruning back the grown larger tree. The goal of pruning
 is `to select a subtree that leads to the lowest test error rate
-{[}which{]} we can estimate {[}\ldots{}{]} using cross-validation or the
+{[}which{]} we can estimate {[}\ldots{]} using cross-validation or the
 validation set approach' \autocite[][p. 308]{James2014}. This is done by
 \emph{cost complexity pruning}.
 
@@ -584,8 +584,8 @@ model of the previous chapter.
 \end{figure}
 
 To further analyze the \ac{bagging} model, we estimated a \ac{bagging}
-model with 25 trees for the whole dataset. Figure \ref{fig:bagvarimp} is
-a variable importance plot for this model. It presents those 20
+model with 25 trees for the whole dataset. Figure \ref{fig:bagvarimp}
+presents the variable importance this model. It presents those 20
 variables which would increase the \ac{rmse} the most when being
 omitted. The plot shows that the influence of \enquote{ms\_segm} which
 is the market share of the wine as well as \enquote{segmred} which is a
@@ -608,7 +608,8 @@ this may lead to similar trees at each iteration. Thus, the trees are
 probably highly correlated.
 
 \hypertarget{random-forest}{%
-\subsubsection{Random Forest}\label{random-forest}}
+\subsubsection{\texorpdfstring{Random Forest
+\label{chap:rand_for}}{Random Forest }}\label{random-forest}}
 
 The random forest algorithm is a special case of \ac{bagging}. The name
 random forest arises from the fact that, in cotrast to the usual
@@ -659,14 +660,27 @@ is \(ms\_segm\), followed by four variables with regard to the price:
 \(price\), \(lp\), the logarithmized price, \(pri\_m\), the mean real
 litre price (base jan 2004) during the weeks the wine is distributed and
 \(rprice\_litre\), real litre price (base jan 2004). Thus, the litres of
-wine sold per week is mainly determined by its segment and its price.
-Although, there are many more variables which, according to the random
-forest model, are important.
+wine sold per week is mainly determined by its market share and its
+price. Although, there are many more variables which, according to the
+random forest model, are important. One should note, that those
+variables do not necessarily have the highest marginal effects.
+
+Figure \ref{fig:rfimp} shows partial dependence plots for the 10 most
+important variables. The plots present the marginal effect of the
+variable on the litre. Those plots clearly reveal some nonlinear
+dependences in the data which explains the poor performes of the linear
+models. Furthermore the figure validates some intuitive assumptions. For
+example, a higher market shares leads to more litres sold while high
+real prices lead to fewer litres sold. Furthermore the influence of
+\(v10\_dim\) which is the \enquote{Dagens Industri} review is especially
+big, when the review is very good. Figure \ref{fig:rfpardep_other}
+presents the partial dependence plots for the next 10 important
+variables.
 
 \begin{figure}
 \centering
 \includegraphics{../00_data/output_paper/11_par_dep_random_forest.pdf}
-\caption{\label{fig:rfpardep}Random Forest: Partial Dependence Plot.}
+\caption{\label{fig:rfpardep}Random Forest: Partial Dependence Plots.}
 \end{figure}
 
 \hypertarget{boosting}{%
@@ -720,15 +734,35 @@ is \(ms\_segm\), while the second most important variable is
 confirm the results of the single tree as well as the pruned tree, as
 those utilzes exactly those variables.
 
+\hypertarget{robustness}{%
+\section{Robustness}\label{robustness}}
+
+We performed various alternative estimations to validate the robustness
+of our results. This was done by re-estimating the best random forest
+model and comparing the new results. As noted in \autoref{chap:data}, we
+excluded \enquote{\(time\_segm\_price\)} and \enquote{\(artikpr\)}, thus
+they represent interactions terms. Incluing them yields a mean \ac{rmse}
+of \(\approx4862.917\) and therefore doesn't improve our model.
+
+Another curcial decision was to exlude all variables with more than
+\(50\%\) missing values. Reducing this to \(20\%\) means excluding 6
+additional variables. Those variables are all related to wine reviews.
+This increases the complete cases substantially from \(41416\) to
+\(144.994\) which is nearly the whole dataset. Estimating the random
+forest model yields a \ac{rmse} of \(\approx5010.796\), which
+underperformes compared to the model developed in
+\autoref{chap:rand_for}. This shows, that the lost explanatory power by
+exluding those 6 variables is not compensated by a higher precision due
+to the gain of observations.
+
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
 
-In this paper we identified an accurate forecasting model based on the
-friberg gringvist wine data set. To achieve this goal we used different
-techniques from the field of statistical learning methods and compare
-those in terms of their mean \ac{rmse} (averaged over all folds of the
-cross-validation). All obtained \ac{rmse}s can be found in table
-\ref{tab:RMSESum}.
+In this paper, we developed a forecasting model based on the friberg
+gronqvist wine data set. We used different statistical learning methods
+and evaluated them in terms of their mean \ac{rmse} (averaged over all
+folds of the cross-validation). Table \ref{tab:RMSESum} summarizes our
+results.
 
 \begin{table}[t]
 
@@ -758,59 +792,38 @@ Boosting (Best) & 4425 & 4455 & 4548 & 4632 & 4336 & 4479\\
 \end{tabular}
 \end{table}
 
-For comparison we set the \ac{rmse}s of the mean regression and the
-simple linear regression as two baseline. The \ac{rmse} obtained from
-the mean regression is \(\approx \ensuremath{1.334\times 10^{4}}\)
-litres sold per week, which is a rather high value. This becomes clear
-when comparing it to the mean \ac{rmse} of the linear regression model
-which is \(\approx 5572\). This shows that the linear regression gives
-in principle a better forecast than the mean regression, which probably
-is due to the many more variables included in the linear regression.\\
-Following the basic regression methods we introduced the \ac{lasso} as a
-combination of linear regression and variable selection, hoping that
-this dimension reduction of the feature space reduces the possible
-overfit and therefore improving the forecast. As seen the mean \ac{rmse}
-calculated for the lasso is \(\approx 5548\) which is a small
-improvement compared to the linear regression with all variables of the
-feature space.\\
-As other methods for dimension reduction of the feature set we also
-tried \ac{pcr} and \ac{pls}. The \ac{pls} resulted in a mean \ac{rmse}
-of \(\approx 6201\) wheres the cross-validated \ac{rmse} obtained from
-the \ac{pcr} has a value of \(\approx 5546\) which is nearly exact the
-same value as obtained from the \ac{lasso}.\\
-Next we considered splines as a way to include nonlinearity to our
-estimated models. For comparison we calculated those with a different
-number of knots. The splines model with only one knot results in a mean
-rmse \(\approx 5572\) of while the one with \(20\) knots resulted in the
-mean rmse of \(\approx 5507\).\\
-After this we thematised tree-based methods. The single regression tree
-(\ac{rmse}: \(\approx 6495\)) as well as the pruned regression tree
-(\ac{rmse}: \(\approx 7936\)) weren't quite as good in terms of the
-\ac{rmse} compared to the other methods. For improving the prediction
-power of the tree-based methods we then used techniques combining
-several decision trees. We validated the different models with a range
-of parameters. For example we compared the bagging model with \(5\)
-trees with the one with \(25\) trees. The bagging model in which we
-average \(25\) trees, resulting in a mean \ac{rmse} of \(\approx 4306\),
-does outperform the model with only \(5\) tress (\ac{rmse}:
-\(\approx 4578\)). Following bagging we compared the \ac{rmse} from a
-random forest fitted to our data with the previous results. When fitting
-a random forest there are different tuning parameters to be considered.
-We contrasted a range of combinations of those parameters and then
-selected the one among them with the lowest \ac{rmse}. This random
-forest with \(100\) considered variables at each split and \(25\)
-compared trees results in a \ac{rmse} of \(\approx 4374\). Finally we
-repeated the procedure for boosting models and again selected the one
-with the lowest \ac{rmse}. The chosen model considered an interaction
-depth of \(14\) combined with a shrinkage factor of \(0.4\) and
-averaging over \(25\) trees, resulting in a \ac{rmse} of
-\(\approx 4479\).
+We estimated a mean regression and a linear regression model without
+variable selection to establish a baseline. The linear regression yields
+a substantial improvement over the mean regression which hints at some
+explanatory power of our variables. Following, we introduced the
+\ac{lasso} to achieve a reduction of the feature set to reduce the
+possible overfit and therefore improve the out of sample forecasts. The
+lasso yields a small improvement compared to the basic linear regression
+model.
 
-In conclusion the two best performing models in terms of the \ac{rmse}
+Furthermore, we used \ac{pcr} and \ac{pls} for dimension reduction.
+While \ac{pls} reduced the feature set to \(\approx35\) components,
+neither \ac{pls} nor \ac{pcr} outperformed the \ac{lasso} approach.
+
+We considered splines as a way to introduce nonlinearity to our model.
+We calculated the model using a wide range of knots to identify even
+complex nonlinear structures. The splines model with \(20\) knots
+performed best but only marginally outperforms the \ac{lasso}.
+
+Subsequent, tree-based methods where applied. The results show, that the
+performance of a single regression tree isn't sufficient to outperform
+the previous methods. In consequence, we used different methods to
+combine multiple decision trees. Namely, Bagging, Random Forests, and
+Boosting. We validated the different models using a range of parameters.
+
+In conclusion, the two best performing models in terms of the \ac{rmse}
 are the bagging model with \(25\) trees and the selected random forest
-model. As the bagging model is computationally more demanding, there are
-scenarioses in which the random forest should be preferred over bagging.
-Therefore, we will base our forecast with new data on the MODEL.
+model. While the Bagging Model yields the best \ac{rmse} it's
+computationally demanding. Our prefered model is therefore a random
+forest with 25 trees and 100 variables considered at each split. This
+model performs only little worse than the bagging but it demands
+substantially less computation time.
+
 \pagebreak
 
 \addcontentsline{toc}{section}{References}
@@ -839,13 +852,15 @@ Therefore, we will base our forecast with new data on the MODEL.
 \cleardoublepage
 \appendix
 \setcounter{table}{0}
+\setcounter{figure}{0}
 \renewcommand{\thetable}{A\arabic{table}}
+\renewcommand{\thefigure}{A\arabic{figure}}
 
 \hypertarget{appendices}{%
 \section{Appendices}\label{appendices}}
 
-\hypertarget{some-appendix-1}{%
-\subsection{Some Appendix 1}\label{some-appendix-1}}
+\hypertarget{dataset}{%
+\subsection{Dataset}\label{dataset}}
 
 \newgeometry{top=1cm, left = 5cm, right = 2.5cm, bottom = 2cm}
 
@@ -910,6 +925,19 @@ ind & 0.00000 & 1.000 & 0.014 & 0.097 \\
 \end{table}
 
 \restoregeometry
+
+\hypertarget{partial-dependence-plots-for-random-forest}{%
+\subsection{Partial Dependence Plots for Random
+Forest}\label{partial-dependence-plots-for-random-forest}}
+
+\vspace{1cm}
+
+\begin{figure}
+\centering
+\includegraphics{../00_data/output_paper/11_par_dep_random_forest_other.pdf}
+\caption{\label{fig:rfpardep_other}Random Forest: Partial Dependence
+Plots.}
+\end{figure}
 
 \cleardoublepage
 

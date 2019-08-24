@@ -70,7 +70,6 @@ par(mfrow = c(2,5))
 test <- partialPlot(rf, pred.data = x.train, x.var = imp_df$names[1], plot = FALSE)
 names(test)
 
-
 pd_list <- list()
 
 for(i in 1:20){
@@ -80,6 +79,8 @@ for(i in 1:20){
   colnames(pd_list[[i]]) <- c(LETTERS[i],"y")
   cat(i)
 }
+
+# Variables 1:10
 
 pd_df <- purrr::reduce(pd_list[1:10], .f = full_join) %>% round(2)
 
@@ -94,16 +95,46 @@ cols <- replicate("#0080db", n = 363)
 cols[pd_df$var == "F" | pd_df$var == "I" |pd_df$var == "J"] <- "#ff6633"
 
 par_dep_rf <- ggplot(pd_df, aes(y = y/1000, x = x)) + 
-  geom_line(col = cols, size = 1) +
-  facet_wrap("var", scales = "free", nrow = 2, 
-             labeller = labeller(var = pd_df.labs), strip.position = "bottom") + 
+  geom_line(col = "#0080db", size = 1) +
+  theme_minimal() +
+  theme(strip.background = element_rect(fill="lightgrey", colour = "lightgrey"),
+        panel.border = element_rect(linetype = "solid", fill = NA, color = "grey")) + 
+  facet_wrap("var", scales = "free_y", nrow = 2, 
+             labeller = labeller(var = pd_df.labs), strip.position = "top") + 
   scale_x_continuous(breaks = NULL) + 
   ylab("Litre (Thousands)") + 
-  xlab(label = NULL)
+  xlab(label = NULL); par_dep_rf
 
+ggsave(filename = "00_data/output_paper/11_par_dep_random_forest.pdf", 
+       plot = par_dep_rf , width = 7, height = 2.5)
 
-# ggsave(filename = "00_data/output_paper/11_par_dep_random_forest.pdf", plot = par_dep_rf , width = 7, height = 3)
+# Variables 11:20
 
+pd_df <- purrr::reduce(pd_list[11:20], .f = full_join) %>% round(2)
+
+pd_df <- apply(pd_df[,-2], 2, function(x) x/max(x, na.rm = T)) %>% data.frame(y = pd_df[,2], .) %>% 
+  gather(key = var, value = x, -y) %>% drop_na()
+
+# Facet Labels
+pd_df.labs <- imp_df$names[11:20]
+names(pd_df.labs) <- LETTERS[11:20]
+
+cols <- replicate("#0080db", n = 363)
+cols[pd_df$var == "F" | pd_df$var == "I" |pd_df$var == "J"] <- "#ff6633"
+
+par_dep_rf <- ggplot(pd_df, aes(y = y/1000, x = x)) + 
+  geom_line(col = "#0080db", size = 1) +
+  theme_minimal() +
+  theme(strip.background = element_rect(fill="lightgrey", colour = "lightgrey"),
+        panel.border = element_rect(linetype = "solid", fill = NA, color = "grey")) + 
+  facet_wrap("var", scales = "free_y", nrow = 2, 
+             labeller = labeller(var = pd_df.labs), strip.position = "top") + 
+  scale_x_continuous(breaks = NULL) + 
+  ylab("Litre (Thousands)") + 
+  xlab(label = NULL); par_dep_rf
+
+#ggsave(filename = "00_data/output_paper/11_par_dep_random_forest_other.pdf", 
+#        plot = par_dep_rf , width = 7, height = 2.5)
 
 # Boosting ####
 
@@ -126,6 +157,18 @@ var_imp_boosting_bp <- ggplot(var_imp_boost[1:20,],
 #       width = 7, height = 3)
 
 var_imp_vars <- var_imp_boost$var %>% as.character()
+
+pd_list <- list()
+
+for(i in 1:20){
+  pd_list[[i]] <- partialPlot(rf, pred.data = x.train, x.var = imp_df$names[i]) %>% 
+    as.data.frame() %>%
+    round(2)
+  colnames(pd_list[[i]]) <- c(LETTERS[i],"y")
+  cat(i)
+}
+
+
 
 plot(boosting_model_final, i = var_imp_vars[1])
 plot(boosting_model_final, i = var_imp_vars[2])
