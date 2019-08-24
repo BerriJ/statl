@@ -317,9 +317,9 @@ Furthermore, we used \ac{pcr} and \ac{pls} for dimension reduction. While \ac{pl
 
 We considered splines as a way to introduce nonlinearity to our model. We calculated the model using a wide range of knots to identify even complex nonlinear structures. The splines model with $20$ knots performed best but only marginally outperforms the \ac{lasso}.
 
-Subsequent, tree-based methods where applied. The results show, that the performance of a single regression tree isn't sufficient to outperform the previous methods. In consequence, we used different methods to combine multiple decision trees. Namely, Bagging, Random Forests, and Boosting. We validated the different models using a range of parameters. 
+Subsequent, tree-based methods where applied. The results show, that the performance of a single regression tree isn't sufficient to outperform the previous methods. In consequence, we used different methods to combine multiple decision trees. Namely, bagging, random forests, and boosting. We validated the different models using a range of parameters. 
 
-In conclusion, the two best performing models in terms of the \ac{rmse} are the bagging model with $25$ trees and the selected random forest model. While the Bagging Model yields the best \ac{rmse} it's computationally demanding. Our prefered model is therefore a random forest with 25 trees and 100 variables considered at each split. This model performs only little worse than the bagging but it demands substantially less computation time.
+In conclusion, the two best performing models in terms of the \ac{rmse} are the bagging model with $25$ trees and the selected random forest model. While the bagging model yields the best \ac{rmse} it's computationally demanding. Our prefered model is therefore a random forest with 25 trees and 100 variables considered at each split. This model performs only little worse than the bagging but it demands substantially less computation time, which is why it's preferable for applications.
 
 \pagebreak
 
