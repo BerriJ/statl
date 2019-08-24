@@ -319,8 +319,8 @@ The data set used in this paper contains 145179 observations with 59
 variables. The variables include the name of the wine, the country of
 origin, its price, the amount sold per week in litre, the taste segment
 and variables related to different reviews among others. A table with
-summary statistics of the data set can be found in the appendix in table
-\ref{tab:SumStat}.\\
+summary statistics of the data set can be found in appendix
+\ref{chap:ap1} in table \ref{tab:SumStat}.\\
 We need to omit two variables beforehand, namely
 \enquote{\(time\_segm\_price\)} and \enquote{\(artikpr\)}, because those
 are combinations of other existing variables. Hence inclusion would lead
@@ -687,9 +687,10 @@ of the linear models. Furthermore, the figure validates some intuitive
 assumptions. For example, a higher market share leads to more litres
 sold, while high real prices lead to fewer litres sold. Furthermore the
 influence of \(v10\_dim\), which is the \enquote{Dagens Industri}
-review, is especially large, when the review is very good. Figure
-\ref{fig:rfpardep_other} presents the partial dependence plots for the
-next 10 important variables.
+review, is especially large, when the review is very good. We moved the
+full partial dependence plot with all 20 most important variables into
+appendix \ref{chap:ap2} as Figure \ref{fig:rfpardep_other} to keep this
+chapter at a reasonable size.
 
 \begin{figure}
 \centering
@@ -748,16 +749,21 @@ those utilzes exactly those variables.
 \caption{\label{fig:boostimp}Boosting: Variable Importance Plot.}
 \end{figure}
 
+The partial dependence plots are very similar to those from the random
+forest model. Therefore, and to keep this paper at a reasonable size,
+they are not discussed but included as \ref{fig:bgpardep_main} in
+appendix \ref{chap:ap2}.
+
 \hypertarget{robustness}{%
 \section{Robustness}\label{robustness}}
 
 We performed various alternative estimations to validate the robustness
 of our results. This was done by re-estimating the best random forest
-model and comparing the new results. As noted in \autoref{chap:data}, we
-excluded \enquote{\(time\_segm\_price\)} and \enquote{\(artikpr\)}, thus
-they represent interactions terms. Including them yields a mean
-\ac{rmse} of \(\approx4862.917\) and therefore doesn't improve our
-model.
+model and comparing the new results. As noted in chapter
+\ref{chap:data}, we excluded \enquote{\(time\_segm\_price\)} and
+\enquote{\(artikpr\)}, thus they represent interactions terms. Including
+them yields a mean \ac{rmse} of \(\approx4862.917\) and therefore
+doesn't improve our model.
 
 Another crucial decision was to exclude all variables with more than
 \(50\%\) missing values. Reducing this to \(20\%\) means excluding \(6\)
@@ -765,10 +771,10 @@ additional variables. Those variables are all related to wine reviews.
 This increases the complete cases substantially from \(41416\) to
 \(144994\), which is nearly the whole dataset. Estimating the random
 forest model yields a \ac{rmse} of \(\approx5010.796\), which is an
-underprerformance compared to the model developed in
-\autoref{chap:rand_for}. This shows, that the loss of explanatory power
-by excluding those \(6\) variables is not compensated by a higher
-precision due to the gain of observations.
+underprerformance compared to the model developed in section
+\ref{chap:rand_for}. This shows, that the loss of explanatory power by
+excluding those \(6\) variables is not compensated by a higher precision
+due to the gain of observations.
 
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
@@ -877,7 +883,7 @@ applications.
 
 \hypertarget{dataset}{%
 \subsection{\texorpdfstring{Dataset
-\label{chap:rand_for}}{Dataset }}\label{dataset}}
+\label{chap:ap1}}{Dataset }}\label{dataset}}
 
 \newgeometry{top=1cm, left = 5cm, right = 2.5cm, bottom = 2cm}
 
@@ -944,8 +950,8 @@ ind & 0.00000 & 1.000 & 0.014 & 0.097 \\
 \restoregeometry
 
 \hypertarget{additional-partial-dependence-plots}{%
-\subsection{Additional Partial Dependence
-Plots}\label{additional-partial-dependence-plots}}
+\subsection{\texorpdfstring{Additional Partial Dependence Plots
+\label{chap:ap2}}{Additional Partial Dependence Plots }}\label{additional-partial-dependence-plots}}
 
 \begin{figure}
 \centering

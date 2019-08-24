@@ -77,7 +77,7 @@ The remainder of this paper is structured as follows. Chapter 2 gives an overvie
 
 # Data and Variables \label{chap:data}
 
-The data set used in this paper contains 145179 observations with 59 variables. The variables include the name of the wine, the country of origin, its price, the amount sold per week in litre, the taste segment and variables related to different reviews among others. A table with summary statistics of the data set can be found in the appendix in table \ref{tab:SumStat}.  
+The data set used in this paper contains 145179 observations with 59 variables. The variables include the name of the wine, the country of origin, its price, the amount sold per week in litre, the taste segment and variables related to different reviews among others. A table with summary statistics of the data set can be found in appendix \ref{chap:ap1} in table \ref{tab:SumStat}.  
 <!---
 The variable of interest, which we want to predict, is the variable "litre" describing the weekly sale of a specific wine in log litre. It therefore is a transformation of the variable "Litre" which is the weekly sale of a specific wine in litre. The relationship can be written mathematically as
 \begin{equation}
@@ -271,7 +271,7 @@ knitr::include_graphics("../00_data/output_paper/11_var_imp_random_forest_bp.pdf
 
 Figure \ref{fig:rfimp} shows the variable importance plot for the $20$ most important variables of the 'optimal' random forest, which minimizes the \ac{rmse} in the given range. According to this plot the most important variable, in terms of the mean increase of the \ac{rmse}, is $ms\_segm$, followed by four variables with regard to the price: $price$, $lp$, the logarithmized price, $pri\_m$, the mean real litre price (base jan 2004) during the weeks the wine is distributed and $rprice\_litre$, real litre price (base jan 2004). Thus, the litres of wine sold per week is mainly determined by its market share and its price. Although, there are many more variables which, according to the random forest model, are important. One should note, that those variables do not necessarily have the highest marginal effects.
 
-Figure \ref{fig:rfpardep} shows the partial dependence plots for the 10 most important variables. The plots present the marginal effect of the variable on the litres sold per week. Those plots clearly reveal some nonlinear dependencies in the data which explains the poor performances of the linear models. Furthermore, the figure validates some intuitive assumptions. For example, a higher market share leads to more litres sold, while high real prices lead to fewer litres sold. Furthermore the influence of $v10\_dim$, which is the 'Dagens Industri' review, is especially large, when the review is very good. Figure \ref{fig:rfpardep_other} presents the partial dependence plots for the next 10 important variables.
+Figure \ref{fig:rfpardep} shows the partial dependence plots for the 10 most important variables. The plots present the marginal effect of the variable on the litres sold per week. Those plots clearly reveal some nonlinear dependencies in the data which explains the poor performances of the linear models. Furthermore, the figure validates some intuitive assumptions. For example, a higher market share leads to more litres sold, while high real prices lead to fewer litres sold. Furthermore the influence of $v10\_dim$, which is the 'Dagens Industri' review, is especially large, when the review is very good. We moved the full partial dependence plot with all 20 most important variables into appendix \ref{chap:ap2} as Figure \ref{fig:rfpardep_other} to keep this chapter at a reasonable size.
 
 ```{r, echo = FALSE, fig.cap = "\\label{fig:rfpardep}Random Forest: Partial Dependence Plots."}
 knitr::include_graphics("../00_data/output_paper/11_par_dep_random_forest.pdf")
@@ -293,12 +293,14 @@ Figure \ref{fig:boostimp} shows the importance of the $20$ most important variab
 knitr::include_graphics("../00_data/output_paper/12_var_imp_boosting_bp.pdf")
 ```
 
+The partial dependence plots are very similar to those from the random forest model. Therefore, and to keep this paper at a reasonable size, they are not discussed but included as \ref{fig:bgpardep_main} in appendix \ref{chap:ap2}.
+
 # Robustness
 
 We performed various alternative estimations to validate the robustness of our results. This was done by re-estimating the best random forest model and comparing the new results.
-As noted in \autoref{chap:data}, we excluded "$time\_segm\_price$" and "$artikpr$", thus they represent interactions terms. Including them yields a mean \ac{rmse} of $\approx4862.917$ and therefore doesn't improve our model.
+As noted in chapter \ref{chap:data}, we excluded "$time\_segm\_price$" and "$artikpr$", thus they represent interactions terms. Including them yields a mean \ac{rmse} of $\approx4862.917$ and therefore doesn't improve our model.
 
-Another crucial decision was to exclude all variables with more than $50\%$ missing values. Reducing this to $20\%$ means excluding $6$ additional variables. Those variables are all related to wine reviews. This increases the complete cases substantially from $41416$ to $144994$, which is nearly the whole dataset. Estimating the random forest model yields a \ac{rmse} of $\approx5010.796$, which is an underprerformance compared to the model developed in \autoref{chap:rand_for}. This shows, that the loss of explanatory power by excluding those $6$ variables is not compensated by a higher precision due to the gain of observations. 
+Another crucial decision was to exclude all variables with more than $50\%$ missing values. Reducing this to $20\%$ means excluding $6$ additional variables. Those variables are all related to wine reviews. This increases the complete cases substantially from $41416$ to $144994$, which is nearly the whole dataset. Estimating the random forest model yields a \ac{rmse} of $\approx5010.796$, which is an underprerformance compared to the model developed in section \ref{chap:rand_for}. This shows, that the loss of explanatory power by excluding those $6$ variables is not compensated by a higher precision due to the gain of observations. 
 
 # Conclusion
 
@@ -363,7 +365,7 @@ In conclusion, the two best performing models in terms of the \ac{rmse} are the 
 \renewcommand{\thefigure}{A\arabic{figure}}
 # Appendices
 
-## Dataset \label{chap:rand_for}
+## Dataset \label{chap:ap1}
 \newgeometry{top=1cm, left = 5cm, right = 2.5cm, bottom = 2cm}
 
 ```{r, echo = F, results = 'asis', message = F}
@@ -374,7 +376,7 @@ stargazer(as.data.frame(wine), summary.stat = c("min","max","mean","sd"),
 
 \restoregeometry
 
-## Additional Partial Dependence Plots
+## Additional Partial Dependence Plots \label{chap:ap2}
 
 ```{r, echo = FALSE, fig.cap = "\\label{fig:rfpardep_other}Random Forest: Partial Dependence Plots."}
 knitr::include_graphics("../00_data/output_paper/11_par_dep_random_forest_other.pdf")
@@ -383,6 +385,5 @@ knitr::include_graphics("../00_data/output_paper/11_par_dep_random_forest_other.
 ```{r, echo = FALSE, fig.cap = "\\label{fig:bgpardep_main}Boosting: Partial Dependence Plots."}
 knitr::include_graphics("../00_data/output_paper/16_pdp_boosting_main.pdf")
 ```
-
 
 \cleardoublepage
