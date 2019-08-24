@@ -178,9 +178,9 @@ load(file = "../00_data/output_paper/07_pca_pls.rda")
 cm_df <- df %>% colMeans() %>% round(2)
 ```
 
-While \ac{lasso} is a technique for variable selection, \ac{pcr}and \ac{pls}[PLS] are other methods that reduce the dimension of the feature set while changing the features. Thus, the least squares estimation is performed using a transformation of the explanatory variables. Thereby, \ac{pls} includes the dependent variable when computing the new feature set while \ac{pcr} builds the principal components independent of the dependent variable.
+While \ac{lasso} is a technique for variable selection, \ac{pcr}and \ac{pls} are other methods that reduce the dimension of the feature set while changing the features. Thus, the least squares estimation is performed using a transformation of the explanatory variables. Thereby, \ac{pls} includes the dependent variable when computing the new feature set while \ac{pcr} builds the principal components independent of the dependent variable.
 
-Figure \ref{fig:PrincCom} shows the first two principal components from a \ac{pca}[PCA]{principal components analysis}. The first two principal components represent roughly 3\% of the total variance. This is a sign that the \ac{pcr} does not work well on our data which might be due to the large amount of dummy variables.
+Figure \ref{fig:PrincCom} shows the first two principal components from a \ac{pcr}. The first two principal components represent roughly 3\% of the total variance. This is a sign that the \ac{pcr} does not work well on our data which might be due to the large amount of dummy variables.
 
 ```{r, echo = FALSE, fig.cap= "\\label{fig:PrincCom}Principal Component One and Two.", message=FALSE}
 image_read("../00_data/output_paper/07_pca.png") %>%
@@ -243,7 +243,7 @@ Figure \ref{fig:rmsebag} shows the \ac{rmse} values of different \ac{bagging} mo
 knitr::include_graphics("../00_data/output_paper/14_bagging.pdf")
 ```
 
-To further analyze the \ac{bagging} model, we estimated a \ac{bagging} model with 25 trees for the whole dataset. Figure \ref{fig:bagvarimp} is a variable importance plot for this model. It presents those 20 variables which would increase the \ac{rmse} the most when being omitted. The plot shows that the influence of 'ms_segm' which is the market share of the wine as well as 'segmred' which is a dummy, indicating if the whine is red, substantially contribute to our model. Intuitively, the price also influences how many litres per week are sold. More surpisingly however is the fact, that also the date substantially contributes to our mode. This indicates that prices have changed oder time.
+To further analyze the \ac{bagging} model, we estimated a \ac{bagging} model with 25 trees for the whole dataset. Figure \ref{fig:bagvarimp} presents the variable importance this model. It presents those 20 variables which would increase the \ac{rmse} the most when being omitted. The plot shows that the influence of 'ms_segm' which is the market share of the wine as well as 'segmred' which is a dummy, indicating if the whine is red, substantially contribute to our model. Intuitively, the price also influences how many litres per week are sold. More surpisingly however is the fact, that also the date substantially contributes to our mode. This indicates that prices have changed oder time. 
 
 ```{r bag_varimp, echo = FALSE, fig.cap = "\\label{fig:bagvarimp}Bagging: Variable Importance.", fig.align=T}
 knitr::include_graphics("../00_data/output_paper/15_var_imp_bagging.pdf")
@@ -268,9 +268,11 @@ knitr::include_graphics("../00_data/output_paper/11_var_imp_random_forest_bp.pdf
 ```
 
 
-Figure \ref{fig:rfimp} shows the variable importance plot for the $20$ most important variables of the 'optimal' random forest, which minimizes the \ac{rmse} in the given range.  According to this plot the most important variable, in terms of the mean increase of the \ac{rmse}, is $ms\_segm$, followed by four variables with regard to the price: $price$, $lp$, the logarithmized price, $pri\_m$, the mean real litre price (base jan 2004) during the weeks the wine is distributed and $rprice\_litre$, real litre price (base jan 2004). Thus, the litres of wine sold per week is mainly determined by its segment and its price. Although, there are many more variables which, according to the random forest model, are important.
+Figure \ref{fig:rfimp} shows the variable importance plot for the $20$ most important variables of the 'optimal' random forest, which minimizes the \ac{rmse} in the given range. According to this plot the most important variable, in terms of the mean increase of the \ac{rmse}, is $ms\_segm$, followed by four variables with regard to the price: $price$, $lp$, the logarithmized price, $pri\_m$, the mean real litre price (base jan 2004) during the weeks the wine is distributed and $rprice\_litre$, real litre price (base jan 2004). Thus, the litres of wine sold per week is mainly determined by its market share and its price. Although, there are many more variables which, according to the random forest model, are important. One should note, that those variables do not necessarily have the highest marginal effects.
 
-```{r, echo = FALSE, fig.cap = "\\label{fig:rfpardep}Random Forest: Partial Dependence Plot."}
+Figure \ref{fig:rfimp} shows partial dependence plots for the 10 most important variables. The plots present the marginal effect of the variable on the litre. Those plots clearly reveal some nonlinear dependences in the data which explains the poor performes of the linear models. Furthermore the figure validates some intuitive assumptions. For example, a higher market shares leads to more litres sold while high real prices lead to fewer litres sold. Furthermore the influence of $v10\_dim$ which is the 'Dagens Industri' review is especially big, when the review is very good. Figure \ref{fig:rfpardep_other} presents the partial dependence plots for the next 10 important variables.
+
+```{r, echo = FALSE, fig.cap = "\\label{fig:rfpardep}Random Forest: Partial Dependence Plots."}
 knitr::include_graphics("../00_data/output_paper/11_par_dep_random_forest.pdf")
 ```
 
@@ -355,10 +357,12 @@ In conclusion, the two best performing models in terms of the \ac{rmse} are the 
 \cleardoublepage
 \appendix
 \setcounter{table}{0}
+\setcounter{figure}{0}
 \renewcommand{\thetable}{A\arabic{table}}
+\renewcommand{\thefigure}{A\arabic{figure}}
 # Appendices
 
-## Some Appendix 1
+## Dataset
 \newgeometry{top=1cm, left = 5cm, right = 2.5cm, bottom = 2cm}
 
 ```{r, echo = F, results = 'asis', message = F}
@@ -372,6 +376,14 @@ stargazer(as.data.frame(wine), summary.stat = c("min","max","mean","sd"),
 ```{r RMSEold, message = F, echo = F, include = F}
 library(knitr)
 kable(Summary, "latex", digits = 0, caption = "RMSEs of every fold for every method.", booktabs = T)
+```
+
+## Partial Dependence Plots for Random Forest
+
+\vspace{1cm}
+
+```{r, echo = FALSE, fig.cap = "\\label{fig:rfpardep_other}Random Forest: Partial Dependence Plots."}
+knitr::include_graphics("../00_data/output_paper/11_par_dep_random_forest_other.pdf")
 ```
 
 \cleardoublepage
