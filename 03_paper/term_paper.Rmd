@@ -207,33 +207,33 @@ The mean cross-validated \ac{RMSE} of the pruned trees is ca. `r cm_df[2]`, whil
 
 ### Bootstrap Aggregation
 
-\ac{bagging} is a general method of repeatedly taking bootstrap samples from the dataset, estimating a model for every sample and averaging the predictions of every model afterwards.
+\ac{bagging} is a general method of repeatedly taking bootstrap samples from the dataset, estimating a model for every sample and averaging the predictions of every model afterward.
 The \ac{bagging} algorithm can also be used to improve decision tree models. For this, a bootstrap sample is drawn before growing the tree. This process is repeated several times to grow multiple trees. Finally, the predictions of the trees are averaged.
-By bootstrapping \ac{bagging} brings down the variance and thus, adresses the main problem of single regression trees which are very dependent on the actual sample.
+By bootstrapping \ac{bagging} brings down the variance and thus, addresses the main problem of single regression trees which are very dependent on the actual sample.
 
-Figure \ref{fig:rmsebag} shows the \ac{RMSE} values of different \ac{bagging} models. The bootstrap sample size was chosen to be two thirds of the total number of observations. One can see that even small models with down to 15 Trees significantly outperform the single tree model of the previous chapter.
+Figure \ref{fig:rmsebag} shows the \ac{RMSE} values of different \ac{bagging} models. The bootstrap sample size was chosen to be two-thirds of the total number of observations. One can see that even small models with down to 15 Trees significantly outperform the single tree model of the previous chapter.
 
 ```{r bag, echo = FALSE, fig.cap = "\\label{fig:rmsebag}Bagging: RMSE's at Different Tree Sizes (Smoothed).", fig.align=T, fig.scap="Bagging: RMSE's at Different Tree Sizes"}
 knitr::include_graphics("../00_data/output_paper/14_bagging.pdf")
 ```
 
-To further analyze the \ac{bagging} model, we estimated a \ac{bagging} model with 25 trees for the whole dataset. Figure \ref{fig:bagvarimp} presents the variable importance this model. It presents those 20 variables which would increase the \ac{RMSE} the most when being omitted. The plot shows that the influence of 'ms_segm' which is the market share of the wine as well as 'segmred' which is a dummy, indicating if the whine is red, substantially contribute to our model. Intuitively, the price also influences how many litres per week are sold. More surpisingly however is the fact, that also the date substantially contributes to our mode. This indicates that prices have changed oder time.
+To further analyze the \ac{bagging} model, we estimated a \ac{bagging} model with 25 trees for the whole dataset. Figure \ref{fig:bagvarimp} presents the variable importance this model. It presents those 20 variables which would increase the \ac{RMSE} the most when being omitted. The plot shows that the influence of 'ms_segm' which is the market share of the wine as well as 'segmred' which is a dummy, indicating if the wine is red, substantially contribute to our model. Intuitively, the price also influences how many litres per week are sold. More surprisingly, however, is the fact, that also the date substantially contributes to our mode. This indicates that prices have changed over time.
 
 ```{r bag_varimp, echo = FALSE, fig.cap = "\\label{fig:bagvarimp}Bagging: Variable Importance.", fig.align=T}
 knitr::include_graphics("../00_data/output_paper/15_var_imp_bagging.pdf")
 ```
 
-Bagging, in general, takes all possible variables into consideration at each split. This makes \ac{bagging} computationally demanding. Moreover, this may lead to similar trees at each iteration. Thus, the trees are probably highly correlated.
+Bagging, in general, considers all possible variables at each split. This makes \ac{bagging} computationally demanding. Moreover, this may lead to similar trees at each iteration. Thus, the trees are probably highly correlated.
 
 ### Random Forest \label{chap:rand_for}
 
-The random forest algorithm is a special case of \ac{bagging}. The name random forest arises from the fact that, in cotrast to the usual \ac{bagging} algorithm, at each split of the tree building process only a pre specified number of randomly chosen variables are taken into consideration. This results in a different tree for each iteration off the random forest and therefore decorrelates the trees. In consequence, the random forest reduces the overall variance in comparison to \ac{bagging}. This effect is especially valid for homogenous datasets in which the trees of the \ac{bagging} algorithm are highly correlated.
+The random forest algorithm is a special case of \ac{bagging}. The name random forest arises from the fact that in contrast to the usual \ac{bagging} algorithm, at each split of the tree building process, only a pre-specified number of randomly chosen variables are taken into consideration. This results in a different tree for each iteration of the random forest and therefore decorrelates the trees. In consequence, the random forest reduces the overall variance in comparison to \ac{bagging}. This effect is especially valid for homogenous datasets in which the trees of the \ac{bagging} algorithm are highly correlated.
 
 ```{r, echo = FALSE, fig.cap= "\\label{fig:rfrmse}Random Forest: Dependency between RMSE, the Number of Trees and the Number of Variables Included at each Split.", fig.scap= "RMSE's of the Random Forest for Different Parameters", fig.align= 'center'}
 knitr::include_graphics("../00_data/output_paper/10_rf_plot.png")
 ```
 
-We calculated \ac{RMSE} values for a range of Random Forest models to evaluate which combination of the number of trees to grow and the number of variables taken into account at each split leads to the best results. The results are plotted in Figure \ref{fig:rfrmse}. The smallest \ac{RMSE} is $\approx 4374$. Moreover, the plot shows, reveals, that very small models profit substantially from increasing complexity while bigger models profit only by a small margin. The model with 20 trees and 80 variables at each split still has a \ac{RMSE} of $\approx 4456$, which is an increase of less than $1.9\%$.
+We calculated \ac{RMSE} values for a range of Random Forest models to evaluate which combination of the number of trees to grow, and the number of variables taken into account at each split leads to the best results. The results are plotted in Figure \ref{fig:rfrmse}. The smallest \ac{RMSE} is $\approx 4374$. Moreover, the plot shows, reveals that tiny models profit substantially from increasing complexity while bigger models profit only by a small margin. The model with 20 trees and 80 variables at each split still has a \ac{RMSE} of $\approx 4456$, which is an increase of less than $1.9\%$.
 
 The \ac{bagging} model with $25$ trees (\ac{RMSE} of $\approx 4305$) outperforms the random forest Model (with 25 trees and 100 variables) only by a small margin (\ac{RMSE} of $4374.330$). However, training the random forest demands only $15\%$ of the time, that the \ac{bagging} model needs.
 
@@ -242,9 +242,9 @@ knitr::include_graphics("../00_data/output_paper/11_var_imp_random_forest_bp.pdf
 ```
 
 
-Figure \ref{fig:rfimp} shows the variable importance plot for the $20$ most important variables of the 'optimal' random forest, which minimizes the \ac{RMSE} in the given range. According to this plot the most important variable, in terms of the mean increase of the \ac{RMSE}, is $ms\_segm$, followed by four variables with regard to the price: $price$, $lp$, the logarithmized price, $pri\_m$, the mean real litre price (base jan 2004) during the weeks the wine is distributed and $rprice\_litre$, real litre price (base jan 2004). Thus, the litres of wine sold per week is mainly determined by its market share and its price. Although, there are many more variables which, according to the random forest model, are important. One should note, that those variables do not necessarily have the highest marginal effects.
+Figure \ref{fig:rfimp} shows the variable importance plot for the $20$ most important variables of the 'optimal' random forest, which minimizes the \ac{RMSE} in the given range. According to this plot the most important variable, in terms of the mean increase of the \ac{RMSE}, is $ms\_segm$, followed by four variables with regard to the price: $price$, $lp$, the logarithmized price, $pri\_m$, the mean real litre price (base Jan 2004) during the weeks the wine is distributed and $rprice\_litre$, real litre price (base Jan 2004). Thus, the litres of wine sold per week is mainly determined by its market share and its price. Although, there are many more variables which, according to the random forest model, are important. One should note that those variables do not necessarily have the highest marginal effects.
 
-Figure \ref{fig:rfpardep} shows the partial dependence plots for the 10 most important variables. The plots present the marginal effect of the variable on the litres sold per week. Those plots clearly reveal some nonlinear dependencies in the data which explains the poor performances of the linear models. Furthermore, the figure validates some intuitive assumptions. For example, a higher market share leads to more litres sold, while high real prices lead to fewer litres sold. Furthermore the influence of $v10\_dim$, which is the 'Dagens Industri' review, is especially large, when the review is very good. The complete partial dependence plot with all 20 most important variables can be found in the appendix \ref{chap:ap2} in figure \ref{fig:rfpardep_other} to keep this chapter at a reasonable size.
+Figure \ref{fig:rfpardep} shows the partial dependence plots for the 10 most important variables. The plots present the marginal effect of the variable on the litres sold per week. Those plots reveal some nonlinear dependencies in the data which explains the poor performances of the linear models. Furthermore, the figure validates some intuitive assumptions. For example, a higher market share leads to more litres sold, while high real prices lead to fewer litres sold. Besides, the influence of $v10\_dim$, which is the 'Dagens Industri' review, is especially large, when the review is excellent. The complete partial dependence plot with all 20 most important variables can be found in the appendix \ref{chap:ap2} in figure \ref{fig:rfpardep_other} to keep this chapter at a reasonable size.
 
 ```{r, echo = FALSE, fig.cap = "\\label{fig:rfpardep}Random Forest: Partial Dependence Plots."}
 knitr::include_graphics("../00_data/output_paper/11_par_dep_random_forest.pdf")
@@ -253,14 +253,18 @@ knitr::include_graphics("../00_data/output_paper/11_par_dep_random_forest.pdf")
 ### Boosting
 
 In contrast to random forests boosting grows tree sequentially meaning that for every new tree information from already grown trees is used \autocite[cf.][p. 322]{James2014}. For boosting rather small regression trees are used to improve the boosting tree slowly. This is achieved by taking the residuals from the current boosting tree, fitting a (small) tree to these residuals and then fitting this tree into the boosting tree in areas where the performance of the boosting tree could be improved \autocite[cf.][p. 322]{James2014}. Thus the existing tree is expanded with the new tree. This means that, in contrast to bagging, the newly grown trees do depend on the earlier grown trees.
-The boosting models possess three parameters for tuning: The number of trees, the interaction depth and the shrinkage parameter $\lambda$. The resulting \ac{RMSE}s for different combinations of those tuning parameters are shown in figure \ref{fig:boostrmse}. An other tuning parameter implemented in the function for running boosting in R, *gbm()*, is the *bag.fraction*. This argument tells us which fraction of the data is used to build the next tree for expanding the existing tree. We set this value to $1$ meaning that allways all observations in the training set have been used, which is optimal in our case. This also made sure that running the code more than once resulted in the same fit, which isn't necessaary the case when setting the argument to a value $< 1$.
-According to our calculations the optimal boosting model is the one with $25$ trees used, an interaction depth of $14$ and a shrinkage parameter of $0.4$.
+The boosting models possess three parameters for tuning: The number of trees, the interaction depth, and the shrinkage parameter $\lambda$. The resulting \ac{RMSE}s for different combinations of those tuning parameters are shown in figure \ref{fig:boostrmse}. Another tuning parameter implemented in the function for running boosting in R, *gbm()*, is the *bag.fraction*. This argument defines which fraction of the data is used to build the next tree. The default value is $0.5$, which means that a bootstrap sample of size $50\%$ is drawn each time a new tree is estimated. <!---
+--------------------------------------------------------------------------------
+------------- Nachlesen!!! ---------------------------------------------------------
+--------------------------------------------------------------------------------
+--> This adds randomness to the estimation, which reduces the problem of overfitting. We set this value to $1$. This consistently outperformed alternative estimations with bag.fraction set to the default by a $\approx1.9\%$ decrease in out of sample cross-validated \ac{RMSE}. Hence all observations in the training set have been used at every iteration. 
+According to our calculations, the optimal boosting model is the one with $25$ trees used, an interaction depth of $15$ and a shrinkage parameter of $0.4$.
 
 ```{r boosting_hyper, echo = FALSE, fig.cap= "\\label{fig:boostrmse}Boosting: Dependency between RMSE, Lambda, the Depths and the Number of Trees that are Grown.", fig.scap= "RMSEs of the Boosting Model for Different Parameters", fig.align= 'center'}
 knitr::include_graphics("../00_data/output_paper/11_boosting_plot.png")
 ```
 
-Figure \ref{fig:boostimp} shows the importance of the $20$ most important variables according to the optimal boosting model. The values shown is the relative importance in percent. The most important variable is $ms\_segm$, while the second most important variable is $segmred$, followed by $period$ and $price$. This also does confirm the results of the single tree as well as the pruned tree, as those utilzes exactly those variables.
+Figure \ref{fig:boostimp} shows the importance of the $20$ most important variables according to the optimal boosting model. The values shown are the relative importances in percent. The most important variable is $ms\_segm$, while the second most important variable is $segmred$, followed by $period$ and $price$. This also does confirm the results of the single tree as well as the pruned tree, as those utilzed exactly those variables.
 
 ```{r boosting_varimp, echo = FALSE, fig.cap= "\\label{fig:boostimp}Boosting: Variable Importance Plot."}
 knitr::include_graphics("../00_data/output_paper/12_var_imp_boosting_bp.pdf")
@@ -271,9 +275,9 @@ The corresponding partial dependence plots are very similar to those from the ra
 # Robustness \label{chap:rob}
 
 We performed various alternative estimations to validate the robustness of our results. This was done by re-estimating the best random forest model and comparing the new results.
-As noted in chapter \ref{chap:data}, we excluded "$time\_segm\_price$" and "$artikpr$". Those variables are combinations of other variables, thus they represent interactions terms. Including them yields a mean \ac{RMSE} of $\approx4862.917$ and therefore doesn't improve our model.
+As noted in chapter \ref{chap:data}, we excluded "$time\_segm\_price$" and "$artikpr$". Those variables are combinations of other variables; thus, they represent interactions terms. Including them yields a mean \ac{RMSE} of $\approx4862.917$ and therefore does not improve our model.
 
-Another crucial decision was to exclude all variables with more than $50\%$ missing values. Reducing this to $20\%$ means excluding $6$ additional variables. Those variables are all related to wine reviews. This increases the complete cases substantially from $41416$ to $144994$, which is nearly the whole dataset. Estimating the random forest model yields a \ac{RMSE} of $\approx5010.796$, which is an underprerformance compared to the model developed in section \ref{chap:rand_for}. This shows, that the loss of explanatory power by excluding those $6$ variables is not compensated by a higher precision due to the gain of observations.
+Another crucial decision was to exclude all variables with more than $50\%$ missing values. Reducing this to $20\%$ means excluding $6$ additional variables. Those variables are all related to wine reviews. This increases the complete cases substantially from $41416$ to $144994$, which is nearly the whole dataset. Estimating the random forest model yields a \ac{RMSE} of $\approx5010.796$, which is an underperformance compared to the model developed in section \ref{chap:rand_for}. This shows that the loss of explanatory power by excluding those $6$ variables is not compensated by a higher precision due to the gain of observations.
 
 # Conclusion \label{chap:conc}
 
