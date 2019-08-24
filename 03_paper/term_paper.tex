@@ -393,9 +393,9 @@ features to be included in the estimation.
 \subsection{Mean Regression and Linear
 Regression}\label{mean-regression-and-linear-regression}}
 
-At first a mean regression and a linear regression are calculated. Those
-models are representing the baseline. For comparison of the different
-models, the \ac{RMSE}
+At first, a mean regression and a linear regression are calculated.
+Those models are representing the baseline. For comparison of the
+different models, the \ac{RMSE}
 \[\sqrt{\frac{1}{n}\sum_{i = 1}^{n}\left(y_i-\hat{y}_i\right)^2}\] is
 calculated.
 
@@ -403,14 +403,15 @@ The mean regression yields an average \ac{RMSE} of \(\approx 13340\)
 litre sold per week. The linear regression where all variables are
 included yields an average \ac{RMSE} of \(\approx 5572\). The latter
 result is probably influenced by overfitting. To cope with this problem,
-we are using variable selection and dimension reduction methods which
+we are using variable selection and dimension reduction methods, which
 are discussed in the proceeding sections.
 
-\hypertarget{lasso}{%
-\subsection{Lasso}\label{lasso}}
+\hypertarget{least-absolute-shrinkage-and-selection-operator}{%
+\subsection{Least Absolute Shrinkage and Selection
+Operator}\label{least-absolute-shrinkage-and-selection-operator}}
 
 The \ac{lasso} is a method combining linear regression and shrinkage of
-the coefficent estimates to do variable selection. It fits a linear
+the coefficient estimates to do variable selection. It fits a linear
 model that is constrained by a penalty term, i.e., the \ac{lasso}
 coefficients minimize:
 
@@ -422,21 +423,21 @@ Figure \ref{fig:CoefLamb} depicts the relation between lambda and the
 coefficients. The cross-validated log lambda, which minimizes the test
 error is \(\approx -8.94\). At that level a total of \(\approx 666\) out
 of \(713\) coefficients are
-nonzero\footnote{$\approx 666.6$ to be exact, but we couldn't resist to round down.}.
-The other coefficients are exactly zero due to the sparsity property of
-the \ac{lasso} estimator. Furthermore, the plot includes abbreviated
-variable names of the 10 biggest coefficients. All of those coefficients
-are dummys for specific wine names. The average \ac{RMSE} of the
-\ac{lasso} approach is \(\approx 5547.76\). This is a slight improvement
-compared to the linear baseline model. The \ac{lasso} slightly reduces
-the feature set while also reducing the \ac{RMSE}. This is evidence
-supporting our prior assimption that the linear model was exposed to the
-problem of overfitting. Furthermore, the coefficients of the \ac{lasso}
-model indicates that the name variable is the most important variable to
-explain the litres sold per week. It is followed by the vintage, the
-region, the taste segment and the country of the wine. The least
-important variables are the review variables which are not present in
-the \(400\) biggest coefficients.
+nonzero\footnote{$\approx 666.6$ to be exact, but we could not resist to round down.}.
+The other coefficients are precisely zero due to the sparsity property
+of the \ac{lasso} estimator. Furthermore, the plot includes abbreviated
+variable names of the ten biggest coefficients. All of those
+coefficients are dummies for specific wine names. The average \ac{RMSE}
+of the \ac{lasso} approach is \(\approx 5547.76\). This is a slight
+improvement compared to the linear baseline model. The \ac{lasso}
+slightly reduces the feature set while also reducing the \ac{RMSE}. This
+is evidence supporting our prior assumption that the linear model was
+exposed to the problem of overfitting. Furthermore, the coefficients of
+the \ac{lasso} model indicate that the name variable is the most
+important variable to explain the litres sold per week. It is followed
+by the vintage, the region, the taste segment, and the country of the
+wine. The least important variables are the review variables which are
+not present in the \(400\) biggest coefficients.
 
 \begin{figure}
 \centering
@@ -444,12 +445,13 @@ the \(400\) biggest coefficients.
 \caption{\label{fig:CoefLamb}Relation of Coefficients and Shrinkage.}
 \end{figure}
 
-\hypertarget{pcr-and-pls}{%
-\subsection{PCR and PLS}\label{pcr-and-pls}}
+\hypertarget{principal-components-regression-and-partial-least-squares}{%
+\subsection{Principal Components Regression and Partial Least
+Squares}\label{principal-components-regression-and-partial-least-squares}}
 
 While \ac{lasso} is a technique for variable selection, \ac{pcr} and
 \ac{pls} are other methods that reduce the dimension of the feature set
-while changing the features. Thus, the least squares estimation is
+while changing the features. Thus, the least-squares estimation is
 performed using a transformation of the explanatory variables. Thereby,
 \ac{pls} includes the dependent variable when computing the new feature
 set while \ac{pcr} builds the principal components independent of the
@@ -458,7 +460,7 @@ dependent variable.
 Figure \ref{fig:PrincCom} shows the first two principal components from
 a \ac{pcr}. The first two principal components represent roughly 3\% of
 the total variance. This is a sign that the \ac{pcr} does not work well
-on our data which might be due to the large amount of dummy variables.
+on our data, which might be due to a large number of dummy variables.
 
 \begin{figure}
 \centering
@@ -478,21 +480,21 @@ to a higher \ac{RMSE}.
 \subsection{Splines}\label{splines}}
 
 The previous methods assumed linear relationships between the
-independent variables and the dependent variable. Considering the amount
-of dummy variables in the feature set the usage of nonlinear methods is
+independent variables and the dependent variable. Considering the number
+of dummy variables in the feature set, the usage of nonlinear methods is
 quite limited. However, to recognize potential nonlinear relationships
 we add natural splines to the variables \(year\), \(price\), and
 \(rprice\_litre\). Those variables indicate the year in which the wine
 was distributed, the price and the real price with Jan 2004 as base
-respectively. Each natural spline was allowed to have up to 20 knots
+respectively. Each natural spline was allowed to have up to 20 knots,
 which is sufficient to estimate complex linear relationships. The
 respective \ac{RMSE}s depending on the knots are presented in figure
-\ref{fig:splines}. Splines are able to improve the prediction a little
-which indicates that at least some nonlinear relationship is present.
-However, like the methods before, splines reduce the interpretability of
-the coefficients. In this case, this tradeoff isn't offset enough by the
+\ref{fig:splines}. Splines can improve the prediction a little which
+indicates that at least some nonlinear relationship is present. However,
+like the methods before, splines reduce the interpretability of the
+coefficients. In this case, this tradeoff is not offset enough by the
 gain in precision. Furthermore, figure \ref{fig:splines} shows, that the
-\ac{RMSE}s depend to some extend on the fold which was used for
+\ac{RMSE}s depend to some extent on the fold which was used for
 cross-validation. This approves our theoretically founded motivation to
 use cross-validation.
 
@@ -506,30 +508,33 @@ use cross-validation.
 \hypertarget{decision-tree-methods}{%
 \subsection{Decision Tree Methods}\label{decision-tree-methods}}
 
-Tree-based methods utilze decision rules to split the feature space into
-a number of different regions. `Since the set of splitting rules used to
-segment the predictor space can be summarized in a tree, these type of
-approaches are known as decision tree methods'
-\autocite[][p. 303]{Hastie2013}. The base of tree-based methods are
-regression trees. For improvement of the predictive power of these
-methods, while losing interpretability, one can combine different
-regression trees for a single prediction. Those approaches, including
-bagging, random forests and boosting, are described in more detail when
-being applied.
+\hypertarget{overview}{%
+\subsubsection{Overview}\label{overview}}
 
-\hypertarget{regression-tree}{%
-\subsubsection{Regression Tree}\label{regression-tree}}
+Tree-based methods utilize decision rules to split the feature space
+into several different regions. `Since the set of splitting rules used
+to segment the predictor space can be summarized in a tree, these type
+of approaches are known as decision tree methods'
+\autocite[][p. 303]{Hastie2013}. Simple tree-based methods use single
+regression trees. One can combine different regression trees for a
+single prediction this usually improves the predictive power, but the
+interpretability becomes more complex. Those approaches, namely bagging,
+random forests, and boosting, are described in more detail when being
+applied.
 
-For growing a regression tree `the algorithm needs to automatically
-decide on the splitting variables and split points {[}\ldots{]} the tree
-should have' \autocite[][p. 349]{Hastie2013}. The tree is grown when a
-splitting is found that minimizes the sum of squared residuals. The
-splitting is done with a greedy algorithm, i.e., at first all the data
+\hypertarget{single-regression-tree}{%
+\subsubsection{Single Regression Tree}\label{single-regression-tree}}
+
+For growing a regression tree, `the algorithm needs to automatically
+decide on the splitting variables and split points {[}\ldots{}{]} the
+tree should have' \autocite[][p. 349]{Hastie2013}. The tree is grown
+when a split is found that minimizes the sum of squared residuals. The
+splitting is done with a greedy algorithm, i.e., at first, all the data
 is split into just two groups while the search of the splitting variable
 and split point includes all possible variables and points
-\autocite[cf.][p. 349]{Hastie2013}. After the data is split this process
-is repeated for the now obtained two splitted regions until the tree is
-large enough that the nodes reach a set minimum size.
+\autocite[Cf.][p. 349]{Hastie2013}. After the data is split this process
+is repeated for the obtained two split regions until the tree is large
+enough that the terminal nodes reach a pre-defined minimum size.
 
 \begin{figure}
 \centering
@@ -544,17 +549,17 @@ got \(10\) terminal nodes. The figure does also tell us what share of
 the data can be sorted to each node, as well as the mean price of the
 allocated observations. The regression trees build in the other four
 folds of the cross-validation are almost exactly the same as the shown
-tree. The selected variables indicate that according to this method the
-market share, the color of the wine, the price as well as the period.
-Concerning the graph and the variable \(segmred\) it is important to
-keep in mind that this is a dummy variable meaning that a value
-\(< 0.5\) (the left track) stands for a wine that isn't red. Conversely
-the right track stands for red wines.
+tree. The selected variables indicate that according to this method, the
+market share, the color of the wine, the price as well as the period are
+the most important variables. Concerning the graph and the variable
+\(segmred\) it is important to keep in mind that this is a dummy
+variable meaning that a value \(< 0.5\) (the left track) stands for a
+wine that is not red. Conversely the right track stands for red wines.
 
 As regression trees may tend to grow quite large, a possible way to get
 smaller trees is pruning back the grown larger tree. The goal of pruning
 is `to select a subtree that leads to the lowest test error rate
-{[}which{]} we can estimate {[}\ldots{]} using cross-validation or the
+{[}which{]} we can estimate {[}\ldots{}{]} using cross-validation or the
 validation set approach' \autocite[][p. 308]{James2014}. This is done by
 \emph{cost complexity pruning}.
 
@@ -564,14 +569,14 @@ validation set approach' \autocite[][p. 308]{James2014}. This is done by
 \caption{\label{fig:tree_pruned}Example of a Pruned Tree.}
 \end{figure}
 
-The pruned tree (see Figure \ref{fig:tree_pruned}) does only utilze the
-dummy whether the wine is a red wine and the mean market share within
-color during weeks the wine is distributed. \(ms\_segm\) is used twice
-and thus the pruned tree splits the data set into four terinal nodes.
+The pruned tree (see Figure \ref{fig:tree_pruned}) does only utilize the
+dummy whether the wine is red wine and the mean market share within
+color during weeks the wine is distributed. \(ms\_segm\) is used twice;
+thus, the pruned tree splits the data set into four terminal nodes.
 While the pruned tree thus might be easier to interpret, it does also
 come with a higher \ac{RMSE}. The mean cross-validated \ac{RMSE} of the
-pruned trees is ca. 7935.64, while the mean \ac{RMSE} of the normal
-regression trees is about 6494.75.
+pruned trees is ca. 7935.64, while the mean \ac{RMSE} of the
+conventional regression trees is about 6494.75.
 
 \hypertarget{bootstrap-aggregation}{%
 \subsubsection{Bootstrap Aggregation}\label{bootstrap-aggregation}}
