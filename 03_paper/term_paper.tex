@@ -513,12 +513,12 @@ and boosting, are described in more detail when being applied.
 \subsubsection{Regression Tree}\label{regression-tree}}
 
 For growing a regression tree `the algorithm needs to automatically
-decide on the splitting variables and split points {[}\ldots{]} the tree
-should have' \autocite[][p. 349]{Hastie2013}. The tree is grown when a
-splitting is found that minimizes the sum of squared residuals. The
-splitting is done with a greedy algorithm, i.e., at first all the data
-is split into just two groups while the search of the splitting variable
-and split point includes all possible variables and points
+decide on the splitting variables and split points {[}\ldots{}{]} the
+tree should have' \autocite[][p. 349]{Hastie2013}. The tree is grown
+when a splitting is found that minimizes the sum of squared residuals.
+The splitting is done with a greedy algorithm, i.e., at first all the
+data is split into just two groups while the search of the splitting
+variable and split point includes all possible variables and points
 \autocite[cf.][p. 349]{Hastie2013}. After the data is split this process
 is repeated for the now obtained two splitted regions until the tree is
 large enough that the nodes reach a set minimum size.
@@ -546,7 +546,7 @@ the right track stands for red wines.
 As regression trees may tend to grow quite large, a possible way to get
 smaller trees is pruning back the grown larger tree. The goal of pruning
 is `to select a subtree that leads to the lowest test error rate
-{[}which{]} we can estimate {[}\ldots{]} using cross-validation or the
+{[}which{]} we can estimate {[}\ldots{}{]} using cross-validation or the
 validation set approach' \autocite[][p. 308]{James2014}. This is done by
 \emph{cost complexity pruning}.
 
@@ -674,17 +674,17 @@ price. Although, there are many more variables which, according to the
 random forest model, are important. One should note, that those
 variables do not necessarily have the highest marginal effects.
 
-Figure \ref{fig:rfimp} shows partial dependence plots for the 10 most
-important variables. The plots present the marginal effect of the
-variable on the litre. Those plots clearly reveal some nonlinear
-dependences in the data which explains the poor performes of the linear
-models. Furthermore the figure validates some intuitive assumptions. For
-example, a higher market shares leads to more litres sold while high
-real prices lead to fewer litres sold. Furthermore the influence of
-\(v10\_dim\) which is the \enquote{Dagens Industri} review is especially
-big, when the review is very good. Figure \ref{fig:rfpardep_other}
-presents the partial dependence plots for the next 10 important
-variables.
+Figure \ref{fig:rfpardep} shows the partial dependence plots for the 10
+most important variables. The plots present the marginal effect of the
+variable on the litres sold per week. Those plots clearly reveal some
+nonlinear dependencies in the data which explains the poor performances
+of the linear models. Furthermore, the figure validates some intuitive
+assumptions. For example, a higher market share leads to more litres
+sold, while high real prices lead to fewer litres sold. Furthermore the
+influence of \(v10\_dim\), which is the \enquote{Dagens Industri}
+review, is especially large, when the review is very good. Figure
+\ref{fig:rfpardep_other} presents the partial dependence plots for the
+next 10 important variables.
 
 \begin{figure}
 \centering
