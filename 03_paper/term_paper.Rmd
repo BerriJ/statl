@@ -293,9 +293,9 @@ Figure \ref{fig:boostimp} shows the importance of the $20$ most important variab
 # Robustness
 
 We performed various alternative estimations to validate the robustness of our results. This was done by re-estimating the best random forest model and comparing the new results.
-As noted in \autoref{chap:data}, we excluded "$time\_segm\_price$" and "$artikpr$", thus they represent interactions terms. Incluing them yields a mean \ac{rmse} of $\approx4862.917$ and therefore doesn't improve our model.
+As noted in \autoref{chap:data}, we excluded "$time\_segm\_price$" and "$artikpr$", thus they represent interactions terms. Including them yields a mean \ac{rmse} of $\approx4862.917$ and therefore doesn't improve our model.
 
-Another curcial decision was to exlude all variables with more than $50\%$ missing values. Reducing this to $20\%$ means excluding 6 additional variables. Those variables are all related to wine reviews. This increases the complete cases substantially from $41416$ to $144.994$ which is nearly the whole dataset. Estimating the random forest model yields a \ac{rmse} of $\approx5010.796$, which underperformes compared to the model developed in \autoref{chap:rand_for}. This shows, that the lost explanatory power by exluding those 6 variables is not compensated by a higher precision due to the gain of observations. 
+Another crucial decision was to exclude all variables with more than $50\%$ missing values. Reducing this to $20\%$ means excluding $6$ additional variables. Those variables are all related to wine reviews. This increases the complete cases substantially from $41416$ to $144994$, which is nearly the whole dataset. Estimating the random forest model yields a \ac{rmse} of $\approx5010.796$, which is an underprerformance compared to the model developed in \autoref{chap:rand_for}. This shows, that the loss of explanatory power by excluding those $6$ variables is not compensated by a higher precision due to the gain of observations. 
 
 # Conclusion
 
