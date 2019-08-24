@@ -93,13 +93,16 @@ names(pd_df.labs) <- LETTERS[1:10]
 cols <- replicate("#0080db", n = 363)
 cols[pd_df$var == "F" | pd_df$var == "I" |pd_df$var == "J"] <- "#ff6633"
 
-ggplot(pd_df, aes(y = y/1000, x = x)) + 
+par_dep_rf <- ggplot(pd_df, aes(y = y/1000, x = x)) + 
   geom_line(col = cols, size = 1) +
   facet_wrap("var", scales = "free", nrow = 2, 
              labeller = labeller(var = pd_df.labs), strip.position = "bottom") + 
   scale_x_continuous(breaks = NULL) + 
   ylab("Litre (Thousands)") + 
   xlab(label = NULL)
+
+
+# ggsave(filename = "00_data/output_paper/11_par_dep_random_forest.pdf", plot = par_dep_rf , width = 7, height = 3)
 
 
 # Boosting ####
