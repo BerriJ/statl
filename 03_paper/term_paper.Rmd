@@ -76,29 +76,29 @@ The remainder of this paper is structured as follows. Chapter 2 gives an overvie
 
 # Data and Variables
 
-The data set used in this paper contains 145179 observations with 59 variables. The variables include the name of the wine, the country of origin, its price, the amount sold per week in litre, the taste segment and variables related to different reviews among others.
+The data set used in this paper contains 145179 observations with 59 variables. The variables include the name of the wine, the country of origin, its price, the amount sold per week in litre, the taste segment and variables related to different reviews among others. A table with summary statistics of the data set can be found in the appendix in table \ref{tab:SumStat}.  
 <!---
 The variable of interest, which we want to predict, is the variable "litre" describing the weekly sale of a specific wine in log litre. It therefore is a transformation of the variable "Litre" which is the weekly sale of a specific wine in litre. The relationship can be written mathematically as
 \begin{equation}
 Llitre = \log{Litre}*1000000.
 \end{equation}
 -->
-We need to omit two variables beforehand, namely "time_segm_price" and "artikpr", because those are combinations of other existing variables. Hence inclusion would lead to the problem of multicollinearity. After omitting those two we have left the following types of variables:
+We need to omit two variables beforehand, namely "$time\_segm\_price$" and "$artikpr$", because those are combinations of other existing variables. Hence inclusion would lead to the problem of multicollinearity. After omitting those two we have left the following types of variables (see table \ref{tab:VarTyp}).
 
 ```{r, echo=FALSE}
 load("../00_data/output_paper/01_typeof_vec.rda")
-knitr::kable(t(typeof_vec), caption = "Frequency of Variable Types.")
+knitr::kable(t(typeof_vec), caption = "\\label{tab:VarTyp}Frequency of Variable Types.")
 ```
 
-Figure 1 depicts the amount of missing values in each variable. The number of complete cases would be zero without further selection. Therefore we exclude every variable with a ratio of missing values that exceeds $50\%$. In consequence 41416 observations with 45 variables are used for building the forecasting models.
+Figure \ref{fig:NAs} depicts the amount of missing values in each variable. The number of complete cases would be zero without further selection. Therefore we exclude every variable with a ratio of missing values that exceeds $50\%$. In consequence $41416$ observations with $45$ variables are used for building the forecasting models.
 
-```{r, echo=F, fig.cap= "Share of Missing Values in the Wine Dataset."}
+```{r, echo=F, fig.cap= "\\label{fig:NAs}Share of Missing Values in the Wine Dataset."}
 knitr::include_graphics("../00_data/output_paper/02_missings_alt.pdf")
 ```
 
-Figure XY depicts the distribution of the litre variable which is the dependend variable in our models. One can see that the observations are heavily skewed. The Maximum is at $184200$ litres sold weekly while it's minimum is near zero with only $0.75$ litres sold per week.
+Figure \ref{fig:HistLitre} depicts the distribution of the litre variable which is the dependend variable in our models. One can see that the observations are heavily skewed. The Maximum is at $184200$ litres sold weekly while it's minimum is near zero with only $0.75$ litres sold per week.
 
-```{r, echo = FALSE, fig.cap= "Histogram and Estimated Density of the Litre Variable."}
+```{r, echo = FALSE, fig.cap= "\\label{fig:HistLitre}Histogram and Estimated Density of the Litre Variable."}
 knitr::include_graphics("../00_data/output_paper/04_hist_litre.pdf")
 ```
 
@@ -122,7 +122,7 @@ For comparison of the different models, the \ac{rmse}[RMSE]{Root Mean Sqaured Er
 
 The mean regression yields an average \ac{rmse} of $\approx `r paste(colMeans(df)[2] %>% round())`$ litre sold per week. The linear regression where all variables are included yields an average \ac{rmse} of $\approx `r colMeans(df)[1] %>% round()`$. The latter result is probably influenced by overfitting. To cope with this problem, we are using variable selection and dimension reduction methods which are discussed in the proceeding sections.
 
-```{r Mean Regression, echo = FALSE, fig.cap = "Residuals of the Mean Regression.", message = FALSE}
+```{r Mean Regression, echo = FALSE, fig.cap = "\\label{fig:ResMean}Residuals of the Mean Regression.", message = FALSE}
 
 # library(MASS)
 #
@@ -160,12 +160,12 @@ $$
 \sum_{i=1}^{n}(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij})+\lambda\sum_{j=1}^{p}|\beta_j|.
 $$
 
-Figure XY depicts the relation between lambda and the coefficients. The crossvalidated log lambda, which minimizes the test error is $\approx `r df[3]`$. At that level a total of $\approx `r floor(df[4])`$ out of $713$ coefficients are nonzero\footnote{$\approx `r df[4]`$ to be exact, but we couldn't resists to round down.}. The other coefficients are exactly zero due to the sparsitiy property of the \ac{lasso} estimator. Furthermore, the plot includes abbreviated variable names of the 10 biggest coefficients. All of those coefficients are dummys for specif*ic wine names.
+Figure \ref{fig:CoefLamb} depicts the relation between lambda and the coefficients. The cross-validated log lambda, which minimizes the test error is $\approx `r df[3]`$. At that level a total of $\approx `r floor(df[4])`$ out of $713$ coefficients are nonzero\footnote{$\approx `r df[4]`$ to be exact, but we couldn't resists to round down.}. The other coefficients are exactly zero due to the sparsitiy property of the \ac{lasso} estimator. Furthermore, the plot includes abbreviated variable names of the 10 biggest coefficients. All of those coefficients are dummys for specif*ic wine names.
 The average \ac{rmse} of the \ac{lasso} approach is $\approx `r df[1]`$. This is a slight improvement compared to the linear baseline model.
 The \ac{lasso} slightly reduces the feature set while also reducing the \ac{rmse}. This is evidence supporting our prior assimption that the linear model was exposed to the problem of overfitting.
 Furthermore, the coefficients of the \ac{lasso} model show that the name variable is the most important variable to explain the sold litre per week. It is followed by the Vintage, the Region, the taste segment and the Country of the wine. The least important variables are the review variables which are not present in the 400 biggest coefficients.
 
-```{r, echo = FALSE, fig.cap= "Relation of Coefficients and Shrinkage."}
+```{r, echo = FALSE, fig.cap= "\\label{fig:CoefLamb}Relation of Coefficients and Shrinkage."}
 image_read("../00_data/output_paper/06_lasso_vars.png") %>%
   crop(bottom = 50)
 ```
@@ -267,6 +267,8 @@ The \ac{bagging} model with $25$ trees (\ac{rmse} of $\approx 4305$) outperforms
 knitr::include_graphics("../00_data/output_paper/11_var_imp_random_forest_bp.pdf")
 ```
 
+WE NEED TO WRITE SOMETHING ABOT THE VARIMPPLOT figure \ref{fig:rfimp}
+
 ### Boosting
 
 ```{r boosting_hyper, echo = FALSE, fig.cap= "\\label{fig:boostrmse}Boosting: Dependency between RMSE, Lambda, the Depths and the Number of Trees that are Grown.", fig.scap= "RMSEs of the Boosting Model for Different Parameters", fig.align= 'center'}
@@ -346,12 +348,12 @@ In conclusion the two best performing models in terms of the \ac{rmse} are the b
 ```{r, echo = F, results = 'asis', message = F}
 load("../00_data/wine_preprocessed.rda")
 stargazer(as.data.frame(wine), summary.stat = c("min","max","mean","sd"),
-          title = "Summary Statistics of the Data Set.", header = FALSE)
+          title = "Summary Statistics of the Data Set.", header = FALSE, label = "tab:SumStat")
 ```
 
 \restoregeometry
 
-```{r RMSEold, message = F, echo = F, include=T}
+```{r RMSEold, message = F, echo = F, include = F}
 library(knitr)
 kable(Summary, "latex", digits = 0, caption = "RMSEs of every fold for every method.", booktabs = T)
 ```
