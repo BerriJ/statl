@@ -263,7 +263,7 @@ available and was previously analyzed by
 led to a significant increase in statistical methods that are
 computationally demanding while potentially outperforming classical
 statistical methods, especially in terms of forecasting. Those
-techniques are usually reffered as statistical- or machine learning
+techniques are usually reffered to as statistical or machine learning
 methods.
 
 We present various models which are increasingly complex. Those models
@@ -336,11 +336,11 @@ values that exceeds \(50\%\). In consequence \(41416\) observations with
 \caption{\label{fig:NAs}Share of Missing Values in the Wine Dataset.}
 \end{figure}
 
-Figure \ref{fig:HistLitre} depicts the distribution of the litre
-variable which is the dependend variable in our models. One can see that
-the observations are heavily skewed. The Maximum is at \(184200\) litres
-sold weekly while it's minimum is near zero with only \(0.75\) litres
-sold per week.
+Figure \ref{fig:HistLitre} depicts the distribution of the variable
+\(litre\), which is the dependent variable in our models. One can see
+that the observations are heavily skewed. The maximum is at \(184200\)
+litres sold weekly while it's minimum is near zero with only \(0.75\)
+litres sold per week.
 
 \begin{figure}
 \centering
@@ -361,7 +361,7 @@ feasible.
 
 In order to compute a prediction it is necessary that the test set
 includes, at least, all features of the training set. Due to the high
-number of levels in the countries and name variable this was not always
+number of levels in the countries and name variable, this was not always
 the case. Therefore, we are using only the intersection of training and
 test features to be included in the estimation.
 
@@ -402,21 +402,21 @@ Figure \ref{fig:CoefLamb} depicts the relation between lambda and the
 coefficients. The cross-validated log lambda, which minimizes the test
 error is \(\approx -8.94\). At that level a total of \(\approx 666\) out
 of \(713\) coefficients are
-nonzero\footnote{$\approx 666.6$ to be exact, but we couldn't resists to round down.}.
-The other coefficients are exactly zero due to the sparsitiy property of
+nonzero\footnote{$\approx 666.6$ to be exact, but we couldn't resist to round down.}.
+The other coefficients are exactly zero due to the sparsity property of
 the \ac{lasso} estimator. Furthermore, the plot includes abbreviated
 variable names of the 10 biggest coefficients. All of those coefficients
-are dummys for specif*ic wine names. The average \ac{rmse} of the
+are dummys for specific wine names. The average \ac{rmse} of the
 \ac{lasso} approach is \(\approx 5547.76\). This is a slight improvement
 compared to the linear baseline model. The \ac{lasso} slightly reduces
 the feature set while also reducing the \ac{rmse}. This is evidence
 supporting our prior assimption that the linear model was exposed to the
 problem of overfitting. Furthermore, the coefficients of the \ac{lasso}
-model show that the name variable is the most important variable to
-explain the sold litre per week. It is followed by the Vintage, the
-Region, the taste segment and the Country of the wine. The least
+model indicates that the name variable is the most important variable to
+explain the litres sold per week. It is followed by the vintage, the
+region, the taste segment and the country of the wine. The least
 important variables are the review variables which are not present in
-the 400 biggest coefficients.
+the \(400\) biggest coefficients.
 
 \begin{figure}
 \centering
@@ -428,11 +428,12 @@ the 400 biggest coefficients.
 \subsection{PCR and PLS}\label{pcr-and-pls}}
 
 While \ac{lasso} is a technique for variable selection, \ac{pcr}and
-\ac{pls}{[}PLS{]} are methods that reduce the dimension of the feature
-set. Thus, the least squares estimation is performed using a
-transformation of the explanatory variables. Thereby, \ac{pls} includes
-the dependent variable when computing the new feature set while \ac{pcr}
-builds the principal components independent of the dependent variable.
+\ac{pls}{[}PLS{]} are other methods that reduce the dimension of the
+feature set while changing the features. Thus, the least squares
+estimation is performed using a transformation of the explanatory
+variables. Thereby, \ac{pls} includes the dependent variable when
+computing the new feature set while \ac{pcr} builds the principal
+components independent of the dependent variable.
 
 Figure \ref{fig:PrincCom} shows the first two principal components from
 a \ac{pca}{[}PCA{]}\{principal components analysis\}. The first two
@@ -461,9 +462,9 @@ The previous methods assumed linear relationships between the
 independent variables and the dependent variable. Considering the amount
 of dummy variables in the feature set the usage of nonlinear methods is
 quite limited. However, to recognize potential nonlinear relationships
-we add natural splines to the \(year\), \(price\), and \(rprice\_litre\)
-variable. Those variables indicate the year in which the wine was
-distributed, the price and the real price with Jan 2004 as base
+we add natural splines to the variables \(year\), \(price\), and
+\(rprice\_litre\). Those variables indicate the year in which the wine
+was distributed, the price and the real price with Jan 2004 as base
 respectively. Each natural spline was allowed to have up to 20 knots
 which is sufficient to estimate complex linear relationships. The
 respective \ac{rmse}s depending on the knots are presented in figure
@@ -491,11 +492,11 @@ a number of different regions. `Since the set of splitting rules used to
 segment the predictor space can be summarized in a tree, these type of
 approaches are known as decision tree methods'
 \autocite[][p. 303]{Hastie2013}. The base of tree-based methods are
-regression trees For improvement of the predictive power of these
-methods, while losing interpretability, one can combine different
-regression trees for a single prediction. Those approaches, including
-bagging, random forests and boosting, are described in more detail when
-being applied.
+regression trees.\\
+For improvement of the predictive power of these methods, while losing
+interpretability, one can combine different regression trees for a
+single prediction. Those approaches, including bagging, random forests
+and boosting, are described in more detail when being applied.
 
 \hypertarget{regression-tree}{%
 \subsubsection{Regression Tree}\label{regression-tree}}
@@ -640,7 +641,7 @@ The \ac{bagging} model with \(25\) trees (\ac{rmse} of \(\approx 4305\))
 outperforms the random forest Model (with 25 trees and 100 variables)
 only by a small margin (\ac{rmse} of \(4374.330\)). However, training
 the random forest demands only \(15\%\) of the time, that the
-\ac{bagging} Model needs.
+\ac{bagging} model needs.
 
 \begin{figure}
 \centering

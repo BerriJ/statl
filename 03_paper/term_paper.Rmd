@@ -66,7 +66,7 @@ Die regel sollte also eine Seite pro Modell sein, und die ausgewählten Modelle 
 
 # Introduction
 
-This paper presents a forecasting study on global wine sales. This study is based on the friberg gronqvist wine data set which is publicly available and was previously analyzed by \textcite[][p. 193f.]{Friberg2012}. Recent technological advancements led to a significant increase in statistical methods that are computationally demanding while potentially outperforming classical statistical methods, especially in terms of forecasting. Those techniques are usually reffered as statistical- or machine learning methods.
+This paper presents a forecasting study on global wine sales. This study is based on the friberg gronqvist wine data set which is publicly available and was previously analyzed by \textcite[][p. 193f.]{Friberg2012}. Recent technological advancements led to a significant increase in statistical methods that are computationally demanding while potentially outperforming classical statistical methods, especially in terms of forecasting. Those techniques are usually reffered to as statistical or machine learning methods.
 
 We present various models which are increasingly complex. Those models potentially gain forecasting power while losing interpretability. The applied models range from linear regressions to tree based methods like random forests and boosting. The goal is to develop the best possible model to forecast weekly wine sales in litre in out of sample data.
 
@@ -96,7 +96,7 @@ Figure \ref{fig:NAs} depicts the amount of missing values in each variable. The 
 knitr::include_graphics("../00_data/output_paper/02_missings_alt.pdf")
 ```
 
-Figure \ref{fig:HistLitre} depicts the distribution of the litre variable which is the dependend variable in our models. One can see that the observations are heavily skewed. The Maximum is at $184200$ litres sold weekly while it's minimum is near zero with only $0.75$ litres sold per week.
+Figure \ref{fig:HistLitre} depicts the distribution of the variable $litre$, which is the dependent variable in our models. One can see that the observations are heavily skewed. The maximum is at $184200$ litres sold weekly while it's minimum is near zero with only $0.75$ litres sold per week.
 
 ```{r, echo = FALSE, fig.cap= "\\label{fig:HistLitre}Histogram and Estimated Density of the Litre Variable."}
 knitr::include_graphics("../00_data/output_paper/04_hist_litre.pdf")
@@ -106,7 +106,7 @@ knitr::include_graphics("../00_data/output_paper/04_hist_litre.pdf")
 
 Sampling may influence the model selection process because a sample could be in favor of one specific method while another sample could lead to different results. Therefore we validate the results of each method using a 5-fold cross-validation. This reduces the influence of sampling when building a training and test set while it's computationally feasible.
 
-In order to compute a prediction it is necessary that the test set includes, at least, all features of the training set. Due to the high number of levels in the countries and name variable this was not always the case. Therefore, we are using only the intersection of training and test features to be included in the estimation.
+In order to compute a prediction it is necessary that the test set includes, at least, all features of the training set. Due to the high number of levels in the countries and name variable, this was not always the case. Therefore, we are using only the intersection of training and test features to be included in the estimation.
 
 # Analysis
 
@@ -160,10 +160,10 @@ $$
 \sum_{i=1}^{n}(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij})+\lambda\sum_{j=1}^{p}|\beta_j|.
 $$
 
-Figure \ref{fig:CoefLamb} depicts the relation between lambda and the coefficients. The cross-validated log lambda, which minimizes the test error is $\approx `r df[3]`$. At that level a total of $\approx `r floor(df[4])`$ out of $713$ coefficients are nonzero\footnote{$\approx `r df[4]`$ to be exact, but we couldn't resists to round down.}. The other coefficients are exactly zero due to the sparsitiy property of the \ac{lasso} estimator. Furthermore, the plot includes abbreviated variable names of the 10 biggest coefficients. All of those coefficients are dummys for specif*ic wine names.
+Figure \ref{fig:CoefLamb} depicts the relation between lambda and the coefficients. The cross-validated log lambda, which minimizes the test error is $\approx `r df[3]`$. At that level a total of $\approx `r floor(df[4])`$ out of $713$ coefficients are nonzero\footnote{$\approx `r df[4]`$ to be exact, but we couldn't resist to round down.}. The other coefficients are exactly zero due to the sparsity property of the \ac{lasso} estimator. Furthermore, the plot includes abbreviated variable names of the 10 biggest coefficients. All of those coefficients are dummys for specific wine names.
 The average \ac{rmse} of the \ac{lasso} approach is $\approx `r df[1]`$. This is a slight improvement compared to the linear baseline model.
 The \ac{lasso} slightly reduces the feature set while also reducing the \ac{rmse}. This is evidence supporting our prior assimption that the linear model was exposed to the problem of overfitting.
-Furthermore, the coefficients of the \ac{lasso} model show that the name variable is the most important variable to explain the sold litre per week. It is followed by the Vintage, the Region, the taste segment and the Country of the wine. The least important variables are the review variables which are not present in the 400 biggest coefficients.
+Furthermore, the coefficients of the \ac{lasso} model indicates that the name variable is the most important variable to explain the litres sold per week. It is followed by the vintage, the region, the taste segment and the country of the wine. The least important variables are the review variables which are not present in the $400$ biggest coefficients.
 
 ```{r, echo = FALSE, fig.cap= "\\label{fig:CoefLamb}Relation of Coefficients and Shrinkage."}
 image_read("../00_data/output_paper/06_lasso_vars.png") %>%
@@ -178,7 +178,7 @@ load(file = "../00_data/output_paper/07_pca_pls.rda")
 cm_df <- df %>% colMeans() %>% round(2)
 ```
 
-While \ac{lasso} is a technique for variable selection, \ac{pcr}and \ac{pls}[PLS] are methods that reduce the dimension of the feature set. Thus, the least squares estimation is performed using a transformation of the explanatory variables. Thereby, \ac{pls} includes the dependent variable when computing the new feature set while \ac{pcr} builds the principal components independent of the dependent variable.
+While \ac{lasso} is a technique for variable selection, \ac{pcr}and \ac{pls}[PLS] are other methods that reduce the dimension of the feature set while changing the features. Thus, the least squares estimation is performed using a transformation of the explanatory variables. Thereby, \ac{pls} includes the dependent variable when computing the new feature set while \ac{pcr} builds the principal components independent of the dependent variable.
 
 Figure \ref{fig:PrincCom} shows the first two principal components from a \ac{pca}[PCA]{principal components analysis}. The first two principal components represent roughly 3\% of the total variance. This is a sign that the \ac{pcr} does not work well on our data which might be due to the large amount of dummy variables.
 
@@ -192,7 +192,7 @@ The results confirm the expectation. \ac{pcr} has a cross-validated \ac{rmse} of
 ## Splines
 
 The previous methods assumed linear relationships between the independent variables and the dependent variable. Considering the amount of dummy variables in the feature set the usage of nonlinear methods is quite limited.
-However, to recognize potential nonlinear relationships we add natural splines to the $year$, $price$, and $rprice\_litre$ variable. Those variables indicate the year in which the wine was distributed, the price and the real price with Jan 2004 as base respectively. Each natural spline was allowed to have up to 20 knots which is sufficient to estimate complex linear relationships.
+However, to recognize potential nonlinear relationships we add natural splines to the variables $year$, $price$, and $rprice\_litre$. Those variables indicate the year in which the wine was distributed, the price and the real price with Jan 2004 as base respectively. Each natural spline was allowed to have up to 20 knots which is sufficient to estimate complex linear relationships.
 The respective \ac{rmse}s depending on the knots are presented in figure \ref{fig:splines}.
 Splines are able to improve the prediction a little which indicates that at least some nonlinear relationship is present. However, like the methods before, splines reduce the interpretability of the coefficients. In this case, this tradeoff isn't offset enough by the gain in precision.
 Furthermore, figure \ref{fig:splines} shows, that the \ac{rmse}s depend to some extend on the fold which was used for cross-validation. This approves our theoretically founded motivation to use cross-validation.
@@ -203,7 +203,7 @@ knitr::include_graphics("../00_data/output_paper/08_splines.pdf")
 
 ## Decision Tree Methods
 
-Tree-based methods utilze decision rules to split the feature space into a number of different regions. `Since the set of splitting rules used to segment the predictor space can be summarized in a tree, these type of approaches are known as decision tree methods' \autocite[][p. 303]{Hastie2013}. The base of tree-based methods are regression trees
+Tree-based methods utilze decision rules to split the feature space into a number of different regions. `Since the set of splitting rules used to segment the predictor space can be summarized in a tree, these type of approaches are known as decision tree methods' \autocite[][p. 303]{Hastie2013}. The base of tree-based methods are regression trees.  
 For improvement of the predictive power of these methods, while losing interpretability, one can combine different regression trees for a single prediction. Those approaches, including bagging, random forests and boosting, are described in more detail when being applied.
 
 ### Regression Tree
@@ -261,7 +261,7 @@ knitr::include_graphics("../00_data/output_paper/10_rf_plot.png")
 
 We calculated \ac{rmse} values for a range of Random Forest models to evaluate which combination of the number of trees to grow and the number of variables taken into account at each split leads to the best results. The results are plotted in Figure \ref{fig:rfrmse}. The smallest \ac{rmse} is $\approx 4374$. Moreover, the plot shows, reveals, that very small models profit substantially from increasing complexity while bigger models profit only by a small margin. The model with 20 trees and 80 variables at each split still has a \ac{rmse} of $\approx 4456$, which is an increase of less than $1.9\%$.
 
-The \ac{bagging} model with $25$ trees (\ac{rmse} of $\approx 4305$) outperforms the random forest Model (with 25 trees and 100 variables) only by a small margin (\ac{rmse} of $4374.330$). However, training the random forest demands only $15\%$ of the time, that the \ac{bagging} Model needs.
+The \ac{bagging} model with $25$ trees (\ac{rmse} of $\approx 4305$) outperforms the random forest Model (with 25 trees and 100 variables) only by a small margin (\ac{rmse} of $4374.330$). However, training the random forest demands only $15\%$ of the time, that the \ac{bagging} model needs.
 
 ```{r, echo = FALSE, fig.cap= "\\label{fig:rfimp}Random Forest: Variable Importance."}
 knitr::include_graphics("../00_data/output_paper/11_var_imp_random_forest_bp.pdf")
