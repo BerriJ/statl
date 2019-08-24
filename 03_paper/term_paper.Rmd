@@ -267,7 +267,9 @@ The \ac{bagging} model with $25$ trees (\ac{rmse} of $\approx 4305$) outperforms
 knitr::include_graphics("../00_data/output_paper/11_var_imp_random_forest_bp.pdf")
 ```
 
-WE NEED TO WRITE SOMETHING ABOT THE VARIMPPLOT figure \ref{fig:rfimp}
+WE NEED TO WRITE SOMETHING ABOT THE VARIMPPLOT 
+
+Figure \ref{fig:rfimp} shows the variable importance plot for the $20$ most important variables of the 'optimal' random forest, which minimizes the \ac{rmse} in the given range.  According to this plot the most important variable, in terms of the mean increase of the \ac{rmse}, is $ms\_segm$, followed by four variables with regard to the price: $price$, $lp$, the logarithmized price, $pri\_m$, the mean real litre price (base jan 2004) during the weeks the wine is distributed and $rprice\_litre$, real litre price (base jan 2004). Thus, the litres of wine sold per week is mainly determined by its segment and its price. Although, there are many more variables which, according to the random forest model, are important.
 
 ### Boosting
 
