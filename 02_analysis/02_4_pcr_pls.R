@@ -18,7 +18,7 @@ print("Start PCA")
 # 
 # pca <- ggbiplot::ggbiplot(wine.pc,ellipse = F, 
 #                    groups = wine$taste_segment, varname.abbrev =  TRUE) +
-#   theme_minimal() + theme(legend.position = "right") + labs(col = "Teste Segment")
+#   theme_minimal() + theme(legend.position = "right") + labs(col = "Taste Segment")
 # 
 # ggsave("00_data/output_paper/07_pca.png",plot =  pca, width = 7, height = 4)
 
