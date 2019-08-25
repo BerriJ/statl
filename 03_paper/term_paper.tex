@@ -285,7 +285,7 @@ We present various models which are increasingly complex. Those models
 potentially gain forecasting power while losing interpretability. The
 applied models range from linear regressions to tree-based methods like
 random forests and boosting. The goal is to develop the best possible
-model to forecast weekly wine sales in litre in out of sample data.
+model to forecast weekly wine sales in litres in out of sample data.
 
 Although the main goal is an accurate forecast, some of the methods used
 in this paper can also be used to quantify the impact of expert reviews
@@ -317,9 +317,9 @@ Chapter \ref{chap:val} describes the validation approach. Chapter
 
 The data set used in this paper contains 145179 observations with 59
 variables. The variables include the name of the wine, the country of
-origin, its price, the amount sold per week in litre, the taste segment,
-and variables related to different reviews, among others. A table with
-summary statistics of the data set can be found in appendix
+origin, its price, the amount sold per week in litres, the taste
+segment, and variables related to different reviews, among others. A
+table with summary statistics of the data set can be found in appendix
 \ref{chap:ap1} in table \ref{tab:SumStat}.
 
 We need to omit two variables beforehand, namely
@@ -401,7 +401,7 @@ different models, the \ac{RMSE}
 calculated.
 
 The mean regression yields an average \ac{RMSE} of \(\approx 13340\)
-litre sold per week. The linear regression where all variables are
+litres sold per week. The linear regression where all variables are
 included yields an average \ac{RMSE} of \(\approx 5572\). The latter
 result is probably influenced by overfitting. To cope with this problem,
 we are using variable selection and dimension reduction methods, which
@@ -459,9 +459,10 @@ set while \ac{pcr} builds the principal components independent of the
 dependent variable.
 
 Figure \ref{fig:PrincCom} shows the first two principal components from
-a \ac{pcr}. The first two principal components represent roughly 3\% of
-the total variance. This is a sign that the \ac{pcr} does not work well
-on our data, which might be due to a large number of dummy variables.
+a \ac{pcr}. The first two principal components represent roughly \(3\%\)
+of the total variance. This is a sign that the \ac{pcr} does not work
+well on our data, which might be due to a large number of dummy
+variables.
 
 \begin{figure}
 \centering
@@ -597,8 +598,8 @@ which are very dependent on the actual sample.
 Figure \ref{fig:rmsebag} shows the \ac{RMSE} values of different
 \ac{bagging} models. The bootstrap sample size was chosen to be
 two-thirds of the total number of observations. One can see that even
-small models with down to 15 Trees significantly outperform the single
-tree model of the previous chapter.
+small models with down to \(15\) trees significantly outperform the
+single tree model of the previous chapter.
 
 \begin{figure}
 
@@ -647,7 +648,7 @@ which the trees of the \ac{bagging} algorithm are highly correlated.
 
 \begin{figure}
 
-{\centering \includegraphics{../00_data/output_paper/10_rf_plot} 
+{\centering \includegraphics{../00_data/output_paper/10_rf_plot}
 
 }
 
@@ -660,8 +661,8 @@ number of variables taken into account at each split leads to the best
 results. The results are plotted in Figure \ref{fig:rfrmse}. The
 smallest \ac{RMSE} is \(\approx 4374\). Moreover, the plot shows,
 reveals that tiny models profit substantially from increasing complexity
-while bigger models profit only by a small margin. The model with 20
-trees and 80 variables at each split still has a \ac{RMSE} of
+while bigger models profit only by a small margin. The model with \(20\)
+trees and \(80\) variables at each split still has a \ac{RMSE} of
 \(\approx 4456\), which is an increase of less than \(1.9\%\).
 
 The \ac{bagging} model with \(25\) trees (\ac{RMSE} of \(\approx 4305\))
@@ -680,27 +681,28 @@ Figure \ref{fig:rfimp} shows the variable importance plot for the \(20\)
 most important variables of the \enquote{optimal} random forest, which
 minimizes the \ac{RMSE} in the given range. According to this plot the
 most important variable, in terms of the mean increase of the \ac{RMSE},
-is \(ms\_segm\), followed by four variables with regard to the price:
-\(price\), \(lp\), the logarithmized price, \(pri\_m\), the mean real
-litre price (base Jan 2004) during the weeks the wine is distributed and
-\(rprice\_litre\), real litre price (base Jan 2004). Thus, the litres of
-wine sold per week is mainly determined by its market share and its
-price. Although, there are many more variables which, according to the
-random forest model, are important. One should note that those variables
-do not necessarily have the highest marginal effects.
+is \enquote{\(ms\_segm\)}, followed by four variables with regard to the
+price: \enquote{\(price\)}, \enquote{\(lp\)}, the logarithmized price,
+\enquote{\(pri\_m\)}, the mean real litre price (base Jan 2004) during
+the weeks the wine is distributed and \enquote{\(rprice\_litre\)}, real
+litre price (base Jan 2004). Thus, the litres of wine sold per week is
+mainly determined by its market share and its price. Although, there are
+many more variables which, according to the random forest model, are
+important. One should note that those variables do not necessarily have
+the highest marginal effects.
 
-Figure \ref{fig:rfpardep} shows the partial dependence plots for the 10
-most important variables. The plots present the marginal effect of the
-variable on the litres sold per week. Those plots reveal some nonlinear
-dependencies in the data which explains the poor performances of the
-linear models. Furthermore, the figure validates some intuitive
+Figure \ref{fig:rfpardep} shows the partial dependence plots for the
+\(10\) most important variables. The plots present the marginal effect
+of the variable on the litres sold per week. Those plots reveal some
+nonlinear dependencies in the data which explains the poor performances
+of the linear models. Furthermore, the figure validates some intuitive
 assumptions. For example, a higher market share leads to more litres
 sold, while high real prices lead to fewer litres sold. Besides, the
-influence of \(v10\_dim\), which is the \enquote{Dagens Industri}
-review, is especially large, when the review is excellent. The complete
-partial dependence plot with all 20 most important variables can be
-found in the appendix \ref{chap:ap2} in figure \ref{fig:rfpardep_other}
-to keep this chapter at a reasonable size.
+influence of \enquote{\(v10\_dim\)}, which is the \enquote{Dagens
+Industri} review, is especially large, when the review is excellent. The
+complete partial dependence plot with all \(20\) most important
+variables can be found in the appendix \ref{chap:ap2} in figure
+\ref{fig:rfpardep_other} to keep this chapter at a reasonable size.
 
 \begin{figure}
 \centering
@@ -720,31 +722,27 @@ tree to these residuals and then fitting this tree into the boosting
 tree in areas where the performance of the boosting tree could be
 improved \autocite[cf.][p. 322]{James2014}. Thus the existing tree is
 expanded with the new tree. This means that, in contrast to bagging, the
-newly grown trees do depend on the earlier grown trees.
-
-The boosting models possess three parameters for tuning: The number of
-trees, the interaction depth, and the shrinkage parameter \(\lambda\).
-The resulting \ac{RMSE}s for different combinations of those tuning
+newly grown trees do depend on the earlier grown trees. The boosting
+models possess three parameters for tuning: The number of trees, the
+interaction depth, and the shrinkage parameter \(\lambda\). The
+resulting \ac{RMSE}s for different combinations of those tuning
 parameters are shown in figure \ref{fig:boostrmse}. Another tuning
 parameter implemented in the function for running boosting in R,
 \emph{gbm()}, is the \emph{bag.fraction}. This argument defines which
 fraction of the data is used to build the next tree. The default value
-is \(0.5\), which means that \(50\%\) of the training observations are
-samples (without replacement) each time a new tree is estimated. This
-adds randomness to the estimation, which reduces the problem of
-overfitting but it adds variance to the in sample predictions
-\autocite[Cf.][p. 806.]{Elith2008}. We set this value to \(1\). This
-outperformed the default setting of \(0.5\) by a \(\approx1.9\%\)
-decrease in out of sample cross-validated \ac{RMSE}. Hence all
-observations in the training set have been used at every iteration.
-
-According to our calculations, the optimal boosting model is the one
-with \(25\) trees used, an interaction depth of \(15\) and a shrinkage
-parameter of \(0.4\).
+is \(0.5\), which means that a bootstrap sample of size \(50\%\) is
+drawn each time a new tree is estimated. This adds randomness to the
+estimation, which reduces the problem of overfitting. We set this value
+to \(1\). This consistently outperformed alternative estimations with
+bag.fraction set to the default by a \(\approx1.9\%\) decrease in out of
+sample cross-validated \ac{RMSE}. Hence all observations in the training
+set have been used at every iteration. According to our calculations,
+the optimal boosting model is the one with \(25\) trees used, an
+interaction depth of \(15\) and a shrinkage parameter of \(0.4\).
 
 \begin{figure}
 
-{\centering \includegraphics{../00_data/output_paper/11_boosting_plot} 
+{\centering \includegraphics{../00_data/output_paper/11_boosting_plot}
 
 }
 
@@ -754,10 +752,11 @@ parameter of \(0.4\).
 Figure \ref{fig:boostimp} shows the importance of the \(20\) most
 important variables according to the optimal boosting model. The values
 shown are the relative importances in percent. The most important
-variable is \(ms\_segm\), while the second most important variable is
-\(segmred\), followed by \(period\) and \(price\). This also does
-confirm the results of the single tree as well as the pruned tree, as
-those utilzed exactly those variables.
+variable is \enquote{\(ms\_segm\)}, while the second most important
+variable is \enquote{\(segmred\)}, followed by \enquote{\(period\)} and
+\enquote{\(price\)}. This also does confirm the results of the single
+tree as well as the pruned tree, as those utilzed exactly those
+variables.
 
 \begin{figure}
 \centering
@@ -940,65 +939,65 @@ application of a random forest model in contrast to a bagging model.
 \subsection{\texorpdfstring{Dataset
 \label{chap:ap1}}{Dataset }}\label{dataset}}
 
-\begin{table}[!htbp] \centering 
-  \caption{Summary Statistics of the Dataset.} 
-  \label{tab:SumStat} 
-\small 
-\begin{tabular}{@{\extracolsep{5pt}}lcccc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
-Statistic & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} \\ 
-\hline \\[-1.8ex] 
-artikelnr & 200,001 & 4,236,201 & 1,008,268.000 & 847,223.200 \\ 
-artikelid & 2,000 & 42,362 & 10,082.660 & 8,472.232 \\ 
-year & 2,002 & 2,006 & 2,003.849 & 1.157 \\ 
-week & 1 & 53 & 26.655 & 15.464 \\ 
-period & 1 & 215 & 123.181 & 60.995 \\ 
-litre & 0.000 & 184,200.000 & 6,100.028 & 11,361.840 \\ 
-llitre & $-$0.288 & 9,999,979.000 & 6,357,811.000 & 2,766,722.000 \\ 
-price & 38 & 1,149 & 109.710 & 86.164 \\ 
-lp & 4,199 & 7,350,033 & 4,224,377.000 & 1,374,042.000 \\ 
-rprice\_litre & 43 & 9,997,986 & 4,786,868.000 & 3,294,301.000 \\ 
-old & 0 & 6,294 & 1,013.839 & 1,670.369 \\ 
-ma\_split & 0.000 & 9,992,891.000 & 103,908.700 & 731,760.500 \\ 
-v10\_a & 0.000 & 9,996,812.000 & 139,915.000 & 839,263.000 \\ 
-v10\_dn & 0.000 & 1.000 & 0.866 & 0.341 \\ 
-v10\_di & 0.000 & 6,666,667.000 & 700,363.200 & 1,870,385.000 \\ 
-v10\_exp & 0.000 & 1.000 & 0.987 & 0.115 \\ 
-v10\_svd & 0.000 & 1.000 & 0.983 & 0.130 \\ 
-v10\_aom & 0.000 & 1.000 & 0.862 & 0.345 \\ 
-v10\_am & 0.000 & 9,642,858.000 & 843,582.100 & 2,364,607.000 \\ 
-v10\_dnm & 0.000 & 9,791,667.000 & 2,781,325.000 & 3,473,845.000 \\ 
-v10\_dim & 0.000 & 9,642,858.000 & 2,152,525.000 & 3,281,604.000 \\ 
-v10\_expm & 0.000 & 9,714,286.000 & 1,306,189.000 & 2,935,431.000 \\ 
-v10\_svdm & 0.000 & 9,833,333.000 & 868,634.200 & 2,474,596.000 \\ 
-v10\_aomm & 0.000 & 9,629,629.000 & 3,414,758.000 & 2,908,400.000 \\ 
-v10\_all & 0.000 & 9,710,261.000 & 3,998,467.000 & 2,944,359.000 \\ 
-rev\_all & 0.000 & 9,816,509.000 & 77,025.290 & 679,549.600 \\ 
-rev\_all\_hi & 0 & 1 & 0.038 & 0.190 \\ 
-rev\_all\_lo & 0 & 1 & 0.019 & 0.137 \\ 
-rev\_eve & 0 & 1 & 0.015 & 0.122 \\ 
-rev\_eve\_hi & 0 & 1 & 0.010 & 0.098 \\ 
-rev\_eve\_lo & 0 & 1 & 0.003 & 0.058 \\ 
-rev\_ex & 0 & 1 & 0.010 & 0.101 \\ 
-rev\_ex\_hi & 0 & 1 & 0.008 & 0.089 \\ 
-rev\_ex\_lo & 0 & 1 & 0.006 & 0.079 \\ 
-rev\_nyaom & 0 & 1 & 0.033 & 0.179 \\ 
-rev\_nyaom\_hi & 0 & 1 & 0.029 & 0.169 \\ 
-rev\_nyaom\_lo & 0 & 1 & 0.013 & 0.113 \\ 
-rev\_all\_p50 & 0 & 1 & 0.024 & 0.152 \\ 
-rev\_all\_p80 & 0 & 1 & 0.017 & 0.130 \\ 
-rev\_all\_p20 & 0 & 1 & 0.010 & 0.101 \\ 
-m\_rev & 0 & 1 & 0.009 & 0.094 \\ 
-m\_rev\_hi & 0 & 1 & 0.003 & 0.058 \\ 
-m\_rev\_lo & 0 & 1 & 0.001 & 0.031 \\ 
-nrarom & 0 & 793 & 14.917 & 74.440 \\ 
-pri\_m & 0 & 9,990,796 & 3,046,590.000 & 3,513,496.000 \\ 
-ms\_segm & 0 & 9,984,732 & 1,846,902.000 & 3,136,838.000 \\ 
-ind & 0.00000 & 1.000 & 0.014 & 0.097 \\ 
-...59 & 1.000 & 1.000 & 1.000 & 0.000 \\ 
-\hline \\[-1.8ex] 
-\end{tabular} 
+\begin{table}[!htbp] \centering
+  \caption{Summary Statistics of the Dataset.}
+  \label{tab:SumStat}
+\small
+\begin{tabular}{@{\extracolsep{5pt}}lcccc}
+\\[-1.8ex]\hline
+\hline \\[-1.8ex]
+Statistic & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} \\
+\hline \\[-1.8ex]
+artikelnr & 200,001 & 4,236,201 & 1,008,268.000 & 847,223.200 \\
+artikelid & 2,000 & 42,362 & 10,082.660 & 8,472.232 \\
+year & 2,002 & 2,006 & 2,003.849 & 1.157 \\
+week & 1 & 53 & 26.655 & 15.464 \\
+period & 1 & 215 & 123.181 & 60.995 \\
+litre & 0.000 & 184,200.000 & 6,100.028 & 11,361.840 \\
+llitre & $-$0.288 & 9,999,979.000 & 6,357,811.000 & 2,766,722.000 \\
+price & 38 & 1,149 & 109.710 & 86.164 \\
+lp & 4,199 & 7,350,033 & 4,224,377.000 & 1,374,042.000 \\
+rprice\_litre & 43 & 9,997,986 & 4,786,868.000 & 3,294,301.000 \\
+old & 0 & 6,294 & 1,013.839 & 1,670.369 \\
+ma\_split & 0.000 & 9,992,891.000 & 103,908.700 & 731,760.500 \\
+v10\_a & 0.000 & 9,996,812.000 & 139,915.000 & 839,263.000 \\
+v10\_dn & 0.000 & 1.000 & 0.866 & 0.341 \\
+v10\_di & 0.000 & 6,666,667.000 & 700,363.200 & 1,870,385.000 \\
+v10\_exp & 0.000 & 1.000 & 0.987 & 0.115 \\
+v10\_svd & 0.000 & 1.000 & 0.983 & 0.130 \\
+v10\_aom & 0.000 & 1.000 & 0.862 & 0.345 \\
+v10\_am & 0.000 & 9,642,858.000 & 843,582.100 & 2,364,607.000 \\
+v10\_dnm & 0.000 & 9,791,667.000 & 2,781,325.000 & 3,473,845.000 \\
+v10\_dim & 0.000 & 9,642,858.000 & 2,152,525.000 & 3,281,604.000 \\
+v10\_expm & 0.000 & 9,714,286.000 & 1,306,189.000 & 2,935,431.000 \\
+v10\_svdm & 0.000 & 9,833,333.000 & 868,634.200 & 2,474,596.000 \\
+v10\_aomm & 0.000 & 9,629,629.000 & 3,414,758.000 & 2,908,400.000 \\
+v10\_all & 0.000 & 9,710,261.000 & 3,998,467.000 & 2,944,359.000 \\
+rev\_all & 0.000 & 9,816,509.000 & 77,025.290 & 679,549.600 \\
+rev\_all\_hi & 0 & 1 & 0.038 & 0.190 \\
+rev\_all\_lo & 0 & 1 & 0.019 & 0.137 \\
+rev\_eve & 0 & 1 & 0.015 & 0.122 \\
+rev\_eve\_hi & 0 & 1 & 0.010 & 0.098 \\
+rev\_eve\_lo & 0 & 1 & 0.003 & 0.058 \\
+rev\_ex & 0 & 1 & 0.010 & 0.101 \\
+rev\_ex\_hi & 0 & 1 & 0.008 & 0.089 \\
+rev\_ex\_lo & 0 & 1 & 0.006 & 0.079 \\
+rev\_nyaom & 0 & 1 & 0.033 & 0.179 \\
+rev\_nyaom\_hi & 0 & 1 & 0.029 & 0.169 \\
+rev\_nyaom\_lo & 0 & 1 & 0.013 & 0.113 \\
+rev\_all\_p50 & 0 & 1 & 0.024 & 0.152 \\
+rev\_all\_p80 & 0 & 1 & 0.017 & 0.130 \\
+rev\_all\_p20 & 0 & 1 & 0.010 & 0.101 \\
+m\_rev & 0 & 1 & 0.009 & 0.094 \\
+m\_rev\_hi & 0 & 1 & 0.003 & 0.058 \\
+m\_rev\_lo & 0 & 1 & 0.001 & 0.031 \\
+nrarom & 0 & 793 & 14.917 & 74.440 \\
+pri\_m & 0 & 9,990,796 & 3,046,590.000 & 3,513,496.000 \\
+ms\_segm & 0 & 9,984,732 & 1,846,902.000 & 3,136,838.000 \\
+ind & 0.00000 & 1.000 & 0.014 & 0.097 \\
+...59 & 1.000 & 1.000 & 1.000 & 0.000 \\
+\hline \\[-1.8ex]
+\end{tabular}
 \end{table}
 
 \hypertarget{additional-partial-dependence-plots}{%

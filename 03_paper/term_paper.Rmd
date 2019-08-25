@@ -46,7 +46,7 @@ crop <- function(im, left = 0, top = 0, right = 0, bottom = 0) {
 
 This paper presents a forecasting study on swedish wine sales. This study is based on the friberg gronqvist wine dataset, which is publicly available and was previously analyzed by \textcite[][]{Friberg2012}. Recent technological advancements led to a significant increase in statistical methods that are computationally demanding while potentially outperforming classical statistical methods, especially in terms of forecasting. Those techniques are usually referred to as statistical or machine learning methods. The methods and procedures we introduce in this paper are based on `An Introduction to Statistical Learning with Applications in R' \autocite[][]{James2014}.
 
-We present various models which are increasingly complex. Those models potentially gain forecasting power while losing interpretability. The applied models range from linear regressions to tree-based methods like random forests and boosting. The goal is to develop the best possible model to forecast weekly wine sales in litre in out of sample data.
+We present various models which are increasingly complex. Those models potentially gain forecasting power while losing interpretability. The applied models range from linear regressions to tree-based methods like random forests and boosting. The goal is to develop the best possible model to forecast weekly wine sales in litres in out of sample data.
 
 Although the main goal is an accurate forecast, some of the methods used in this paper can also be used to quantify the impact of expert reviews on the sales, if there is any. The effect of expert opinions on consumer demand was analyzed in previous research. Notably, \textcite[][]{Hilger2011} used a field experiment to study a review-based demand effect using wine score labels in a retail grocery chain. They find that providing information based on expert opinions increases the sales; this effect does depend on the score a wine has gotten. \textcite[][]{Ashenfelter2013} analyze, wether expert reviews influence the prices of wine. They conclude that expert reviews contain public as well as private information. They only validate an influence on the highest rated wines. Furthermore, \textcite[][]{Bicknell2012} delivered research concerning the market for wine from New Zealand. They validate a significant regional influence on wine prices. This influence is substantially lower for wine, which is designated for the export market.
 
@@ -54,7 +54,7 @@ The remainder of this paper is structured as follows. Chapter \ref{chap:data} gi
 
 # Data and Variables \label{chap:data}
 
-The data set used in this paper contains 145179 observations with 59 variables. The variables include the name of the wine, the country of origin, its price, the amount sold per week in litre, the taste segment, and variables related to different reviews, among others. A table with summary statistics of the data set can be found in appendix \ref{chap:ap1} in table \ref{tab:SumStat}.
+The data set used in this paper contains 145179 observations with 59 variables. The variables include the name of the wine, the country of origin, its price, the amount sold per week in litres, the taste segment, and variables related to different reviews, among others. A table with summary statistics of the data set can be found in appendix \ref{chap:ap1} in table \ref{tab:SumStat}.
 
 We need to omit two variables beforehand, namely "$time\_segm\_price$" and "$artikpr$", because those are combinations of other existing variables. Hence inclusion would lead to the problem of multicollinearity. After omitting those two, we have left the following types of variables (see table \ref{tab:VarTyp}). As the analysis is based on data from Sweden, all the levels of the factor variables are denoted in Swedish.
 
@@ -93,7 +93,7 @@ load(file = "../00_data/output_paper/03_baseline.rda")
 At first, a mean regression and a linear regression are calculated. Those models are representing the baseline.
 For comparison of the different models, the \ac{RMSE} $$\sqrt{\frac{1}{n}\sum_{i = 1}^{n}\left(y_i-\hat{y}_i\right)^2}$$ is calculated.
 
-The mean regression yields an average \ac{RMSE} of $\approx `r paste(colMeans(df)[2] %>% round())`$ litre sold per week. The linear regression where all variables are included yields an average \ac{RMSE} of $\approx `r colMeans(df)[1] %>% round()`$. The latter result is probably influenced by overfitting. To cope with this problem, we are using variable selection and dimension reduction methods, which are discussed in the proceeding sections.
+The mean regression yields an average \ac{RMSE} of $\approx `r paste(colMeans(df)[2] %>% round())`$ litres sold per week. The linear regression where all variables are included yields an average \ac{RMSE} of $\approx `r colMeans(df)[1] %>% round()`$. The latter result is probably influenced by overfitting. To cope with this problem, we are using variable selection and dimension reduction methods, which are discussed in the proceeding sections.
 
 ```{r Mean Regression, echo = FALSE, fig.cap = "\\label{fig:ResMean}Residuals of the Mean Regression.", message = FALSE}
 
@@ -153,7 +153,7 @@ cm_df <- df %>% colMeans() %>% round(2)
 
 While \ac{lasso} is a technique for variable selection, \ac{pcr} and \ac{pls} are other methods that reduce the dimension of the feature set while changing the features. Thus, the least-squares estimation is performed using a transformation of the explanatory variables. Thereby, \ac{pls} includes the dependent variable when computing the new feature set while \ac{pcr} builds the principal components independent of the dependent variable.
 
-Figure \ref{fig:PrincCom} shows the first two principal components from a \ac{pcr}. The first two principal components represent roughly 3\% of the total variance. This is a sign that the \ac{pcr} does not work well on our data, which might be due to a large number of dummy variables.
+Figure \ref{fig:PrincCom} shows the first two principal components from a \ac{pcr}. The first two principal components represent roughly $3\%$ of the total variance. This is a sign that the \ac{pcr} does not work well on our data, which might be due to a large number of dummy variables.
 
 ```{r, echo = FALSE, fig.cap= "\\label{fig:PrincCom}Principal Component One and Two.", message=FALSE}
 image_read("../00_data/output_paper/07_pca.png") %>%
@@ -211,7 +211,7 @@ The mean cross-validated \ac{RMSE} of the pruned trees is ca. `r cm_df[2]`, whil
 The \ac{bagging} algorithm can also be used to improve decision tree models. For this, a bootstrap sample is drawn before growing the tree. This process is repeated several times to grow multiple trees. Finally, the predictions of the trees are averaged.
 By bootstrapping \ac{bagging} brings down the variance and thus, addresses the main problem of single regression trees which are very dependent on the actual sample.
 
-Figure \ref{fig:rmsebag} shows the \ac{RMSE} values of different \ac{bagging} models. The bootstrap sample size was chosen to be two-thirds of the total number of observations. One can see that even small models with down to 15 Trees significantly outperform the single tree model of the previous chapter.
+Figure \ref{fig:rmsebag} shows the \ac{RMSE} values of different \ac{bagging} models. The bootstrap sample size was chosen to be two-thirds of the total number of observations. One can see that even small models with down to $15$ trees significantly outperform the single tree model of the previous chapter.
 
 ```{r bag, echo = FALSE, fig.cap = "\\label{fig:rmsebag}Bagging: RMSEs at Different Tree Sizes (Smoothed).", fig.align=T, fig.scap="Bagging: RMSE's at Different Tree Sizes"}
 knitr::include_graphics("../00_data/output_paper/14_bagging.pdf")
@@ -233,18 +233,18 @@ The random forest algorithm is a special case of \ac{bagging}. The name random f
 knitr::include_graphics("../00_data/output_paper/10_rf_plot.png")
 ```
 
-We calculated \ac{RMSE} values for a range of Random Forest models to evaluate which combination of the number of trees to grow, and the number of variables taken into account at each split leads to the best results. The results are plotted in Figure \ref{fig:rfrmse}. The smallest \ac{RMSE} is $\approx 4374$. Moreover, the plot shows, reveals that tiny models profit substantially from increasing complexity while bigger models profit only by a small margin. The model with 20 trees and 80 variables at each split still has a \ac{RMSE} of $\approx 4456$, which is an increase of less than $1.9\%$.
+We calculated \ac{RMSE} values for a range of Random Forest models to evaluate which combination of the number of trees to grow, and the number of variables taken into account at each split leads to the best results. The results are plotted in Figure \ref{fig:rfrmse}. The smallest \ac{RMSE} is $\approx 4374$. Moreover, the plot shows, reveals that tiny models profit substantially from increasing complexity while bigger models profit only by a small margin. The model with $20$ trees and $80$ variables at each split still has a \ac{RMSE} of $\approx 4456$, which is an increase of less than $1.9\%$.
 
-The \ac{bagging} model with $25$ trees (\ac{RMSE} of $\approx 4305$) outperforms the random forest Model (with 25 trees and 100 variables) only by a small margin (\ac{RMSE} of $4374.330$). However, training the random forest demands only $15\%$ of the time, that the \ac{bagging} model needs.
+The \ac{bagging} model with $25$ trees (\ac{RMSE} of $\approx 4305$) outperforms the random forest Model (with $25$ trees and $100$ variables) only by a small margin (\ac{RMSE} of $4374.330$). However, training the random forest demands only $15\%$ of the time, that the \ac{bagging} model needs.
 
 ```{r, echo = FALSE, fig.cap= "\\label{fig:rfimp}Random Forest: Variable Importance."}
 knitr::include_graphics("../00_data/output_paper/11_var_imp_random_forest_bp.pdf")
 ```
 
 
-Figure \ref{fig:rfimp} shows the variable importance plot for the $20$ most important variables of the 'optimal' random forest, which minimizes the \ac{RMSE} in the given range. According to this plot the most important variable, in terms of the mean increase of the \ac{RMSE}, is $ms\_segm$, followed by four variables with regard to the price: $price$, $lp$, the logarithmized price, $pri\_m$, the mean real litre price (base Jan 2004) during the weeks the wine is distributed and $rprice\_litre$, real litre price (base Jan 2004). Thus, the litres of wine sold per week is mainly determined by its market share and its price. Although, there are many more variables which, according to the random forest model, are important. One should note that those variables do not necessarily have the highest marginal effects.
+Figure \ref{fig:rfimp} shows the variable importance plot for the $20$ most important variables of the 'optimal' random forest, which minimizes the \ac{RMSE} in the given range. According to this plot the most important variable, in terms of the mean increase of the \ac{RMSE}, is "$ms\_segm$", followed by four variables with regard to the price: "$price$", "$lp$", the logarithmized price, "$pri\_m$", the mean real litre price (base Jan 2004) during the weeks the wine is distributed and "$rprice\_litre$", real litre price (base Jan 2004). Thus, the litres of wine sold per week is mainly determined by its market share and its price. Although, there are many more variables which, according to the random forest model, are important. One should note that those variables do not necessarily have the highest marginal effects.
 
-Figure \ref{fig:rfpardep} shows the partial dependence plots for the 10 most important variables. The plots present the marginal effect of the variable on the litres sold per week. Those plots reveal some nonlinear dependencies in the data which explains the poor performances of the linear models. Furthermore, the figure validates some intuitive assumptions. For example, a higher market share leads to more litres sold, while high real prices lead to fewer litres sold. Besides, the influence of $v10\_dim$, which is the 'Dagens Industri' review, is especially large, when the review is excellent. The complete partial dependence plot with all 20 most important variables can be found in the appendix \ref{chap:ap2} in figure \ref{fig:rfpardep_other} to keep this chapter at a reasonable size.
+Figure \ref{fig:rfpardep} shows the partial dependence plots for the $10$ most important variables. The plots present the marginal effect of the variable on the litres sold per week. Those plots reveal some nonlinear dependencies in the data which explains the poor performances of the linear models. Furthermore, the figure validates some intuitive assumptions. For example, a higher market share leads to more litres sold, while high real prices lead to fewer litres sold. Besides, the influence of "$v10\_dim$", which is the 'Dagens Industri' review, is especially large, when the review is excellent. The complete partial dependence plot with all $20$ most important variables can be found in the appendix \ref{chap:ap2} in figure \ref{fig:rfpardep_other} to keep this chapter at a reasonable size.
 
 ```{r, echo = FALSE, fig.cap = "\\label{fig:rfpardep}Random Forest: Partial Dependence Plots."}
 knitr::include_graphics("../00_data/output_paper/11_par_dep_random_forest.pdf")
@@ -262,7 +262,7 @@ According to our calculations, the optimal boosting model is the one with $25$ t
 knitr::include_graphics("../00_data/output_paper/11_boosting_plot.png")
 ```
 
-Figure \ref{fig:boostimp} shows the importance of the $20$ most important variables according to the optimal boosting model. The values shown are the relative importances in percent. The most important variable is $ms\_segm$, while the second most important variable is $segmred$, followed by $period$ and $price$. This also does confirm the results of the single tree as well as the pruned tree, as those utilzed exactly those variables.
+Figure \ref{fig:boostimp} shows the importance of the $20$ most important variables according to the optimal boosting model. The values shown are the relative importances in percent. The most important variable is "$ms\_segm$", while the second most important variable is "$segmred$", followed by "$period$" and "$price$". This also does confirm the results of the single tree as well as the pruned tree, as those utilzed exactly those variables.
 
 ```{r boosting_varimp, echo = FALSE, fig.cap= "\\label{fig:boostimp}Boosting: Variable Importance Plot."}
 knitr::include_graphics("../00_data/output_paper/12_var_imp_boosting_bp.pdf")
