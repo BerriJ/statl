@@ -356,10 +356,10 @@ with \(45\) variables are used for building the forecasting models.
 \end{figure}
 
 Figure \ref{fig:HistLitre} depicts the distribution of the variable
-\(litre\), which is the dependent variable in our models. One can see
-that the observations are heavily skewed. The maximum is at \(184200\)
-litres sold weekly while its minimum is near zero with only \(0.75\)
-litres sold per week.
+\enquote{\(litre\)}, which is the dependent variable in our models. One
+can see that the observations are heavily skewed. The maximum is at
+\(184200\) litres sold weekly while its minimum is near zero with only
+\(0.75\) litres sold per week.
 
 \begin{figure}
 \centering
@@ -483,20 +483,20 @@ The previous methods assumed linear relationships between the
 independent variables and the dependent variable. Considering the number
 of dummy variables in the feature set, the usage of nonlinear methods is
 quite limited. However, to recognize potential nonlinear relationships
-we add natural splines to the variables \(year\), \(price\), and
-\(rprice\_litre\). Those variables indicate the year in which the wine
-was distributed, the price and the real price with Jan 2004 as base
-respectively. Each natural spline was allowed to have up to \(20\)
-knots, which is sufficient to estimate complex linear relationships. The
-respective \ac{RMSE}s depending on the knots are presented in figure
-\ref{fig:splines}. Splines can improve the prediction a little which
-indicates that at least some nonlinear relationship is present. However,
-like the methods before, splines reduce the interpretability of the
-coefficients. In this case, this tradeoff is not offset enough by the
-gain in precision. Furthermore, figure \ref{fig:splines} shows, that the
-\ac{RMSE}s depend to some extent on the fold which was used for
-cross-validation. This approves our theoretically founded motivation to
-use cross-validation.
+we add natural splines to the variables \enquote{\(year\)},
+\enquote{\(price\)}, and \enquote{\(rprice\_litre\)}. Those variables
+indicate the year in which the wine was distributed, the price and the
+real price with Jan 2004 as base respectively. Each natural spline was
+allowed to have up to \(20\) knots, which is sufficient to estimate
+complex linear relationships. The respective \ac{RMSE}s depending on the
+knots are presented in figure \ref{fig:splines}. Splines can improve the
+prediction a little which indicates that at least some nonlinear
+relationship is present. However, like the methods before, splines
+reduce the interpretability of the coefficients. In this case, this
+tradeoff is not offset enough by the gain in precision. Furthermore,
+figure \ref{fig:splines} shows, that the \ac{RMSE}s depend to some
+extent on the fold which was used for cross-validation. This approves
+our theoretically founded motivation to use cross-validation.
 
 \begin{figure}
 
@@ -543,18 +543,20 @@ enough that the terminal nodes reach a pre-defined minimum size.
 \end{figure}
 
 Figure \ref{fig:tree} shows that only a few of the available variables
-are used. These are namely \(ms\_segm\), \(segmred\), \(price\), and
-\(period\) and split the dataset into \(10\) parts, i.e., the tree has
-got \(10\) terminal nodes. The figure does also tell us what share of
-the data can be sorted to each node, as well as the mean price of the
-allocated observations. The regression trees build in the other four
-folds of the cross-validation are almost exactly the same as the shown
-tree. The selected variables indicate that according to this method, the
-market share, the color of the wine, the price as well as the period are
-the most important variables. Concerning the graph and the variable
-\(segmred\) it is important to keep in mind that this is a dummy
-variable meaning that a value \(< 0.5\) (the left track) stands for a
-wine that is not red. Conversely the right track stands for red wines.
+are used. These are namely \enquote{\(ms\_segm\)},
+\enquote{\(segmred\)}, \enquote{\(price\)}, and \enquote{\(period\)} and
+split the dataset into \(10\) parts, i.e., the tree has got \(10\)
+terminal nodes. The figure does also tell us what share of the data can
+be sorted to each node, as well as the mean price of the allocated
+observations. The regression trees build in the other four folds of the
+cross-validation are almost exactly the same as the shown tree. The
+selected variables indicate that according to this method, the market
+share, the color of the wine, the price as well as the period are the
+most important variables. Concerning the graph and the variable
+\enquote{\(segmred\)} it is important to keep in mind that this is a
+dummy variable meaning that a value \(< 0.5\) (the left track) stands
+for a wine that is not red. Conversely the right track stands for red
+wines.
 
 As regression trees may tend to grow quite large, a possible way to get
 smaller trees is pruning back the grown larger tree. The goal of pruning
@@ -571,11 +573,11 @@ validation set approach' \autocite[][p. 308]{James2014}. This is done by
 
 The pruned tree (see Figure \ref{fig:tree_pruned}) does only utilize the
 dummy whether the wine is red wine and the mean market share within
-color during weeks the wine is distributed. \(ms\_segm\) is used twice;
-thus, the pruned tree splits the data set into four terminal nodes.
-While the pruned tree thus might be easier to interpret, it does also
-come with a higher \ac{RMSE}. The mean cross-validated \ac{RMSE} of the
-pruned trees is ca. 7935.64, while the mean \ac{RMSE} of the
+color during weeks the wine is distributed. \enquote{\(ms\_segm\)} is
+used twice; thus, the pruned tree splits the data set into four terminal
+nodes. While the pruned tree thus might be easier to interpret, it does
+also come with a higher \ac{RMSE}. The mean cross-validated \ac{RMSE} of
+the pruned trees is ca. 7935.64, while the mean \ac{RMSE} of the
 conventional regression trees is about 6494.75.
 
 \hypertarget{bootstrap-aggregation}{%
@@ -677,14 +679,15 @@ Figure \ref{fig:rfimp} shows the variable importance plot for the \(20\)
 most important variables of the \enquote{optimal} random forest, which
 minimizes the \ac{RMSE} in the given range. According to this plot the
 most important variable, in terms of the mean increase of the \ac{RMSE},
-is \(ms\_segm\), followed by four variables with regard to the price:
-\(price\), \(lp\), the logarithmized price, \(pri\_m\), the mean real
-litre price (base jan 2004) during the weeks the wine is distributed and
-\(rprice\_litre\), real litre price (base jan 2004). Thus, the litres of
-wine sold per week is mainly determined by its market share and its
-price. Although, there are many more variables which, according to the
-random forest model, are important. One should note, that those
-variables do not necessarily have the highest marginal effects.
+is \enquote{\(ms\_segm\)}, followed by four variables with regard to the
+price: \enquote{\(price\)}, \enquote{\(lp\)}, the logarithmized price,
+\enquote{\(pri\_m\)}, the mean real litre price (base jan 2004) during
+the weeks the wine is distributed and \enquote{\(rprice\_litre\)}, real
+litre price (base jan 2004). Thus, the litres of wine sold per week is
+mainly determined by its market share and its price. Although, there are
+many more variables which, according to the random forest model, are
+important. One should note, that those variables do not necessarily have
+the highest marginal effects.
 
 Figure \ref{fig:rfpardep} shows the partial dependence plots for the
 \(10\) most important variables. The plots present the marginal effect
@@ -693,11 +696,12 @@ some nonlinear dependencies in the data which explains the poor
 performances of the linear models. Furthermore, the figure validates
 some intuitive assumptions. For example, a higher market share leads to
 more litres sold, while high real prices lead to fewer litres sold.
-Furthermore the influence of \(v10\_dim\), which is the \enquote{Dagens
-Industri} review, is especially large, when the review is very good. The
-complete partial dependence plot with all \(20\) most important
-variables can be found in the appendix \ref{chap:ap2} in figure
-\ref{fig:rfpardep_other} to keep this chapter at a reasonable size.
+Furthermore the influence of \enquote{\(v10\_dim\)}, which is the
+\enquote{Dagens Industri} review, is especially large, when the review
+is very good. The complete partial dependence plot with all \(20\) most
+important variables can be found in the appendix \ref{chap:ap2} in
+figure \ref{fig:rfpardep_other} to keep this chapter at a reasonable
+size.
 
 \begin{figure}
 \centering
@@ -745,10 +749,11 @@ shrinkage parameter of \(0.4\).
 Figure \ref{fig:boostimp} shows the importance of the \(20\) most
 important variables according to the optimal boosting model. The values
 shown is the relative importance in percent. The most important variable
-is \(ms\_segm\), while the second most important variable is
-\(segmred\), followed by \(period\) and \(price\). This also does
-confirm the results of the single tree as well as the pruned tree, as
-those utilzes exactly those variables.
+is \enquote{\(ms\_segm\)}, while the second most important variable is
+\enquote{\(segmred\)}, followed by \enquote{\(period\)} and
+\enquote{\(price\)}. This also does confirm the results of the single
+tree as well as the pruned tree, as those utilzes exactly those
+variables.
 
 \begin{figure}
 \centering
@@ -863,7 +868,7 @@ some of the studys mentioned in the introduction.
 In conclusion, the two best performing models in terms of the cross
 validated out of sample \ac{RMSE} are the bagging model with \(25\)
 trees and the selected random forest model. While the bagging model
-yields the best cross validated out of sample \ac{RMSE} it's
+yields the best cross-validated out of sample \ac{RMSE} it's
 computationally demanding. Therefore we propose the use of a random
 forest model with \(25\) trees and \(100\) variables considered at each
 split. The use of more trees and / or more variables just barely
