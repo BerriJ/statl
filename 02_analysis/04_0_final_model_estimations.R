@@ -19,14 +19,14 @@ tic()
 bagging_model <- randomForest(x = x.train, y = y.train, mtry = ncol(x.train),
                               importance = T, ntree = 25, keep.forest = F)
 toc()
-# Save importance
+
+# Create a variable importance plot
 imp_df_bagging <- data.frame(importance(bagging_model, scale = FALSE, type = 1)) %>% 
   mutate(names = rownames(.)) %>% 
   arrange(desc(X.IncMSE)) %>%
   top_n(20, X.IncMSE) %>%
   mutate(X.IncMSE = sqrt(X.IncMSE))
 
-# Plot mean decreased accuracy
 var_imp_random_forest_bp <- ggplot(imp_df_bagging, aes(x = reorder(names, -X.IncMSE),y = X.IncMSE)) +
   geom_bar(stat = 'identity', fill = "chocolate1") + theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1,
@@ -39,18 +39,24 @@ ggsave("00_data/output_paper/15_var_imp_bagging.pdf", var_imp_random_forest_bp,
 
 
 # Random Forest ####
+
+# Estimate the final model
 tic()
 rf <- randomForest(x = x.train, y = y.train, mtry = 100, ntree = 25, 
                    importance = T, keep.forest = T)
 toc()
-# Save importance
+
+# Save the final model:
+
+save(file = "05_final_model/rf_final.rda", list = ls())
+
+# Create Variable importance plot
 imp_df <- data.frame(importance(rf, scale = FALSE, type = 1)) %>% 
   mutate(names = rownames(.)) %>% 
   arrange(desc(X.IncMSE)) %>%
   top_n(20, X.IncMSE) %>%
   mutate(X.IncMSE = sqrt(X.IncMSE))
 
-# Plot mean decreased accuracy
 var_imp_random_forest_bp <- ggplot(imp_df, aes(x = reorder(imp_df$names, -imp_df$X.IncMSE),y = imp_df$X.IncMSE)) +
   geom_bar(stat = 'identity', fill = "chocolate1") + theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1,
@@ -61,7 +67,7 @@ var_imp_random_forest_bp <- ggplot(imp_df, aes(x = reorder(imp_df$names, -imp_df
 # ggsave("00_data/output_paper/11_var_imp_random_forest_bp.pdf", var_imp_random_forest_bp,
 #        width = 7, height = 3)
 
-# Partial Dependence Plots:
+# Create partial dependence plots:
 
 imp_df
 
@@ -105,10 +111,10 @@ par_dep_rf <- ggplot(pd_df, aes(y = y/1000, x = x)) +
   ylab("Litre (Thousands)") + 
   xlab(label = NULL); par_dep_rf
 
-# ggsave(filename = "00_data/output_paper/11_par_dep_random_forest.pdf", 
-#        plot = par_dep_rf , width = 7, height = 2.5)
+ggsave(filename = "00_data/output_paper/11_par_dep_random_forest.pdf", 
+       plot = par_dep_rf , width = 7, height = 2.5)
 
-# Variables 01:20
+# PDP plots for the 20 most important variables
 
 pd_df <- purrr::reduce(pd_list, .f = full_join) %>% round(2)
 
@@ -142,6 +148,8 @@ boosting_model_final <- gbm.fit(y.train, x = x.train, distribution = "gaussian",
                       n.trees = 25, interaction.depth = 15,
                       shrinkage = 0.5, verbose = FALSE, bag.fraction = 1)
 
+save(file = "05_final_model/boost_final.rda", list = ls())
+
 var_imp_boost <- summary(boosting_model_final) %>% arrange(desc(rel.inf))
 
 var_imp_boosting_bp <- ggplot(var_imp_boost[1:20,], 
@@ -153,8 +161,8 @@ var_imp_boosting_bp <- ggplot(var_imp_boost[1:20,],
   xlab("Variable") +
   scale_x_discrete(label=function(x) abbreviate(x, minlength=15))
 
-# ggsave("00_data/output_paper/12_var_imp_boosting_bp.pdf", var_imp_boosting_bp,
-#       width = 7, height = 3)
+ggsave("00_data/output_paper/12_var_imp_boosting_bp.pdf", var_imp_boosting_bp,
+      width = 7, height = 3)
 
 var_imp_vars <- var_imp_boost$var %>% as.character()
 
@@ -168,7 +176,7 @@ for(i in 1:20){
   cat(i)
 }
 
-# Variables 1:10
+# Variables 1:20
 
 pd_df <- purrr::reduce(pd_list, .f = full_join) %>% round(2)
 

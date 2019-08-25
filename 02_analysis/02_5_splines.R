@@ -10,6 +10,7 @@ print("Packages loaded")
 
 rmse_splines <- c()
 
+# Estimate models with up to 20 splines
 for(i in 1:20){
   sp.fit <- glm(y.train ~ . -year - price -rprice_litre + ns(year,df = i) + ns(price,df = i) +
                 ns(rprice_litre,df = i),

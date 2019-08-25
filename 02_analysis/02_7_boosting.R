@@ -23,7 +23,7 @@ for(i in 1:nrow(results)){
   boost_wine <- gbm.fit(y.train, x = x.train, distribution = "gaussian",
                         n.trees = 25, interaction.depth = results[i,2],
                         shrinkage = results[i,1], verbose = FALSE, bag.fraction = results[i,3])
-  #Generating a Prediction matrix for each Tree
+  #Generating a Prediction matrix for every number of Trees
   predmatrix<-predict(boost_wine,x.test,n.trees = n.trees)
   #Calculating The Mean squared Test Error
   results[i,4:28] <- apply((predmatrix-y.test)^2,2,mean) %>% sqrt()
