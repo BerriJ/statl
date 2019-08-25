@@ -54,7 +54,7 @@ The remainder of this paper is structured as follows. Chapter \ref{chap:data} gi
 
 # Data and Variables \label{chap:data}
 
-The data set used in this paper contains 145179 observations with 59 variables. The variables include the name of the wine, the country of origin, its price, the amount sold per week in litres, the taste segment, and variables related to different reviews, among others. A table with summary statistics of the data set can be found in appendix \ref{chap:ap1} in table \ref{tab:SumStat}.
+The dataset used in this paper contains 145179 observations with 59 variables. The variables include the name of the wine, the country of origin, its price, the amount sold per week in litres, the taste segment, and variables related to different reviews, among others. A table with summary statistics of the dataset can be found in appendix \ref{chap:ap1} in table \ref{tab:SumStat}.
 
 We need to omit two variables beforehand, namely "$time\_segm\_price$" and "$artikpr$", because those are combinations of other existing variables. Hence inclusion would lead to the problem of multicollinearity. After omitting those two, we have left the following types of variables (see table \ref{tab:VarTyp}). As the analysis is based on data from Sweden, all the levels of the factor variables are denoted in Swedish.
 
@@ -283,7 +283,7 @@ Another crucial decision was to exclude all variables with more than $50\%$ miss
 load("../00_data/output_paper/16_summary.rda")
 ```
 
-In this paper, we developed a forecasting model based on the friberg gronqvist wine data set. We used different statistical learning methods and evaluated them in terms of their cross-validated out of sample \ac{RMSE}. Table \ref{tab:RMSESum} presents the results for the most relevant models.
+In this paper, we developed a forecasting model based on the friberg gronqvist wine dataset. We used different statistical learning methods and evaluated them in terms of their cross-validated out of sample \ac{RMSE}. Table \ref{tab:RMSESum} presents the results for the most relevant models.
 
 At first, we estimated a mean regression and a linear regression model without variable selection to establish a baseline. The linear regression yields a substantial improvement over the mean regression, which hints at some explanatory power of our variables.
 
