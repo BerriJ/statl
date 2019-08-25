@@ -270,7 +270,7 @@
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-This paper presents a forecasting study on swedish wine sales. This
+This paper presents a forecasting study of Swedish wine sales. This
 study is based on the friberg gronqvist wine dataset, which is publicly
 available and was previously analyzed by \textcite[][]{Friberg2012}.
 Recent technological advancements led to a significant increase in
@@ -452,7 +452,7 @@ Squares}\label{principal-components-regression-and-partial-least-squares}}
 
 While \ac{lasso} is a technique for variable selection, \ac{pcr} and
 \ac{pls} are other methods that reduce the dimension of the feature set
-while changing the features. Thus, the least-squares estimation is
+by modifying the features. Thus, the least-squares estimation is
 performed using a transformation of the explanatory variables. Thereby,
 \ac{pls} includes the dependent variable when computing the new feature
 set while \ac{pcr} builds the principal components independent of the
@@ -491,14 +491,16 @@ was distributed, the price and the real price with Jan 2004 as base
 respectively. Each natural spline was allowed to have up to 20 knots,
 which is sufficient to estimate complex linear relationships. The
 respective \ac{RMSE}s depending on the knots are presented in figure
-\ref{fig:splines}. Splines can improve the prediction a little which
-indicates that at least some nonlinear relationship is present. However,
-like the methods before, splines reduce the interpretability of the
-coefficients. In this case, this tradeoff is not offset enough by the
-gain in precision. Furthermore, figure \ref{fig:splines} shows, that the
-\ac{RMSE}s depend to some extent on the fold which was used for
-cross-validation. This approves our theoretically founded motivation to
-use cross-validation.
+\ref{fig:splines}.
+
+Splines can improve the prediction a little, which indicates that at
+least some nonlinear relationship is present. However, like the methods
+before, splines reduce the interpretability of the coefficients. In this
+case, this tradeoff is not offset enough by the gain in precision.
+
+Furthermore, figure \ref{fig:splines} shows, that the \ac{RMSE}s depend
+to some extent on the fold which was used for cross-validation. This
+approves our theoretically founded motivation to use cross-validation.
 
 \begin{figure}
 
@@ -551,13 +553,13 @@ split the dataset into \(10\) parts, i.e., the tree has got \(10\)
 terminal nodes. The figure does also tell us what share of the data can
 be sorted to each node, as well as the mean price of the allocated
 observations. The regression trees build in the other four folds of the
-cross-validation are almost exactly the same as the shown tree. The
-selected variables indicate that according to this method, the market
-share, the color of the wine, the price as well as the period are the
-most important variables. Concerning the graph and the variable
+cross-validation are almost the same as the shown tree. The selected
+variables indicate that according to this method, the market share, the
+color of the wine, the price as well as the period are the most
+important variables. Concerning the graph and the variable
 \enquote{\(segmred\)} it is important to keep in mind that this is a
 dummy variable meaning that a value \(< 0.5\) (the left track) stands
-for a wine that is not red. Conversely the right track stands for red
+for a wine that is not red. Conversely, the right track stands for red
 wines.
 
 As regression trees may tend to grow quite large, a possible way to get
@@ -734,7 +736,7 @@ fraction of the data is used to build the next tree. The default value
 is \(0.5\), which means that \(50\%\) of the training observations are
 samples (without replacement) each time a new tree is estimated. This
 adds randomness to the estimation, which reduces the problem of
-overfitting but it adds variance to the in sample predictions
+overfitting, but it also adds variance to the in-sample predictions
 \autocite[Cf.][p. 806.]{Elith2008}. We set this value to \(1\). This
 outperformed the default setting of \(0.5\) by a \(\approx1.9\%\)
 decrease in out of sample cross-validated \ac{RMSE}. Hence all
@@ -759,7 +761,7 @@ shown are the relative importances in percent. The most important
 variable is \enquote{\(ms\_segm\)}, while the second most important
 variable is \enquote{\(segmred\)}, followed by \enquote{\(period\)} and
 \enquote{\(price\)}. This also does confirm the results of the single
-tree as well as the pruned tree, as those utilzed exactly those
+tree as well as the pruned tree, as those utilized exactly those
 variables.
 
 \begin{figure}
@@ -874,7 +876,7 @@ the results of some studies mentioned in the introduction.
 In conclusion, the two best performing models in terms of the
 cross-validated out of sample \ac{RMSE} are the bagging model with
 \(25\) trees and the selected random forest model. While the bagging
-model yields the best cross-validated out of sample \ac{RMSE} it is
+model yields the best cross-validated out of sample \ac{RMSE}, it is
 computationally demanding. Therefore we propose the use of a random
 forest model with \(25\) trees and \(100\) variables considered at each
 split. The use of more trees, more variables, or both barely increases
