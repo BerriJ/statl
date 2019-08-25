@@ -29,7 +29,7 @@ lasso_flexlam <- list()
 
 # Create df to save results
 df <- data.frame(RMSE_Lasso = rep(NA,5), RMSE_lasso_log = rep(NA,5),
-                 loglam = rep(NA,5), ncoef = rep(NA, 5))
+                 loglam = rep(NA,5), ncoef = rep(NA, 5), loglamlog = rep(NA,5))
 
 # Read and aggregates the data
 for(i in 1:(length(files))){
@@ -39,6 +39,7 @@ for(i in 1:(length(files))){
   df$RMSE_Lasso[i] <- rmse_lasso
   df$RMSE_lasso_log[i] <- rmse_lasso_log
   df$loglam[i] <- bestlam %>% log()
+  df$loglamlog[i] <- bestlam_log
   df$ncoef[i] <- ((bestlam_mod[[i]]$beta %>% as.numeric()) != 0) %>% sum()
 }
 

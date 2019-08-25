@@ -422,7 +422,7 @@ coefficients minimize:
 
 Figure \ref{fig:CoefLamb} depicts the relation between lambda and the
 coefficients. The cross-validated log lambda, which minimizes the test
-error is \(\approx -8.94\). At that level a total of \(\approx 666\) out
+error is \(\approx -0.16\). At that level a total of \(\approx 666\) out
 of \(713\) coefficients are
 nonzero\footnote{$\approx 666.6$ to be exact, but we could not resist to round down.}.
 The other coefficients are precisely zero due to the sparsity property
@@ -528,9 +528,9 @@ applied.
 \subsubsection{Single Regression Tree}\label{single-regression-tree}}
 
 For growing a regression tree, `the algorithm needs to automatically
-decide on the splitting variables and split points {[}\ldots{}{]} the
-tree should have' \autocite[][p. 349]{Hastie2013}. The tree is grown
-when a split is found that minimizes the sum of squared residuals. The
+decide on the splitting variables and split points {[}\ldots{]} the tree
+should have' \autocite[][p. 349]{Hastie2013}. The tree is grown when a
+split is found that minimizes the sum of squared residuals. The
 splitting is done with a greedy algorithm, i.e., at first, all the data
 is split into just two groups while the search of the splitting variable
 and split point includes all possible variables and points
@@ -563,7 +563,7 @@ wines.
 As regression trees may tend to grow quite large, a possible way to get
 smaller trees is pruning back the grown larger tree. The goal of pruning
 is `to select a subtree that leads to the lowest test error rate
-{[}which{]} we can estimate {[}\ldots{}{]} using cross-validation or the
+{[}which{]} we can estimate {[}\ldots{]} using cross-validation or the
 validation set approach' \autocite[][p. 308]{James2014}. This is done by
 \emph{cost complexity pruning}.
 
