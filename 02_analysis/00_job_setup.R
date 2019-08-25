@@ -463,6 +463,8 @@ knitr::write_bib(x = c("base",
                 "rpart.plot",
                 "stargazer",
                 "knitr",
+                "purrr",
+                "randomForest",
                 "rstudioapi"), file = "03_paper/R_packages_draft.bib")
 
 # Dont forget to add Rstudio
