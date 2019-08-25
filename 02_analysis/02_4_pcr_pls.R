@@ -6,8 +6,9 @@ print("Packages loaded")
 ################################# PCA ##########################################
 ################################################################################
 print("Start PCA")
-# https://www.datacamp.com/community/tutorials/pca-analysis-r
 
+# Principal Components Plot
+#
 # MM <- model.matrix(litre ~. -1, data = wine)
 # wine.pc <- prcomp(MM, center = T, scale. = T)
 # wine.pc.sm <- summary(wine.pc)
@@ -23,14 +24,10 @@ print("Start PCA")
 # ggsave("00_data/output_paper/07_pca.png",plot =  pca, width = 7, height = 4)
 
 
-wine.pcr.fit <- pcr(y.train ~ ., 
-                    data = train_df,
-                    validation = "CV")
+wine.pcr.fit <- pcr(y.train ~ ., data = train_df, validation = "CV")
 
 n_comp_pcr <- wine.pcr.fit$validation$PRESS %>% which.min()
-
 pred <- predict(wine.pcr.fit, test_df, ncomp = n_comp_pcr)
-
 rmse_pcr <- mean((y.test - pred)^2) %>% sqrt()
 
 ################################################################################
@@ -40,20 +37,12 @@ rmse_pcr <- mean((y.test - pred)^2) %>% sqrt()
 print("Start PLS")
 
 pls.fit <- plsr(y.train ~ ., data = train_df, validation = "CV")
-# pls.fit %>% summary()
 
-# Prediction Error Sum of Squares minimum
-n_comp_pls <- which.min(pls.fit$validation$PRESS)
-
+n_comp_pls <- pls.fit$validation$PRESS %>% which.min()
 pred <- predict(pls.fit, test_df, ncomp = n_comp_pls)
-
 rmse_pls <- mean((y.test - pred)^2) %>% sqrt()
 
 dir.create("02_analysis/cv/pcr_pls/", recursive = T, showWarnings = F)
 save(file = paste("02_analysis/cv/pcr_pls/pcr_pls_",unique_identifier,".rda", 
-                  sep = ""), 
-     rmse_pcr, 
-     rmse_pls,
-     n_comp_pls,
-     n_comp_pcr)
+                  sep = ""), rmse_pcr, rmse_pls, n_comp_pls, n_comp_pcr)
 

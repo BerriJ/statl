@@ -59,29 +59,10 @@ wine <- wine %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) <= 0.5
   drop_na()
 
 # Levels of factors after keeping complete cases:
-wine[,sapply(wine, is.factor)] %>% drop_na() %>% sapply(levels) # looks fine
+wine[,sapply(wine, is.factor)] %>% drop_na() %>% sapply(levels)
 
 MM <- model.matrix(litre ~. -1, data = wine)
 
-# From STACKOVERFLOW
-
-# Here's a straightforward approach: compute the rank of the matrix that results 
-# from removing each of the columns. The columns which, when removed, result in 
-# the highest rank are the linearly dependent ones (since removing those does 
-# not decrease rank, while removing a linearly independent column does).
-
-# rankifremoved <- c()
-# d <- c()
-# for(i in 1:ncol(MM)){
-#   x <- Sys.time()
-#   rankifremoved[i] <- qr(MM[,-i])$rank
-#   d[i] <- Sys.time() - x
-#   print(paste(round(mean(d)*(ncol(MM)-i)), "Seconds Remaining"))
-# }
-# See https://stats.stackexchange.com/a/39321/212827
-# which(rankifremoved == max(rankifremoved))
-# lin_dependend <- colnames(MM)[which(rankifremoved == max(rankifremoved))]
-# save(file = "00_data/lin_dependend.rda", lin_dependend)
 load("00_data/lin_dependend.rda")
 
 apply(MM, MARGIN = 2, function(x) sum(x==0)==length(x)) %>% which()
@@ -98,11 +79,9 @@ litre <- ggplot(wine) +
 
 ggsave(filename = "00_data/output_paper/04_hist_litre.pdf", plot =  litre, width = 7, height = 2)
 
-min(wine$litre)
-
 # Name: ####
 
-# Boxplot der Logliter nach Name
+# Boxplot of Logliter for each Name
 
 names_boxplot <- wine %>% dplyr::group_by(name) %>% 
   summarise(mean = mean(litre, na.rm = T)) %>% 
@@ -113,7 +92,7 @@ dir.create("02_analysis/plots", showWarnings = F)
 ggsave(file = "02_analysis/plots/01_names_boxplot.pdf",names_boxplot, width = 16, 
        height = 9, limitsize = F)
 
-# Verteilung der Mittleren Logliter je Name
+# Distribution of Logliter for each Name
 
 names_density <- wine %>% dplyr::group_by(name) %>% 
   summarise(mean = mean(litre)) %>% 
@@ -135,13 +114,11 @@ unique(wine$artikelnr) %>% length() %>% paste("Artikel Numbers")
 
 # => Omit at least 2 out of those 3!
 
-# Atikelid => siehe Artikelnr
-
 # Vintage: ####
 
 unique(wine$vintage)
 
-# Boxplot der Logliter nach Vintage:
+# Boxplot of Logliter compared with Vintage
 
 vintage_boxplot <- wine %>% dplyr::group_by(vintage) %>% 
   ggplot(aes(x = factor(vintage), y = litre)) + 
@@ -151,7 +128,7 @@ dir.create("02_analysis/plots", showWarnings = F)
 ggsave(file = "02_analysis/plots/02_vintage_boxplot.pdf",vintage_boxplot, width = 16, 
        height = 9, limitsize = F)
 
-# Verändert Vintage die Verteilung?
+# Influence of Vintage on Ditribution
 
 vintage_density <- ggplot(wine) + 
   geom_histogram(aes(x=litre,y=..density..), position="identity") + 
@@ -169,7 +146,7 @@ ggsave(file = "02_analysis/plots/03_vintage_density.pdf",vintage_density , width
 
 unique(wine$vintage)
 
-# Boxplot der Logliter nach Country:
+# Boxplot of Logliter for each Country
 
 county_boxplot <- wine %>% dplyr::group_by(country) %>% 
   ggplot(aes(x = factor(country), y = litre)) + 
@@ -181,7 +158,7 @@ ggsave(file = "02_analysis/plots/03_county_boxplot.pdf",county_boxplot, width = 
        height = 9, limitsize = F) 
 
 
-# Verändert Country die Verteilung?
+# Influence of Country on Distribution
 
 country_density <- ggplot(wine) + 
   geom_histogram(aes(x=litre,y=..density..), position="identity") + 
@@ -195,7 +172,7 @@ ggsave(file = "02_analysis/plots/03_country_density.pdf",country_density , width
 
 # Region ####
 
-# Boxplot der Logliter nach Region:
+# Boxplot of Logliter for each Region:
 
 region_boxplot <- wine %>%
   ggplot(aes(x = factor(region), y = litre)) + 
@@ -228,7 +205,7 @@ dir.create("02_analysis/plots", showWarnings = F)
 ggsave(file = "02_analysis/plots/06_week_boxplot.pdf", week_boxplot , width = 16, 
        height = 9, limitsize = F) 
 
-# period
+# Period ####
 
 period_boxplot <- wine %>% 
   ggplot(aes(x = factor(period), y = litre)) + 
@@ -238,7 +215,7 @@ dir.create("02_analysis/plots", showWarnings = F)
 ggsave(file = "02_analysis/plots/07_period_boxplot.pdf", period_boxplot , width = 16, 
        height = 9, limitsize = F) 
 
-# date
+# Date ####
 
 date_boxplot <- wine %>% 
   ggplot(aes(x = factor(date), y = litre)) + 
@@ -248,7 +225,7 @@ dir.create("02_analysis/plots", showWarnings = F)
 ggsave(file = "02_analysis/plots/08_date_boxplot.pdf", date_boxplot , width = 16, 
        height = 9, limitsize = F) 
 
-# price
+# Price ####
 
 price_scatter <- ggplot(wine, aes(x = price, y = litre)) + geom_point(alpha = 0.5)
 
@@ -256,7 +233,7 @@ dir.create("02_analysis/plots", showWarnings = F)
 ggsave(file = "02_analysis/plots/08_price_scatter.pdf", price_scatter , width = 16, 
        height = 9, limitsize = F) 
 
-# log price
+# Log Price ####
 
 price_scatter <- ggplot(wine, aes(x = lp, y = litre)) + geom_point(alpha = 0.5)
 
@@ -315,7 +292,7 @@ dir.create("02_analysis/plots", showWarnings = F)
 ggsave(file = "02_analysis/plots/11_segm_density.pdf",dist_density , width = 16, 
        height = 9, limitsize = F)
 
-# price_segm ####
+# Price Segment ####
 
 price_segm_boxplot <- wine %>% 
   ggplot(aes(x = factor(price_segm), y = litre)) + 
@@ -353,7 +330,7 @@ dir.create("02_analysis/plots", showWarnings = F)
 ggsave(file = "02_analysis/plots/13_old_density.pdf", old_density , width = 16, 
        height = 9) 
 
-# ma_split
+# Advertising expenditures ####
 
 ma_split_scatter <- ggplot(wine, aes(x = ma_split, y = litre)) + 
   geom_point(position = "jitter", alpha = 0.25)
@@ -362,7 +339,7 @@ dir.create("02_analysis/plots", showWarnings = F)
 ggsave(file = "02_analysis/plots/13_ma_split_scatter.pdf", old_scatter , width = 16, 
        height = 9) 
 
-# Reviews
+# Reviews ####
 
 reviews <- colnames(wine)[22:57]
 
