@@ -272,15 +272,14 @@
 
 This paper presents a forecasting study on swedish wine sales. This
 study is based on the friberg gronqvist wine dataset, which is publicly
-available and was previously analyzed by
-\textcite[][p. 193f.]{Friberg2012}. Recent technological advancements
-led to a significant increase in statistical methods that are
-computationally demanding while potentially outperforming classical
-statistical methods, especially in terms of forecasting. Those
-techniques are usually referred to as statistical or machine learning
-methods. The methods and procedures we introduce in this paper are based
-on `An Introduction to Statistical Learning with Applications in R'
-\autocite[][]{James2014}.
+available and was previously analyzed by \textcite[][]{Friberg2012}.
+Recent technological advancements led to a significant increase in
+statistical methods that are computationally demanding while potentially
+outperforming classical statistical methods, especially in terms of
+forecasting. Those techniques are usually referred to as statistical or
+machine learning methods. The methods and procedures we introduce in
+this paper are based on `An Introduction to Statistical Learning with
+Applications in R' \autocite[][]{James2014}.
 
 We present various models which are increasingly complex. Those models
 potentially gain forecasting power while losing interpretability. The
@@ -292,18 +291,18 @@ Although the main goal is an accurate forecast, some of the methods used
 in this paper can also be used to quantify the impact of expert reviews
 on the sales, if there is any. The effect of expert opinions on consumer
 demand was analyzed in previous research. Notably,
-\textcite[][p. 1289]{Hilger2011} used a field experiment to study a
+\textcite[][]{Hilger2011} used a field experiment to study a
 review-based demand effect using wine score labels in a retail grocery
 chain. They find that providing information based on expert opinions
 increases the sales; this effect does depend on the score a wine has
-gotten. \textcite[][p. 293]{Ashenfelter2013} analyze, wether expert
-reviews influence the prices of wine. They conclude that expert reviews
-contain public as well as private information. They only validate an
-influence on the highest rated wines. Furthermore,
-\textcite[][p. 182f.]{Bicknell2012} delivered research concerning the
-market for wine from New Zealand. They validate a significant regional
-influence on wine prices. This influence is substantially lower for
-wine, which is designated for the export market.
+gotten. \textcite[][]{Ashenfelter2013} analyze, wether expert reviews
+influence the prices of wine. They conclude that expert reviews contain
+public as well as private information. They only validate an influence
+on the highest rated wines. Furthermore, \textcite[][]{Bicknell2012}
+delivered research concerning the market for wine from New Zealand. They
+validate a significant regional influence on wine prices. This influence
+is substantially lower for wine, which is designated for the export
+market.
 
 The remainder of this paper is structured as follows. Chapter
 \ref{chap:data} gives an overview of the dataset and the preprocessing.
@@ -534,7 +533,7 @@ when a split is found that minimizes the sum of squared residuals. The
 splitting is done with a greedy algorithm, i.e., at first, all the data
 is split into just two groups while the search of the splitting variable
 and split point includes all possible variables and points
-\autocite[Cf.][p. 349]{Hastie2013}. After the data is split this process
+\autocite[cf.][p. 349]{Hastie2013}. After the data is split this process
 is repeated for the obtained two split regions until the tree is large
 enough that the terminal nodes reach a pre-defined minimum size.
 
@@ -605,7 +604,7 @@ tree model of the previous chapter.
 
 \includegraphics{../00_data/output_paper/14_bagging} \hfill{}
 
-\caption[Bagging: RMSE's at Different Tree Sizes]{\label{fig:rmsebag}Bagging: RMSE's at Different Tree Sizes (Smoothed).}\label{fig:bag}
+\caption[Bagging: RMSE's at Different Tree Sizes]{\label{fig:rmsebag}Bagging: RMSEs at Different Tree Sizes (Smoothed).}\label{fig:bag}
 \end{figure}
 
 To further analyze the \ac{bagging} model, we estimated a \ac{bagging}
