@@ -337,15 +337,18 @@ In conclusion, the two best performing models in terms of the cross validated ou
 \setcounter{figure}{0}
 \renewcommand{\thetable}{A\arabic{table}}
 \renewcommand{\thefigure}{A\arabic{figure}}
+
+\newgeometry{top=1cm, left = 5cm, right = 2.5cm, bottom = 2cm}
 # Appendices
 
 ## Dataset \label{chap:ap1}
-\newgeometry{top=1cm, left = 5cm, right = 2.5cm, bottom = 2cm}
+
 
 ```{r, echo = F, results = 'asis', message = F}
 load("../00_data/wine_preprocessed.rda")
 stargazer(as.data.frame(wine), summary.stat = c("min","max","mean","sd"),
-          title = "Summary Statistics of the Data Set.", header = FALSE, label = "tab:SumStat")
+          title = "Summary Statistics of the Data Set.", header = FALSE, 
+          label = "tab:SumStat", font.size = "small")
 ```
 
 \restoregeometry
