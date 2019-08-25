@@ -1,5 +1,5 @@
 ---
-title: "A Forecasting Study on Global Wine Sales"
+title: "A Forecasting Study on Swedish Wine Sales"
 author: "Jonathan Berrisch, Timo Rammert"
 subtitle: "Statistical Learning"
 type: "Term Paper"
@@ -44,7 +44,7 @@ crop <- function(im, left = 0, top = 0, right = 0, bottom = 0) {
 
 # Introduction
 
-This paper presents a forecasting study on global wine sales. This study is based on the friberg gronqvist wine dataset, which is publicly available and was previously analyzed by \textcite[][p. 193f.]{Friberg2012}. Recent technological advancements led to a significant increase in statistical methods that are computationally demanding while potentially outperforming classical statistical methods, especially in terms of forecasting. Those techniques are usually referred to as statistical or machine learning methods. The methods and procedures we introduce in this paper are based on `An Introduction to Statistical Learning with Applications in R' \autocite[][]{James2014}.
+This paper presents a forecasting study on swedish wine sales. This study is based on the friberg gronqvist wine dataset, which is publicly available and was previously analyzed by \textcite[][p. 193f.]{Friberg2012}. Recent technological advancements led to a significant increase in statistical methods that are computationally demanding while potentially outperforming classical statistical methods, especially in terms of forecasting. Those techniques are usually referred to as statistical or machine learning methods. The methods and procedures we introduce in this paper are based on `An Introduction to Statistical Learning with Applications in R' \autocite[][]{James2014}.
 
 We present various models which are increasingly complex. Those models potentially gain forecasting power while losing interpretability. The applied models range from linear regressions to tree-based methods like random forests and boosting. The goal is to develop the best possible model to forecast weekly wine sales in litre in out of sample data.
 
@@ -56,7 +56,7 @@ The remainder of this paper is structured as follows. Chapter \ref{chap:data} gi
 
 The dataset used in this paper contains $145179$ observations with $59$ variables. The variables include the name of the wine, the country of origin, its price, the amount sold per week in litre, the taste segment, and variables related to different reviews, among others. A table with summary statistics of the dataset can be found in appendix \ref{chap:ap1} in table \ref{tab:SumStat}.
 
-We need to omit two variables beforehand, namely "$time\_segm\_price$" and "$artikpr$", because those are combinations of other existing variables. Hence inclusion would lead to the problem of multicollinearity. After omitting those two, we have left the following types of variables (see table \ref{tab:VarTyp}).
+We need to omit two variables beforehand, namely "$time\_segm\_price$" and "$artikpr$", because those are combinations of other existing variables. Hence inclusion would lead to the problem of multicollinearity. After omitting those two, we have left the following types of variables (see table \ref{tab:VarTyp}). As the analysis is based on data from Sweden, all the levels of the factor variables are denoted in Swedish.
 
 ```{r, echo=FALSE}
 load("../00_data/output_paper/01_typeof_vec.rda")
@@ -170,7 +170,7 @@ The respective \ac{RMSE}s depending on the knots are presented in figure \ref{fi
 Splines can improve the prediction a little which indicates that at least some nonlinear relationship is present. However, like the methods before, splines reduce the interpretability of the coefficients. In this case, this tradeoff is not offset enough by the gain in precision.
 Furthermore, figure \ref{fig:splines} shows, that the \ac{RMSE}s depend to some extent on the fold which was used for cross-validation. This approves our theoretically founded motivation to use cross-validation.
 
-```{r splines, echo = FALSE, fig.cap= "\\label{fig:splines}Regression with Splines: Dependency Between Knots and RMSE.", fig.align= T, fig.scap= "RMSE Values of Different Spline Models"}
+```{r splines, echo = FALSE, fig.cap= "\\label{fig:splines}Regression with Splines: Dependency between Knots and RMSE.", fig.align= T, fig.scap= "RMSE Values of Different Spline Models"}
 knitr::include_graphics("../00_data/output_paper/08_splines.pdf")
 ```
 
