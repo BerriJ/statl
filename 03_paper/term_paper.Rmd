@@ -153,7 +153,7 @@ cm_df <- df %>% colMeans() %>% round(2)
 
 While \ac{lasso} is a technique for variable selection, \ac{pcr} and \ac{pls} are other methods that reduce the dimension of the feature set while changing the features. Thus, the least-squares estimation is performed using a transformation of the explanatory variables. Thereby, \ac{pls} includes the dependent variable when computing the new feature set while \ac{pcr} builds the principal components independent of the dependent variable.
 
-Figure \ref{fig:PrincCom} shows the first two principal components from a \ac{pcr}. The first two principal components represent roughly 3\% of the total variance. This is a sign that the \ac{pcr} does not work well on our data, which might be due to a large number of dummy variables.
+Figure \ref{fig:PrincCom} shows the first two principal components from a \ac{pcr}. The first two principal components represent roughly $3\%$ of the total variance. This is a sign that the \ac{pcr} does not work well on our data, which might be due to a large number of dummy variables.
 
 ```{r, echo = FALSE, fig.cap= "\\label{fig:PrincCom}Principal Component One and Two.", message=FALSE}
 image_read("../00_data/output_paper/07_pca.png") %>%
@@ -211,7 +211,7 @@ The mean cross-validated \ac{RMSE} of the pruned trees is ca. `r cm_df[2]`, whil
 The \ac{bagging} algorithm can also be used to improve decision tree models. For this, a bootstrap sample is drawn before growing the tree. This process is repeated several times to grow multiple trees. Finally, the predictions of the trees are averaged.
 By bootstrapping \ac{bagging} brings down the variance and thus, addresses the main problem of single regression trees which are very dependent on the actual sample.
 
-Figure \ref{fig:rmsebag} shows the \ac{RMSE} values of different \ac{bagging} models. The bootstrap sample size was chosen to be two-thirds of the total number of observations. One can see that even small models with down to 15 Trees significantly outperform the single tree model of the previous chapter.
+Figure \ref{fig:rmsebag} shows the \ac{RMSE} values of different \ac{bagging} models. The bootstrap sample size was chosen to be two-thirds of the total number of observations. One can see that even small models with down to $15$ trees significantly outperform the single tree model of the previous chapter.
 
 ```{r bag, echo = FALSE, fig.cap = "\\label{fig:rmsebag}Bagging: RMSEs at Different Tree Sizes (Smoothed).", fig.align=T, fig.scap="Bagging: RMSE's at Different Tree Sizes"}
 knitr::include_graphics("../00_data/output_paper/14_bagging.pdf")
@@ -233,9 +233,9 @@ The random forest algorithm is a special case of \ac{bagging}. The name random f
 knitr::include_graphics("../00_data/output_paper/10_rf_plot.png")
 ```
 
-We calculated \ac{RMSE} values for a range of Random Forest models to evaluate which combination of the number of trees to grow, and the number of variables taken into account at each split leads to the best results. The results are plotted in Figure \ref{fig:rfrmse}. The smallest \ac{RMSE} is $\approx 4374$. Moreover, the plot shows, reveals that tiny models profit substantially from increasing complexity while bigger models profit only by a small margin. The model with 20 trees and 80 variables at each split still has a \ac{RMSE} of $\approx 4456$, which is an increase of less than $1.9\%$.
+We calculated \ac{RMSE} values for a range of Random Forest models to evaluate which combination of the number of trees to grow, and the number of variables taken into account at each split leads to the best results. The results are plotted in Figure \ref{fig:rfrmse}. The smallest \ac{RMSE} is $\approx 4374$. Moreover, the plot shows, reveals that tiny models profit substantially from increasing complexity while bigger models profit only by a small margin. The model with $20$ trees and $80$ variables at each split still has a \ac{RMSE} of $\approx 4456$, which is an increase of less than $1.9\%$.
 
-The \ac{bagging} model with $25$ trees (\ac{RMSE} of $\approx 4305$) outperforms the random forest Model (with 25 trees and 100 variables) only by a small margin (\ac{RMSE} of $4374.330$). However, training the random forest demands only $15\%$ of the time, that the \ac{bagging} model needs.
+The \ac{bagging} model with $25$ trees (\ac{RMSE} of $\approx 4305$) outperforms the random forest Model (with $25$ trees and $100$ variables) only by a small margin (\ac{RMSE} of $4374.330$). However, training the random forest demands only $15\%$ of the time, that the \ac{bagging} model needs.
 
 ```{r, echo = FALSE, fig.cap= "\\label{fig:rfimp}Random Forest: Variable Importance."}
 knitr::include_graphics("../00_data/output_paper/11_var_imp_random_forest_bp.pdf")
@@ -244,7 +244,7 @@ knitr::include_graphics("../00_data/output_paper/11_var_imp_random_forest_bp.pdf
 
 Figure \ref{fig:rfimp} shows the variable importance plot for the $20$ most important variables of the 'optimal' random forest, which minimizes the \ac{RMSE} in the given range. According to this plot the most important variable, in terms of the mean increase of the \ac{RMSE}, is $ms\_segm$, followed by four variables with regard to the price: $price$, $lp$, the logarithmized price, $pri\_m$, the mean real litre price (base Jan 2004) during the weeks the wine is distributed and $rprice\_litre$, real litre price (base Jan 2004). Thus, the litres of wine sold per week is mainly determined by its market share and its price. Although, there are many more variables which, according to the random forest model, are important. One should note that those variables do not necessarily have the highest marginal effects.
 
-Figure \ref{fig:rfpardep} shows the partial dependence plots for the 10 most important variables. The plots present the marginal effect of the variable on the litres sold per week. Those plots reveal some nonlinear dependencies in the data which explains the poor performances of the linear models. Furthermore, the figure validates some intuitive assumptions. For example, a higher market share leads to more litres sold, while high real prices lead to fewer litres sold. Besides, the influence of $v10\_dim$, which is the 'Dagens Industri' review, is especially large, when the review is excellent. The complete partial dependence plot with all 20 most important variables can be found in the appendix \ref{chap:ap2} in figure \ref{fig:rfpardep_other} to keep this chapter at a reasonable size.
+Figure \ref{fig:rfpardep} shows the partial dependence plots for the $10$ most important variables. The plots present the marginal effect of the variable on the litres sold per week. Those plots reveal some nonlinear dependencies in the data which explains the poor performances of the linear models. Furthermore, the figure validates some intuitive assumptions. For example, a higher market share leads to more litres sold, while high real prices lead to fewer litres sold. Besides, the influence of $v10\_dim$, which is the 'Dagens Industri' review, is especially large, when the review is excellent. The complete partial dependence plot with all $20$ most important variables can be found in the appendix \ref{chap:ap2} in figure \ref{fig:rfpardep_other} to keep this chapter at a reasonable size.
 
 ```{r, echo = FALSE, fig.cap = "\\label{fig:rfpardep}Random Forest: Partial Dependence Plots."}
 knitr::include_graphics("../00_data/output_paper/11_par_dep_random_forest.pdf")
