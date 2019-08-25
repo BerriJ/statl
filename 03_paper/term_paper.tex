@@ -271,7 +271,7 @@
 \section{Introduction}\label{introduction}}
 
 This paper presents a forecasting study on global wine sales. This study
-is based on the friberg gronqvist wine data set, which is publicly
+is based on the friberg gronqvist wine dataset, which is publicly
 available and was previously analyzed by
 \textcite[][p. 193f.]{Friberg2012}. Recent technological advancements
 led to a significant increase in statistical methods that are
@@ -316,11 +316,11 @@ Chapter \ref{chap:val} describes the validation approach. Chapter
 \section{\texorpdfstring{Data and Variables
 \label{chap:data}}{Data and Variables }}\label{data-and-variables}}
 
-The data set used in this paper contains \(145179\) observations with
+The dataset used in this paper contains \(145179\) observations with
 \(59\) variables. The variables include the name of the wine, the
 country of origin, its price, the amount sold per week in litre, the
 taste segment, and variables related to different reviews, among others.
-A table with summary statistics of the data set can be found in appendix
+A table with summary statistics of the dataset can be found in appendix
 \ref{chap:ap1} in table \ref{tab:SumStat}.
 
 We need to omit two variables beforehand, namely
@@ -574,7 +574,7 @@ validation set approach' \autocite[][p. 308]{James2014}. This is done by
 The pruned tree (see Figure \ref{fig:tree_pruned}) does only utilize the
 dummy whether the wine is red wine and the mean market share within
 color during weeks the wine is distributed. \enquote{\(ms\_segm\)} is
-used twice; thus, the pruned tree splits the data set into four terminal
+used twice; thus, the pruned tree splits the dataset into four terminal
 nodes. While the pruned tree thus might be easier to interpret, it does
 also come with a higher \ac{RMSE}. The mean cross-validated \ac{RMSE} of
 the pruned trees is ca. 7935.64, while the mean \ac{RMSE} of the
@@ -795,7 +795,7 @@ due to the gain of observations.
 \label{chap:conc}}{Conclusion }}\label{conclusion}}
 
 In this paper, we developed a forecasting model based on the friberg
-gronqvist wine data set. We used different statistical learning methods
+gronqvist wine dataset. We used different statistical learning methods
 and evaluated them in terms of their cross validated out of sample
 \ac{RMSE}. Table \ref{tab:RMSESum} presents the results for the most
 relevant models.
@@ -919,7 +919,7 @@ the application of a random forest model in contrast to a bagging model.
 \label{chap:ap1}}{Dataset }}\label{dataset}}
 
 \begin{table}[!htbp] \centering 
-  \caption{Summary Statistics of the Data Set.} 
+  \caption{Summary Statistics of the Dataset.} 
   \label{tab:SumStat} 
 \small 
 \begin{tabular}{@{\extracolsep{5pt}}lcccc} 

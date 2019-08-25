@@ -44,7 +44,7 @@ crop <- function(im, left = 0, top = 0, right = 0, bottom = 0) {
 
 # Introduction
 
-This paper presents a forecasting study on global wine sales. This study is based on the friberg gronqvist wine data set, which is publicly available and was previously analyzed by \textcite[][p. 193f.]{Friberg2012}. Recent technological advancements led to a significant increase in statistical methods that are computationally demanding while potentially outperforming classical statistical methods, especially in terms of forecasting. Those techniques are usually referred to as statistical or machine learning methods. The methods and procedures we introduce in this paper are based on `An Introduction to Statistical Learning with Applications in R' \autocite[][]{James2014}.
+This paper presents a forecasting study on global wine sales. This study is based on the friberg gronqvist wine dataset, which is publicly available and was previously analyzed by \textcite[][p. 193f.]{Friberg2012}. Recent technological advancements led to a significant increase in statistical methods that are computationally demanding while potentially outperforming classical statistical methods, especially in terms of forecasting. Those techniques are usually referred to as statistical or machine learning methods. The methods and procedures we introduce in this paper are based on `An Introduction to Statistical Learning with Applications in R' \autocite[][]{James2014}.
 
 We present various models which are increasingly complex. Those models potentially gain forecasting power while losing interpretability. The applied models range from linear regressions to tree-based methods like random forests and boosting. The goal is to develop the best possible model to forecast weekly wine sales in litre in out of sample data.
 
@@ -54,7 +54,7 @@ The remainder of this paper is structured as follows. Chapter \ref{chap:data} gi
 
 # Data and Variables \label{chap:data}
 
-The data set used in this paper contains $145179$ observations with $59$ variables. The variables include the name of the wine, the country of origin, its price, the amount sold per week in litre, the taste segment, and variables related to different reviews, among others. A table with summary statistics of the data set can be found in appendix \ref{chap:ap1} in table \ref{tab:SumStat}.
+The dataset used in this paper contains $145179$ observations with $59$ variables. The variables include the name of the wine, the country of origin, its price, the amount sold per week in litre, the taste segment, and variables related to different reviews, among others. A table with summary statistics of the dataset can be found in appendix \ref{chap:ap1} in table \ref{tab:SumStat}.
 
 We need to omit two variables beforehand, namely "$time\_segm\_price$" and "$artikpr$", because those are combinations of other existing variables. Hence inclusion would lead to the problem of multicollinearity. After omitting those two, we have left the following types of variables (see table \ref{tab:VarTyp}).
 
@@ -202,7 +202,7 @@ load(file = "../00_data/output_paper/09_tree.rda")
 cm_df <- df %>% colMeans() %>% round(2)
 ```
 
-The pruned tree (see Figure \ref{fig:tree_pruned}) does only utilize the dummy whether the wine is red wine and the mean market share within color during weeks the wine is distributed. "$ms\_segm$" is used twice; thus, the pruned tree splits the data set into four terminal nodes. While the pruned tree thus might be easier to interpret, it does also come with a higher \ac{RMSE}.
+The pruned tree (see Figure \ref{fig:tree_pruned}) does only utilize the dummy whether the wine is red wine and the mean market share within color during weeks the wine is distributed. "$ms\_segm$" is used twice; thus, the pruned tree splits the dataset into four terminal nodes. While the pruned tree thus might be easier to interpret, it does also come with a higher \ac{RMSE}.
 The mean cross-validated \ac{RMSE} of the pruned trees is ca. `r cm_df[2]`, while the mean \ac{RMSE} of the conventional regression trees is about `r cm_df[1]`.
 
 ### Bootstrap Aggregation
@@ -281,7 +281,7 @@ Another crucial decision was to exclude all variables with more than $50\%$ miss
 load("../00_data/output_paper/16_summary.rda")
 ```
 
-In this paper, we developed a forecasting model based on the friberg gronqvist wine data set. We used different statistical learning methods and evaluated them in terms of their cross validated out of sample \ac{RMSE}. Table \ref{tab:RMSESum} presents the results for the most relevant models.
+In this paper, we developed a forecasting model based on the friberg gronqvist wine dataset. We used different statistical learning methods and evaluated them in terms of their cross validated out of sample \ac{RMSE}. Table \ref{tab:RMSESum} presents the results for the most relevant models.
 
 At first, we estimated a mean regression and a linear regression model without variable selection to establish a baseline. The linear regression yields a substantial improvement over the mean regression which hints at some explanatory power of our variables. 
 
@@ -347,7 +347,7 @@ In conclusion, the two best performing models in terms of the cross validated ou
 ```{r, echo = F, results = 'asis', message = F}
 load("../00_data/wine_preprocessed.rda")
 stargazer(as.data.frame(wine), summary.stat = c("min","max","mean","sd"),
-          title = "Summary Statistics of the Data Set.", header = FALSE, 
+          title = "Summary Statistics of the Dataset.", header = FALSE, 
           label = "tab:SumStat", font.size = "small")
 ```
 
