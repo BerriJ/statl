@@ -54,7 +54,7 @@ The remainder of this paper is structured as follows. Chapter \ref{chap:data} gi
 
 # Data and Variables \label{chap:data}
 
-The data set used in this paper contains 145179 observations with 59 variables. The variables include the name of the wine, the country of origin, its price, the amount sold per week in litres, the taste segment, and variables related to different reviews, among others. A table with summary statistics of the data set can be found in appendix \ref{chap:ap1} in table \ref{tab:SumStat}.
+The dataset used in this paper contains 145179 observations with 59 variables. The variables include the name of the wine, the country of origin, its price, the amount sold per week in litres, the taste segment, and variables related to different reviews, among others. A table with summary statistics of the dataset can be found in appendix \ref{chap:ap1} in table \ref{tab:SumStat}.
 
 We need to omit two variables beforehand, namely "$time\_segm\_price$" and "$artikpr$", because those are combinations of other existing variables. Hence inclusion would lead to the problem of multicollinearity. After omitting those two, we have left the following types of variables (see table \ref{tab:VarTyp}). As the analysis is based on data from Sweden, all the levels of the factor variables are denoted in Swedish.
 
@@ -182,7 +182,7 @@ Tree-based methods utilize decision rules to split the feature space into severa
 
 ### Single Regression Tree
 
-For growing a regression tree, `the algorithm needs to automatically decide on the splitting variables and split points [...] the tree should have' \autocite[][p. 349]{Hastie2013}. The tree is grown when a split is found that minimizes the sum of squared residuals. The splitting is done with a greedy algorithm, i.e., at first, all the data is split into just two groups while the search of the splitting variable and split point includes all possible variables and points \autocite[cf.][p. 349]{Hastie2013}. After the data is split this process is repeated for the obtained two split regions until the tree is large enough that the terminal nodes reach a pre-defined minimum size.
+For growing a regression tree, `the algorithm needs to automatically decide on the splitting variables and split points [...] the tree should have' \autocite[][p. 349]{Hastie2013}. The tree is grown when a split is found that minimizes the sum of squared residuals. The splitting is done with a greedy algorithm, i.e., at first, all the data is split into just two groups while the search of the splitting variable and split point includes all possible variables and points \autocite[Cf.][p. 349.]{Hastie2013}. After the data is split this process is repeated for the obtained two split regions until the tree is large enough that the terminal nodes reach a pre-defined minimum size.
 
 ```{r tree, echo = FALSE, fig.cap = "\\label{fig:tree}Example of a Regression Tree."}
 knitr::include_graphics("../00_data/output_paper/09_tree.pdf")
@@ -217,7 +217,7 @@ Figure \ref{fig:rmsebag} shows the \ac{RMSE} values of different \ac{bagging} mo
 knitr::include_graphics("../00_data/output_paper/14_bagging.pdf")
 ```
 
-To further analyze the \ac{bagging} model, we estimated a \ac{bagging} model with 25 trees for the whole dataset. Figure \ref{fig:bagvarimp} presents the variable importance this model. It presents those 20 variables which would increase the \ac{RMSE} the most when being omitted. The plot shows that the influence of 'ms_segm' which is the market share of the wine as well as 'segmred' which is a dummy, indicating if the wine is red, substantially contribute to our model. Intuitively, the price also influences how many litres per week are sold. More surprisingly, however, is the fact, that also the date substantially contributes to our mode. This indicates that prices have changed over time.
+To further analyze the \ac{bagging} model, we estimated a \ac{bagging} model with $25$ trees for the whole dataset. Figure \ref{fig:bagvarimp} presents the variable importance this model. It presents those $20$ variables which would increase the \ac{RMSE} the most when being omitted. The plot shows that the influence of 'ms_segm' which is the market share of the wine as well as 'segmred' which is a dummy, indicating if the wine is red, substantially contribute to our model. Intuitively, the price also influences how many litres per week are sold. More surprisingly, however, is the fact, that also the date substantially contributes to our mode. This indicates that prices have changed over time.
 
 ```{r bag_varimp, echo = FALSE, fig.cap = "\\label{fig:bagvarimp}Bagging: Variable Importance.", fig.align=T}
 knitr::include_graphics("../00_data/output_paper/15_var_imp_bagging.pdf")
@@ -235,7 +235,7 @@ knitr::include_graphics("../00_data/output_paper/10_rf_plot.png")
 
 We calculated \ac{RMSE} values for a range of Random Forest models to evaluate which combination of the number of trees to grow, and the number of variables taken into account at each split leads to the best results. The results are plotted in Figure \ref{fig:rfrmse}. The smallest \ac{RMSE} is $\approx 4374$. Moreover, the plot shows, reveals that tiny models profit substantially from increasing complexity while bigger models profit only by a small margin. The model with $20$ trees and $80$ variables at each split still has a \ac{RMSE} of $\approx 4456$, which is an increase of less than $1.9\%$.
 
-The \ac{bagging} model with $25$ trees (\ac{RMSE} of $\approx 4305$) outperforms the random forest Model (with $25$ trees and $100$ variables) only by a small margin (\ac{RMSE} of $4374.330$). However, training the random forest demands only $15\%$ of the time, that the \ac{bagging} model needs.
+The \ac{bagging} model with $25$ trees (\ac{RMSE} of $\approx 4305$) outperforms the random forest model (with $25$ trees and $100$ variables) only by a small margin (\ac{RMSE} of $4374.330$). However, training the random forest demands only $15\%$ of the time, that the \ac{bagging} model needs.
 
 ```{r, echo = FALSE, fig.cap= "\\label{fig:rfimp}Random Forest: Variable Importance."}
 knitr::include_graphics("../00_data/output_paper/11_var_imp_random_forest_bp.pdf")
@@ -252,7 +252,7 @@ knitr::include_graphics("../00_data/output_paper/11_par_dep_random_forest.pdf")
 
 ### Boosting
 
-In contrast to random forests boosting grows tree sequentially meaning that for every new tree information from already grown trees is used \autocite[cf.][p. 322]{James2014}. For boosting rather small regression trees are used to improve the boosting tree slowly. This is achieved by taking the residuals from the current boosting tree, fitting a (small) tree to these residuals and then fitting this tree into the boosting tree in areas where the performance of the boosting tree could be improved \autocite[cf.][p. 322]{James2014}. Thus the existing tree is expanded with the new tree. This means that, in contrast to bagging, the newly grown trees do depend on the earlier grown trees.
+In contrast to random forests boosting grows tree sequentially meaning that for every new tree information from already grown trees is used \autocite[Cf.][p. 322.]{James2014}. For boosting rather small regression trees are used to improve the boosting tree slowly. This is achieved by taking the residuals from the current boosting tree, fitting a (small) tree to these residuals and then fitting this tree into the boosting tree in areas where the performance of the boosting tree could be improved \autocite[Cf.][p. 322.]{James2014}. Thus the existing tree is expanded with the new tree. This means that, in contrast to bagging, the newly grown trees do depend on the earlier grown trees.
 
 The boosting models possess three parameters for tuning: The number of trees, the interaction depth, and the shrinkage parameter $\lambda$. The resulting \ac{RMSE}s for different combinations of those tuning parameters are shown in figure \ref{fig:boostrmse}. Another tuning parameter implemented in the function for running boosting in R, *gbm()*, is the *bag.fraction*. This argument defines which fraction of the data is used to build the next tree. The default value is $0.5$, which means that $50\%$ of the training observations are samples (without replacement) each time a new tree is estimated. This adds randomness to the estimation, which reduces the problem of overfitting but it adds variance to the in sample predictions \autocite[Cf.][p. 806.]{Elith2008}. We set this value to $1$. This outperformed the default setting of $0.5$ by a $\approx1.9\%$ decrease in out of sample cross-validated \ac{RMSE}. Hence all observations in the training set have been used at every iteration.
 
@@ -283,7 +283,7 @@ Another crucial decision was to exclude all variables with more than $50\%$ miss
 load("../00_data/output_paper/16_summary.rda")
 ```
 
-In this paper, we developed a forecasting model based on the friberg gronqvist wine data set. We used different statistical learning methods and evaluated them in terms of their cross-validated out of sample \ac{RMSE}. Table \ref{tab:RMSESum} presents the results for the most relevant models.
+In this paper, we developed a forecasting model based on the friberg gronqvist wine dataset. We used different statistical learning methods and evaluated them in terms of their cross-validated out of sample \ac{RMSE}. Table \ref{tab:RMSESum} presents the results for the most relevant models.
 
 At first, we estimated a mean regression and a linear regression model without variable selection to establish a baseline. The linear regression yields a substantial improvement over the mean regression, which hints at some explanatory power of our variables.
 
@@ -300,7 +300,7 @@ Afterward, tree-based methods where applied. The results show that the performan
 
 Our study shows that only a few variables determine the litres of a wine sold per week. Among those are the mean market share within the color of the wine, its price (in different variations) the color of the wine, its place of origin, and the time. Partial dependence plots revealed a nonlinear influence of many variables. Furthermore, red wine is sold in a higher quantity than other wines; the overall litres sold per week decreased chronologically. We find little evidence that expert reviews and ratings have a great influence on the sales; if they have, they tend to have a strong influence only when they are excellent. This contrasts the results of some studies mentioned in the introduction.
 
-In conclusion, the two best performing models in terms of the cross-validated out of sample \ac{RMSE} are the bagging model with $25$ trees and the selected random forest model. While the bagging model yields the best cross-validated out of sample \ac{RMSE} it is computationally demanding. Therefore we propose the use of a random forest model with 25 trees and 100 variables considered at each split. The use of more trees, more variables, or both barely increases the forecasting performance. Moreover, the proposed random forest model performs only little worse than the \ac{bagging} model, but it demands substantially less computation time, which is why we prefer the application of a random forest model in contrast to a bagging model.
+In conclusion, the two best performing models in terms of the cross-validated out of sample \ac{RMSE} are the bagging model with $25$ trees and the selected random forest model. While the bagging model yields the best cross-validated out of sample \ac{RMSE} it is computationally demanding. Therefore we propose the use of a random forest model with $25$ trees and $100$ variables considered at each split. The use of more trees, more variables, or both barely increases the forecasting performance. Moreover, the proposed random forest model performs only little worse than the \ac{bagging} model, but it demands substantially less computation time, which is why we prefer the application of a random forest model in contrast to a bagging model.
 
 \pagebreak
 

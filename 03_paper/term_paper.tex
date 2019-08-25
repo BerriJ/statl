@@ -1,0 +1,1041 @@
+\documentclass[11pt,]{article}
+\usepackage{lmodern}
+
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+    \usepackage{xltxtra,xunicode}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[lmargin=5cm,rmargin=2.5cm,tmargin=2.5cm,bmargin=2.5cm]{geometry}
+
+% Figure Placement:
+\usepackage{float}
+\let\origfigure\figure
+\let\endorigfigure\endfigure
+\renewenvironment{figure}[1][2] {
+    \expandafter\origfigure\expandafter[H]
+} {
+    \endorigfigure
+}
+
+%% citation setup
+\usepackage{csquotes}
+
+\usepackage[backend=biber, maxbibnames = 99, style = apa]{biblatex}
+\setlength\bibitemsep{1.5\itemsep}
+\addbibresource{R_packages.bib}
+\bibliography{references.bib}
+\usepackage{longtable,booktabs}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true, linktocpage = TRUE]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={Jonathan Berrisch, Timo Rammert},
+            pdftitle={A Forecasting Study on Swedish Wine Sales},
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\setcounter{secnumdepth}{5}
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{A Forecasting Study on Swedish Wine Sales}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+\subtitle{Statistical Learning}
+  \author{Jonathan Berrisch, Timo Rammert}
+  \preauthor{\centering\large\emph}
+  \postauthor{\par}
+  \predate{\centering\large\emph}
+  \postdate{\par}
+  \date{today}
+
+
+%% linespread settings
+
+\usepackage{setspace}
+
+\onehalfspacing
+
+% Language Setup
+
+\usepackage{ifthen}
+\usepackage{iflang}
+\usepackage[super]{nth}
+\usepackage[ngerman, english]{babel}
+
+%Acronyms
+\usepackage[printonlyused, withpage, nohyperlinks]{acronym}
+\usepackage{changepage}
+
+% Multicols for the Title page
+\usepackage{multicol}
+
+\begin{document}
+
+\selectlanguage{english}
+
+
+%\maketitle
+
+\begin{titlepage}
+  \noindent\begin{minipage}{0.6\textwidth}
+	  \IfLanguageName{english}{University of Duisburg-Essen}{Universität Duisburg-Essen}\\
+	  \IfLanguageName{english}{Faculty of Business Administration and Economics}{Fakultät für Wirtschaftswissensschaften}\\
+	  \IfLanguageName{english}{Chair of Econometrics}{Lehrstuhl für Ökonometrie}\\
+  \end{minipage}
+	\begin{minipage}{0.4\textwidth}
+	  \begin{flushright}
+  	  \vspace{-0.5cm}
+      \IfLanguageName{english}{\includegraphics*[width=5cm]{Includes/duelogo_en.png}}{\includegraphics*[width=5cm]{Includes/duelogo_de.png}}
+	  \end{flushright}
+	\end{minipage}
+  \\
+  \vspace{1.5cm}
+  \begin{center}
+  \huge{A Forecasting Study on Swedish Wine Sales}\\
+  \vspace{.25cm}
+  \Large{Statistical Learning}\\
+  \vspace{0.5cm}
+  \large{Term Paper}\\
+  \vspace{1cm}
+  \large{
+  \IfLanguageName{english}{Submitted to the Faculty of \\ Business Administration and Economics \\at the \\University of Duisburg-Essen}{Vorgelegt der \\Fakultät für Wirtschaftswissenschaften der \\ Universität Duisburg-Essen}\\}
+  \vspace{0.75cm}
+  \large{\IfLanguageName{english}{from:}{von:}}\\
+  \vspace{0.5cm}
+  Jonathan Berrisch, Timo Rammert\\
+  \end{center}
+  %\vspace{2cm}
+  \vfill
+  \hrulefill
+
+  \noindent\begin{minipage}[t]{0.3\textwidth}
+  \IfLanguageName{english}{Reviewer:}{Erstgutachter:}
+  \end{minipage}
+  \begin{minipage}[t]{0.7\textwidth}
+  \hspace{1cm}Dr.~Thomas Deckers
+  \end{minipage}
+
+  \noindent\begin{minipage}[t]{0.3\textwidth}
+  \IfLanguageName{english}{Deadline:}{Abgabefrist:}
+  \end{minipage}
+  \begin{minipage}[t]{0.7\textwidth}
+  \hspace{1cm}Aug.~27th 2019
+  \end{minipage}
+
+  \hrulefill
+
+  \begin{multicols}{3}
+
+  Name:
+
+  Matriculation Number:
+
+  E-Mail:
+
+  Study Path:
+
+  Semester:
+
+  Graduation (est.):
+
+  \columnbreak
+
+  Jonathan Berrisch
+
+  3071485
+
+  Jonathan@Berrisch.biz
+
+  M.Sc. Economics
+
+  \nth{4}
+
+  Summer Term 2020
+
+  \columnbreak
+
+  Timo Rammert
+
+  3030862
+
+  t.rammert03@gmail.com
+
+  M.Sc. Economics
+
+  \nth{2}
+
+  Winter Term 2020/2021
+
+  \end{multicols}
+
+\end{titlepage}
+
+\newgeometry{top=2cm, left = 5cm, right = 2.5cm, bottom = 2.5cm}
+
+
+\pagenumbering{Roman}
+{
+\hypersetup{linkcolor=black}
+
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+
+\newpage
+\listoffigures
+\addcontentsline{toc}{section}{List of Figures}
+
+%\newpage
+\listoftables
+\addcontentsline{toc}{section}{List of Tables}
+
+\section*{List of Abbreviations}
+\addcontentsline{toc}{section}{List of Abbreviations}
+
+\begin{adjustwidth}{1.5em}{0pt}
+
+\begin{acronym}[dummyyyy]
+ \acro{bagging}{Bootstrap Aggregation}
+ \acro{lasso}{Least Absolute Shrinkage and Selection Operator}
+ \acro{pcr}{Principal Components Regression}
+ \acro{pls}{Partial Least Squares}
+ \acro{RMSE}{Root Mean Squared Error}
+ \acroplural{LRG}[LRG]{längefristige Refinanzierungsgeschäfte}
+
+%Falls eine Abkürzung in der Mehrzahl nicht einfach auf "s" endet muss das speziell eingestellt werden.
+% \acro{slmtA}{super lange mega tolle Abkürzung} %Einzahl
+ %\acroplural{slmtA}[slmtAs]{super lange mega tolle Abkürzungen} %Mehrzahl
+ \acro{dummyyyy}{dummyyy}
+\end{acronym}
+
+\end{adjustwidth}
+
+\restoregeometry
+
+\newpage
+\pagenumbering{arabic}
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+This paper presents a forecasting study on swedish wine sales. This
+study is based on the friberg gronqvist wine dataset, which is publicly
+available and was previously analyzed by \textcite[][]{Friberg2012}.
+Recent technological advancements led to a significant increase in
+statistical methods that are computationally demanding while potentially
+outperforming classical statistical methods, especially in terms of
+forecasting. Those techniques are usually referred to as statistical or
+machine learning methods. The methods and procedures we introduce in
+this paper are based on `An Introduction to Statistical Learning with
+Applications in R' \autocite[][]{James2014}.
+
+We present various models which are increasingly complex. Those models
+potentially gain forecasting power while losing interpretability. The
+applied models range from linear regressions to tree-based methods like
+random forests and boosting. The goal is to develop the best possible
+model to forecast weekly wine sales in litres in out of sample data.
+
+Although the main goal is an accurate forecast, some of the methods used
+in this paper can also be used to quantify the impact of expert reviews
+on the sales, if there is any. The effect of expert opinions on consumer
+demand was analyzed in previous research. Notably,
+\textcite[][]{Hilger2011} used a field experiment to study a
+review-based demand effect using wine score labels in a retail grocery
+chain. They find that providing information based on expert opinions
+increases the sales; this effect does depend on the score a wine has
+gotten. \textcite[][]{Ashenfelter2013} analyze, wether expert reviews
+influence the prices of wine. They conclude that expert reviews contain
+public as well as private information. They only validate an influence
+on the highest rated wines. Furthermore, \textcite[][]{Bicknell2012}
+delivered research concerning the market for wine from New Zealand. They
+validate a significant regional influence on wine prices. This influence
+is substantially lower for wine, which is designated for the export
+market.
+
+The remainder of this paper is structured as follows. Chapter
+\ref{chap:data} gives an overview of the dataset and the preprocessing.
+Chapter \ref{chap:val} describes the validation approach. Chapter
+\ref{chap:anal} presents the models and their specification. Chapter
+\ref{chap:rob} presents the results of some robustness checks. Chapter
+\ref{chap:conc} provides the results, and concludes.
+
+\hypertarget{data-and-variables}{%
+\section{\texorpdfstring{Data and Variables
+\label{chap:data}}{Data and Variables }}\label{data-and-variables}}
+
+The dataset used in this paper contains 145179 observations with 59
+variables. The variables include the name of the wine, the country of
+origin, its price, the amount sold per week in litres, the taste
+segment, and variables related to different reviews, among others. A
+table with summary statistics of the dataset can be found in appendix
+\ref{chap:ap1} in table \ref{tab:SumStat}.
+
+We need to omit two variables beforehand, namely
+\enquote{\(time\_segm\_price\)} and \enquote{\(artikpr\)}, because those
+are combinations of other existing variables. Hence inclusion would lead
+to the problem of multicollinearity. After omitting those two, we have
+left the following types of variables (see table \ref{tab:VarTyp}). As
+the analysis is based on data from Sweden, all the levels of the factor
+variables are denoted in Swedish.
+
+\begin{longtable}[]{@{}rrrr@{}}
+\caption{\label{tab:VarTyp}Frequency of Variable Types.}\tabularnewline
+\toprule
+Date & factor & logical & numeric\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+Date & factor & logical & numeric\tabularnewline
+\midrule
+\endhead
+1 & 8 & 19 & 29\tabularnewline
+\bottomrule
+\end{longtable}
+
+Figure \ref{fig:NAs} depicts the number of missing values in each
+variable. The number of complete cases would be zero without further
+selection. Therefore we exclude every variable with a ratio of missing
+values that exceeds \(50\%\). In consequence, \(41416\) observations
+with \(45\) variables are used for building the forecasting models.
+
+\begin{figure}
+\centering
+\includegraphics{../00_data/output_paper/02_missings_alt.pdf}
+\caption{\label{fig:NAs}Share of Missing Values in the Wine Dataset.}
+\end{figure}
+
+Figure \ref{fig:HistLitre} depicts the distribution of the variable
+\enquote{\(litre\)}, which is the dependent variable in our models. One
+can see that the observations are heavily skewed. The maximum is at
+\(184200\) litres sold weekly while its minimum is near zero with only
+\(0.75\) litres sold per week.
+
+\begin{figure}
+\centering
+\includegraphics{../00_data/output_paper/04_hist_litre.pdf}
+\caption{\label{fig:HistLitre}Histogram and Estimated Density of the
+Litre Variable.}
+\end{figure}
+
+\hypertarget{validation-approach}{%
+\section{\texorpdfstring{Validation Approach
+\label{chap:val}}{Validation Approach }}\label{validation-approach}}
+
+Sampling may influence the model selection process because a sample
+could be in favor of one specific method while another sample could lead
+to different results. Therefore we validate the results of each method
+using 5-fold cross-validation. This reduces the influence of sampling
+when building the training and the test set while it is computationally
+feasible.
+
+In order to compute a prediction, the test set must include, at least,
+all features of the training set. Due to the high number of levels in
+the countries and name variable, this was not always the case.
+Therefore, we are using only the intersection of training and test
+features to be included in the estimation.
+
+\hypertarget{analysis}{%
+\section{\texorpdfstring{Analysis
+\label{chap:anal}}{Analysis }}\label{analysis}}
+
+\hypertarget{mean-regression-and-linear-regression}{%
+\subsection{Mean Regression and Linear
+Regression}\label{mean-regression-and-linear-regression}}
+
+At first, a mean regression and a linear regression are calculated.
+Those models are representing the baseline. For comparison of the
+different models, the \ac{RMSE}
+\[\sqrt{\frac{1}{n}\sum_{i = 1}^{n}\left(y_i-\hat{y}_i\right)^2}\] is
+calculated.
+
+The mean regression yields an average \ac{RMSE} of \(\approx 13340\)
+litres sold per week. The linear regression where all variables are
+included yields an average \ac{RMSE} of \(\approx 5572\). The latter
+result is probably influenced by overfitting. To cope with this problem,
+we are using variable selection and dimension reduction methods, which
+are discussed in the proceeding sections.
+
+\hypertarget{least-absolute-shrinkage-and-selection-operator}{%
+\subsection{Least Absolute Shrinkage and Selection
+Operator}\label{least-absolute-shrinkage-and-selection-operator}}
+
+The \ac{lasso} is a method combining linear regression and shrinkage of
+the coefficient estimates to do variable selection. It fits a linear
+model that is constrained by a penalty term, i.e., the \ac{lasso}
+coefficients minimize:
+
+\[
+\sum_{i=1}^{n}(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij})+\lambda\sum_{j=1}^{p}|\beta_j|.
+\]
+
+Figure \ref{fig:CoefLamb} depicts the relation between lambda and the
+coefficients. The cross-validated log lambda, which minimizes the test
+error is \(\approx -8.94\). At that level a total of \(\approx 666\) out
+of \(713\) coefficients are
+nonzero\footnote{$\approx 666.6$ to be exact, but we could not resist to round down.}.
+The other coefficients are precisely zero due to the sparsity property
+of the \ac{lasso} estimator. Furthermore, the plot includes abbreviated
+variable names of the ten biggest coefficients. All of those
+coefficients are dummies for specific wine names. The average \ac{RMSE}
+of the \ac{lasso} approach is \(\approx 5547.76\). This is a slight
+improvement compared to the linear baseline model. The \ac{lasso}
+slightly reduces the feature set while also reducing the \ac{RMSE}. This
+is evidence supporting our prior assumption that the linear model was
+exposed to the problem of overfitting. Furthermore, the coefficients of
+the \ac{lasso} model indicate that the name variable is the most
+important variable to explain the litres sold per week. It is followed
+by the vintage, the region, the taste segment, and the country of the
+wine. The least important variables are the review variables which are
+not present in the \(400\) biggest coefficients.
+
+\begin{figure}
+\centering
+\includegraphics{term_paper_files/figure-latex/unnamed-chunk-6-1.png}
+\caption{\label{fig:CoefLamb}Relation of Coefficients and Shrinkage.}
+\end{figure}
+
+\hypertarget{principal-components-regression-and-partial-least-squares}{%
+\subsection{Principal Components Regression and Partial Least
+Squares}\label{principal-components-regression-and-partial-least-squares}}
+
+While \ac{lasso} is a technique for variable selection, \ac{pcr} and
+\ac{pls} are other methods that reduce the dimension of the feature set
+while changing the features. Thus, the least-squares estimation is
+performed using a transformation of the explanatory variables. Thereby,
+\ac{pls} includes the dependent variable when computing the new feature
+set while \ac{pcr} builds the principal components independent of the
+dependent variable.
+
+Figure \ref{fig:PrincCom} shows the first two principal components from
+a \ac{pcr}. The first two principal components represent roughly \(3\%\)
+of the total variance. This is a sign that the \ac{pcr} does not work
+well on our data, which might be due to a large number of dummy
+variables.
+
+\begin{figure}
+\centering
+\includegraphics{term_paper_files/figure-latex/unnamed-chunk-8-1.png}
+\caption{\label{fig:PrincCom}Principal Component One and Two.}
+\end{figure}
+
+The results confirm the expectation. \ac{pcr} has a cross-validated
+\ac{RMSE} of \(\approx 5546.05\) while \ac{pls} leads to an \ac{RMSE} of
+\(\approx 6201.15\). While \(\approx 635\) principal component where
+included in the \ac{pcr}, only \(\approx 35.2\) components where used in
+the \ac{pls}. Thus \ac{pls} significantly reduced the dimension of the
+featureset. While sacrificing interpretability of the results, it leads
+to a higher \ac{RMSE}.
+
+\hypertarget{splines}{%
+\subsection{Splines}\label{splines}}
+
+The previous methods assumed linear relationships between the
+independent variables and the dependent variable. Considering the number
+of dummy variables in the feature set, the usage of nonlinear methods is
+quite limited. However, to recognize potential nonlinear relationships
+we add natural splines to the variables \(year\), \(price\), and
+\(rprice\_litre\). Those variables indicate the year in which the wine
+was distributed, the price and the real price with Jan 2004 as base
+respectively. Each natural spline was allowed to have up to 20 knots,
+which is sufficient to estimate complex linear relationships. The
+respective \ac{RMSE}s depending on the knots are presented in figure
+\ref{fig:splines}. Splines can improve the prediction a little which
+indicates that at least some nonlinear relationship is present. However,
+like the methods before, splines reduce the interpretability of the
+coefficients. In this case, this tradeoff is not offset enough by the
+gain in precision. Furthermore, figure \ref{fig:splines} shows, that the
+\ac{RMSE}s depend to some extent on the fold which was used for
+cross-validation. This approves our theoretically founded motivation to
+use cross-validation.
+
+\begin{figure}
+
+\includegraphics{../00_data/output_paper/08_splines} \hfill{}
+
+\caption[RMSE Values of Different Spline Models]{\label{fig:splines}Regression with Splines: Dependency between Knots and RMSE.}\label{fig:splines}
+\end{figure}
+
+\hypertarget{decision-tree-methods}{%
+\subsection{Decision Tree Methods}\label{decision-tree-methods}}
+
+\hypertarget{overview}{%
+\subsubsection{Overview}\label{overview}}
+
+Tree-based methods utilize decision rules to split the feature space
+into several different regions. `Since the set of splitting rules used
+to segment the predictor space can be summarized in a tree, these type
+of approaches are known as decision tree methods'
+\autocite[][p. 303]{Hastie2013}. Simple tree-based methods use single
+regression trees. One can combine different regression trees for a
+single prediction this usually improves the predictive power, but the
+interpretability becomes more complex. Those approaches, namely bagging,
+random forests, and boosting, are described in more detail when being
+applied.
+
+\hypertarget{single-regression-tree}{%
+\subsubsection{Single Regression Tree}\label{single-regression-tree}}
+
+For growing a regression tree, `the algorithm needs to automatically
+decide on the splitting variables and split points {[}\ldots{}{]} the
+tree should have' \autocite[][p. 349]{Hastie2013}. The tree is grown
+when a split is found that minimizes the sum of squared residuals. The
+splitting is done with a greedy algorithm, i.e., at first, all the data
+is split into just two groups while the search of the splitting variable
+and split point includes all possible variables and points
+\autocite[Cf.][p. 349.]{Hastie2013}. After the data is split this
+process is repeated for the obtained two split regions until the tree is
+large enough that the terminal nodes reach a pre-defined minimum size.
+
+\begin{figure}
+\centering
+\includegraphics{../00_data/output_paper/09_tree.pdf}
+\caption{\label{fig:tree}Example of a Regression Tree.}
+\end{figure}
+
+Figure \ref{fig:tree} shows that only a few of the available variables
+are used. These are namely \enquote{\(ms\_segm\)},
+\enquote{\(segmred\)}, \enquote{\(price\)}, and \enquote{\(period\)} and
+split the dataset into \(10\) parts, i.e., the tree has got \(10\)
+terminal nodes. The figure does also tell us what share of the data can
+be sorted to each node, as well as the mean price of the allocated
+observations. The regression trees build in the other four folds of the
+cross-validation are almost exactly the same as the shown tree. The
+selected variables indicate that according to this method, the market
+share, the color of the wine, the price as well as the period are the
+most important variables. Concerning the graph and the variable
+\enquote{\(segmred\)} it is important to keep in mind that this is a
+dummy variable meaning that a value \(< 0.5\) (the left track) stands
+for a wine that is not red. Conversely the right track stands for red
+wines.
+
+As regression trees may tend to grow quite large, a possible way to get
+smaller trees is pruning back the grown larger tree. The goal of pruning
+is `to select a subtree that leads to the lowest test error rate
+{[}which{]} we can estimate {[}\ldots{}{]} using cross-validation or the
+validation set approach' \autocite[][p. 308]{James2014}. This is done by
+\emph{cost complexity pruning}.
+
+\begin{figure}
+\centering
+\includegraphics{../00_data/output_paper/09_tree_pruned.pdf}
+\caption{\label{fig:tree_pruned}Example of a Pruned Tree.}
+\end{figure}
+
+The pruned tree (see Figure \ref{fig:tree_pruned}) does only utilize the
+dummy whether the wine is red wine and the mean market share within
+color during weeks the wine is distributed. \enquote{\(ms\_segm\)} is
+used twice; thus, the pruned tree splits the dataset into four terminal
+nodes. While the pruned tree thus might be easier to interpret, it does
+also come with a higher \ac{RMSE}. The mean cross-validated \ac{RMSE} of
+the pruned trees is ca. 7935.64, while the mean \ac{RMSE} of the
+conventional regression trees is about 6494.75.
+
+\hypertarget{bootstrap-aggregation}{%
+\subsubsection{Bootstrap Aggregation}\label{bootstrap-aggregation}}
+
+\ac{bagging} is a general method of repeatedly taking bootstrap samples
+from the dataset, estimating a model for every sample and averaging the
+predictions of every model afterward. The \ac{bagging} algorithm can
+also be used to improve decision tree models. For this, a bootstrap
+sample is drawn before growing the tree. This process is repeated
+several times to grow multiple trees. Finally, the predictions of the
+trees are averaged. By bootstrapping \ac{bagging} brings down the
+variance and thus, addresses the main problem of single regression trees
+which are very dependent on the actual sample.
+
+Figure \ref{fig:rmsebag} shows the \ac{RMSE} values of different
+\ac{bagging} models. The bootstrap sample size was chosen to be
+two-thirds of the total number of observations. One can see that even
+small models with down to \(15\) trees significantly outperform the
+single tree model of the previous chapter.
+
+\begin{figure}
+
+\includegraphics{../00_data/output_paper/14_bagging} \hfill{}
+
+\caption[Bagging: RMSE's at Different Tree Sizes]{\label{fig:rmsebag}Bagging: RMSEs at Different Tree Sizes (Smoothed).}\label{fig:bag}
+\end{figure}
+
+To further analyze the \ac{bagging} model, we estimated a \ac{bagging}
+model with \(25\) trees for the whole dataset. Figure
+\ref{fig:bagvarimp} presents the variable importance this model. It
+presents those \(20\) variables which would increase the \ac{RMSE} the
+most when being omitted. The plot shows that the influence of
+\enquote{ms\_segm} which is the market share of the wine as well as
+\enquote{segmred} which is a dummy, indicating if the wine is red,
+substantially contribute to our model. Intuitively, the price also
+influences how many litres per week are sold. More surprisingly,
+however, is the fact, that also the date substantially contributes to
+our mode. This indicates that prices have changed over time.
+
+\begin{figure}
+
+\includegraphics{../00_data/output_paper/15_var_imp_bagging} \hfill{}
+
+\caption{\label{fig:bagvarimp}Bagging: Variable Importance.}\label{fig:bag_varimp}
+\end{figure}
+
+Bagging, in general, considers all possible variables at each split.
+This makes \ac{bagging} computationally demanding. Moreover, this may
+lead to similar trees at each iteration. Thus, the trees are probably
+highly correlated.
+
+\hypertarget{random-forest}{%
+\subsubsection{\texorpdfstring{Random Forest
+\label{chap:rand_for}}{Random Forest }}\label{random-forest}}
+
+The random forest algorithm is a special case of \ac{bagging}. The name
+random forest arises from the fact that in contrast to the usual
+\ac{bagging} algorithm, at each split of the tree building process, only
+a pre-specified number of randomly chosen variables are taken into
+consideration. This results in a different tree for each iteration of
+the random forest and therefore decorrelates the trees. In consequence,
+the random forest reduces the overall variance in comparison to
+\ac{bagging}. This effect is especially valid for homogenous datasets in
+which the trees of the \ac{bagging} algorithm are highly correlated.
+
+\begin{figure}
+
+{\centering \includegraphics{../00_data/output_paper/10_rf_plot} 
+
+}
+
+\caption[RMSE's of the Random Forest for Different Parameters]{\label{fig:rfrmse}Random Forest: Dependency between RMSE, the Number of Trees and the Number of Variables Included at each Split.}\label{fig:unnamed-chunk-10}
+\end{figure}
+
+We calculated \ac{RMSE} values for a range of Random Forest models to
+evaluate which combination of the number of trees to grow, and the
+number of variables taken into account at each split leads to the best
+results. The results are plotted in Figure \ref{fig:rfrmse}. The
+smallest \ac{RMSE} is \(\approx 4374\). Moreover, the plot shows,
+reveals that tiny models profit substantially from increasing complexity
+while bigger models profit only by a small margin. The model with \(20\)
+trees and \(80\) variables at each split still has a \ac{RMSE} of
+\(\approx 4456\), which is an increase of less than \(1.9\%\).
+
+The \ac{bagging} model with \(25\) trees (\ac{RMSE} of \(\approx 4305\))
+outperforms the random forest model (with \(25\) trees and \(100\)
+variables) only by a small margin (\ac{RMSE} of \(4374.330\)). However,
+training the random forest demands only \(15\%\) of the time, that the
+\ac{bagging} model needs.
+
+\begin{figure}
+\centering
+\includegraphics{../00_data/output_paper/11_var_imp_random_forest_bp.pdf}
+\caption{\label{fig:rfimp}Random Forest: Variable Importance.}
+\end{figure}
+
+Figure \ref{fig:rfimp} shows the variable importance plot for the \(20\)
+most important variables of the \enquote{optimal} random forest, which
+minimizes the \ac{RMSE} in the given range. According to this plot the
+most important variable, in terms of the mean increase of the \ac{RMSE},
+is \enquote{\(ms\_segm\)}, followed by four variables with regard to the
+price: \enquote{\(price\)}, \enquote{\(lp\)}, the logarithmized price,
+\enquote{\(pri\_m\)}, the mean real litre price (base Jan 2004) during
+the weeks the wine is distributed and \enquote{\(rprice\_litre\)}, real
+litre price (base Jan 2004). Thus, the litres of wine sold per week is
+mainly determined by its market share and its price. Although, there are
+many more variables which, according to the random forest model, are
+important. One should note that those variables do not necessarily have
+the highest marginal effects.
+
+Figure \ref{fig:rfpardep} shows the partial dependence plots for the
+\(10\) most important variables. The plots present the marginal effect
+of the variable on the litres sold per week. Those plots reveal some
+nonlinear dependencies in the data which explains the poor performances
+of the linear models. Furthermore, the figure validates some intuitive
+assumptions. For example, a higher market share leads to more litres
+sold, while high real prices lead to fewer litres sold. Besides, the
+influence of \enquote{\(v10\_dim\)}, which is the \enquote{Dagens
+Industri} review, is especially large, when the review is excellent. The
+complete partial dependence plot with all \(20\) most important
+variables can be found in the appendix \ref{chap:ap2} in figure
+\ref{fig:rfpardep_other} to keep this chapter at a reasonable size.
+
+\begin{figure}
+\centering
+\includegraphics{../00_data/output_paper/11_par_dep_random_forest.pdf}
+\caption{\label{fig:rfpardep}Random Forest: Partial Dependence Plots.}
+\end{figure}
+
+\hypertarget{boosting}{%
+\subsubsection{Boosting}\label{boosting}}
+
+In contrast to random forests boosting grows tree sequentially meaning
+that for every new tree information from already grown trees is used
+\autocite[Cf.][p. 322.]{James2014}. For boosting rather small regression
+trees are used to improve the boosting tree slowly. This is achieved by
+taking the residuals from the current boosting tree, fitting a (small)
+tree to these residuals and then fitting this tree into the boosting
+tree in areas where the performance of the boosting tree could be
+improved \autocite[Cf.][p. 322.]{James2014}. Thus the existing tree is
+expanded with the new tree. This means that, in contrast to bagging, the
+newly grown trees do depend on the earlier grown trees.
+
+The boosting models possess three parameters for tuning: The number of
+trees, the interaction depth, and the shrinkage parameter \(\lambda\).
+The resulting \ac{RMSE}s for different combinations of those tuning
+parameters are shown in figure \ref{fig:boostrmse}. Another tuning
+parameter implemented in the function for running boosting in R,
+\emph{gbm()}, is the \emph{bag.fraction}. This argument defines which
+fraction of the data is used to build the next tree. The default value
+is \(0.5\), which means that \(50\%\) of the training observations are
+samples (without replacement) each time a new tree is estimated. This
+adds randomness to the estimation, which reduces the problem of
+overfitting but it adds variance to the in sample predictions
+\autocite[Cf.][p. 806.]{Elith2008}. We set this value to \(1\). This
+outperformed the default setting of \(0.5\) by a \(\approx1.9\%\)
+decrease in out of sample cross-validated \ac{RMSE}. Hence all
+observations in the training set have been used at every iteration.
+
+According to our calculations, the optimal boosting model is the one
+with \(25\) trees used, an interaction depth of \(15\) and a shrinkage
+parameter of \(0.4\).
+
+\begin{figure}
+
+{\centering \includegraphics{../00_data/output_paper/11_boosting_plot} 
+
+}
+
+\caption[RMSEs of the Boosting Model for Different Parameters]{\label{fig:boostrmse}Boosting: Dependency between RMSE, Lambda, the Depths and the Number of Trees that are Grown.}\label{fig:boosting_hyper}
+\end{figure}
+
+Figure \ref{fig:boostimp} shows the importance of the \(20\) most
+important variables according to the optimal boosting model. The values
+shown are the relative importances in percent. The most important
+variable is \enquote{\(ms\_segm\)}, while the second most important
+variable is \enquote{\(segmred\)}, followed by \enquote{\(period\)} and
+\enquote{\(price\)}. This also does confirm the results of the single
+tree as well as the pruned tree, as those utilzed exactly those
+variables.
+
+\begin{figure}
+\centering
+\includegraphics{../00_data/output_paper/12_var_imp_boosting_bp.pdf}
+\caption{\label{fig:boostimp}Boosting: Variable Importance Plot.}
+\end{figure}
+
+The corresponding partial dependence plots are very similar to those
+from the random forest model. Therefore, and to keep this paper at a
+reasonable size, they are not discussed here but can be found in figure
+\ref{fig:bgpardep_main} in appendix \ref{chap:ap2}.
+
+\hypertarget{robustness}{%
+\section{\texorpdfstring{Robustness
+\label{chap:rob}}{Robustness }}\label{robustness}}
+
+We performed various alternative estimations to validate the robustness
+of our results. This was done by re-estimating the best random forest
+model and comparing the new results. As noted in chapter
+\ref{chap:data}, we excluded \enquote{\(time\_segm\_price\)} and
+\enquote{\(artikpr\)}. Those variables are combinations of other
+variables; thus, they represent interactions terms. Including them
+yields a mean \ac{RMSE} of \(\approx4862.917\) and therefore does not
+improve our model.
+
+Another crucial decision was to exclude all variables with more than
+\(50\%\) missing values. Reducing this to \(20\%\) means excluding \(6\)
+additional variables. Those variables are all related to wine reviews.
+This increases the complete cases substantially from \(41416\) to
+\(144994\), which is nearly the whole dataset. Estimating the random
+forest model yields a \ac{RMSE} of \(\approx5010.796\), which is an
+underperformance compared to the model developed in section
+\ref{chap:rand_for}. This shows that the loss of explanatory power by
+excluding those \(6\) variables is not compensated by a higher precision
+due to the gain of observations.
+
+\hypertarget{conclusion}{%
+\section{\texorpdfstring{Conclusion
+\label{chap:conc}}{Conclusion }}\label{conclusion}}
+
+In this paper, we developed a forecasting model based on the friberg
+gronqvist wine dataset. We used different statistical learning methods
+and evaluated them in terms of their cross-validated out of sample
+\ac{RMSE}. Table \ref{tab:RMSESum} presents the results for the most
+relevant models.
+
+At first, we estimated a mean regression and a linear regression model
+without variable selection to establish a baseline. The linear
+regression yields a substantial improvement over the mean regression,
+which hints at some explanatory power of our variables.
+
+Following, we introduced the \ac{lasso} to achieve a reduction of the
+feature set to reduce the possible overfit and therefore improve the out
+of sample forecasts. The lasso yields a small improvement compared to
+the basic linear regression model. Additionally, we used \ac{pcr} and
+\ac{pls} for dimension reduction. While \ac{pls} reduces the feature set
+to \(\approx35\) components, neither \ac{pls} nor \ac{pcr} outperforms
+the \ac{lasso} approach.
+
+\begin{table}[t]
+
+\caption{\label{tab:RMSE}\label{tab:RMSESum}RMSEs of every fold for every method.}
+\centering
+\begin{tabular}{lrrrrrr}
+\toprule
+Model & Fold 1 & Fold 2 & Fold 3 & Fold 4 & Fold 5 & Mean\\
+\midrule
+Mean Regression & 13334 & 13462 & 13205 & 13329 & 13371 & 13340\\
+Linear Regression & 5493 & 5410 & 5647 & 5711 & 5600 & 5572\\
+Lasso & 5491 & 5394 & 5635 & 5707 & 5512 & 5548\\
+Lasso Loglitre & 5861 & 5526 & 6014 & 5883 & 5777 & 5812\\
+PCR & 5485 & 5404 & 5629 & 5705 & 5507 & 5546\\
+\addlinespace
+PLS & 5773 & 5802 & 6054 & 7204 & 6174 & 6201\\
+Splines (1 Knot) & 5493 & 5410 & 5647 & 5711 & 5600 & 5572\\
+Splines (20 Knots) & 5457 & 5351 & 5572 & 5649 & 5507 & 5507\\
+Single Tree & 6392 & 6373 & 6594 & 6680 & 6436 & 6495\\
+Single Tree (Pruned) & 7923 & 7861 & 8143 & 7901 & 7850 & 7936\\
+\addlinespace
+Bagging (5 Trees) & 4373 & 4609 & 4617 & 4763 & 4530 & 4578\\
+Bagging (25 Trees) & 4169 & 4451 & 4343 & 4324 & 4242 & 4306\\
+Random Forest (Best) & 4243 & 4317 & 4492 & 4487 & 4332 & 4374\\
+Boosting (Best) & 4425 & 4455 & 4548 & 4632 & 4336 & 4479\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+We considered splines as a way to introduce nonlinearity to our model.
+We calculated the model using a wide range of knots to identify even
+complex nonlinear structures. The splines model with \(20\) knots
+performs best but only marginally outperforms the \ac{lasso}.
+
+Afterward, tree-based methods where applied. The results show that the
+performance of a single regression tree is not sufficient to outperform
+the previous methods. In consequence, we used different methods to
+combine multiple decision trees. Namely bagging, random forests, and
+boosting. We validated the performance of each model, using a range of
+parameters.
+
+Our study shows that only a few variables determine the litres of a wine
+sold per week. Among those are the mean market share within the color of
+the wine, its price (in different variations) the color of the wine, its
+place of origin, and the time. Partial dependence plots revealed a
+nonlinear influence of many variables. Furthermore, red wine is sold in
+a higher quantity than other wines; the overall litres sold per week
+decreased chronologically. We find little evidence that expert reviews
+and ratings have a great influence on the sales; if they have, they tend
+to have a strong influence only when they are excellent. This contrasts
+the results of some studies mentioned in the introduction.
+
+In conclusion, the two best performing models in terms of the
+cross-validated out of sample \ac{RMSE} are the bagging model with
+\(25\) trees and the selected random forest model. While the bagging
+model yields the best cross-validated out of sample \ac{RMSE} it is
+computationally demanding. Therefore we propose the use of a random
+forest model with \(25\) trees and \(100\) variables considered at each
+split. The use of more trees, more variables, or both barely increases
+the forecasting performance. Moreover, the proposed random forest model
+performs only little worse than the \ac{bagging} model, but it demands
+substantially less computation time, which is why we prefer the
+application of a random forest model in contrast to a bagging model.
+
+\pagebreak
+
+\addcontentsline{toc}{section}{References}
+\printbibliography[title = References]
+\cleardoublepage
+
+\begin{refsection}
+\nocite{R-base}
+\nocite{R-stargazer}
+\nocite{R-stringr}
+\nocite{R-tidyr}
+\nocite{R-dplyr}
+\nocite{R-glmnet}
+\nocite{R-class}
+\nocite{R-MASS}
+\nocite{R-plm}
+\nocite{R-leaps}
+\nocite{R-caret}
+\nocite{R-tree}
+\nocite{R-gbm}
+\nocite{R-plotmo}
+\nocite{R-pls}
+\nocite{R-splines}
+\nocite{R-tictoc}
+\nocite{R-plotly}
+\nocite{R-inspectdf}
+\nocite{R-rpart}
+\nocite{R-rpart.plot}
+\nocite{R-stargazer}
+\nocite{R-knitr}
+\nocite{R-purrr}
+\nocite{R-randomForest}
+\nocite{R-rstudioapi}
+
+
+
+
+
+\nocite{R-Studio}
+
+\printbibliography[title = Software-References]
+\addcontentsline{toc}{section}{Software-References}
+\end{refsection}
+
+\cleardoublepage
+\appendix
+\setcounter{table}{0}
+\setcounter{figure}{0}
+\renewcommand{\thetable}{A\arabic{table}}
+\renewcommand{\thefigure}{A\arabic{figure}}
+
+\newgeometry{top=1cm, left = 5cm, right = 2.5cm, bottom = 2cm}
+
+\hypertarget{appendices}{%
+\section{Appendices}\label{appendices}}
+
+\hypertarget{dataset}{%
+\subsection{\texorpdfstring{Dataset
+\label{chap:ap1}}{Dataset }}\label{dataset}}
+
+\begin{table}[!htbp] \centering 
+  \caption{Summary Statistics of the Dataset.} 
+  \label{tab:SumStat} 
+\small 
+\begin{tabular}{@{\extracolsep{5pt}}lcccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+Statistic & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} \\ 
+\hline \\[-1.8ex] 
+artikelnr & 200,001 & 4,236,201 & 1,008,268.000 & 847,223.200 \\ 
+artikelid & 2,000 & 42,362 & 10,082.660 & 8,472.232 \\ 
+year & 2,002 & 2,006 & 2,003.849 & 1.157 \\ 
+week & 1 & 53 & 26.655 & 15.464 \\ 
+period & 1 & 215 & 123.181 & 60.995 \\ 
+litre & 0.000 & 184,200.000 & 6,100.028 & 11,361.840 \\ 
+llitre & $-$0.288 & 9,999,979.000 & 6,357,811.000 & 2,766,722.000 \\ 
+price & 38 & 1,149 & 109.710 & 86.164 \\ 
+lp & 4,199 & 7,350,033 & 4,224,377.000 & 1,374,042.000 \\ 
+rprice\_litre & 43 & 9,997,986 & 4,786,868.000 & 3,294,301.000 \\ 
+old & 0 & 6,294 & 1,013.839 & 1,670.369 \\ 
+ma\_split & 0.000 & 9,992,891.000 & 103,908.700 & 731,760.500 \\ 
+v10\_a & 0.000 & 9,996,812.000 & 139,915.000 & 839,263.000 \\ 
+v10\_dn & 0.000 & 1.000 & 0.866 & 0.341 \\ 
+v10\_di & 0.000 & 6,666,667.000 & 700,363.200 & 1,870,385.000 \\ 
+v10\_exp & 0.000 & 1.000 & 0.987 & 0.115 \\ 
+v10\_svd & 0.000 & 1.000 & 0.983 & 0.130 \\ 
+v10\_aom & 0.000 & 1.000 & 0.862 & 0.345 \\ 
+v10\_am & 0.000 & 9,642,858.000 & 843,582.100 & 2,364,607.000 \\ 
+v10\_dnm & 0.000 & 9,791,667.000 & 2,781,325.000 & 3,473,845.000 \\ 
+v10\_dim & 0.000 & 9,642,858.000 & 2,152,525.000 & 3,281,604.000 \\ 
+v10\_expm & 0.000 & 9,714,286.000 & 1,306,189.000 & 2,935,431.000 \\ 
+v10\_svdm & 0.000 & 9,833,333.000 & 868,634.200 & 2,474,596.000 \\ 
+v10\_aomm & 0.000 & 9,629,629.000 & 3,414,758.000 & 2,908,400.000 \\ 
+v10\_all & 0.000 & 9,710,261.000 & 3,998,467.000 & 2,944,359.000 \\ 
+rev\_all & 0.000 & 9,816,509.000 & 77,025.290 & 679,549.600 \\ 
+rev\_all\_hi & 0 & 1 & 0.038 & 0.190 \\ 
+rev\_all\_lo & 0 & 1 & 0.019 & 0.137 \\ 
+rev\_eve & 0 & 1 & 0.015 & 0.122 \\ 
+rev\_eve\_hi & 0 & 1 & 0.010 & 0.098 \\ 
+rev\_eve\_lo & 0 & 1 & 0.003 & 0.058 \\ 
+rev\_ex & 0 & 1 & 0.010 & 0.101 \\ 
+rev\_ex\_hi & 0 & 1 & 0.008 & 0.089 \\ 
+rev\_ex\_lo & 0 & 1 & 0.006 & 0.079 \\ 
+rev\_nyaom & 0 & 1 & 0.033 & 0.179 \\ 
+rev\_nyaom\_hi & 0 & 1 & 0.029 & 0.169 \\ 
+rev\_nyaom\_lo & 0 & 1 & 0.013 & 0.113 \\ 
+rev\_all\_p50 & 0 & 1 & 0.024 & 0.152 \\ 
+rev\_all\_p80 & 0 & 1 & 0.017 & 0.130 \\ 
+rev\_all\_p20 & 0 & 1 & 0.010 & 0.101 \\ 
+m\_rev & 0 & 1 & 0.009 & 0.094 \\ 
+m\_rev\_hi & 0 & 1 & 0.003 & 0.058 \\ 
+m\_rev\_lo & 0 & 1 & 0.001 & 0.031 \\ 
+nrarom & 0 & 793 & 14.917 & 74.440 \\ 
+pri\_m & 0 & 9,990,796 & 3,046,590.000 & 3,513,496.000 \\ 
+ms\_segm & 0 & 9,984,732 & 1,846,902.000 & 3,136,838.000 \\ 
+ind & 0.00000 & 1.000 & 0.014 & 0.097 \\ 
+...59 & 1.000 & 1.000 & 1.000 & 0.000 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table}
+
+\hypertarget{additional-partial-dependence-plots}{%
+\subsection{\texorpdfstring{Additional Partial Dependence Plots
+\label{chap:ap2}}{Additional Partial Dependence Plots }}\label{additional-partial-dependence-plots}}
+
+\begin{figure}
+\centering
+\includegraphics{../00_data/output_paper/11_par_dep_random_forest_other.pdf}
+\caption{\label{fig:rfpardep_other}Random Forest: Partial Dependence
+Plots.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{../00_data/output_paper/16_pdp_boosting_main.pdf}
+\caption{\label{fig:bgpardep_main}Boosting: Partial Dependence Plots.}
+\end{figure}
+
+\restoregeometry
+
+\cleardoublepage
+
+\newpage
+\textbf{Eidesstattliche Versicherung}
+
+\bigskip
+
+Ich versichere an Eides statt durch meine Unterschrift, dass ich die vorstehende Arbeit selbständig und ohne fremde Hilfe angefertigt und alle Stellen, die ich wörtlich oder annähernd wörtlich aus Veröffentlichungen entnommen habe, als solche kenntlich gemacht habe, mich auch keiner anderen als der angegebenen Literatur oder sonstiger Hilfsmittel bedient habe. Die Arbeit hat in dieser oder ähnlicher Form noch keiner anderen Prüfungsbehörde vorgelegen.
+
+\vspace{1cm}
+\rule{0pt}{2\baselineskip} %
+\par\noindent\makebox[2.25in]{\indent Essen, den \hrulefill} \hfill\makebox[2.25in]{\hrulefill}%
+\par\noindent\makebox[2.25in][l]{} \hfill\makebox[2.25in][c]{Jonathan Berrisch, Timo Rammert}%
+
+
+\end{document}
