@@ -528,15 +528,15 @@ applied.
 \subsubsection{Single Regression Tree}\label{single-regression-tree}}
 
 For growing a regression tree, `the algorithm needs to automatically
-decide on the splitting variables and split points {[}\ldots{]} the tree
-should have' \autocite[][p. 349]{Hastie2013}. The tree is grown when a
-split is found that minimizes the sum of squared residuals. The
+decide on the splitting variables and split points {[}\ldots{}{]} the
+tree should have' \autocite[][p. 349]{Hastie2013}. The tree is grown
+when a split is found that minimizes the sum of squared residuals. The
 splitting is done with a greedy algorithm, i.e., at first, all the data
 is split into just two groups while the search of the splitting variable
 and split point includes all possible variables and points
-\autocite[cf.][p. 349]{Hastie2013}. After the data is split this process
-is repeated for the obtained two split regions until the tree is large
-enough that the terminal nodes reach a pre-defined minimum size.
+\autocite[Cf.][p. 349.]{Hastie2013}. After the data is split this
+process is repeated for the obtained two split regions until the tree is
+large enough that the terminal nodes reach a pre-defined minimum size.
 
 \begin{figure}
 \centering
@@ -563,7 +563,7 @@ wines.
 As regression trees may tend to grow quite large, a possible way to get
 smaller trees is pruning back the grown larger tree. The goal of pruning
 is `to select a subtree that leads to the lowest test error rate
-{[}which{]} we can estimate {[}\ldots{]} using cross-validation or the
+{[}which{]} we can estimate {[}\ldots{}{]} using cross-validation or the
 validation set approach' \autocite[][p. 308]{James2014}. This is done by
 \emph{cost complexity pruning}.
 
@@ -609,16 +609,16 @@ single tree model of the previous chapter.
 \end{figure}
 
 To further analyze the \ac{bagging} model, we estimated a \ac{bagging}
-model with 25 trees for the whole dataset. Figure \ref{fig:bagvarimp}
-presents the variable importance this model. It presents those 20
-variables which would increase the \ac{RMSE} the most when being
-omitted. The plot shows that the influence of \enquote{ms\_segm} which
-is the market share of the wine as well as \enquote{segmred} which is a
-dummy, indicating if the wine is red, substantially contribute to our
-model. Intuitively, the price also influences how many litres per week
-are sold. More surprisingly, however, is the fact, that also the date
-substantially contributes to our mode. This indicates that prices have
-changed over time.
+model with \(25\) trees for the whole dataset. Figure
+\ref{fig:bagvarimp} presents the variable importance this model. It
+presents those \(20\) variables which would increase the \ac{RMSE} the
+most when being omitted. The plot shows that the influence of
+\enquote{ms\_segm} which is the market share of the wine as well as
+\enquote{segmred} which is a dummy, indicating if the wine is red,
+substantially contribute to our model. Intuitively, the price also
+influences how many litres per week are sold. More surprisingly,
+however, is the fact, that also the date substantially contributes to
+our mode. This indicates that prices have changed over time.
 
 \begin{figure}
 
@@ -648,7 +648,7 @@ which the trees of the \ac{bagging} algorithm are highly correlated.
 
 \begin{figure}
 
-{\centering \includegraphics{../00_data/output_paper/10_rf_plot}
+{\centering \includegraphics{../00_data/output_paper/10_rf_plot} 
 
 }
 
@@ -666,9 +666,9 @@ trees and \(80\) variables at each split still has a \ac{RMSE} of
 \(\approx 4456\), which is an increase of less than \(1.9\%\).
 
 The \ac{bagging} model with \(25\) trees (\ac{RMSE} of \(\approx 4305\))
-outperforms the random forest Model (with 25 trees and 100 variables)
-only by a small margin (\ac{RMSE} of \(4374.330\)). However, training
-the random forest demands only \(15\%\) of the time, that the
+outperforms the random forest model (with \(25\) trees and \(100\)
+variables) only by a small margin (\ac{RMSE} of \(4374.330\)). However,
+training the random forest demands only \(15\%\) of the time, that the
 \ac{bagging} model needs.
 
 \begin{figure}
@@ -715,34 +715,38 @@ variables can be found in the appendix \ref{chap:ap2} in figure
 
 In contrast to random forests boosting grows tree sequentially meaning
 that for every new tree information from already grown trees is used
-\autocite[cf.][p. 322]{James2014}. For boosting rather small regression
+\autocite[Cf.][p. 322.]{James2014}. For boosting rather small regression
 trees are used to improve the boosting tree slowly. This is achieved by
 taking the residuals from the current boosting tree, fitting a (small)
 tree to these residuals and then fitting this tree into the boosting
 tree in areas where the performance of the boosting tree could be
-improved \autocite[cf.][p. 322]{James2014}. Thus the existing tree is
+improved \autocite[Cf.][p. 322.]{James2014}. Thus the existing tree is
 expanded with the new tree. This means that, in contrast to bagging, the
-newly grown trees do depend on the earlier grown trees. The boosting
-models possess three parameters for tuning: The number of trees, the
-interaction depth, and the shrinkage parameter \(\lambda\). The
-resulting \ac{RMSE}s for different combinations of those tuning
+newly grown trees do depend on the earlier grown trees.
+
+The boosting models possess three parameters for tuning: The number of
+trees, the interaction depth, and the shrinkage parameter \(\lambda\).
+The resulting \ac{RMSE}s for different combinations of those tuning
 parameters are shown in figure \ref{fig:boostrmse}. Another tuning
 parameter implemented in the function for running boosting in R,
 \emph{gbm()}, is the \emph{bag.fraction}. This argument defines which
 fraction of the data is used to build the next tree. The default value
-is \(0.5\), which means that a bootstrap sample of size \(50\%\) is
-drawn each time a new tree is estimated. This adds randomness to the
-estimation, which reduces the problem of overfitting. We set this value
-to \(1\). This consistently outperformed alternative estimations with
-bag.fraction set to the default by a \(\approx1.9\%\) decrease in out of
-sample cross-validated \ac{RMSE}. Hence all observations in the training
-set have been used at every iteration. According to our calculations,
-the optimal boosting model is the one with \(25\) trees used, an
-interaction depth of \(15\) and a shrinkage parameter of \(0.4\).
+is \(0.5\), which means that \(50\%\) of the training observations are
+samples (without replacement) each time a new tree is estimated. This
+adds randomness to the estimation, which reduces the problem of
+overfitting but it adds variance to the in sample predictions
+\autocite[Cf.][p. 806.]{Elith2008}. We set this value to \(1\). This
+outperformed the default setting of \(0.5\) by a \(\approx1.9\%\)
+decrease in out of sample cross-validated \ac{RMSE}. Hence all
+observations in the training set have been used at every iteration.
+
+According to our calculations, the optimal boosting model is the one
+with \(25\) trees used, an interaction depth of \(15\) and a shrinkage
+parameter of \(0.4\).
 
 \begin{figure}
 
-{\centering \includegraphics{../00_data/output_paper/11_boosting_plot}
+{\centering \includegraphics{../00_data/output_paper/11_boosting_plot} 
 
 }
 
@@ -872,9 +876,9 @@ cross-validated out of sample \ac{RMSE} are the bagging model with
 \(25\) trees and the selected random forest model. While the bagging
 model yields the best cross-validated out of sample \ac{RMSE} it is
 computationally demanding. Therefore we propose the use of a random
-forest model with 25 trees and 100 variables considered at each split.
-The use of more trees, more variables, or both barely increases the
-forecasting performance. Moreover, the proposed random forest model
+forest model with \(25\) trees and \(100\) variables considered at each
+split. The use of more trees, more variables, or both barely increases
+the forecasting performance. Moreover, the proposed random forest model
 performs only little worse than the \ac{bagging} model, but it demands
 substantially less computation time, which is why we prefer the
 application of a random forest model in contrast to a bagging model.
@@ -939,65 +943,65 @@ application of a random forest model in contrast to a bagging model.
 \subsection{\texorpdfstring{Dataset
 \label{chap:ap1}}{Dataset }}\label{dataset}}
 
-\begin{table}[!htbp] \centering
-  \caption{Summary Statistics of the Dataset.}
-  \label{tab:SumStat}
-\small
-\begin{tabular}{@{\extracolsep{5pt}}lcccc}
-\\[-1.8ex]\hline
-\hline \\[-1.8ex]
-Statistic & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} \\
-\hline \\[-1.8ex]
-artikelnr & 200,001 & 4,236,201 & 1,008,268.000 & 847,223.200 \\
-artikelid & 2,000 & 42,362 & 10,082.660 & 8,472.232 \\
-year & 2,002 & 2,006 & 2,003.849 & 1.157 \\
-week & 1 & 53 & 26.655 & 15.464 \\
-period & 1 & 215 & 123.181 & 60.995 \\
-litre & 0.000 & 184,200.000 & 6,100.028 & 11,361.840 \\
-llitre & $-$0.288 & 9,999,979.000 & 6,357,811.000 & 2,766,722.000 \\
-price & 38 & 1,149 & 109.710 & 86.164 \\
-lp & 4,199 & 7,350,033 & 4,224,377.000 & 1,374,042.000 \\
-rprice\_litre & 43 & 9,997,986 & 4,786,868.000 & 3,294,301.000 \\
-old & 0 & 6,294 & 1,013.839 & 1,670.369 \\
-ma\_split & 0.000 & 9,992,891.000 & 103,908.700 & 731,760.500 \\
-v10\_a & 0.000 & 9,996,812.000 & 139,915.000 & 839,263.000 \\
-v10\_dn & 0.000 & 1.000 & 0.866 & 0.341 \\
-v10\_di & 0.000 & 6,666,667.000 & 700,363.200 & 1,870,385.000 \\
-v10\_exp & 0.000 & 1.000 & 0.987 & 0.115 \\
-v10\_svd & 0.000 & 1.000 & 0.983 & 0.130 \\
-v10\_aom & 0.000 & 1.000 & 0.862 & 0.345 \\
-v10\_am & 0.000 & 9,642,858.000 & 843,582.100 & 2,364,607.000 \\
-v10\_dnm & 0.000 & 9,791,667.000 & 2,781,325.000 & 3,473,845.000 \\
-v10\_dim & 0.000 & 9,642,858.000 & 2,152,525.000 & 3,281,604.000 \\
-v10\_expm & 0.000 & 9,714,286.000 & 1,306,189.000 & 2,935,431.000 \\
-v10\_svdm & 0.000 & 9,833,333.000 & 868,634.200 & 2,474,596.000 \\
-v10\_aomm & 0.000 & 9,629,629.000 & 3,414,758.000 & 2,908,400.000 \\
-v10\_all & 0.000 & 9,710,261.000 & 3,998,467.000 & 2,944,359.000 \\
-rev\_all & 0.000 & 9,816,509.000 & 77,025.290 & 679,549.600 \\
-rev\_all\_hi & 0 & 1 & 0.038 & 0.190 \\
-rev\_all\_lo & 0 & 1 & 0.019 & 0.137 \\
-rev\_eve & 0 & 1 & 0.015 & 0.122 \\
-rev\_eve\_hi & 0 & 1 & 0.010 & 0.098 \\
-rev\_eve\_lo & 0 & 1 & 0.003 & 0.058 \\
-rev\_ex & 0 & 1 & 0.010 & 0.101 \\
-rev\_ex\_hi & 0 & 1 & 0.008 & 0.089 \\
-rev\_ex\_lo & 0 & 1 & 0.006 & 0.079 \\
-rev\_nyaom & 0 & 1 & 0.033 & 0.179 \\
-rev\_nyaom\_hi & 0 & 1 & 0.029 & 0.169 \\
-rev\_nyaom\_lo & 0 & 1 & 0.013 & 0.113 \\
-rev\_all\_p50 & 0 & 1 & 0.024 & 0.152 \\
-rev\_all\_p80 & 0 & 1 & 0.017 & 0.130 \\
-rev\_all\_p20 & 0 & 1 & 0.010 & 0.101 \\
-m\_rev & 0 & 1 & 0.009 & 0.094 \\
-m\_rev\_hi & 0 & 1 & 0.003 & 0.058 \\
-m\_rev\_lo & 0 & 1 & 0.001 & 0.031 \\
-nrarom & 0 & 793 & 14.917 & 74.440 \\
-pri\_m & 0 & 9,990,796 & 3,046,590.000 & 3,513,496.000 \\
-ms\_segm & 0 & 9,984,732 & 1,846,902.000 & 3,136,838.000 \\
-ind & 0.00000 & 1.000 & 0.014 & 0.097 \\
-...59 & 1.000 & 1.000 & 1.000 & 0.000 \\
-\hline \\[-1.8ex]
-\end{tabular}
+\begin{table}[!htbp] \centering 
+  \caption{Summary Statistics of the Dataset.} 
+  \label{tab:SumStat} 
+\small 
+\begin{tabular}{@{\extracolsep{5pt}}lcccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+Statistic & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} \\ 
+\hline \\[-1.8ex] 
+artikelnr & 200,001 & 4,236,201 & 1,008,268.000 & 847,223.200 \\ 
+artikelid & 2,000 & 42,362 & 10,082.660 & 8,472.232 \\ 
+year & 2,002 & 2,006 & 2,003.849 & 1.157 \\ 
+week & 1 & 53 & 26.655 & 15.464 \\ 
+period & 1 & 215 & 123.181 & 60.995 \\ 
+litre & 0.000 & 184,200.000 & 6,100.028 & 11,361.840 \\ 
+llitre & $-$0.288 & 9,999,979.000 & 6,357,811.000 & 2,766,722.000 \\ 
+price & 38 & 1,149 & 109.710 & 86.164 \\ 
+lp & 4,199 & 7,350,033 & 4,224,377.000 & 1,374,042.000 \\ 
+rprice\_litre & 43 & 9,997,986 & 4,786,868.000 & 3,294,301.000 \\ 
+old & 0 & 6,294 & 1,013.839 & 1,670.369 \\ 
+ma\_split & 0.000 & 9,992,891.000 & 103,908.700 & 731,760.500 \\ 
+v10\_a & 0.000 & 9,996,812.000 & 139,915.000 & 839,263.000 \\ 
+v10\_dn & 0.000 & 1.000 & 0.866 & 0.341 \\ 
+v10\_di & 0.000 & 6,666,667.000 & 700,363.200 & 1,870,385.000 \\ 
+v10\_exp & 0.000 & 1.000 & 0.987 & 0.115 \\ 
+v10\_svd & 0.000 & 1.000 & 0.983 & 0.130 \\ 
+v10\_aom & 0.000 & 1.000 & 0.862 & 0.345 \\ 
+v10\_am & 0.000 & 9,642,858.000 & 843,582.100 & 2,364,607.000 \\ 
+v10\_dnm & 0.000 & 9,791,667.000 & 2,781,325.000 & 3,473,845.000 \\ 
+v10\_dim & 0.000 & 9,642,858.000 & 2,152,525.000 & 3,281,604.000 \\ 
+v10\_expm & 0.000 & 9,714,286.000 & 1,306,189.000 & 2,935,431.000 \\ 
+v10\_svdm & 0.000 & 9,833,333.000 & 868,634.200 & 2,474,596.000 \\ 
+v10\_aomm & 0.000 & 9,629,629.000 & 3,414,758.000 & 2,908,400.000 \\ 
+v10\_all & 0.000 & 9,710,261.000 & 3,998,467.000 & 2,944,359.000 \\ 
+rev\_all & 0.000 & 9,816,509.000 & 77,025.290 & 679,549.600 \\ 
+rev\_all\_hi & 0 & 1 & 0.038 & 0.190 \\ 
+rev\_all\_lo & 0 & 1 & 0.019 & 0.137 \\ 
+rev\_eve & 0 & 1 & 0.015 & 0.122 \\ 
+rev\_eve\_hi & 0 & 1 & 0.010 & 0.098 \\ 
+rev\_eve\_lo & 0 & 1 & 0.003 & 0.058 \\ 
+rev\_ex & 0 & 1 & 0.010 & 0.101 \\ 
+rev\_ex\_hi & 0 & 1 & 0.008 & 0.089 \\ 
+rev\_ex\_lo & 0 & 1 & 0.006 & 0.079 \\ 
+rev\_nyaom & 0 & 1 & 0.033 & 0.179 \\ 
+rev\_nyaom\_hi & 0 & 1 & 0.029 & 0.169 \\ 
+rev\_nyaom\_lo & 0 & 1 & 0.013 & 0.113 \\ 
+rev\_all\_p50 & 0 & 1 & 0.024 & 0.152 \\ 
+rev\_all\_p80 & 0 & 1 & 0.017 & 0.130 \\ 
+rev\_all\_p20 & 0 & 1 & 0.010 & 0.101 \\ 
+m\_rev & 0 & 1 & 0.009 & 0.094 \\ 
+m\_rev\_hi & 0 & 1 & 0.003 & 0.058 \\ 
+m\_rev\_lo & 0 & 1 & 0.001 & 0.031 \\ 
+nrarom & 0 & 793 & 14.917 & 74.440 \\ 
+pri\_m & 0 & 9,990,796 & 3,046,590.000 & 3,513,496.000 \\ 
+ms\_segm & 0 & 9,984,732 & 1,846,902.000 & 3,136,838.000 \\ 
+ind & 0.00000 & 1.000 & 0.014 & 0.097 \\ 
+...59 & 1.000 & 1.000 & 1.000 & 0.000 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
 \end{table}
 
 \hypertarget{additional-partial-dependence-plots}{%
