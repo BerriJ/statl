@@ -351,8 +351,6 @@ stargazer(as.data.frame(wine), summary.stat = c("min","max","mean","sd"),
           label = "tab:SumStat", font.size = "small")
 ```
 
-\restoregeometry
-
 ## Additional Partial Dependence Plots \label{chap:ap2}
 
 ```{r, echo = FALSE, fig.cap = "\\label{fig:rfpardep_other}Random Forest: Partial Dependence Plots."}
@@ -362,5 +360,7 @@ knitr::include_graphics("../00_data/output_paper/11_par_dep_random_forest_other.
 ```{r, echo = FALSE, fig.cap = "\\label{fig:bgpardep_main}Boosting: Partial Dependence Plots."}
 knitr::include_graphics("../00_data/output_paper/16_pdp_boosting_main.pdf")
 ```
+
+\restoregeometry
 
 \cleardoublepage
