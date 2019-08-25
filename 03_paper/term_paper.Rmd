@@ -46,7 +46,7 @@ crop <- function(im, left = 0, top = 0, right = 0, bottom = 0) {
 
 This paper presents a forecasting study on swedish wine sales. This study is based on the friberg gronqvist wine dataset, which is publicly available and was previously analyzed by \textcite[][]{Friberg2012}. Recent technological advancements led to a significant increase in statistical methods that are computationally demanding while potentially outperforming classical statistical methods, especially in terms of forecasting. Those techniques are usually referred to as statistical or machine learning methods. The methods and procedures we introduce in this paper are based on `An Introduction to Statistical Learning with Applications in R' \autocite[][]{James2014}.
 
-We present various models which are increasingly complex. Those models potentially gain forecasting power while losing interpretability. The applied models range from linear regressions to tree-based methods like random forests and boosting. The goal is to develop the best possible model to forecast weekly wine sales in litre in out of sample data.
+We present various models which are increasingly complex. Those models potentially gain forecasting power while losing interpretability. The applied models range from linear regressions to tree-based methods like random forests and boosting. The goal is to develop the best possible model to forecast weekly wine sales in litres in out of sample data.
 
 Although the main goal is an accurate forecast, some of the methods used in this paper can also be used to quantify the impact of expert reviews on the sales, if there is any. The effect of expert opinions on consumer demand was analyzed in previous research. Notably, \textcite[][]{Hilger2011} used a field experiment to study a review-based demand effect using wine score labels in a retail grocery chain. They find that providing information based on expert opinions increases the sales; this effect does depend on the score a wine has gotten. \textcite[][]{Ashenfelter2013} analyze, wether expert reviews influence the prices of wine. They conclude that expert reviews contain public as well as private information. They only validate an influence on the highest rated wines. Furthermore, \textcite[][]{Bicknell2012} delivered research concerning the market for wine from New Zealand. They validate a significant regional influence on wine prices. This influence is substantially lower for wine, which is designated for the export market.
 
@@ -54,7 +54,7 @@ The remainder of this paper is structured as follows. Chapter \ref{chap:data} gi
 
 # Data and Variables \label{chap:data}
 
-The data set used in this paper contains 145179 observations with 59 variables. The variables include the name of the wine, the country of origin, its price, the amount sold per week in litre, the taste segment, and variables related to different reviews, among others. A table with summary statistics of the data set can be found in appendix \ref{chap:ap1} in table \ref{tab:SumStat}.
+The data set used in this paper contains 145179 observations with 59 variables. The variables include the name of the wine, the country of origin, its price, the amount sold per week in litres, the taste segment, and variables related to different reviews, among others. A table with summary statistics of the data set can be found in appendix \ref{chap:ap1} in table \ref{tab:SumStat}.
 
 We need to omit two variables beforehand, namely "$time\_segm\_price$" and "$artikpr$", because those are combinations of other existing variables. Hence inclusion would lead to the problem of multicollinearity. After omitting those two, we have left the following types of variables (see table \ref{tab:VarTyp}). As the analysis is based on data from Sweden, all the levels of the factor variables are denoted in Swedish.
 
@@ -93,7 +93,7 @@ load(file = "../00_data/output_paper/03_baseline.rda")
 At first, a mean regression and a linear regression are calculated. Those models are representing the baseline.
 For comparison of the different models, the \ac{RMSE} $$\sqrt{\frac{1}{n}\sum_{i = 1}^{n}\left(y_i-\hat{y}_i\right)^2}$$ is calculated.
 
-The mean regression yields an average \ac{RMSE} of $\approx `r paste(colMeans(df)[2] %>% round())`$ litre sold per week. The linear regression where all variables are included yields an average \ac{RMSE} of $\approx `r colMeans(df)[1] %>% round()`$. The latter result is probably influenced by overfitting. To cope with this problem, we are using variable selection and dimension reduction methods, which are discussed in the proceeding sections.
+The mean regression yields an average \ac{RMSE} of $\approx `r paste(colMeans(df)[2] %>% round())`$ litres sold per week. The linear regression where all variables are included yields an average \ac{RMSE} of $\approx `r colMeans(df)[1] %>% round()`$. The latter result is probably influenced by overfitting. To cope with this problem, we are using variable selection and dimension reduction methods, which are discussed in the proceeding sections.
 
 ```{r Mean Regression, echo = FALSE, fig.cap = "\\label{fig:ResMean}Residuals of the Mean Regression.", message = FALSE}
 
