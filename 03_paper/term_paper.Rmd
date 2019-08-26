@@ -213,7 +213,7 @@ By bootstrapping \ac{bagging} brings down the variance and thus, addresses the m
 
 Figure \ref{fig:rmsebag} shows the \ac{RMSE} values of different \ac{bagging} models. The bootstrap sample size was chosen to be two-thirds of the total number of observations. One can see that even small models with down to $15$ trees significantly outperform the single tree model of the previous chapter.
 
-```{r bag, echo = FALSE, fig.cap = "\\label{fig:rmsebag}Bagging: RMSEs at Different Tree Sizes (Smoothed).", fig.align=T, fig.scap="Bagging: RMSE's at Different Tree Sizes"}
+```{r bag, echo = FALSE, fig.cap = "\\label{fig:rmsebag}Bagging: RMSEs at Different Tree Sizes (Smoothed).", fig.align=T, fig.scap="Bagging: RMSEs at Different Tree Sizes"}
 knitr::include_graphics("../00_data/output_paper/14_bagging.pdf")
 ```
 
@@ -229,7 +229,7 @@ Bagging, in general, considers all possible variables at each split. This makes 
 
 The random forest algorithm is a special case of \ac{bagging}. The name random forest arises from the fact that in contrast to the usual \ac{bagging} algorithm, at each split of the tree building process, only a pre-specified number of randomly chosen variables are taken into consideration. This results in a different tree for each iteration of the random forest and therefore decorrelates the trees. In consequence, the random forest reduces the overall variance in comparison to \ac{bagging}. This effect is especially valid for homogenous datasets in which the trees of the \ac{bagging} algorithm are highly correlated.
 
-```{r, echo = FALSE, fig.cap= "\\label{fig:rfrmse}Random Forest: Dependency between RMSE, the Number of Trees and the Number of Variables Included at each Split.", fig.scap= "RMSE's of the Random Forest for Different Parameters", fig.align= 'center'}
+```{r, echo = FALSE, fig.cap= "\\label{fig:rfrmse}Random Forest: Dependency between RMSE, the Number of Trees and the Number of Variables Included at each Split.", fig.scap= "RMSEs of the Random Forest for Different Parameters", fig.align= 'center'}
 knitr::include_graphics("../00_data/output_paper/10_rf_plot.png")
 ```
 
@@ -291,7 +291,7 @@ Following, we introduced the \ac{lasso} to achieve a reduction of the feature se
 
 ```{r RMSE, message = F, echo = F, include=T}
 library(knitr)
-kable(Summary, "latex", digits = 0, caption = "\\label{tab:RMSESum}RMSEs of every fold for every method.", booktabs = T)
+kable(Summary, "latex", digits = 0, caption = "\\label{tab:RMSESum}RMSEs of every Fold for every Method.", booktabs = T)
 ```
 
 We considered splines as a way to introduce nonlinearity to our model. We calculated the model using a wide range of knots to identify even complex nonlinear structures. The splines model with $20$ knots performs best but only marginally outperforms the \ac{lasso}.
