@@ -95,31 +95,6 @@ For comparison of the different models, the \ac{RMSE} $$\sqrt{\frac{1}{n}\sum_{i
 
 The mean regression yields an average \ac{RMSE} of $\approx `r paste(colMeans(df)[2] %>% round())`$ litres sold per week. The linear regression where all variables are included yields an average \ac{RMSE} of $\approx `r colMeans(df)[1] %>% round()`$. The latter result is probably influenced by overfitting. To cope with this problem, we are using variable selection and dimension reduction methods, which are discussed in the proceeding sections.
 
-```{r Mean Regression, echo = FALSE, fig.cap = "\\label{fig:ResMean}Residuals of the Mean Regression.", message = FALSE}
-
-# library(MASS)
-#
-# load("../00_data/wine_preprocessed.rda")
-#
-# # Baseline Model: Mean
-#
-# models <- data.frame(mod = c("Mean", "Basic_lm"), rmse = c(NA, NA))
-#
-# residuals <- wine$llitre-mean(wine$llitre, na.rm = T) %>% na.omit()
-# # plot(residuals)
-# models[models$mod == "Mean","rmse"] <- (wine$llitre-mean(wine$llitre, na.rm = T))^2 %>%
-#   na.omit() %>%
-#   sqrt() %>%
-#   mean()
-# print(models)
-```
-
-```{r ResPlotMR, echo = FALSE, fig.cap = "Histogram and Density of the Residuals of the Mean Regression."}
-
-# truehist(residuals)
-# lines(density(na.omit(residuals)), col = "deeppink", lwd = 2)
-```
-
 ## Least Absolute Shrinkage and Selection Operator
 
 ```{r, echo = F}
@@ -130,10 +105,10 @@ load(file = "../00_data/output_paper/05_lasso.rda")
 The \ac{lasso} is a method combining linear regression and shrinkage of the coefficient estimates to do variable selection. It fits a linear model that is constrained by a penalty term, i.e., the \ac{lasso} coefficients minimize:
 
 $$
-\sum_{i=1}^{n}(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij})+\lambda\sum_{j=1}^{p}|\beta_j|.
+\sum_{i=1}^{n}(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij})^2+\lambda\sum_{j=1}^{p}|\beta_j|.
 $$
 
-Figure \ref{fig:CoefLamb} depicts the relation between lambda and the coefficients. The cross-validated log lambda, which minimizes the test error is $\approx `r df[3]`$. At that level a total of $\approx `r floor(df[4])`$ out of $713$ coefficients are nonzero\footnote{$\approx `r df[4]`$ to be exact, but we could not resist to round down.}. The other coefficients are precisely zero due to the sparsity property of the \ac{lasso} estimator. Furthermore, the plot includes abbreviated variable names of the ten biggest coefficients. All of those coefficients are dummies for specific wine names.
+Figure \ref{fig:CoefLamb} depicts the relation between lambda and the coefficients. The cross-validated log lambda, which minimizes the test error is $\approx `r df[3]`$. At that level a total of $\approx `r floor(df[4])`$ out of $713$ coefficients are nonzero\footnote{$\approx `r df[4]`$ to be exact, but we could not resist to round down.}. The other coefficients are precisely zero due to the sparsity property of the \ac{lasso} estimator \autocite[Cf.][p. 219.]{James2014}. Furthermore, the plot includes abbreviated variable names of the ten biggest coefficients. All of those coefficients are dummies for specific wine names.
 The average \ac{RMSE} of the \ac{lasso} approach is $\approx `r df[1]`$. This is a slight improvement compared to the linear baseline model.
 The \ac{lasso} slightly reduces the feature set while also reducing the \ac{RMSE}. This is evidence supporting our prior assumption that the linear model was exposed to the problem of overfitting.
 Furthermore, the coefficients of the \ac{lasso} model indicate that the name variable is the most important variable to explain the litres sold per week. It is followed by the vintage, the region, the taste segment, and the country of the wine. The least important variables are the review variables which are not present in the $400$ biggest coefficients.
@@ -151,7 +126,7 @@ load(file = "../00_data/output_paper/07_pca_pls.rda")
 cm_df <- df %>% colMeans() %>% round(2)
 ```
 
-While \ac{lasso} is a technique for variable selection, \ac{pcr} and \ac{pls} are other methods that reduce the dimension of the feature set by modifying the features. Thus, the least-squares estimation is performed using a transformation of the explanatory variables. Thereby, \ac{pls} includes the dependent variable when computing the new feature set while \ac{pcr} builds the principal components independent of the dependent variable.
+While \ac{lasso} is a technique for variable selection, \ac{pcr} and \ac{pls} are other methods that reduce the dimension of the feature set by modifying the features. Thus, the least-squares estimation is performed using a transformation of the explanatory variables. Thereby, \ac{pls} includes the dependent variable when computing the new feature set while \ac{pcr} builds the principal components independent of the dependent variable \autocite[Cf.][p. 219.]{James2014}.
 
 Figure \ref{fig:PrincCom} shows the first two principal components from a \ac{pcr}. The first two principal components represent roughly $3\%$ of the total variance. This is a sign that the \ac{pcr} does not work well on our data, which might be due to a large number of dummy variables.
 
@@ -164,7 +139,7 @@ The results confirm the expectation. \ac{pcr} has a cross-validated \ac{RMSE} of
 
 ## Splines
 
-The previous methods assumed linear relationships between the independent variables and the dependent variable. Considering the number of dummy variables in the feature set, the usage of nonlinear methods is quite limited. However, to recognize potential nonlinear relationships we add natural splines to the variables $year$, $price$, and $rprice\_litre$. Those variables indicate the year in which the wine was distributed, the price and the real price with Jan 2004 as base respectively. Each natural spline was allowed to have up to 20 knots, which is sufficient to estimate complex linear relationships. The respective \ac{RMSE}s depending on the knots are presented in figure \ref{fig:splines}.
+The previous methods assumed linear relationships between the independent variables and the dependent variable. Considering the number of dummy variables in the feature set, the usage of nonlinear methods is quite limited. However, to recognize potential nonlinear relationships we add natural splines to the variables $year$, $price$, and $rprice\_litre$ \autocite[Cf.][p. 271.]{James2014}. Those variables indicate the year in which the wine was distributed, the price and the real price with Jan 2004 as base respectively. Each natural spline was allowed to have up to 20 knots, which is sufficient to estimate complex linear relationships. The respective \ac{RMSE}s depending on the knots are presented in figure \ref{fig:splines}.
 
 Splines can improve the prediction a little, which indicates that at least some nonlinear relationship is present. However, like the methods before, splines reduce the interpretability of the coefficients. In this case, this tradeoff is not offset enough by the gain in precision.
 
@@ -178,11 +153,11 @@ knitr::include_graphics("../00_data/output_paper/08_splines.pdf")
 
 ### Overview
 
-Tree-based methods utilize decision rules to split the feature space into several different regions. `Since the set of splitting rules used to segment the predictor space can be summarized in a tree, these type of approaches are known as decision tree methods' \autocite[][p. 303]{Hastie2013}. Simple tree-based methods use single regression trees. One can combine different regression trees for a single prediction this usually improves the predictive power, but the interpretability becomes more complex. Those approaches, namely bagging, random forests, and boosting, are described in more detail when being applied.
+Tree-based methods utilize decision rules to split the feature space into several different regions. `Since the set of splitting rules used to segment the predictor space can be summarized in a tree, these type of approaches are known as decision tree methods' \autocite[][p. 303]{James2014}. Simple tree-based methods use single regression trees. One can combine different regression trees for a single prediction this usually improves the predictive power, but the interpretability becomes more complex. Those approaches, namely bagging, random forests, and boosting, are described in more detail when being applied.
 
 ### Single Regression Tree
 
-For growing a regression tree, `the algorithm needs to automatically decide on the splitting variables and split points [...] the tree should have' \autocite[][p. 349]{Hastie2013}. The tree is grown when a split is found that minimizes the sum of squared residuals. The splitting is done with a greedy algorithm, i.e., at first, all the data is split into just two groups while the search of the splitting variable and split point includes all possible variables and points \autocite[Cf.][p. 349.]{Hastie2013}. After the data is split this process is repeated for the obtained two split regions until the tree is large enough that the terminal nodes reach a pre-defined minimum size.
+For growing a regression tree, `the algorithm needs to automatically decide on the splitting variables and split points [...] the tree should have' \autocite[][p. 307]{Hastie2013}. The tree is grown when a split is found that minimizes the sum of squared residuals. The splitting is done with a greedy algorithm, i.e., at first, all the data is split into just two groups while the search of the splitting variable and split point includes all possible variables and points \autocite[Cf.][p. 307.]{Hastie2013}. After the data is split this process is repeated for the obtained two split regions until the tree is large enough that the terminal nodes reach a pre-defined minimum size.
 
 ```{r tree, echo = FALSE, fig.cap = "\\label{fig:tree}Example of a Regression Tree."}
 knitr::include_graphics("../00_data/output_paper/09_tree.pdf")

@@ -417,7 +417,7 @@ model that is constrained by a penalty term, i.e., the \ac{lasso}
 coefficients minimize:
 
 \[
-\sum_{i=1}^{n}(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij})+\lambda\sum_{j=1}^{p}|\beta_j|.
+\sum_{i=1}^{n}(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij})^2+\lambda\sum_{j=1}^{p}|\beta_j|.
 \]
 
 Figure \ref{fig:CoefLamb} depicts the relation between lambda and the
@@ -426,19 +426,20 @@ error is \(\approx -0.16\). At that level a total of \(\approx 666\) out
 of \(713\) coefficients are
 nonzero\footnote{$\approx 666.6$ to be exact, but we could not resist to round down.}.
 The other coefficients are precisely zero due to the sparsity property
-of the \ac{lasso} estimator. Furthermore, the plot includes abbreviated
-variable names of the ten biggest coefficients. All of those
-coefficients are dummies for specific wine names. The average \ac{RMSE}
-of the \ac{lasso} approach is \(\approx 5547.76\). This is a slight
-improvement compared to the linear baseline model. The \ac{lasso}
-slightly reduces the feature set while also reducing the \ac{RMSE}. This
-is evidence supporting our prior assumption that the linear model was
-exposed to the problem of overfitting. Furthermore, the coefficients of
-the \ac{lasso} model indicate that the name variable is the most
-important variable to explain the litres sold per week. It is followed
-by the vintage, the region, the taste segment, and the country of the
-wine. The least important variables are the review variables which are
-not present in the \(400\) biggest coefficients.
+of the \ac{lasso} estimator \autocite[Cf.][p. 219.]{James2014}.
+Furthermore, the plot includes abbreviated variable names of the ten
+biggest coefficients. All of those coefficients are dummies for specific
+wine names. The average \ac{RMSE} of the \ac{lasso} approach is
+\(\approx 5547.76\). This is a slight improvement compared to the linear
+baseline model. The \ac{lasso} slightly reduces the feature set while
+also reducing the \ac{RMSE}. This is evidence supporting our prior
+assumption that the linear model was exposed to the problem of
+overfitting. Furthermore, the coefficients of the \ac{lasso} model
+indicate that the name variable is the most important variable to
+explain the litres sold per week. It is followed by the vintage, the
+region, the taste segment, and the country of the wine. The least
+important variables are the review variables which are not present in
+the \(400\) biggest coefficients.
 
 \begin{figure}
 \centering
@@ -456,7 +457,7 @@ by modifying the features. Thus, the least-squares estimation is
 performed using a transformation of the explanatory variables. Thereby,
 \ac{pls} includes the dependent variable when computing the new feature
 set while \ac{pcr} builds the principal components independent of the
-dependent variable.
+dependent variable \autocite[Cf.][p. 219.]{James2014}.
 
 Figure \ref{fig:PrincCom} shows the first two principal components from
 a \ac{pcr}. The first two principal components represent roughly \(3\%\)
@@ -486,12 +487,12 @@ independent variables and the dependent variable. Considering the number
 of dummy variables in the feature set, the usage of nonlinear methods is
 quite limited. However, to recognize potential nonlinear relationships
 we add natural splines to the variables \(year\), \(price\), and
-\(rprice\_litre\). Those variables indicate the year in which the wine
-was distributed, the price and the real price with Jan 2004 as base
-respectively. Each natural spline was allowed to have up to 20 knots,
-which is sufficient to estimate complex linear relationships. The
-respective \ac{RMSE}s depending on the knots are presented in figure
-\ref{fig:splines}.
+\(rprice\_litre\) \autocite[Cf.][p. 271.]{James2014}. Those variables
+indicate the year in which the wine was distributed, the price and the
+real price with Jan 2004 as base respectively. Each natural spline was
+allowed to have up to 20 knots, which is sufficient to estimate complex
+linear relationships. The respective \ac{RMSE}s depending on the knots
+are presented in figure \ref{fig:splines}.
 
 Splines can improve the prediction a little, which indicates that at
 least some nonlinear relationship is present. However, like the methods
@@ -519,7 +520,7 @@ Tree-based methods utilize decision rules to split the feature space
 into several different regions. `Since the set of splitting rules used
 to segment the predictor space can be summarized in a tree, these type
 of approaches are known as decision tree methods'
-\autocite[][p. 303]{Hastie2013}. Simple tree-based methods use single
+\autocite[][p. 303]{James2014}. Simple tree-based methods use single
 regression trees. One can combine different regression trees for a
 single prediction this usually improves the predictive power, but the
 interpretability becomes more complex. Those approaches, namely bagging,
@@ -531,12 +532,12 @@ applied.
 
 For growing a regression tree, `the algorithm needs to automatically
 decide on the splitting variables and split points {[}\ldots{}{]} the
-tree should have' \autocite[][p. 349]{Hastie2013}. The tree is grown
+tree should have' \autocite[][p. 307]{Hastie2013}. The tree is grown
 when a split is found that minimizes the sum of squared residuals. The
 splitting is done with a greedy algorithm, i.e., at first, all the data
 is split into just two groups while the search of the splitting variable
 and split point includes all possible variables and points
-\autocite[Cf.][p. 349.]{Hastie2013}. After the data is split this
+\autocite[Cf.][p. 307.]{Hastie2013}. After the data is split this
 process is repeated for the obtained two split regions until the tree is
 large enough that the terminal nodes reach a pre-defined minimum size.
 
