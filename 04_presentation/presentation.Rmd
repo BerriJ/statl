@@ -1,0 +1,57 @@
+---
+title: "A Forecasting Study on Swedish Wine Sales"
+subtitle: "Term Paper Statistical Learning"
+author: "Jonathan Berrisch & Timo Rammert"
+institute: "Universität Duisburg-Essen"
+date: "23.09.2019"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+---
+class: inverse, center, middle
+
+# Introduction
+
+---
+class: inverse, center, middle
+
+# Data and Variables
+
+---
+class: inverse, center, middle
+
+# Validation Approach
+
+
+---
+
+
+# Analysis
+
+1. Mean Regression and Linear Regression
+
+2. Least Absolute Shrinkage and Selection Operator
+
+3. Principal Components Regression and Partial Least Squares
+
+4. Splines
+
+5. Decision Tree Methods
+
+  5.1. Single Regression Tree
+
+  5.2. Bootstrap Aggregation
+
+  5.3. Random Forest
+
+  5.4. Boosting
+  
+---
+# Analysis
+
+### Mean Regression and Linear Regression
