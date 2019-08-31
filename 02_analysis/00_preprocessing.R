@@ -55,10 +55,3 @@ sapply(wine, class)[sapply(wine, class) =="numeric"]
 # time_segm_price is a combination of other variables. We should take care of that... and maybe omit it?
 # artikpr is also a combined variable. omit it?
 
-# what does "old" mean?
-
-wine$v10_di %>% unique() # What the hell? We definitely have to do something about that!
-
-wine$v10_am %>% unique() # What the hell? We definitely have to do something about that!
-
-wine$v10_expm %>% unique() # What the hell? We definitely have to do something about that!
