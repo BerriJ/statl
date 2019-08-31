@@ -23,6 +23,25 @@ class: inverse, center, middle
 # Data and Variables
 
 ---
+
+# Data and Variables
+
+Data set train:
+  - 145179 observations of 58 variables (before preprocessing)
+  - 41416 observations of 45 variables (after preprocessing)
+  
+Data set test:
+  - 48395 observations of 58 variables (before preprocessing)
+  - xxxxx observations of 45 variables (after preprocessing)
+  
+Variables: name of wine, country, price, amount sold per week, reviews-related variables, etc.
+  
+```{r tables-VarType, echo = F}
+load("../00_data/output_paper/01_typeof_vec.rda")
+knitr::kable(t(typeof_vec), caption = "Frequency of Variable Types.")
+```
+
+---
 class: inverse, center, middle
 
 # Validation Approach
