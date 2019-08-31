@@ -25,5 +25,24 @@ mutate_at(
 mutate_at(
   vars(country, region, dist, taste_segment, segm, price_segm, time_segm_price, artikpr, name, vintage), 
   .funs = as.factor) %>%
-  dplyr::select(-time_segm_price, -artikpr)
+  dplyr::select(-time_segm_price, -artikpr) %>% dplyr::select_if(.predicate = function(x) mean(is.na(x)) < 0.5) %>%
+  # Drop llitre because we are using litre
+  dplyr::select(-llitre) %>%
+  # Only keep complete cases
+  drop_na() %>%
+  # Remove unused levels from factor variables
+  droplevels()
+
+# Create Model Matrices
+
+wine_train <- wine
+wine_test <- wine_test
+x.train <- model.matrix(litre~., data = wine_train)
+x.test <- model.matrix(litre~., data = wine_test)
+y.train <- wine_train$litre
+y.test <- wine_test$litre
+intsct <- intersect(colnames(x.train),colnames(x.test))
+x.train <- x.train[,intsct]
+x.test <- x.test[, intsct]
+
 
