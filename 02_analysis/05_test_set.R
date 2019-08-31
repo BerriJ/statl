@@ -45,4 +45,12 @@ intsct <- intersect(colnames(x.train),colnames(x.test))
 x.train <- x.train[,intsct]
 x.test <- x.test[, intsct]
 
+# Re-Estimate the final model
+tic()
+rf <- randomForest(x = x.train, y = y.train, mtry = 100, ntree = 25, 
+                   importance = T, keep.forest = T)
+toc()
 
+pred_rf <- predict(rf, newdata = x.test)
+
+rmse_RF <- mean((y.test - pred_rf)^2) %>% sqrt()
