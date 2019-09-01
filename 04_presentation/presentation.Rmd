@@ -1,5 +1,5 @@
 ---
-title: 'A Forecasting Study on Swedish Wine Sales  `r fontawesome::fa("wine-glass", fill = "#b50000", height = 39)`'
+title: 'A Forecasting Study on Swedish Wine Sales `r fontawesome::fa("wine-bottle", fill = "#b50000", height = 39)`'
 subtitle: "     Term Paper Statistical Learning"
 author: "     Jonathan Berrisch & Timo Rammert"
 date: "     23.09.2019"
@@ -1191,6 +1191,8 @@ If you have a long list of references, and want to split them over multiple slid
 `PrintBibliography(bib, start=1, end=7)`
 ]
 
+
+
 ---
 
 ## Embedding tweets
@@ -1246,3 +1248,5 @@ background-position: 5% 95%
 <br><br><br>
 
 ]]
+
+`r htmltools::includeHTML("assets/github.html")`
