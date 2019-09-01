@@ -13,9 +13,15 @@ output:
       countIncrementalSlides: false
       ratio: "16:9"
 ---
+
 class: inverse, center, middle
 
 # Introduction
+
+```{r echo=FALSE, include=FALSE}
+library(dplyr)
+library(plotly)
+```
 
 ---
 class: inverse, center, middle
@@ -74,3 +80,83 @@ class: inverse, center, middle
 # Analysis
 
 ### Mean Regression and Linear Regression
+
+---
+
+<div style="position:absolute;margin-top:0px;Z-index:1">
+
+<h1 id="analysis">Random Forest</h1>
+
+</div>
+
+<div style="position:relative; margin-top:-50px">
+
+
+```{r, echo=FALSE, message=FALSE}
+### Summary Random Forest  ####
+
+# Get filenames
+files <- dir(path = "../02_analysis/cv/rf")
+df_rf_list <- list()
+
+# Load the data
+for(i in 1:(length(files))){
+  load(file = paste("../02_analysis/cv/rf/", files[i], sep = ""))
+  df_rf_list[[i]] <- cbind(grid, rmse_RF)
+  colnames(df_rf_list[[i]]) <- c("mtry", "trees", paste("rmse_fold_",i, sep = ""))
+}
+
+# Produce a plot that shows RMSE vs. Hyperparameters
+rf_df <- purrr::reduce(df_rf_list, .f = full_join) %>%
+  mutate(mean = rowMeans(.[3:7])) %>%
+  arrange(desc(mean))
+
+library(plotly)
+rf_plot <- plot_ly(x = rf_df$mtry, y = rf_df$trees, z = rf_df$mean,
+                   type="scatter3d",
+                   mode = "markers",
+                   marker = list(color = rf_df$mean,
+                                 colorbar = list(title = "RMSE"),
+                                 colorscale = list(c(0, 1), c('25c900', 'bf0000')),
+                                 showscale = TRUE,
+                                 line = list(width = 0), size = 6)) %>% layout(
+                                   title = "",
+                                   scene = list(
+                                     xaxis = list(title = "Vars per Split"),
+                                     yaxis = list(title = "Trees"),
+                                     zaxis = list(title = "RMSE",
+                                                  range=c(4200,10000),
+                                                  tick0 = 4500,
+                                                  dtick = 1000),
+                                     annotations = list(list(
+                                       showarrow = T,
+                                       z = min(rf_df$mean),
+                                       y = rf_df$trees[which.min(rf_df$mean)],
+                                       x = rf_df$mtry[which.min(rf_df$mean)],
+                                       ay = -150,
+                                       ax = 150,
+                                       text = "Minimum",
+                                       arrowcolor = "black",
+                                       arrowsize = 1,
+                                       arrowwidth = 1,
+                                       arrowhead = 1,
+                                       font = list(
+                                         size = 14
+                                       ))
+                                     ))) %>% config(displayModeBar = F)
+
+f <- paste0("p.",i,".html")
+htmlwidgets::saveWidget(rf_plot, f)
+htmltools::tags$iframe(
+    src=f,
+    width="100%", 
+    height="700",
+    scrolling="no", 
+    seamless="seamless", 
+    frameBorder="0"
+  )
+
+```
+</div>
+
+---
