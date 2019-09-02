@@ -1,5 +1,5 @@
 ---
-title: 'A Forecasting Study on Swedish Wine Sales `r fontawesome::fa("wine-bottle", fill = "#b50000", height = 39)`'
+title: 'A Forecasting Study on Swedish Wine Sales `r fontawesome::fa("wine-bottle", fill = "#b50000")`'
 subtitle: "     Term Paper Statistical Learning"
 author: "     Jonathan Berrisch & Timo Rammert"
 date: "     23.09.2019"
@@ -38,6 +38,8 @@ class: segue, center, middle
 ```{r echo=FALSE, include=FALSE}
 library(dplyr)
 library(plotly)
+library(fontawesome)
+# remotes::install_github("berrij/fontawesome")
 ```
 
 ---
