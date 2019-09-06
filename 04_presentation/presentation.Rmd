@@ -102,6 +102,48 @@ class: inverse, center, middle
 
 ---
 
+# Analysis
+
+### Least Absolute Shrinkage and Selection Operator
+
+---
+
+# Analysis
+
+### Principal Components Regression and Partial Least Squares
+
+---
+
+# Analysis
+
+### Splines
+
+---
+
+# Analysis
+
+### Decision Tree Methods
+
+#### Single Regression Tree
+
+---
+
+# Analysis
+
+### Decision Tree Methods
+
+#### Bootstrap Aggregation
+
+---
+
+# Analysis
+
+### Decision Tree Methods
+
+#### Random Forest
+
+---
+
 <div style="position:absolute;margin-top:0px;Z-index:1">
 
 <h1 id="analysis">Random Forest <i class="fas fa-trees"></i> </h1>
@@ -177,3 +219,10 @@ htmltools::tags$iframe(
 
 ```
 </div>
+---
+
+# Analysis
+
+### Decision Tree Methods
+
+#### Boosting
