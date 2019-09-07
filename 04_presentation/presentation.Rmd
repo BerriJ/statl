@@ -39,11 +39,13 @@ class: segue, center, middle
 library(dplyr)
 library(plotly)
 library(fontawesome)
+library(rpart)
+library(stargazer)
 # remotes::install_github("berrij/fontawesome")
 ```
 
 ---
-class: inverse, center, middle
+class: inverse, center, middle 
 
 # Data and Variables
 
@@ -51,49 +53,54 @@ class: inverse, center, middle
 
 # Data and Variables
 
+</br>
+
+.pull-left[
+
+.content-box-green[
+
 Data set train:
   - 145179 observations of 58 variables (before preprocessing)
   - 41416 observations of 45 variables (after preprocessing)
-  
+]]
+
+.pull-right[
+
+.content-box-red[
+
+
 Data set test:
   - 48395 observations of 58 variables (before preprocessing)
   - xxxxx observations of 45 variables (after preprocessing)
-  
+]]
+
+</br>
+
 Variables: name of wine, country, price, amount sold per week, reviews-related variables, etc.
-  
+
 ```{r tables-VarType, echo = F}
 load("../00_data/output_paper/01_typeof_vec.rda")
-knitr::kable(t(typeof_vec), caption = "Frequency of Variable Types.")
+knitr::kable(t(typeof_vec), caption = "Frequency of Variable Types.", format = "html")
 ```
 
 ---
 class: inverse, center, middle
 
-# Validation Approach
+# Validation Approach `r fontawesome::fa("search", fill = "white")` 
 
+</br>
+
+.font160[5-Fold Crossvalidation
+
+Key performance measure: RMSE]
 
 ---
 
+class: inverse, center, middle
 
 # Analysis
 
-1. Mean Regression and Linear Regression
-
-2. Least Absolute Shrinkage and Selection Operator
-
-3. Principal Components Regression and Partial Least Squares
-
-4. Splines
-
-5. Decision Tree Methods
-
-  5.1. Single Regression Tree
-
-  5.2. Bootstrap Aggregation
-
-  5.3. Random Forest
-
-  5.4. Boosting
+# `r fontawesome::fa("terminal", fill = "white")` 
   
 ---
 # Analysis
