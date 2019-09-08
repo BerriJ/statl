@@ -266,3 +266,19 @@ htmltools::tags$iframe(
 ### Decision Tree Methods
 
 #### Boosting
+
+---
+
+class: inverse, center, middle
+
+# Conclusion
+
+# `r fontawesome::fa("flag-checkered", fill = "white")`
+
+---
+
+class: inverse, center, middle
+
+#Discussion
+
+# `r fontawesome::fa("comments", fill = "white")`
