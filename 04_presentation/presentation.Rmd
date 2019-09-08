@@ -45,6 +45,39 @@ library(stargazer)
 ```
 
 ---
+
+# Introduction
+
+</br>
+
+.pull-left[
+
+.content-box-blue[
+
+Goal:
+  - Forecasting Swedish wine sales in litres
+  - Identification of determinants of wine sales
+
+Basis:
+  - Dataset by Friberg and Grönqvist (2012)
+  - Methods and procedures based on ‘An Introduction to Statistical Learning with Applications in R’
+]]
+
+
+.pull-right[
+
+.content-box-grey[
+
+Predictions based on existing Literature:
+
+- Expert opinion increases sales - depending on received reviews (Hilger et al. (2011), Ashenfelter and Jones (2013))
+- Regional influences for local wine sales (Bicknell and MacDonald (2012))
+
+]]
+
+</br>
+
+---
 class: inverse, center, middle 
 
 # Data and Variables
