@@ -13,19 +13,27 @@ To specify the margin of the first title h1
 .remark-slide-content > h1:first-of-type {
   margin-top: 5px;
   margin-bottom: 10px;
+  z-index:10;
+  position: relative;
 }
 .remark-slide-content > h2:first-of-type {
   color: #e64626;
   margin-top: 5px;
   margin-bottom: 10px;
+  z-index:10;
+  position: relative;
 }
 .remark-slide-content > h3:first-of-type {
   margin-top: 5px;
   margin-bottom: 10px;
+  z-index:10;
+  position: relative;
 }
 .remark-slide-content > h4:first-of-type {
   margin-top: 5px;
   margin-bottom: 10px;
+  z-index:10;
+  position: relative;
 }
 
 
