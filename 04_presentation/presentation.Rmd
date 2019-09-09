@@ -146,6 +146,25 @@ class: inverse, center, middle
 
 ### Least Absolute Shrinkage and Selection Operator
 
+```{r, echo=FALSE, message=FALSE}
+
+load(file = "../04_presentation/data/lasso.plot.rda")
+
+lasso.plotly.plot <- plotly::ggplotly(lasso.plot) %>% config(displayModeBar = F)
+
+f <- paste0("p.lasso.html")
+htmlwidgets::saveWidget(lasso.plotly.plot, f)
+htmltools::tags$iframe(
+    src=f,
+    width="100%", 
+    height="80%",
+    scrolling="no", 
+    seamless="seamless", 
+    frameBorder="0"
+  )
+
+```
+
 ---
 
 # Analysis
@@ -184,9 +203,11 @@ class: inverse, center, middle
 
 ---
 
-<div style="position:absolute;margin-top:0px;Z-index:1">
+<div style="position:absolute; top:-8px; Z-index:1">
 
-<h1 id="analysis">Random Forest <i class="fas fa-trees"></i> </h1>
+<h1 id="analysis">Analysis <i class="fas fa-trees"></i> </h1>
+
+<h3 id="analysis">Random Forest <i class="fas fa-trees"></i> </h3>
 
 </div>
 
