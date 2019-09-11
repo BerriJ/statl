@@ -17,8 +17,8 @@
       cursor: default;
     }
     </style>
-    <link rel="stylesheet" href="assets/sydney-fonts.css" type="text/css" />
-    <link rel="stylesheet" href="assets/sydney.css" type="text/css" />
+    <link rel="stylesheet" href="assets\sydney-fonts.css" type="text/css" />
+    <link rel="stylesheet" href="assets\sydney.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -89,6 +89,7 @@ class: inverse, center, middle
 .content-box-green[
 
 Data set train:
+  - Sales from 2002-01-02 until 2006-02-22
   - 145179 observations of 58 variables (before preprocessing)
   - 41416 observations of 45 variables (after preprocessing)
 ]]
@@ -99,13 +100,12 @@ Data set train:
 
 
 Data set test:
+  - Sales from 2006-02-22 until 2007-01-10
   - 48395 observations of 58 variables (before preprocessing)
-  - xxxxx observations of 45 variables (after preprocessing)
+  - 9783 observations of 45 variables (after preprocessing)
 ]]
 
 &lt;/br&gt;
-
-Variables: name of wine, country, price, amount sold per week, reviews-related variables, etc.
 
 &lt;table&gt;
 &lt;caption&gt;Frequency of Variable Types.&lt;/caption&gt;
@@ -126,6 +126,15 @@ Variables: name of wine, country, price, amount sold per week, reviews-related v
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+
+???
+
+- Densities of variable litre is nearly the same for train (from 0 to 184200) and test (from 0 to 184398)
+- Variables: name of wine, country, price, amount sold per week,market share, segments, reviews-related variables, etc.
+- No great differences in prices (only in terms of max in train): 
+  - price in train: from 38 to 1149 with mean 108 and median 79
+  - price in test: from 43 to 349 with mean 108 and median 87
+- Difference in segments: test only includes red sparkling and white
 
 ---
 class: inverse, center, middle

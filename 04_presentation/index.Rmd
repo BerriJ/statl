@@ -94,6 +94,7 @@ class: inverse, center, middle
 .content-box-green[
 
 Data set train:
+  - Sales from 2002-01-02 until 2006-02-22
   - 145179 observations of 58 variables (before preprocessing)
   - 41416 observations of 45 variables (after preprocessing)
 ]]
@@ -104,18 +105,26 @@ Data set train:
 
 
 Data set test:
+  - Sales from 2006-02-22 until 2007-01-10
   - 48395 observations of 58 variables (before preprocessing)
-  - xxxxx observations of 45 variables (after preprocessing)
+  - 9783 observations of 45 variables (after preprocessing)
 ]]
 
 </br>
-
-Variables: name of wine, country, price, amount sold per week, reviews-related variables, etc.
 
 ```{r tables-VarType, echo = F}
 load("../00_data/output_paper/01_typeof_vec.rda")
 knitr::kable(t(typeof_vec), caption = "Frequency of Variable Types.", format = "html")
 ```
+
+???
+
+- Densities of variable litre is nearly the same for train (from 0 to 184200) and test (from 0 to 184398)
+- Variables: name of wine, country, price, amount sold per week,market share, segments, reviews-related variables, etc.
+- No great differences in prices (only in terms of max in train): 
+  - price in train: from 38 to 1149 with mean 108 and median 79
+  - price in test: from 43 to 349 with mean 108 and median 87
+- Difference in segments: test only includes red sparkling and white
 
 ---
 class: inverse, center, middle
