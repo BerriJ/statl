@@ -351,6 +351,32 @@ htmltools::tags$iframe(
 
 class: inverse, center, middle
 
+# Robustness
+
+# `r fontawesome::fa("check", fill = "white")`
+
+---
+
+# Robustness
+
+.content-box-grey[
+
+Calculation of various alternative estimations, especially:
+
+- Inclusion of variables “time_segm_price” and “artikpr”
+  - Have been excluded beforehand as they are combinations of existing variables
+  - Including these yields a higher RMSE -> No improvement of the model
+  
+- Reducing share of NAs for removing variables from the dataset
+  - Beforehand: 50%
+  - Reducing it until 20%
+  - Gain in No. of variables and observations does not lead to higher precision
+
+]
+---
+
+class: inverse, center, middle
+
 # Conclusion
 
 # `r fontawesome::fa("flag-checkered", fill = "white")`
