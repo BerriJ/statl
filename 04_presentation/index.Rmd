@@ -224,17 +224,20 @@ class: inverse, center, middle
 
 ### Mean Regression and Linear Regression
 
-Baseline methods for comparing the predictions mady by further methods
+<br>
+
+Baseline methods for comparing the predictions made by further methods
+
+<br>
 
 .pull-left[
 
   .content-box-grey[
 
 Mean Regression:
+- Mean litres sold: 6886
 - RMSE-Train: 13340
-- RMSE-Test: 11320
 
-- Better out-of-data fit as in-data fit
 
   ]
 
@@ -245,8 +248,9 @@ Mean Regression:
   .content-box-grey[
 
 Linear Regression:
+- Factor variables transformed into dummy variables $\rightarrow$ 757 variables
 - RMSE-Train: 5572
-- RMSE-Test:
+
 
   ]
 ]
