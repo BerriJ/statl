@@ -153,6 +153,32 @@ knitr::kable(t(typeof_vec), caption = "Frequency of Variable Types.", format = "
 - Difference in segments: test only includes red, sparkling and white
 
 ---
+
+# Data and Variables
+
+## Missing Values
+
+```{r, echo=FALSE}
+
+# load(file = "../04_presentation/data/missings_plot.rda")
+# 
+# missings.plotly.plot <- plotly::ggplotly(missings) %>% config(displayModeBar = F) %>% layout(showlegend = FALSE)
+
+f <- paste0("p.missings.html")
+
+# htmlwidgets::saveWidget(missings.plotly.plot, f)
+
+htmltools::tags$iframe(
+    src= f,
+    width="100%",
+    height="525px",
+    scrolling="no",
+    seamless="seamless",
+    frameBorder="0"
+  )
+```
+
+---
 class: inverse, center, middle
 
 # Validation Approach

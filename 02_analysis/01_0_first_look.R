@@ -34,6 +34,8 @@ missings <- wine %>%
   ylab("Share of NA's (Percent)") + 
   xlab("Variable") + ggtitle("", subtitle = "")
 
+save(file = "04_presentation/data/missings_plot.rda", missings)
+
 # ggsave("00_data/output_paper/02_missings_alt.pdf",plot =  missings, width = 7, height = 3)
 
 
