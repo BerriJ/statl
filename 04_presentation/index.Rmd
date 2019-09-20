@@ -117,7 +117,7 @@ class: inverse, center, middle
 
 # Data and Variables
 
-</br>
+## Overview
 
 .pull-left[
 
@@ -252,7 +252,7 @@ class: inverse, center, middle
 ---
 # Analysis
 
-### Mean Regression and Linear Regression
+## Mean Regression and Linear Regression
 
 <br>
 
@@ -341,6 +341,30 @@ htmltools::tags$iframe(
 
 ### Principal Components Regression and Partial Least Squares
 
+.pull-left[
+
+.content-box-blue[
+
+### Principal Components Regression
+
+]
+]
+
+.pull-right[
+
+.content-box-blue[
+
+### Partial Least Squares
+
+]
+]
+
+---
+
+# Analysis
+
+## Principal Components Regression and Partial Least Squares
+
 <div style="position:relative; margin-top:-25px; z-index: 0">
 
 ```{r, echo=FALSE, message=FALSE}
@@ -368,39 +392,39 @@ htmltools::tags$iframe(
 
 # Analysis
 
-### Splines
+## Splines
 
 ---
 
 # Analysis
 
-### Decision Tree Methods
+## Decision Tree Methods
 
-#### Single Regression Tree
-
----
-
-# Analysis
-
-### Decision Tree Methods
-
-#### Bootstrap Aggregation
+### Single Regression Tree
 
 ---
 
 # Analysis
 
-### Decision Tree Methods
+## Decision Tree Methods
 
-#### Random Forest
+### Bootstrap Aggregation
 
 ---
 
 # Analysis
 
-### Decision Tree Methods
+## Decision Tree Methods
 
-#### Random Forest
+### Random Forest
+
+---
+
+# Analysis
+
+## Decision Tree Methods
+
+### Random Forest
 
 <div style="position:relative; margin-top:-200px; z-index: 0">
 
@@ -475,9 +499,9 @@ htmltools::tags$iframe(
 
 # Analysis
 
-### Decision Tree Methods
+## Decision Tree Methods
 
-#### Boosting
+### Boosting
 
 ---
 
