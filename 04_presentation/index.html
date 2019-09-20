@@ -139,20 +139,19 @@ Data set test:
 ---
 class: inverse, center, middle
 
-# Validation Approach &lt;svg style="height:0.8em;top:.04em;position:relative;fill:white;" viewBox="0 0 512 512"&gt;&lt;path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/&gt;&lt;/svg&gt; 
+# Validation Approach
 
-&lt;/br&gt;
-
-.font160[5-Fold Crossvalidation
-
-Key performance measure: RMSE]
+# &lt;svg style="height:0.8em;top:.04em;position:relative;fill:white;" viewBox="0 0 512 512"&gt;&lt;path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/&gt;&lt;/svg&gt; 
 
 ---
 
 # Validation Approach
 
+.pull-left[
 
 .content-box-blue[
+
+### Theoretical
 
 - Crossvalidation using 5 folds
 
@@ -162,6 +161,33 @@ Key performance measure: RMSE]
 
 - Further robustness checks for assesing validity of results obtained
 
+]
+]
+
+.pull-right[
+
+.content-box-blue[
+
+### Technical
+
+- Using Rstudio Jobs Feature
+  - Multicore Processing
+  - Model independent CV approach
+  
+```{}
+library(rstudioapi)
+
+for(i in 1:5){
+
+  fold_data &lt;- data_list[[i]]
+  jobRunScript("path_to_model",
+               workingDir = "../statl",
+               importEnv = T)
+               
+}
+```
+
+]
 ]
 
 ???
@@ -376,7 +402,24 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     deleted = true;
   });
-})();</script>
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
 
 <script>
 (function() {
