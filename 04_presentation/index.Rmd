@@ -129,20 +129,19 @@ knitr::kable(t(typeof_vec), caption = "Frequency of Variable Types.", format = "
 ---
 class: inverse, center, middle
 
-# Validation Approach `r fontawesome::fa("search", fill = "white")` 
+# Validation Approach
 
-</br>
-
-.font160[5-Fold Crossvalidation
-
-Key performance measure: RMSE]
+# `r fontawesome::fa("search", fill = "white")` 
 
 ---
 
 # Validation Approach
 
+.pull-left[
 
 .content-box-blue[
+
+### Theoretical
 
 - Crossvalidation using 5 folds
 
@@ -152,6 +151,33 @@ Key performance measure: RMSE]
 
 - Further robustness checks for assesing validity of results obtained
 
+]
+]
+
+.pull-right[
+
+.content-box-blue[
+
+### Technical
+
+- Using Rstudio Jobs Feature
+  - Multicore Processing
+  - Model independent CV approach
+  
+```{}
+library(rstudioapi)
+
+for(i in 1:5){
+
+  fold_data <- data_list[[i]]
+  jobRunScript("path_to_model",
+               workingDir = "../statl",
+               importEnv = T)
+               
+}
+```
+
+]
 ]
 
 ???
