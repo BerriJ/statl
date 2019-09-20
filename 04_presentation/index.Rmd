@@ -259,7 +259,26 @@ Linear Regression:
 
 # Analysis
 
-### Least Absolute Shrinkage and Selection Operator
+## Least Absolute Shrinkage and Selection Operator
+<br>
+
+.font130[
+.content-box-blue[
+- Method combining linear regression and shrinking of coefficient estimates
+- Fits linear model constrained by penalty term, i.e., it minimizes $\sum_{i=1}^{n}(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij})^2+\lambda\sum_{j=1}^{p}|\beta_j|.$
+- RMSE-Train: 5548
+]
+]
+
+???
+
+Also calculated Lasso for loglitres: RMSE of 5812
+
+---
+
+# Analysis
+
+## Least Absolute Shrinkage and Selection Operator
 
 <div style="position:relative; margin-top:-25px; z-index: 0">
 
