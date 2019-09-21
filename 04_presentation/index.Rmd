@@ -396,11 +396,53 @@ htmltools::tags$iframe(
 
 ---
 
+background-image: url("assets/tree.png")
+background-position: 100% 100%
+background-size: 50% 75%
+
 # Analysis
 
 ## Decision Tree Methods
 
 ### Single Regression Tree
+
+.pull-left[
+
+.content-box-blue[
+
+- A tree is grown by splitting the feature space until terminal nodes reach a set minimum size
+- Algorithm decides automatically on splitting variables and points 
+- Minimizing sum of squared residuals
+- Same variables chosen for splitting for every fold
+- RMSE-Train: 6495
+
+]
+]
+
+---
+
+background-image: url("assets/tree_pruned.png")
+background-position: 100% 100%
+background-size: 50% 75%
+
+# Analysis
+
+## Decision Tree Methods
+
+### Pruned Tree
+
+.pull-left[
+.font120[
+.content-box-blue[
+
+- Selecting subtree with lowest test error via validation approach
+
+ $\rightarrow$ cost complexity pruning
+- RMSE-Train: 7936
+
+]
+]
+]
 
 ---
 

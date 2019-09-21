@@ -104,11 +104,15 @@ class: inverse, center, middle
 
 # Data and Variables
 
+&lt;/br&gt;
+
+&lt;svg style="height:1.8em;top:.04em;position:relative;fill:white;" viewBox="0 0 512 512"&gt;&lt;path d="M464 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V80c0-26.51-21.49-48-48-48zM160 448H48c-8.837 0-16-7.163-16-16v-80h128v96zm0-128H32v-96h128v96zm0-128H32V96h128v96zm160 256H192v-96h128v96zm0-128H192v-96h128v96zm0-128H192V96h128v96zm160 160v80c0 8.837-7.163 16-16 16H352v-96h128zm0-32H352v-96h128v96zm0-128H352V96h128v96z"/&gt;&lt;/svg&gt;
+
 ---
 
 # Data and Variables
 
-&lt;/br&gt;
+## Overview
 
 .pull-left[
 
@@ -161,6 +165,14 @@ Data set test:
   - price in train: from 38 to 1149 with mean 108 and median 79
   - price in test: from 43 to 349 with mean 108 and median 87
 - Difference in segments: test only includes red, sparkling and white
+
+---
+
+# Data and Variables
+
+## Missing Values
+
+<iframe src="p.missings.html" width="100%" height="525px" scrolling="no" seamless="seamless" frameBorder="0"></iframe>
 
 ---
 class: inverse, center, middle
@@ -232,7 +244,7 @@ class: inverse, center, middle
 ---
 # Analysis
 
-### Mean Regression and Linear Regression
+## Mean Regression and Linear Regression
 
 &lt;br&gt;
 
@@ -302,6 +314,30 @@ Also calculated Lasso for loglitres: RMSE of 5812
 
 ### Principal Components Regression and Partial Least Squares
 
+.pull-left[
+
+.content-box-blue[
+
+### Principal Components Regression
+
+]
+]
+
+.pull-right[
+
+.content-box-blue[
+
+### Partial Least Squares
+
+]
+]
+
+---
+
+# Analysis
+
+## Principal Components Regression and Partial Least Squares
+
 &lt;div style="position:relative; margin-top:-25px; z-index: 0"&gt;
 
 <iframe src="p.pca.html" width="100%" height="525px" scrolling="no" seamless="seamless" frameBorder="0"></iframe>
@@ -312,39 +348,81 @@ Also calculated Lasso for loglitres: RMSE of 5812
 
 # Analysis
 
-### Splines
+## Splines
+
+---
+
+background-image: url("assets/tree.png")
+background-position: 100% 100%
+background-size: 50% 75%
+
+# Analysis
+
+## Decision Tree Methods
+
+### Single Regression Tree
+
+.pull-left[
+
+.content-box-blue[
+
+- A tree is grown by splitting the feature space until terminal nodes reach a set minimum size
+- Algorithm decides automatically on splitting variables and points 
+- Minimizing sum of squared residuals
+- Same variables chosen for splitting for every fold
+- RMSE-Train: 6495
+
+]
+]
+
+---
+
+background-image: url("assets/tree_pruned.png")
+background-position: 100% 100%
+background-size: 50% 75%
+
+# Analysis
+
+## Decision Tree Methods
+
+### Pruned Tree
+
+.pull-left[
+.font120[
+.content-box-blue[
+
+- Selecting subtree with lowest test error via validation approach
+
+ `\(\rightarrow\)` cost complexity pruning
+- RMSE-Train: 7936
+
+]
+]
+]
 
 ---
 
 # Analysis
 
-### Decision Tree Methods
+## Decision Tree Methods
 
-#### Single Regression Tree
-
----
-
-# Analysis
-
-### Decision Tree Methods
-
-#### Bootstrap Aggregation
+### Bootstrap Aggregation
 
 ---
 
 # Analysis
 
-### Decision Tree Methods
+## Decision Tree Methods
 
-#### Random Forest
+### Random Forest
 
 ---
 
 # Analysis
 
-### Decision Tree Methods
+## Decision Tree Methods
 
-#### Random Forest
+### Random Forest
 
 &lt;div style="position:relative; margin-top:-200px; z-index: 0"&gt;
 
@@ -354,9 +432,9 @@ Also calculated Lasso for loglitres: RMSE of 5812
 
 # Analysis
 
-### Decision Tree Methods
+## Decision Tree Methods
 
-#### Boosting
+### Boosting
 
 ---
 
