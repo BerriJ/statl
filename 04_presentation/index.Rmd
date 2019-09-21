@@ -339,13 +339,21 @@ htmltools::tags$iframe(
 
 # Analysis
 
-### Principal Components Regression and Partial Least Squares
+## Principal Components Regression and Partial Least Squares
+
+<br>
 
 .pull-left[
 
 .content-box-blue[
 
 ### Principal Components Regression
+
+- Unsupervised transformation of X
+- May reduce the dimension
+- Results are hard to interpret
+- Number of covariates (by CV): $\approx 635$
+- RMSE: $\approx 5546.05$
 
 ]
 ]
@@ -355,6 +363,11 @@ htmltools::tags$iframe(
 .content-box-blue[
 
 ### Partial Least Squares
+
+- Supervised Transformation of X
+- Highest weight on covariates that are strongly related to Y
+- Number of covariates (by CV): $\approx 35$
+- RMSE: $\approx 6201.15$
 
 ]
 ]
