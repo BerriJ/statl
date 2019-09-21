@@ -605,6 +605,18 @@ htmltools::tags$iframe(
 </div>
 
 ---
+# Analysis
+
+## Random Forest
+
+### Partial Dependence
+```{r, echo=FALSE, message=FALSE, fig.retina = 10, fig.width = 15, fig.height=5}
+load("../04_presentation/data/rf_pardep.rda")
+par_dep_rf + theme(text = element_text(size=25))
+```
+
+
+---
 
 # Analysis
 
@@ -621,7 +633,6 @@ htmltools::tags$iframe(
 - RMSE-Test: 4479
 ]
 ]
-
 
 ---
 
