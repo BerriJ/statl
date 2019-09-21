@@ -616,6 +616,7 @@ htmltools::tags$iframe(
     frameBorder="0"
   )
 ```
+
 </div>
 
 ---
@@ -624,11 +625,13 @@ class: inverse, center, middle
 
 # Robustness
 
-# `r fontawesome::fa("check", fill = "white")`
+# `r fontawesome::fa("hammer", fill = "white")`
 
 ---
 
 # Robustness
+
+</div>
 
 .content-box-grey[
 
