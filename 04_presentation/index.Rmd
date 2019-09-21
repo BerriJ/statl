@@ -523,6 +523,20 @@ background-size: 50% 75%
 
 ## Bootstrap Aggregation
 
+<br>
+
+.content-box-blue[
+.font120[
+
+- Repeated drawing of bootstrap samples before growing trees
+- Averaging of results afterwards
+- Lowers variance compared to single regression trees
+- Tuning parameter: Number of trees
+- RMSE: 4306 (25 Trees)
+
+]
+]
+
 ---
 
 # Analysis
@@ -548,6 +562,8 @@ htmltools::tags$iframe(
 # Analysis
 
 ## Random Forest
+
+<br>
 
 .content-box-blue[
 .font120[
@@ -621,6 +637,8 @@ par_dep_rf + theme(text = element_text(size=25))
 # Analysis
 
 ## Boosting
+
+<br>
 
 .content-box-blue[
 .font110[

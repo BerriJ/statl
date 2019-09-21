@@ -4,7 +4,7 @@ Version=0.4.0-20
 [R]
 Version=3.6.1
 Repositories=
-	CRAN=https://cran.rstudio.com
+	CRAN=https://cran.rstudio.com/
 
 [R/Package/BH]
 Package=BH
@@ -16,7 +16,13 @@ Hash=cfad72c4156ccde689e24ed26010a931
 Package=DBI
 Version=1.0.0
 Source=CRAN
-Hash=9e726304c3ccd2641ee1b0668a2a4b94
+Hash=47c6631d0f98c2582ad761e4993ba9b5
+
+[R/Package/DEoptimR]
+Package=DEoptimR
+Version=1.0-8
+Source=CRAN
+Hash=96b7633aa0b16767339bc5aa755938ce
 
 [R/Package/DT]
 Package=DT
@@ -29,6 +35,12 @@ Package=Formula
 Version=1.2-3
 Source=CRAN
 Hash=587abf30af204d3c875be8c09668f094
+
+[R/Package/ISLR]
+Package=ISLR
+Version=1.2
+Source=CRAN
+Hash=a30efa9bb8b2391970837efb3c278a39
 
 [R/Package/KernSmooth]
 Package=KernSmooth
@@ -46,7 +58,7 @@ Hash=3f74d247b4ab8e3f0fd6c8655ba4ee09
 Package=Matrix
 Version=1.2-17
 Source=CRAN
-Hash=37c16af3f7da98c8f5da858855e13115
+Hash=5fcbf894490760a99057e72a0df0fe8d
 
 [R/Package/ModelMetrics]
 Package=ModelMetrics
@@ -132,17 +144,35 @@ Version=0.4.2
 Source=CRAN
 Hash=ce57a79be200c0ef9e8052188b15f889
 
+[R/Package/bitops]
+Package=bitops
+Version=1.0-6
+Source=CRAN
+Hash=6de632bfd4d47e0f1e7969e2a0f6a914
+
+[R/Package/brew]
+Package=brew
+Version=1.0-6
+Source=CRAN
+Hash=ca6dd872a81a7063dd6a77acf7a12d9b
+
 [R/Package/broom]
 Package=broom
 Version=0.5.2
 Source=CRAN
 Hash=4d3320654f6e0fe0b4b1c339c507f5ae
 
+[R/Package/caTools]
+Package=caTools
+Version=1.17.1.2
+Source=CRAN
+Hash=7934aafb5824a02cf9f2750fd1923627
+
 [R/Package/callr]
 Package=callr
 Version=3.3.1
 Source=CRAN
-Hash=5d950bd10a2bbd2cfc93e16ddf0ba451
+Hash=6d96e4d63e29bb82d9de5b6c313ec2f9
 
 [R/Package/caret]
 Package=caret
@@ -156,6 +186,12 @@ Version=1.1.0
 Source=CRAN
 Hash=2dca890fda2e0910eeacb38a2c27af72
 
+[R/Package/checkmate]
+Package=checkmate
+Version=1.9.4
+Source=CRAN
+Hash=c4cf2b51b5b4d40ff3b4c4a9ea58cd50
+
 [R/Package/class]
 Package=class
 Version=7.3-15
@@ -166,13 +202,7 @@ Hash=0a15f04d424e4c25bc348f22c57657bb
 Package=cli
 Version=1.1.0
 Source=CRAN
-Hash=0b5e29bc7acf6175de5310f9f70ec216
-
-[R/Package/cliapp]
-Package=cliapp
-Version=0.1.0
-Source=CRAN
-Hash=fc91fd7ccb09ab25f3c96ff7f0d2690e
+Hash=82644afba0ff56a08730bc4fc1e6448f
 
 [R/Package/clipr]
 Package=clipr
@@ -184,7 +214,7 @@ Hash=25a0f4708d204469f7f2b7dd7ff147b4
 Package=clisymbols
 Version=1.2.0
 Source=CRAN
-Hash=3b45a6793affa91789aad25ca6bc7d3d
+Hash=cac06d1dbd7d362670fbc95c1cbe5afe
 
 [R/Package/codetools]
 Package=codetools
@@ -198,11 +228,17 @@ Version=1.4-1
 Source=CRAN
 Hash=b0f7b0980ad3d9d240be0fffea1d238b
 
+[R/Package/commonmark]
+Package=commonmark
+Version=1.7
+Source=CRAN
+Hash=6aba1333d065559b07a73414115a8218
+
 [R/Package/crayon]
 Package=crayon
 Version=1.3.4
 Source=CRAN
-Hash=f57126a0d24ca978ba32632bb3d26fe4
+Hash=900c1d2c8e4c61b6a1814331ec34e19a
 
 [R/Package/crosstalk]
 Package=crosstalk
@@ -212,9 +248,15 @@ Hash=b3cd6106dd84e002933f471850fdb107
 
 [R/Package/curl]
 Package=curl
-Version=4.1
+Version=4.0
 Source=CRAN
-Hash=66c3af330542e6905b283bfa41ce9f28
+Hash=596cf2332339d15d052376b237625b87
+
+[R/Package/cvTools]
+Package=cvTools
+Version=0.3.2
+Source=CRAN
+Hash=348247fb31c60c31ce55ba9ebda2b403
 
 [R/Package/data.table]
 Package=data.table
@@ -232,13 +274,19 @@ Hash=49a0d7f120de761b3e98b7cbca6cf4c2
 Package=desc
 Version=1.2.0
 Source=CRAN
-Hash=cba2cb552675975f281c0c82593e5419
+Hash=6a3b8ecf683b3ba841991635c7dc39cb
+
+[R/Package/devtools]
+Package=devtools
+Version=2.1.0
+Source=CRAN
+Hash=c49ec6021acf3e1b5c4d2c54001da750
 
 [R/Package/digest]
 Package=digest
-Version=0.6.21
+Version=0.6.20
 Source=CRAN
-Hash=5f2f18945ed773d2acaa2b31439f7ead
+Hash=8d00fdf173206e06a117174a11bba074
 
 [R/Package/doParallel]
 Package=doParallel
@@ -246,35 +294,41 @@ Version=1.0.15
 Source=CRAN
 Hash=eaf3aeef5c8ebdbcb88b7727874c7f83
 
+[R/Package/doSNOW]
+Package=doSNOW
+Version=1.0.18
+Source=CRAN
+Hash=4083d105e4096fbd99a0268b72968ada
+
 [R/Package/dplyr]
 Package=dplyr
 Version=0.8.3
 Source=CRAN
-Hash=ed47cd0dd5da9420900c6a71b8cb4caa
+Hash=55724dcfa412564a0feb53075cc62324
+
+[R/Package/edarf]
+Package=edarf
+Version=1.1.1
+Source=CRAN
+Hash=8cf2958b0eb8b4c21a48859093178c8b
 
 [R/Package/ellipsis]
 Package=ellipsis
-Version=0.3.0
+Version=0.2.0.1
 Source=CRAN
-Hash=aa87569ce42b3888860df8d9230c264e
+Hash=a8328e48dc8f61e8e5da18d46ecd54e2
 
 [R/Package/evaluate]
 Package=evaluate
 Version=0.14
 Source=CRAN
-Hash=a55f044b6c5ca0f626e5ddcea5482c58
+Hash=334a5c1c76a6dd07e7f14c521bedbf94
 
 [R/Package/fansi]
 Package=fansi
 Version=0.4.0
 Source=CRAN
 Hash=a7730510208607abde04cfe3808e78e0
-
-[R/Package/filelock]
-Package=filelock
-Version=1.0.2
-Source=CRAN
-Hash=52c4058af6b2ec93e094347a9d7e7ebe
 
 [R/Package/fontawesome]
 Package=fontawesome
@@ -350,15 +404,27 @@ Hash=efa792c5f60f15ae77d5cd7654b47fe8
 
 [R/Package/ggplot2]
 Package=ggplot2
-Version=3.2.1
+Version=3.2.0
 Source=CRAN
-Hash=99d2d1744f5c710ba0f57a06a606c964
+Hash=98223d80bc61686f2c163d8756e9b38c
+
+[R/Package/ggthemr]
+Package=ggthemr
+Version=1.1.0
+Source=GitHub
+RemoteType=github
+RemoteHost=api.github.com
+RemoteRepo=ggthemr
+RemoteUsername=cttobin
+RemoteRef=master
+RemoteSha=10eb50a78047e1eb0b9517004f9f7fc34702f539
+Hash=9ff0f043be48ad96770cd9467f3bb6c2
 
 [R/Package/gh]
 Package=gh
 Version=1.0.1
 Source=CRAN
-Hash=f53dc1192d8f9c0922563bc0a23cf09a
+Hash=31f3051488a4a3fca6098f2369f526b9
 
 [R/Package/git2r]
 Package=git2r
@@ -422,9 +488,9 @@ Hash=e55de296dfdda8215e0c3fa0f4c6b84f
 
 [R/Package/hms]
 Package=hms
-Version=0.5.1
+Version=0.5.0
 Source=CRAN
-Hash=1444d124bcfa849903bdd5dc9d09af03
+Hash=2ffc5ae69f630ae2efbd1ebe08e6da14
 
 [R/Package/htmltools]
 Package=htmltools
@@ -440,9 +506,9 @@ Hash=b192d556875bab99bc3286e88c44e017
 
 [R/Package/httpuv]
 Package=httpuv
-Version=1.5.2
+Version=1.5.1
 Source=CRAN
-Hash=7d52588ad2945443465006de99bc5579
+Hash=6a37a3704685cc172c9b1737b45ec5a0
 
 [R/Package/httr]
 Package=httr
@@ -470,9 +536,9 @@ Hash=f042164d195b26c2f09cba4b30b35389
 
 [R/Package/inspectdf]
 Package=inspectdf
-Version=0.0.5
+Version=0.0.4
 Source=CRAN
-Hash=d76eabdcbc7819c8b838e659971a3d38
+Hash=d34cd4631ed1af889b3f32b01c1d1a7a
 
 [R/Package/ipred]
 Package=ipred
@@ -496,13 +562,13 @@ Hash=1527c6ad6c00ff3f0d0a02b01650fd87
 Package=kableExtra
 Version=1.1.0
 Source=CRAN
-Hash=0637ed6e26a9506f26105ba5045eb458
+Hash=17c23010f71f3030c4eb9506b9062777
 
 [R/Package/knitr]
 Package=knitr
 Version=1.24
 Source=CRAN
-Hash=bcaefccaba172a918bbab6c6853391d5
+Hash=eea9d5b207d87d2c98567ffc51a1016e
 
 [R/Package/labeling]
 Package=labeling
@@ -540,23 +606,11 @@ Version=3.0
 Source=CRAN
 Hash=559ef1e3b44b6047a1ac294ccdf52301
 
-[R/Package/lifecycle]
-Package=lifecycle
-Version=0.1.0
-Source=CRAN
-Hash=29be749d41285cd04833fd03fc138038
-
 [R/Package/lmtest]
 Package=lmtest
 Version=0.9-37
 Source=CRAN
 Hash=75fb4f9ef0d7cc44df84055c2974aba9
-
-[R/Package/lpSolve]
-Package=lpSolve
-Version=5.6.13.3
-Source=CRAN
-Hash=80fddbde269adf6361209624fd65f696
 
 [R/Package/lubridate]
 Package=lubridate
@@ -566,9 +620,9 @@ Hash=ecc440cf76cdf90c0c34de6e0a0267fb
 
 [R/Package/magick]
 Package=magick
-Version=2.2
+Version=2.1
 Source=CRAN
-Hash=0d4e42b75e1aafd5bcaa21fa1051f44d
+Hash=54099c87e869dd5eb4a44646ed2e1df3
 
 [R/Package/magrittr]
 Package=magrittr
@@ -578,15 +632,21 @@ Hash=c079d05aaae9556f4dbeea615a764871
 
 [R/Package/markdown]
 Package=markdown
-Version=1.1
+Version=1.0
 Source=CRAN
-Hash=7bab0d4877c7d644daf795abea13a260
+Hash=df98b6f344f9a72d67863dccdde3d95b
 
 [R/Package/maxLik]
 Package=maxLik
 Version=1.3-6
 Source=CRAN
 Hash=85d8303f9beb1b872073c646ba306b01
+
+[R/Package/memoise]
+Package=memoise
+Version=1.1.0
+Source=CRAN
+Hash=833e2af3770d73b99866aca40b4c4a09
 
 [R/Package/mgcv]
 Package=mgcv
@@ -600,17 +660,41 @@ Version=0.7
 Source=CRAN
 Hash=e1d17e6e0d960a206a93670a75d1ef4d
 
+[R/Package/miniUI]
+Package=miniUI
+Version=0.1.1.1
+Source=CRAN
+Hash=7bafc7ab8a643d9059a2d253f926be6a
+
+[R/Package/misc3d]
+Package=misc3d
+Version=0.8-4
+Source=CRAN
+Hash=368e18fdca5af03f054d3cc7e674c4d9
+
 [R/Package/miscTools]
 Package=miscTools
 Version=0.6-22
 Source=CRAN
 Hash=f8e5a1eab4cccba75dfd6ea7374b893e
 
+[R/Package/mlbench]
+Package=mlbench
+Version=2.1-1
+Source=CRAN
+Hash=b203184a866aec84fc507e57bb6c245b
+
+[R/Package/mmpf]
+Package=mmpf
+Version=0.0.5
+Source=CRAN
+Hash=d998bdc850f4446929f2e84a1dd1fc5d
+
 [R/Package/modelr]
 Package=modelr
-Version=0.1.5
+Version=0.1.4
 Source=CRAN
-Hash=404c8b58a6768c609bf547c66eb5c4a6
+Hash=4c44dc2a7c22d337b2fe27867388dec5
 
 [R/Package/munsell]
 Package=munsell
@@ -622,7 +706,7 @@ Hash=d2e295adcf750acbd8a6afd5e15a9c1b
 Package=nlme
 Version=3.1-141
 Source=CRAN
-Hash=076c376afd1f9a3c191c61cb84e7707a
+Hash=c213c54af4b57dba36fcd8d8d875bbd6
 
 [R/Package/nnet]
 Package=nnet
@@ -642,35 +726,29 @@ Version=1.4.1
 Source=CRAN
 Hash=0fe29a202c1f856ad4ef0fe4cecf1ee1
 
-[R/Package/pak]
-Package=pak
-Version=0.1.2
-Source=CRAN
-Hash=dcfa49d927a8daefaeaa73bddcca9d59
-
 [R/Package/pillar]
 Package=pillar
 Version=1.4.2
 Source=CRAN
-Hash=13b516d104d14399a5853d9031ed0ea0
+Hash=80d354371127949c1b34cc8ec998ed06
 
 [R/Package/pkgbuild]
 Package=pkgbuild
-Version=1.0.5
+Version=1.0.4
 Source=CRAN
-Hash=8608cbb5e3983d00638a62cdfb361b13
-
-[R/Package/pkgcache]
-Package=pkgcache
-Version=1.0.5
-Source=CRAN
-Hash=3b954ecddd648b8e95ff2d1815f8182d
+Hash=ba98c576cd9106bc2f5a4cc42c42f863
 
 [R/Package/pkgconfig]
 Package=pkgconfig
 Version=2.0.2
 Source=CRAN
-Hash=429340caafe5e22eb0fcf89cd170b4db
+Hash=210f98df43a980ceead88427b5a3f629
+
+[R/Package/pkgload]
+Package=pkgload
+Version=1.0.2
+Source=CRAN
+Hash=36ce9355bb0b10e1dc13319e4c9ccbb2
 
 [R/Package/plm]
 Package=plm
@@ -682,19 +760,19 @@ Hash=121da8c23df45b519216d52f15fe8c8a
 Package=plogr
 Version=0.2.0
 Source=CRAN
-Hash=e33de17b3d41d70c32e716536104d3fb
+Hash=c61d37182e7f06c0d587aa203487b400
+
+[R/Package/plot3D]
+Package=plot3D
+Version=1.1.1
+Source=CRAN
+Hash=6473da6b85566e8fee69da81a6c1a776
 
 [R/Package/plotly]
 Package=plotly
-Version=4.9.0.9000
-Source=GitHub
-RemoteType=github
-RemoteHost=api.github.com
-RemoteRepo=plotly
-RemoteUsername=ropensci
-RemoteRef=master
-RemoteSha=972a4cb91fbf864bb5a8fc26eefc7114e375c3bc
-Hash=4ef00c599454b852d5d82fa0896dce61
+Version=4.9.0
+Source=CRAN
+Hash=fcea486f20d4af89f78eb4e2e504206e
 
 [R/Package/plotmo]
 Package=plotmo
@@ -712,7 +790,7 @@ Hash=bd560e45096e5ee74295afd5fcd12136
 Package=pls
 Version=2.7-1
 Source=CRAN
-Hash=4324beb0bd9dac4a45f8e09d3a977ddd
+Hash=87f17dae286f55a6c69376e717da5e82
 
 [R/Package/plyr]
 Package=plyr
@@ -720,11 +798,11 @@ Version=1.8.4
 Source=CRAN
 Hash=10741ef740846fb36358ef97a1e165b6
 
-[R/Package/prettycode]
-Package=prettycode
-Version=1.0.2
+[R/Package/praise]
+Package=praise
+Version=1.0.0
 Source=CRAN
-Hash=ccb66b06819faa37f812717d23aee85c
+Hash=ae951d265e39edae12a065f1df18de91
 
 [R/Package/prettyunits]
 Package=prettyunits
@@ -736,7 +814,7 @@ Hash=0acfa2bf224e49369bde27b7523aa660
 Package=processx
 Version=3.4.1
 Source=CRAN
-Hash=1a6722e11ad677745dcce529f39d244f
+Hash=1bb1d4c17b5452416fc1f6151a1a47d5
 
 [R/Package/prodlim]
 Package=prodlim
@@ -748,7 +826,7 @@ Hash=95b3ffba4852d3a15611089074ee1496
 Package=progress
 Version=1.2.2
 Source=CRAN
-Hash=94ceabeec671b0e1df09992868867edd
+Hash=6dacbcc51f507005382b63c9dcaffed1
 
 [R/Package/promises]
 Package=promises
@@ -760,7 +838,7 @@ Hash=fe0029f2ba52818c41d1990a814f34fa
 Package=ps
 Version=1.3.0
 Source=CRAN
-Hash=de3a0d78967f03b53b01e75956096c55
+Hash=4e3748dcc2c7dc9aba1ef909f5115162
 
 [R/Package/purrr]
 Package=purrr
@@ -774,17 +852,17 @@ Version=4.6-14
 Source=CRAN
 Hash=1aa8e2db52e857052ed63c5849e61161
 
-[R/Package/rappdirs]
-Package=rappdirs
-Version=0.3.1
+[R/Package/rcmdcheck]
+Package=rcmdcheck
+Version=1.3.3
 Source=CRAN
-Hash=68edfef8a0f650dcaa2f97426b9e5139
+Hash=4a1875331885027f1928d7a0e639cb17
 
 [R/Package/readr]
 Package=readr
 Version=1.3.1
 Source=CRAN
-Hash=688155c84a00243455f69ba3ca8aecea
+Hash=4226ca436745de59b208aca06fbd8b2a
 
 [R/Package/readxl]
 Package=readxl
@@ -804,17 +882,11 @@ Version=1.0.1
 Source=CRAN
 Hash=68b96cf0beeb56d18fec3b831f7b754f
 
-[R/Package/rematch2]
-Package=rematch2
-Version=2.1.0
-Source=CRAN
-Hash=e3085f0d4cd39e9f14b6d3143051ddef
-
 [R/Package/remotes]
 Package=remotes
 Version=2.1.0
 Source=CRAN
-Hash=9dcdd843e48040e789ac29c377f96809
+Hash=386e6e8ebf7830e8765f9a73dcf7171d
 
 [R/Package/reprex]
 Package=reprex
@@ -836,9 +908,21 @@ Hash=5ca99878f8172dc93d591c3fd56d1aee
 
 [R/Package/rmarkdown]
 Package=rmarkdown
-Version=1.15
+Version=1.14
 Source=CRAN
-Hash=6bf0c4e68588c09815302d88955bbb46
+Hash=ad36a41b359c444aac03dea3c80bd619
+
+[R/Package/robustbase]
+Package=robustbase
+Version=0.93-5
+Source=CRAN
+Hash=0e6e3b42c127045527f3685481d3ece4
+
+[R/Package/roxygen2]
+Package=roxygen2
+Version=6.1.1
+Source=CRAN
+Hash=6884742f697d191a02fb58eaaabe6fab
 
 [R/Package/rpart]
 Package=rpart
@@ -856,7 +940,7 @@ Hash=8122bce0c335f9732e3b5ed19c0659f7
 Package=rprojroot
 Version=1.3-2
 Source=CRAN
-Hash=5dab1586df445d01064bd602a4ef28dd
+Hash=c7ae364c2def3efe51c32516d6077097
 
 [R/Package/rstudioapi]
 Package=rstudioapi
@@ -894,6 +978,12 @@ Version=0.15
 Source=CRAN
 Hash=49be1840efd7920dd126ee956db5b915
 
+[R/Package/sessioninfo]
+Package=sessioninfo
+Version=1.1.1
+Source=CRAN
+Hash=ad55b0223db8d67c78b151b9e1045eef
+
 [R/Package/shades]
 Package=shades
 Version=1.4.0
@@ -905,6 +995,12 @@ Package=shiny
 Version=1.3.2
 Source=CRAN
 Hash=bcded080fc158802d604633be7e9d071
+
+[R/Package/snow]
+Package=snow
+Version=0.4-3
+Source=CRAN
+Hash=2f7a7be16ce4825abefdea4dc0c9fea8
 
 [R/Package/sourcetools]
 Package=sourcetools
@@ -944,15 +1040,21 @@ Hash=d0eb5be4dea2a54756366522af8c8272
 
 [R/Package/sys]
 Package=sys
-Version=3.3
+Version=3.2
 Source=CRAN
-Hash=c134197f1d284deec000ab5345f182a9
+Hash=b91e3f017e9ce0eeb4148096fadbf46e
+
+[R/Package/testthat]
+Package=testthat
+Version=2.2.1
+Source=CRAN
+Hash=1d647ec2d7a6ff6a0107c69b2960c168
 
 [R/Package/tibble]
 Package=tibble
 Version=2.1.3
 Source=CRAN
-Hash=3567fcd850473b5f181da50fac258fb9
+Hash=503e7aee98597f5503a772673286a95f
 
 [R/Package/tictoc]
 Package=tictoc
@@ -962,9 +1064,9 @@ Hash=6f0a1371ec414cefb5b5ee2d9739d5ae
 
 [R/Package/tidyr]
 Package=tidyr
-Version=1.0.0
+Version=0.8.3
 Source=CRAN
-Hash=fa9021bdbce7ceffe27134d022d12b6d
+Hash=fe1b84e373695dd4d335e5a5ede382a7
 
 [R/Package/tidyselect]
 Package=tidyselect
@@ -1008,12 +1110,6 @@ Version=1.1.4
 Source=CRAN
 Hash=dbacd54ef408a11a83b9c0558d897970
 
-[R/Package/uuid]
-Package=uuid
-Version=0.1-2
-Source=CRAN
-Hash=883e1e4f491909bad904726d3cf55936
-
 [R/Package/vctrs]
 Package=vctrs
 Version=0.2.0
@@ -1024,7 +1120,7 @@ Hash=7580bbbfbc822a6ae37db45c91aeaaa5
 Package=viridisLite
 Version=0.3.0
 Source=CRAN
-Hash=5045453f21c0128c65c2a10c776b3e47
+Hash=73d2a08e725a82859b9a0633f017dd89
 
 [R/Package/webshot]
 Package=webshot
@@ -1034,33 +1130,39 @@ Hash=b4216b37f5405f81076927b1fa15b83a
 
 [R/Package/whisker]
 Package=whisker
-Version=0.4
+Version=0.3-2
 Source=CRAN
-Hash=86f6fc98940654e601ca6d94a91c4dbd
+Hash=4dbd79a7e9b8e2593c1402d68c9ee682
 
 [R/Package/withr]
 Package=withr
 Version=2.1.2
 Source=CRAN
-Hash=f421b98d10f48cf6a719e585facc54a8
+Hash=95b4999c4a7610bbccfd3b5d37fbaf6b
 
 [R/Package/xaringan]
 Package=xaringan
 Version=0.11
 Source=CRAN
-Hash=64e350c081d588a2084401eb1905bc0a
+Hash=9b9b8f996be1b8a057355424325bd5b4
 
 [R/Package/xfun]
 Package=xfun
-Version=0.9
+Version=0.8
 Source=CRAN
-Hash=e237ea591206706440ecac06f6fac2dc
+Hash=1def9ced7cad0959be26ef51f718e501
 
 [R/Package/xml2]
 Package=xml2
-Version=1.2.2
+Version=1.2.1
 Source=CRAN
-Hash=a3e83d500bf88c006179131ff271a816
+Hash=76bbf316d5057f11129b5d56a1c9aff0
+
+[R/Package/xopen]
+Package=xopen
+Version=1.0.0
+Source=CRAN
+Hash=b23f3e15f7f9c459e727f79f2189d60b
 
 [R/Package/xtable]
 Package=xtable
