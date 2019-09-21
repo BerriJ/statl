@@ -460,6 +460,15 @@ background-size: 50% 75%
 
 ### Random Forest
 
+.content-box-blue[
+.font120[
+- Special case of bagging: only pre-specified number of randomly chosen variables consindered for splitting
+
+ $\rightarrow$ decorrelates trees
+- Variation over number of variables considered at each split and number of trees grown
+]
+]
+
 ---
 
 # Analysis
