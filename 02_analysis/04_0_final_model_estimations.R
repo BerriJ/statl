@@ -58,11 +58,17 @@ imp_df <- data.frame(importance(rf, scale = FALSE, type = 1)) %>%
   mutate(X.IncMSE = sqrt(X.IncMSE))
 
 var_imp_random_forest_bp <- ggplot(imp_df, aes(x = reorder(imp_df$names, -imp_df$X.IncMSE),y = imp_df$X.IncMSE)) +
-  geom_bar(stat = 'identity', fill = "chocolate1") + theme_minimal() +
+  geom_bar(stat = 'identity', fill = "#004c93") + theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1,
                                    vjust=1)) +
   labs(x= "Variable",y= "Mean Increase of RMSE") +
-  scale_x_discrete(label=function(x) abbreviate(x, minlength=15))
+   scale_x_discrete(label=function(x) abbreviate(x, minlength=15))
+ 
+# plotly_vaimp_rf <- plotly::ggplotly(var_imp_random_forest_bp) %>% config(displayModeBar = F) %>% layout(showlegend = FALSE)
+# 
+# f <- paste0("p.rf_varimp.html")
+# htmlwidgets::saveWidget(plotly_vaimp_rf, f)
+
 
 # ggsave("00_data/output_paper/11_var_imp_random_forest_bp.pdf", var_imp_random_forest_bp,
 #        width = 7, height = 3)

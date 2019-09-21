@@ -577,7 +577,33 @@ htmltools::tags$iframe(
     frameBorder="0"
   )
 ```
+
 </div>
+
+---
+
+# Analysis
+
+## Random Forest
+
+### Variable Importance
+
+<div style="position:relative; margin-top:-50px; z-index: 0">
+
+```{r, echo=FALSE, message=FALSE}
+f <- paste0("p.rf_varimp.html")
+htmltools::tags$iframe(
+    src=f,
+    width="97%", 
+    height="500",
+    scrolling="no", 
+    seamless="seamless", 
+    frameBorder="0"
+  )
+```
+
+</div>
+
 ---
 
 # Analysis
