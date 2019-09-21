@@ -407,6 +407,42 @@ htmltools::tags$iframe(
 
 ## Splines
 
+<br>
+
+.pull-left[
+
+.content-box-blue[
+
+### Overview
+
+- Piecewise polynomial regression
+- Splines for 'year' 'price' and 'rprice'
+- Up to 20 Knots
+- Knots are placed at suitable quantiles
+
+]
+]
+
+.pull-right[
+
+.content-box-blue[
+
+### Results
+
+- 0  Knots: RMSE $5572$
+  - This equals the Linear Model
+- 20 Knots: RMSE $5507$
+  - Slight improvement 
+
+]
+]
+
+---
+
+# Analysis
+
+## Splines
+
 ---
 
 background-image: url("assets/tree.png")
