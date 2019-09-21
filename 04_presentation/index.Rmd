@@ -443,6 +443,19 @@ htmltools::tags$iframe(
 
 ## Splines
 
+```{r, echo=FALSE, message=FALSE}
+f <- paste0("p.splines.html")
+htmltools::tags$iframe(
+    src=f,
+    width="97%", 
+    height="500",
+    scrolling="no", 
+    seamless="seamless", 
+    frameBorder="0"
+  )
+```
+
+
 ---
 
 background-image: url("assets/tree.png")

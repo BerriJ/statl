@@ -87,15 +87,24 @@ for(i in 1:(length(files))){
 df_splines <- df
 
 # Create a plot that depicts the dependency of RMSE and Knots
-df_splines <- data.frame(knots = 1:20, t(df), average = colMeans(df)) %>%
-  gather(key = var, value = RMSE, -knots)
-splines_plot <- ggplot(df_splines, aes(x = knots, y = RMSE, color = var)) +
+df_splines <- data.frame(knots = 1:20, t(df), average = colMeans(df))
+
+colnames(df_splines) <- c("Knots", paste("Fold", 1:5), "Average")
+
+df_splines <- df_splines %>% gather(key = var, value = RMSE, -Knots)
+
+splines_plot <- ggplot(df_splines, aes(x = Knots, y = RMSE, color = var)) +
   geom_smooth(se = F, span = 0.5) +
   theme_minimal() +
   xlab("Number of Knots") + ylab("RMSE in Litre") +
   scale_color_manual(values = c("grey20", terrain.colors(n = 6, rev = T)[2:6]),
                      labels = c("Average", paste("Fold", 1:5))) +
   labs(col = "Legend:") + geom_point()
+
+# splines_plotly <- plotly::ggplotly(splines_plot) %>% config(displayModeBar = F)
+# 
+# f <- paste0("p.splines.html")
+# htmlwidgets::saveWidget(splines_plotly, f)
 
 ggsave(filename = "00_data/output_paper/08_splines.pdf", plot =  splines_plot, width = 7, height = 3)
 
