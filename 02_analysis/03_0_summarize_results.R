@@ -149,11 +149,12 @@ df_bagging <- df_bagging_list %>% purrr::reduce(.f = full_join) %>%
 # Save the baggging results
 save(file = "00_data/output_paper/13_bagging.rda", df_bagging)
 
+colnames(df_bagging) <- c("Trees", paste("Fold", 1:5), "Average")
 # Create a plot that shows bagging RMSE's vs. number of trees
-bagging_df <- bagging_df %>% gather(key = var, value = RMSE, -trees)
+bagging_df <- df_bagging %>% gather(key = var, value = RMSE, -Trees)
 bagging_df <- bagging_df %>% arrange(var)
 
-bagging_smoothed <- ggplot(bagging_df, aes(x = trees, y = RMSE,color = var)) +
+bagging_smoothed <- ggplot(bagging_df, aes(x = Trees, y = RMSE,color = var)) +
   geom_smooth(se = F, span = 0.5) +
   theme_minimal() +
   xlab("Number of Trees") + ylab("RMSE in Litre") +
@@ -161,6 +162,11 @@ bagging_smoothed <- ggplot(bagging_df, aes(x = trees, y = RMSE,color = var)) +
                      labels = c("Average", paste("Fold", 1:5))) +
   labs(col = "Legend:") + 
   geom_point()
+
+# bagging_plotly <- plotly::ggplotly(bagging_smoothed) %>% config(displayModeBar = F)
+# 
+# f <- paste0("p.bagging.html")
+# htmlwidgets::saveWidget(bagging_plotly, f)
 
 ggsave(filename = "00_data/output_paper/14_bagging.pdf", plot =  bagging_smoothed, width = 7, height = 3)
 

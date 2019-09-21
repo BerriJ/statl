@@ -520,6 +520,28 @@ background-size: 50% 75%
 
 ## Decision Tree Methods
 
+### Bootstrap Aggregation
+
+<div style="position:relative; margin-top:-50px; z-index: 0">
+
+```{r, echo=FALSE, message=FALSE}
+f <- paste0("p.bagging.html")
+htmltools::tags$iframe(
+    src=f,
+    width="97%", 
+    height="500",
+    scrolling="no", 
+    seamless="seamless", 
+    frameBorder="0"
+  )
+```
+</div>
+---
+
+# Analysis
+
+## Decision Tree Methods
+
 ### Random Forest
 
 .content-box-blue[
@@ -539,7 +561,7 @@ background-size: 50% 75%
 
 ### Random Forest
 
-<div style="position:relative; margin-top:-200px; z-index: 0">
+<div style="position:relative; margin-top:-150px; z-index: 0">
 
 ```{r, echo=FALSE, message=FALSE}
 ### Summary Random Forest  ####
@@ -600,7 +622,7 @@ htmlwidgets::saveWidget(rf_plot, f)
 htmltools::tags$iframe(
     src=f,
     width="97%", 
-    height="700",
+    height="600",
     scrolling="no", 
     seamless="seamless", 
     frameBorder="0"
