@@ -37,6 +37,8 @@ background-size: 50% 75%
 
 # Agenda
 
+&lt;/br&gt;
+
 .pull-left[
 .font130[
 .content-box-blue[
@@ -51,7 +53,6 @@ background-size: 50% 75%
 ]
 ]
 
-
 ---
 
 
@@ -59,6 +60,8 @@ background-size: 50% 75%
 class: segue, center, middle
 
 # Introduction
+
+# &lt;svg style="height:0.8em;top:.04em;position:relative;fill:white;" viewBox="0 0 640 512"&gt;&lt;path d="M208 352c-2.39 0-4.78.35-7.06 1.09C187.98 357.3 174.35 360 160 360c-14.35 0-27.98-2.7-40.95-6.91-2.28-.74-4.66-1.09-7.05-1.09C49.94 352-.33 402.48 0 464.62.14 490.88 21.73 512 48 512h224c26.27 0 47.86-21.12 48-47.38.33-62.14-49.94-112.62-112-112.62zm-48-32c53.02 0 96-42.98 96-96s-42.98-96-96-96-96 42.98-96 96 42.98 96 96 96zM592 0H208c-26.47 0-48 22.25-48 49.59V96c23.42 0 45.1 6.78 64 17.8V64h352v288h-64v-64H384v64h-76.24c19.1 16.69 33.12 38.73 39.69 64H592c26.47 0 48-22.25 48-49.59V49.59C640 22.25 618.47 0 592 0z"/&gt;&lt;/svg&gt;
 
 
 
@@ -239,7 +242,9 @@ class: inverse, center, middle
 
 # Analysis
 
-# &lt;svg style="height:0.8em;top:.04em;position:relative;fill:white;" viewBox="0 0 640 512"&gt;&lt;path d="M257.981 272.971L63.638 467.314c-9.373 9.373-24.569 9.373-33.941 0L7.029 444.647c-9.357-9.357-9.375-24.522-.04-33.901L161.011 256 6.99 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L257.981 239.03c9.373 9.372 9.373 24.568 0 33.941zM640 456v-32c0-13.255-10.745-24-24-24H312c-13.255 0-24 10.745-24 24v32c0 13.255 10.745 24 24 24h304c13.255 0 24-10.745 24-24z"/&gt;&lt;/svg&gt; 
+&lt;/br&gt;
+
+&lt;svg style="height:40;fill:white;" viewBox="0 0 640 512"&gt;&lt;path d="M257.981 272.971L63.638 467.314c-9.373 9.373-24.569 9.373-33.941 0L7.029 444.647c-9.357-9.357-9.375-24.522-.04-33.901L161.011 256 6.99 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L257.981 239.03c9.373 9.372 9.373 24.568 0 33.941zM640 456v-32c0-13.255-10.745-24-24-24H312c-13.255 0-24 10.745-24 24v32c0 13.255 10.745 24 24 24h304c13.255 0 24-10.745 24-24z"/&gt;&lt;/svg&gt; 
   
 ---
 # Analysis
@@ -312,13 +317,21 @@ Also calculated Lasso for loglitres: RMSE of 5812
 
 # Analysis
 
-### Principal Components Regression and Partial Least Squares
+## Principal Components Regression and Partial Least Squares
+
+&lt;br&gt;
 
 .pull-left[
 
 .content-box-blue[
 
 ### Principal Components Regression
+
+- Unsupervised transformation of X
+- May reduce the dimension
+- Results are hard to interpret
+- Number of covariates (by CV): `\(\approx 635\)`
+- RMSE: `\(\approx 5546.05\)`
 
 ]
 ]
@@ -328,6 +341,11 @@ Also calculated Lasso for loglitres: RMSE of 5812
 .content-box-blue[
 
 ### Partial Least Squares
+
+- Supervised Transformation of X
+- Highest weight on covariates that are strongly related to Y
+- Number of covariates (by CV): `\(\approx 35\)`
+- RMSE: `\(\approx 6201.15\)`
 
 ]
 ]
@@ -350,6 +368,55 @@ Also calculated Lasso for loglitres: RMSE of 5812
 
 ## Splines
 
+&lt;br&gt;
+
+.pull-left[
+
+.content-box-blue[
+
+### Overview
+
+- Piecewise polynomial regression
+- Splines for 'year' 'price' and 'rprice'
+- Up to 20 Knots
+- Knots are placed at suitable quantiles
+
+]
+]
+
+.pull-right[
+
+.content-box-blue[
+
+### Results
+
+- 0  Knots: RMSE `\(5572\)`
+  - This equals the Linear Model
+- 20 Knots: RMSE `\(5507\)`
+  - Slight improvement 
+
+]
+]
+
+---
+
+# Analysis
+
+## Splines
+
+<iframe src="p.splines.html" width="97%" height="500" scrolling="no" seamless="seamless" frameBorder="0"></iframe>
+
+
+---
+
+class: segue, center, middle
+
+# Tree Based Methods
+
+&lt;br&gt;
+
+&lt;svg style="height:40;top:.04em;position:relative;fill:white;" viewBox="0 0 640 512"&gt;&lt;path d="M634.19 376.23l-55.47-64.37H584c9.34 0 17.84-5.43 21.78-13.92 3.94-8.47 2.56-18.48-3.47-25.61l-54.56-64.55H560c9.47 0 18.06-5.58 21.94-14.24a24.088 24.088 0 0 0-4.09-25.85l-144-160.11c-9.13-10.1-26.56-10.1-35.69 0L320 94.48l-78.16-86.9c-9.13-10.1-26.56-10.1-35.69 0l-144 160.11a24.063 24.063 0 0 0-4.09 25.85c3.88 8.66 12.47 14.24 21.94 14.24h12.25l-54.56 64.55c-6.03 7.13-7.41 17.14-3.47 25.61A24.021 24.021 0 0 0 56 311.86h5.28L5.81 376.23c-6.13 7.11-7.53 17.15-3.63 25.69a23.998 23.998 0 0 0 21.81 14.01h168v24.46l-30.29 48.43c-5.32 10.65 2.42 23.17 14.31 23.17h95.96c11.89 0 19.63-12.53 14.31-23.17L256 440.39v-24.46h128v24.46l-30.29 48.43c-5.32 10.65 2.42 23.17 14.31 23.17h95.96c11.89 0 19.63-12.53 14.31-23.17L448 440.39v-24.46h168c9.38 0 17.91-5.47 21.81-14.01 3.91-8.54 2.51-18.57-3.62-25.69zM304 367.9H76.37l89.66-104.07h-58.28l88-104.07h-61.88L224 59.55l90.13 100.2h-61.88l88 104.07h-58.28l89.66 104.07H304zm131 0l-48.29-56.04H392c9.34 0 17.84-5.43 21.78-13.92 3.94-8.47 2.56-18.48-3.47-25.61l-54.56-64.55H368c9.47 0 18.06-5.58 21.94-14.24a24.088 24.088 0 0 0-4.09-25.85l-33.55-37.31L416 59.55l90.13 100.2h-61.88l88 104.07h-58.28l89.66 104.07H435z"/&gt;&lt;/svg&gt;
+
 ---
 
 background-image: url("assets/tree.png")
@@ -358,9 +425,7 @@ background-size: 50% 75%
 
 # Analysis
 
-## Decision Tree Methods
-
-### Single Regression Tree
+## Single Regression Tree
 
 .pull-left[
 
@@ -383,9 +448,7 @@ background-size: 50% 75%
 
 # Analysis
 
-## Decision Tree Methods
-
-### Pruned Tree
+## Pruned Tree
 
 .pull-left[
 .font120[
@@ -404,17 +467,23 @@ background-size: 50% 75%
 
 # Analysis
 
-## Decision Tree Methods
-
-### Bootstrap Aggregation
+## Bootstrap Aggregation
 
 ---
 
 # Analysis
 
-## Decision Tree Methods
+## Bootstrap Aggregation
 
-### Random Forest
+&lt;div style="position:relative; margin-top:-50px; z-index: 0"&gt;
+
+<iframe src="p.bagging.html" width="97%" height="500" scrolling="no" seamless="seamless" frameBorder="0"></iframe>
+&lt;/div&gt;
+---
+
+# Analysis
+
+## Random Forest
 
 .content-box-blue[
 .font120[
@@ -429,21 +498,30 @@ background-size: 50% 75%
 
 # Analysis
 
-## Decision Tree Methods
+## Random Forest
 
-### Random Forest
+&lt;div style="position:relative; margin-top:-150px; z-index: 0"&gt;
 
-&lt;div style="position:relative; margin-top:-200px; z-index: 0"&gt;
-
-<iframe src="p.5.html" width="97%" height="700" scrolling="no" seamless="seamless" frameBorder="0"></iframe>
+<iframe src="p.5.html" width="97%" height="600" scrolling="no" seamless="seamless" frameBorder="0"></iframe>
 &lt;/div&gt;
 ---
 
 # Analysis
 
-## Decision Tree Methods
+## Boosting
 
-### Boosting
+.content-box-blue[
+.font110[
+
+- Sequential growing of trees using the resiudals of previous grown trees
+ 
+ `\(\rightarrow\)` Newly grown trees depend on earlier ones 
+- Tuning parameters: Number of trees, interaction depth, shrinkage parameter `\(\lambda\)`
+- Best boosting model: 25 trees, interaction depth of 15, `\(\lambda =0.4\)`
+- RMSE-Test: 4479
+]
+]
+
 
 ---
 
@@ -483,7 +561,7 @@ class: inverse, center, middle
 
 class: inverse, center, middle
 
-#Discussion
+# Discussion
 
 # &lt;svg style="height:0.8em;top:.04em;position:relative;fill:white;" viewBox="0 0 576 512"&gt;&lt;path d="M416 192c0-88.4-93.1-160-208-160S0 103.6 0 192c0 34.3 14.1 65.9 38 92-13.4 30.2-35.5 54.2-35.8 54.5-2.2 2.3-2.8 5.7-1.5 8.7S4.8 352 8 352c36.6 0 66.9-12.3 88.7-25 32.2 15.7 70.3 25 111.3 25 114.9 0 208-71.6 208-160zm122 220c23.9-26 38-57.7 38-92 0-66.9-53.5-124.2-129.3-148.1.9 6.6 1.3 13.3 1.3 20.1 0 105.9-107.7 192-240 192-10.8 0-21.3-.8-31.7-1.9C207.8 439.6 281.8 480 368 480c41 0 79.1-9.2 111.3-25 21.8 12.7 52.1 25 88.7 25 3.2 0 6.1-1.9 7.3-4.8 1.3-2.9.7-6.3-1.5-8.7-.3-.3-22.4-24.2-35.8-54.5z"/&gt;&lt;/svg&gt;
     </textarea>
