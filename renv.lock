@@ -212,9 +212,9 @@ Hash=b3cd6106dd84e002933f471850fdb107
 
 [R/Package/curl]
 Package=curl
-Version=4.0
+Version=4.1
 Source=CRAN
-Hash=596cf2332339d15d052376b237625b87
+Hash=66c3af330542e6905b283bfa41ce9f28
 
 [R/Package/data.table]
 Package=data.table
@@ -236,9 +236,9 @@ Hash=cba2cb552675975f281c0c82593e5419
 
 [R/Package/digest]
 Package=digest
-Version=0.6.20
+Version=0.6.21
 Source=CRAN
-Hash=8d00fdf173206e06a117174a11bba074
+Hash=5f2f18945ed773d2acaa2b31439f7ead
 
 [R/Package/doParallel]
 Package=doParallel
@@ -254,9 +254,9 @@ Hash=ed47cd0dd5da9420900c6a71b8cb4caa
 
 [R/Package/ellipsis]
 Package=ellipsis
-Version=0.2.0.1
+Version=0.3.0
 Source=CRAN
-Hash=a8328e48dc8f61e8e5da18d46ecd54e2
+Hash=aa87569ce42b3888860df8d9230c264e
 
 [R/Package/evaluate]
 Package=evaluate
@@ -300,6 +300,12 @@ Version=1.4.7
 Source=CRAN
 Hash=0dfc72688f0d53a4a418b7db228f5b66
 
+[R/Package/formattable]
+Package=formattable
+Version=0.2.0.1
+Source=CRAN
+Hash=e8a8d879a88742de9bf205884b260e76
+
 [R/Package/fs]
 Package=fs
 Version=1.3.1
@@ -323,6 +329,18 @@ Package=generics
 Version=0.0.2
 Source=CRAN
 Hash=c8e7c83af79d6b104067cfbc27fd5191
+
+[R/Package/ggbiplot]
+Package=ggbiplot
+Version=0.55
+Source=GitHub
+RemoteType=github
+RemoteHost=api.github.com
+RemoteRepo=ggbiplot
+RemoteUsername=vqv
+RemoteRef=master
+RemoteSha=7325e880485bea4c07465a0304c470608fffb5d9
+Hash=7af2a0ba2cce552dc839db76cbf2998f
 
 [R/Package/ggfittext]
 Package=ggfittext
@@ -422,9 +440,9 @@ Hash=b192d556875bab99bc3286e88c44e017
 
 [R/Package/httpuv]
 Package=httpuv
-Version=1.5.1
+Version=1.5.2
 Source=CRAN
-Hash=6a37a3704685cc172c9b1737b45ec5a0
+Hash=7d52588ad2945443465006de99bc5579
 
 [R/Package/httr]
 Package=httr
@@ -474,6 +492,12 @@ Version=1.6
 Source=CRAN
 Hash=1527c6ad6c00ff3f0d0a02b01650fd87
 
+[R/Package/kableExtra]
+Package=kableExtra
+Version=1.1.0
+Source=CRAN
+Hash=0637ed6e26a9506f26105ba5045eb458
+
 [R/Package/knitr]
 Package=knitr
 Version=1.24
@@ -516,6 +540,12 @@ Version=3.0
 Source=CRAN
 Hash=559ef1e3b44b6047a1ac294ccdf52301
 
+[R/Package/lifecycle]
+Package=lifecycle
+Version=0.1.0
+Source=CRAN
+Hash=29be749d41285cd04833fd03fc138038
+
 [R/Package/lmtest]
 Package=lmtest
 Version=0.9-37
@@ -533,6 +563,12 @@ Package=lubridate
 Version=1.7.4
 Source=CRAN
 Hash=ecc440cf76cdf90c0c34de6e0a0267fb
+
+[R/Package/magick]
+Package=magick
+Version=2.2
+Source=CRAN
+Hash=0d4e42b75e1aafd5bcaa21fa1051f44d
 
 [R/Package/magrittr]
 Package=magrittr
@@ -650,9 +686,15 @@ Hash=e33de17b3d41d70c32e716536104d3fb
 
 [R/Package/plotly]
 Package=plotly
-Version=4.9.0
-Source=CRAN
-Hash=fcea486f20d4af89f78eb4e2e504206e
+Version=4.9.0.9000
+Source=GitHub
+RemoteType=github
+RemoteHost=api.github.com
+RemoteRepo=plotly
+RemoteUsername=ropensci
+RemoteRef=master
+RemoteSha=972a4cb91fbf864bb5a8fc26eefc7114e375c3bc
+Hash=4ef00c599454b852d5d82fa0896dce61
 
 [R/Package/plotmo]
 Package=plotmo
@@ -894,6 +936,12 @@ Version=2.44-1.1
 Source=CRAN
 Hash=21f6ff555d096e5a2e11a4434ad1a41c
 
+[R/Package/svMisc]
+Package=svMisc
+Version=1.1.0
+Source=CRAN
+Hash=d0eb5be4dea2a54756366522af8c8272
+
 [R/Package/sys]
 Package=sys
 Version=3.3
@@ -914,9 +962,9 @@ Hash=6f0a1371ec414cefb5b5ee2d9739d5ae
 
 [R/Package/tidyr]
 Package=tidyr
-Version=0.8.3
+Version=1.0.0
 Source=CRAN
-Hash=fe1b84e373695dd4d335e5a5ede382a7
+Hash=fa9021bdbce7ceffe27134d022d12b6d
 
 [R/Package/tidyselect]
 Package=tidyselect
@@ -977,6 +1025,12 @@ Package=viridisLite
 Version=0.3.0
 Source=CRAN
 Hash=5045453f21c0128c65c2a10c776b3e47
+
+[R/Package/webshot]
+Package=webshot
+Version=0.5.1
+Source=CRAN
+Hash=b4216b37f5405f81076927b1fa15b83a
 
 [R/Package/whisker]
 Package=whisker

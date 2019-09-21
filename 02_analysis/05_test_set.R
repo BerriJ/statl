@@ -36,11 +36,8 @@ mutate_at(
 # Create Model Matrices
 
 wine_train <- wine
-wine_test <- wine_test
 x.train <- model.matrix(litre~., data = wine_train)
-x.test <- model.matrix(litre~., data = wine_test)
 y.train <- wine_train$litre
-y.test <- wine_test$litre
 intsct <- intersect(colnames(x.train),colnames(x.test))
 x.train <- x.train[,intsct]
 x.test <- x.test[, intsct]
@@ -54,3 +51,10 @@ toc()
 pred_rf <- predict(rf, newdata = x.test)
 
 rmse_RF <- mean((y.test - pred_rf)^2) %>% sqrt()
+
+residuals <- (y.test - pred_rf)
+
+
+plot(residuals)
+
+which.max(residuals)

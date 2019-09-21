@@ -668,9 +668,9 @@ class: inverse, center, middle
 
 # Robustness
 
-</div>
+<br>
 
-.content-box-grey[
+.content-box-blue[
 
 Calculation of various alternative estimations, especially:
 
@@ -680,7 +680,7 @@ Calculation of various alternative estimations, especially:
   
 - Reducing share of NAs for removing variables from the dataset
   - Beforehand: 50%
-  - Reducing it until 20%
+  - Reducing it to 20%
   - Gain in No. of variables and observations does not lead to higher precision
 
 ]
@@ -688,9 +688,47 @@ Calculation of various alternative estimations, especially:
 
 class: inverse, center, middle
 
-# Conclusion
+# Conclusion and Evaluation
 
 # `r fontawesome::fa("flag-checkered", fill = "white")`
+
+---
+
+# Conclusion and Evaluation
+
+.pull-left[
+
+.content-box-blue[
+
+.center[.font130[Conclusion]]
+
+```{r,echo=F, message=F}
+library(knitr)
+library(formattable)
+library(kableExtra)
+load("../00_data/output_paper/16_summary.rda")
+Summary$Mean <- round(Summary$Mean)
+Summary[c(-4,-7,-10,-11),c(1,7)] %>% mutate(Mean = color_bar("#c8ffc2")(Mean)) %>% kable(escape = F) %>%
+  kable_styling("hover", full_width = T) %>% column_spec(2, width = "5cm")
+```
+<br>
+]
+]
+.pull-right[
+
+.content-box-blue[
+
+.center[.font130[Evaluation]]
+
+- Random Forest as prefered model
+  - Substantially lower computation time than Bagging
+  - Slightly lower RMSE
+- Performance on Test Dataset: $6738$
+  - $6546$ if we ommit one outlier
+  - Re-Estimation of the final model was nessecary due to missing features in test set
+
+]
+]
 
 ---
 
