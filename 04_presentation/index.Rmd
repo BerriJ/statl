@@ -271,7 +271,7 @@ Baseline methods for comparing the predictions made by further methods
 
 Mean Regression:
 - Mean litres sold: 6886
-- RMSE-Train: 13340
+- RMSE: 13340
 
 
   ]
@@ -284,7 +284,7 @@ Mean Regression:
 
 Linear Regression:
 - Factor variables transformed into dummy variables $\rightarrow$ 757 variables
-- RMSE-Train: 5572
+- RMSE: 5572
 
 
   ]
@@ -301,7 +301,7 @@ Linear Regression:
 .content-box-blue[
 - Method combining linear regression and shrinking of coefficient estimates
 - Fits linear model constrained by penalty term, i.e., it minimizes $\sum_{i=1}^{n}(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij})^2+\lambda\sum_{j=1}^{p}|\beta_j|.$
-- RMSE-Train: 5548
+- RMSE: 5548
 ]
 ]
 
@@ -483,13 +483,15 @@ background-size: 50% 75%
 
 .pull-left[
 
+<br>
+
 .content-box-blue[
 
 - A tree is grown by splitting the feature space until terminal nodes reach a set minimum size
 - Algorithm decides automatically on splitting variables and points 
 - Minimizing sum of squared residuals
 - Same variables chosen for splitting for every fold
-- RMSE-Train: 6495
+- RMSE: 6495
 
 ]
 ]
@@ -505,13 +507,16 @@ background-size: 50% 75%
 ## Pruned Tree
 
 .pull-left[
+
+<br>
+
 .font120[
 .content-box-blue[
 
 - Selecting subtree with lowest test error via validation approach
 
  $\rightarrow$ cost complexity pruning
-- RMSE-Train: 7936
+- RMSE: 7936
 
 ]
 ]
