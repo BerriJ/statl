@@ -30,16 +30,14 @@ background-size: 50% 75%
 .pull-left[
 .font130[
 .content-box-blue[
-1. Introduction
-2. Data and Variables
-3. Validation Approach
-4. Analysis
-5. Robustness
-6. Final Model
-7. Discussion
-]
-]
-]
+`r fontawesome::fa("chalkboard-teacher", fill = "black")` &thinsp; Introduction
+`r fontawesome::fa("table", fill = "black")` &thinsp; Data and Variables
+`r fontawesome::fa("search", fill = "black")` &thinsp; Validation Approach
+`r fontawesome::fa("terminal", fill = "black")` &thinsp; Analysis
+`r fontawesome::fa("hammer", fill = "black")` &thinsp; Robustness
+`r fontawesome::fa("flag-checkered", fill = "black")` &thinsp; Final Model
+`r fontawesome::fa("comments", fill = "black")` &thinsp; Discussion
+]]]
 
 ---
 
@@ -249,7 +247,7 @@ class: inverse, center, middle
 
 </br>
 
-`r fontawesome::fa("terminal", fill = "white", height = 40)` 
+`r fontawesome::fa("terminal", fill = "white", height = 40)`
   
 ---
 # Analysis
