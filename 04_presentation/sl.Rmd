@@ -460,6 +460,10 @@ htmltools::tags$iframe(
 ]
 ]
 
+???
+
+Simplify the model by variable selection
+
 ---
 
 # Analysis
@@ -478,6 +482,10 @@ htmltools::tags$iframe(
   )
 ```
 
+
+???
+
+Improvement isn't worth the loss of interpretability
 
 ---
 
