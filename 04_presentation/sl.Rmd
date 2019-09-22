@@ -639,11 +639,18 @@ htmltools::tags$iframe(
 - Special case of bagging: Only pre-specified number of randomly chosen variables consindered for splitting
 
  $\rightarrow$ decorrelates trees
-- Tuning parameters: Number of trees grown and number of variables considered at each split
+- Tuning parameters: Number of trees grown and number of randomly chosen variables considered at each split
 - Best model: 25 trees and 100 variables considered at each split
 - RMSE: 4374
 ]
 ]
+
+???
+- Different tree at each iteration of random forest
+- Thus reduction in variance compared to bagging
+- RMSE for range of values: Up to 25 Trees and up to 100 variables
+- Model with 20 trees and 80 variables still has RMSE of 4456 (increase less than 1.9%)
+
 
 ---
 
@@ -666,6 +673,9 @@ htmltools::tags$iframe(
 ```
 
 </div>
+
+???
+- Bagging (RMSE 4305) outperforms random forest model (4374) but rf only takes about 15% of time bagging needs
 
 ---
 
@@ -691,6 +701,18 @@ htmltools::tags$iframe(
 
 </div>
 
+
+??? 
+- Mean Increase in RMSE when omitting the variable shown
+- Top 20 variables: many price variables in top 20
+- mean market share in color segment
+- price
+- lp: log price
+- pri_m: mean real litre price (base jan 2004)
+- rprice_litre: real litre price
+- if wine is red
+- price_segml: Price segment of wine: low
+
 ---
 # Analysis
 
@@ -702,6 +724,14 @@ load("../04_presentation/data/rf_pardep.rda")
 par_dep_rf + theme(text = element_text(size=25))
 ```
 
+???
+- marginal effects of variables on litres sold per week
+- nonlinear dependecies (thats why linear methods did not perform that great)
+- Mention the dummys
+- Validation of intuitive assumptions
+  - Higher marketshare $\rightarrow$ more litres sold
+  - High prices $\rightarrow$ less litres sold
+  - segm_red has positive influence (also in single tree)
 
 ---
 
