@@ -178,13 +178,13 @@ knitr::kable(t(typeof_vec), caption = "Frequency of Variable Types.", format = "
 
 ???
 
-- Densities of variable litre is nearly the same for train (from 0 to 184200) and test (from 0 to 184398)
-- Variables: name of wine, country, price, amount sold per week,market share, segments, reviews-related variables, etc.
+- Factors => 757 variables
+- Variables: name, country, price, amount sold per week, market share, segments, review-related variables, etc.
+- Density of litre is nearly the same for train (from 0 to 184200) and test (from 0 to 184398)
 - No great differences in prices (only in terms of max in train): 
   - price in train: from 38 to 1149 with mean 108 and median 79
   - price in test: from 43 to 349 with mean 108 and median 87
 - Difference in segments: test only includes red, sparkling and white
-- Factors => 757 variables
 
 ---
 class: inverse, center, middle
@@ -207,7 +207,7 @@ class: inverse, center, middle
 
 - Crossvalidation using $5$ folds
 
-- Further robustness checks for assesing validity of results obtained
+- Further robustness checks for assessing validity of results obtained
 
 ]
 ]
@@ -289,9 +289,9 @@ Linear regression:
 
 ???
 
-So clrearly some predictors are useful. 
+So clearly some predictors are useful. 
 
-But which?
+However, which?
 
 ---
 
@@ -333,7 +333,7 @@ Simplify the model by variable selection
 
 Reduces the variance
 
-Still 666 coefficients included
+Still, 666 coefficients included
 
 Also calculated Lasso for loglitres: RMSE of 5812
 
@@ -497,7 +497,7 @@ Improvement isn't worth the loss of interpretability
 
 class: segue, center, middle
 
-# Tree Based Methods
+# Tree-Based Methods
 
 <br>
 
@@ -526,14 +526,14 @@ background-size: 50% 75%
 - Tree is grown by splitting feature space until terminal nodes reach a set minimum size
 - Algorithm decides automatically on splitting variables and points 
 - Minimizing sum of squared residuals
-- Same variables chosen for splitting for every fold
+- Same variables were chosen in every fold
 - RMSE: $6495$
 
 ]
 ]
 
 ???
-- 10 terminal nodes (with minimum of 19 observaions (default in function))
+- 10 terminal nodes (minimum of 19 observaions (default in function))
 - Mean market share within color, dummy for red wine, price in SEK, period (weekly time indicator 1-263)
 - Most litres sold (~ 90000) for red wine in periods earlier than week 136 with mean market share in market of redwine higher than 2.1%
 - Least litres sold (575) for white wines with mean market share between 0.29% and 0.81%
@@ -564,7 +564,7 @@ background-size: 50% 75%
 ]
 
 ???
-- Single regression trees are likely to overfit data, thus bad test set performance
+- Single regression trees are likely to overfit data; thus bad test set performance
 - Smaller tree may lead to lower variance, better interpretation at cost of some bias
 - Goal: Selecting Subtree leading to lowest test error
 - Cost complexity pruning: Minimizing SSR with penalty (alpha*No. of terminal nodes)
@@ -584,7 +584,7 @@ background-size: 50% 75%
 .font120[
 
 - Repeated drawing of bootstrap samples before growing trees
-- Averaging of results afterwards
+- Averaging of results afterward
 - Lowers variance compared to single regression trees
 - Tuning parameter: Number of trees
 - RMSE: $4306$ ($25$ Trees)
@@ -620,7 +620,7 @@ htmltools::tags$iframe(
 </div>
 
 ???
-- RMSE does slightly depend on used fold but common tendencies can be seen
+- RMSE does slightly depend on fold but common tendencies can be seen
 - Fast decrease of RMSE when starting to average
 - Flattens out from 25 trees upwards (increases slightly towards 100)
 
@@ -746,10 +746,10 @@ par_dep_rf + theme(text = element_text(size=25))
 .content-box-blue[
 .font110[
 
-- Sequential growing of trees using the resiudals of previous grown trees
+- Sequential growing of trees using the residuals of previous grown trees
  
  $\rightarrow$ Newly grown trees depend on earlier ones 
-- Tuning parameters: Number of trees, interaction depth and shrinkage parameter $\lambda$
+- Tuning parameters: Number of trees, interaction depth, and shrinkage parameter $\lambda$
 - Best boosting model: $25$ trees, interaction depth of $15$, $\lambda =0.4$
 - RMSE-Test: $4479$
 ]
@@ -757,10 +757,10 @@ par_dep_rf + theme(text = element_text(size=25))
 
 ???
 - rather small trees are used to improve boosting tree slowly
-- Taking residuals from current tree, fitting small tree to these and fitting fitted tree into current boosting tree wgere performance could be improved
+- Taking residuals from current tree, fitting small tree to these and fitting fitted tree into current boosting tree where performance could be improved
 - Expansion of tree but also growing dependence
 - Other tuning parameter in R, in gbm()-function: bag.fraction 
-  - We set this to 1 so that everytime the complete training set has been used
+  - We set this to 1 so that every time the complete training set has been used
   - This outperformed the default (=0.5) by 1.9% decrease of RMSE
 - Shrinkage: learning rate normally between 0.001 and 0.1 (default: 0.1) $\rightarrow$ smaller rate typically requires more trees
 
@@ -805,7 +805,7 @@ class: inverse, center, middle
 
 .content-box-blue[
 
-Calculation of various alternative estimations, especially:
+Calculation of various alternative estimations, notably:
 
 - Inclusion of variables “time_segm_price” and “artikpr”
   - Have been excluded beforehand as they are combinations of existing variables
@@ -861,7 +861,7 @@ Summary[c(-4,-7,-10,-11),c(1,7)] %>% mutate(Mean = color_bar("#c8ffc2")(Mean)) %
   - Substantially lower computation time than Bagging
   - Slightly higher RMSE
 - Performance on test data set: $6738$
-  - $6546$ if we ommit one outlier
+  - $6546$ if we omit one outlier
   - Re-estimation of the final model was nessecary due to missing features in test set
 
 ]
