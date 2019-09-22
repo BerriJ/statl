@@ -171,7 +171,7 @@ Data set test:
 
 ```{r tables-VarType, echo = F}
 load("../00_data/output_paper/01_typeof_vec.rda")
-knitr::kable(t(typeof_vec), caption = "Frequency of Variable Types.", format = "html")
+knitr::kable(t(typeof_vec), caption = "Frequency of Variable Types", format = "html")
 ```
 
 ???
@@ -888,7 +888,7 @@ class: inverse, center, middle
 
 ---
 
-# Backup Slides
+# Discussion
 
 ## Histogram of 'litre'
 
