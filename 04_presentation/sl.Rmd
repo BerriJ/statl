@@ -20,7 +20,7 @@ output:
         scroll: false # disable slide transitions by scrolling
 ---
 background-image: url("assets/ml_plot.png")
-background-position: 100% 50%
+background-position: 100% 60%
 background-size: 50% 75%
 
 # Agenda
@@ -519,7 +519,7 @@ class: sydney-green, center, middle
 ---
 
 background-image: url("assets/tree.png")
-background-position: 100% 100%
+background-position: 100% 60%
 background-size: 50% 75%
 
 # Analysis
@@ -550,7 +550,7 @@ background-size: 50% 75%
 ---
 
 background-image: url("assets/tree_pruned.png")
-background-position: 100% 100%
+background-position: 100% 60%
 background-size: 50% 75%
 
 # Analysis
