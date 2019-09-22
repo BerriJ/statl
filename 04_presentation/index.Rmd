@@ -92,7 +92,7 @@ Basis:
 
 .pull-right[
 
-.content-box-grey[
+.content-box-blue[
 
 Predictions based on existing Literature:
 
@@ -124,7 +124,7 @@ class: inverse, center, middle
 
 .pull-left[
 
-.content-box-green[
+.content-box-blue[
 
 Data set train:
   - Sales from 2002-01-02 until 2006-02-22
@@ -134,7 +134,7 @@ Data set train:
 
 .pull-right[
 
-.content-box-red[
+.content-box-blue[
 
 
 Data set test:
@@ -267,7 +267,7 @@ Baseline methods for comparing the predictions made by further methods
 
 .pull-left[
 
-  .content-box-grey[
+  .content-box-blue[
 
 Mean Regression:
 - Mean litres sold: 6886
@@ -280,7 +280,7 @@ Mean Regression:
 
 .pull-right[
 
-  .content-box-grey[
+  .content-box-blue[
 
 Linear Regression:
 - Factor variables transformed into dummy variables $\rightarrow$ 757 variables
