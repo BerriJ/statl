@@ -41,17 +41,6 @@ background-size: 50% 75%
 
 ---
 
-```{r, load_refs, echo=FALSE, cache=FALSE}
-library(RefManageR)
-BibOptions(check.entries = FALSE, 
-           bib.style = "authoryear", 
-           cite.style = 'authoryear', 
-           style = "markdown",
-           hyperlink = FALSE, 
-           dashed = FALSE)
-myBib <- ReadBib("assets/example.bib", check = FALSE)
-```
-
 class: segue, center, middle
 
 # Introduction
