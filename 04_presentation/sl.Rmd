@@ -329,11 +329,18 @@ Source: [https://scikit-learn.org/](https://scikit-learn.org/stable/auto_example
 
 ???
 
+Best LogLam -0,16
+
+Best Lambda  0.85 
+
+Still, 666 coefficients included
+
+
 Simplify the model by variable selection
 
 Reduces the variance
 
-Still, 666 coefficients included
+Linreg: RMSE: $5572$
 
 Also calculated Lasso for loglitres: RMSE of 5812
 
@@ -404,6 +411,10 @@ htmltools::tags$iframe(
 
 ]
 ]
+
+???
+
+Linreg: RMSE: $5572$
 
 ---
 
