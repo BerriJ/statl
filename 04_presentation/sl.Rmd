@@ -323,9 +323,11 @@ Source: [https://scikit-learn.org/](https://scikit-learn.org/stable/auto_example
 
 ???
 
-Also calculated Lasso for loglitres: RMSE of 5812
+Simplify the model by variable selection
 
 Still 666 coefficients included
+
+Also calculated Lasso for loglitres: RMSE of 5812
 
 ---
 
@@ -459,10 +461,6 @@ htmltools::tags$iframe(
 
 ]
 ]
-
-???
-
-Simplify the model by variable selection
 
 ---
 
