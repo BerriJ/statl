@@ -18,8 +18,8 @@
       cursor: default;
     }
     </style>
-    <link rel="stylesheet" href="assets/sydney-fonts.css" type="text/css" />
-    <link rel="stylesheet" href="assets/sydney.css" type="text/css" />
+    <link rel="stylesheet" href="assets\sydney-fonts.css" type="text/css" />
+    <link rel="stylesheet" href="assets\sydney.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -28,7 +28,7 @@ class: center, middle, inverse, title-slide
 # A Forecasting Study on Swedish Wine Sales <svg style="height:0.8em;top:.04em;position:relative;fill:#b50000;" viewBox="0 0 512 512"><path d="M507.31 72.57L439.43 4.69c-6.25-6.25-16.38-6.25-22.63 0l-22.63 22.63c-6.25 6.25-6.25 16.38 0 22.63l-76.67 76.67c-46.58-19.7-102.4-10.73-140.37 27.23L18.75 312.23c-24.99 24.99-24.99 65.52 0 90.51l90.51 90.51c24.99 24.99 65.52 24.99 90.51 0l158.39-158.39c37.96-37.96 46.93-93.79 27.23-140.37l76.67-76.67c6.25 6.25 16.38 6.25 22.63 0l22.63-22.63c6.24-6.24 6.24-16.37-.01-22.62zM179.22 423.29l-90.51-90.51 122.04-122.04 90.51 90.51-122.04 122.04z"/></svg>
 ## Term Paper Statistical Learning
 ### Jonathan Berrisch &amp; Timo Rammert
-### 23.09.2019
+### 23.09.2019 </br> </br> www.berrisch.biz/sl
 
 ---
 
@@ -90,7 +90,7 @@ Basis:
 
 .content-box-blue[
 
-Predictions based on existing Literature:
+Predictions based on existing literature:
 
 - Expert opinion increases sales - depending on received reviews (Hilger et al. (2011), Ashenfelter and Jones (2013))
 - Regional influences for local wine sales (Bicknell and MacDonald (2012))
@@ -212,7 +212,7 @@ class: inverse, center, middle
 ### Technical
 
 - Using Rstudio Jobs Feature
-  - Multicore Processing
+  - Multicore processing
   - Model independent CV approach
   
 ```{}
@@ -260,7 +260,7 @@ Baseline methods for comparing the predictions made by further methods
 
   .content-box-blue[
 
-Mean Regression:
+Mean regression:
 - Mean litres sold: 6886
 - RMSE: 13340
 
@@ -273,7 +273,7 @@ Mean Regression:
 
   .content-box-blue[
 
-Linear Regression:
+Linear regression:
 - Factor variables transformed into dummy variables `\(\rightarrow\)` 757 variables
 - RMSE: 5572
 
@@ -289,7 +289,7 @@ Linear Regression:
 
 .pull-left[
 .content-box-blue[
-- Shrinkinge
+- Shrinkage and selction
 - `\(ℓ_1\)` norm yields sparsity property: 
 
 `$$||\beta ||_1 = \sum{ | \beta_j | }$$`
@@ -347,9 +347,9 @@ Also calculated Lasso for loglitres: RMSE of 5812
 
 - Unsupervised transformation of X
 - May reduce the dimension
-- Results are hard to interpret
+- Results are difficult to interpret
 - Number of covariates (by CV): `\(\approx 635\)`
-- RMSE: `\(\approx 5546.05\)`
+- RMSE: `\(5546\)`
 
 ]
 ]
@@ -360,10 +360,10 @@ Also calculated Lasso for loglitres: RMSE of 5812
 
 ### Partial Least Squares
 
-- Supervised Transformation of X
+- Supervised transformation of X
 - Highest weight on covariates that are strongly related to Y
 - Number of covariates (by CV): `\(\approx 35\)`
-- RMSE: `\(\approx 6201.15\)`
+- RMSE: `\(6201\)`
 
 ]
 ]
@@ -408,9 +408,9 @@ Also calculated Lasso for loglitres: RMSE of 5812
 
 ### Results
 
-- 0  Knots: RMSE `\(5572\)`
+- 0  Knots: RMSE: `\(5572\)`
   - This equals the Linear Model
-- 20 Knots: RMSE `\(5507\)`
+- 20 Knots: RMSE: `\(5507\)`
   - Slight improvement 
 
 ]
@@ -451,7 +451,7 @@ background-size: 50% 75%
 
 .content-box-blue[
 
-- A tree is grown by splitting the feature space until terminal nodes reach a set minimum size
+- Tree is grown by splitting feature space until terminal nodes reach a set minimum size
 - Algorithm decides automatically on splitting variables and points 
 - Minimizing sum of squared residuals
 - Same variables chosen for splitting for every fold
@@ -526,10 +526,12 @@ background-size: 50% 75%
 
 .content-box-blue[
 .font120[
-- Special case of bagging: only pre-specified number of randomly chosen variables consindered for splitting
+- Special case of bagging: Only pre-specified number of randomly chosen variables consindered for splitting
 
  `\(\rightarrow\)` decorrelates trees
-- Variation over number of variables considered at each split and number of trees grown
+- Tuning parameters: Number of trees grown and number of variables considered at each split
+- Best model: 25 trees and 100 variables considered at each split
+- RMSE: 4374
 ]
 ]
 
@@ -582,7 +584,7 @@ background-size: 50% 75%
 - Sequential growing of trees using the resiudals of previous grown trees
  
  `\(\rightarrow\)` Newly grown trees depend on earlier ones 
-- Tuning parameters: Number of trees, interaction depth, shrinkage parameter `\(\lambda\)`
+- Tuning parameters: Number of trees, interaction depth and shrinkage parameter `\(\lambda\)`
 - Best boosting model: 25 trees, interaction depth of 15, `\(\lambda =0.4\)`
 - RMSE-Test: 4479
 ]
@@ -620,7 +622,7 @@ Calculation of various alternative estimations, especially:
 
 - Inclusion of variables “time_segm_price” and “artikpr”
   - Have been excluded beforehand as they are combinations of existing variables
-  - Including these yields a higher RMSE -&gt; No improvement of the model
+  - Including these yields a higher RMSE `\(\rightarrow\)` No improvement of the model
   
 - Reducing share of NAs for removing variables from the dataset
   - Beforehand: 50%
