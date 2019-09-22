@@ -234,7 +234,6 @@ for(i in 1:5){
 
 - 5 Folds =&gt; trade-off validation / computational effort
 
-
 ---
 
 class: inverse, center, middle
@@ -318,6 +317,8 @@ Source: [https://scikit-learn.org/](https://scikit-learn.org/stable/auto_example
 ???
 
 Also calculated Lasso for loglitres: RMSE of 5812
+
+Still 666 coefficients included
 
 ---
 
@@ -459,6 +460,14 @@ background-size: 50% 75%
 
 ]
 ]
+
+???
+- Tree-based methods use decision rules -&gt; can be summarized in tree structure
+- Simple methods use single regression tree
+- 10 terminal nodes (with minimum of 19 observaions (default in function))
+- Mean market share within color, dummy for red wine, price in SEK, period (weekly time indicator 1-263)
+- Most litres sold (~ 90000) for red wine in periods earlier than week 136 with mean market share in market of redwine higher than 2.1%
+- Least litres sold (575) for white wines with mean market share between 0.29% and 0.81%
 
 ---
 
