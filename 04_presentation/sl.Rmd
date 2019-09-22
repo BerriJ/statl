@@ -226,8 +226,8 @@ class: inverse, center, middle
 library(rstudioapi)
 
 for(i in 1:5){
-  test <-  train_list[[i]]
-  train <- test_list[[i]]
+  train <-  train_list[[i]]
+  test <- test_list[[i]]
   jobRunScript("path_to_model",
                workingDir = "../statl",
                importEnv = T)
@@ -287,7 +287,7 @@ Linear regression:
 ]
 ]
 
-??? 
+???
 
 So clrearly some predictors are useful. 
 
