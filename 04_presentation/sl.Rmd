@@ -755,6 +755,15 @@ par_dep_rf + theme(text = element_text(size=25))
 ]
 ]
 
+???
+- rather small trees are used to improve boosting tree slowly
+- Taking residuals from current tree, fitting small tree to these and fitting fitted tree into current boosting tree wgere performance could be improved
+- Expansion of tree but also growing dependence
+- Other tuning parameter in R, in gbm()-function: bag.fraction 
+  - We set this to 1 so that everytime the complete training set has been used
+  - This outperformed the default (=0.5) by 1.9% decrease of RMSE
+- Shrinkage: learning rate normally between 0.001 and 0.1 (default: 0.1) $\rightarrow$ smaller rate typically requires more trees
+
 ---
 
 # Analysis
@@ -776,6 +785,9 @@ htmltools::tags$iframe(
 ```
 
 </div>
+
+???
+- Most important variables (decreasing order): ms_segm, segmred, period, price, week, lp
 
 ---
 

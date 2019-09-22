@@ -324,6 +324,8 @@ Source: [https://scikit-learn.org/](https://scikit-learn.org/stable/auto_example
 
 Simplify the model by variable selection
 
+Reduces the variance
+
 Still 666 coefficients included
 
 Also calculated Lasso for loglitres: RMSE of 5812
@@ -667,6 +669,15 @@ background-size: 50% 75%
 ]
 ]
 
+???
+- rather small trees are used to improve boosting tree slowly
+- Taking residuals from current tree, fitting small tree to these and fitting fitted tree into current boosting tree wgere performance could be improved
+- Expansion of tree but also growing dependence
+- Other tuning parameter in R, in gbm()-function: bag.fraction 
+  - We set this to 1 so that everytime the complete training set has been used
+  - This outperformed the default (=0.5) by 1.9% decrease of RMSE
+- Shrinkage: learning rate normally between 0.001 and 0.1 (default: 0.1) `\(\rightarrow\)` smaller rate typically requires more trees
+
 ---
 
 # Analysis
@@ -678,6 +689,9 @@ background-size: 50% 75%
 <iframe src="p.boosting.html" width="97%" height="650" scrolling="no" seamless="seamless" frameBorder="0"></iframe>
 
 &lt;/div&gt;
+
+???
+- Most important variables (decreasing order): ms_segm, segmred, period, price, week, lp
 
 ---
 
