@@ -778,11 +778,15 @@ class: inverse, center, middle
 
 # `r fontawesome::fa("comments", fill = "white")`
 
+`r htmltools::includeHTML("assets/github.html")`
+
 ---
 
 # Backup Slides
 
 ## Histogram of 'litre'
+
+<div style="position:relative; margin-top:-20px; z-index: 0">
 
 ```{r, echo=FALSE, message = FALSE}
 # load("../00_data/cv_env.rda")
@@ -809,3 +813,4 @@ htmltools::tags$iframe(
   )
 ```
 
+</div>
