@@ -855,10 +855,10 @@ Summary[c(-4,-7,-10,-11),c(1,7)] %>% mutate(Mean = color_bar("#c8ffc2")(Mean)) %
 
 - Random Forest as prefered model
   - Substantially lower computation time than Bagging
-  - Slightly lower RMSE
-- Performance on Test Dataset: $6738$
+  - Slightly higher RMSE
+- Performance on test data set: $6738$
   - $6546$ if we ommit one outlier
-  - Re-Estimation of the final model was nessecary due to missing features in test set
+  - Re-estimation of the final model was nessecary due to missing features in test set
 
 ]
 ]
