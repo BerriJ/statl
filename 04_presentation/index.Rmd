@@ -316,9 +316,11 @@ $$\sum_{i=1}^{n}(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij})^2+\lambda\sum_{j=1
 <img src="assets/penal.png" width=500>
 
 </div>
+
+.footnote[
+Source: [https://scikit-learn.org/](https://scikit-learn.org/stable/auto_examples/linear_model/plot_sgd_penalties.html)
 ]
-
-
+]
 
 ???
 
@@ -775,3 +777,35 @@ class: inverse, center, middle
 # Discussion
 
 # `r fontawesome::fa("comments", fill = "white")`
+
+---
+
+# Backup Slides
+
+## Histogram of 'litre'
+
+```{r, echo=FALSE, message = FALSE}
+# load("../00_data/cv_env.rda")
+# plot <- ggplot(wine) +
+#   geom_histogram(aes(x=litre,y=..density..), position="identity", fill = "#004c93") +
+#   geom_density(aes(x=litre,y=..density..), col = "gray13") +
+#   xlab("Litre") +
+#   ylab("Density") +theme_minimal() + theme(text = element_text(size=20))
+# 
+# 
+# plotly_density <- ggplotly(plot) %>% config(displayModeBar = F)
+# 
+# f <- paste0("p.density.html")
+# 
+# htmlwidgets::saveWidget(plotly_density, f)
+f <- paste0("p.density.html")
+htmltools::tags$iframe(
+    src= f,
+    width="100%",
+    height="525px",
+    scrolling="no",
+    seamless="seamless",
+    frameBorder="0"
+  )
+```
+
