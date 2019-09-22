@@ -749,7 +749,7 @@ par_dep_rf + theme(text = element_text(size=25))
  $\rightarrow$ Newly grown trees depend on earlier ones 
 - Tuning parameters: Number of trees, interaction depth, and shrinkage parameter $\lambda$
 - Best boosting model: $25$ trees, interaction depth of $15$, $\lambda =0.5$
-- RMSE-Test: $4479$
+- RMSE: $4479$
 ]
 ]
 
@@ -856,7 +856,7 @@ Summary[c(-4,-7,-10,-11),c(1,7)] %>% mutate(Mean = color_bar("#c8ffc2")(Mean)) %
 .center[.font130[Evaluation]]
 
 - Random Forest as prefered model
-  - Substantially lower computation time than Bagging
+  - Substantially lower computation time than bagging
   - Slightly higher RMSE
 - Performance on test data set: $6738$
   - $6546$ if we omit one outlier
@@ -864,6 +864,12 @@ Summary[c(-4,-7,-10,-11),c(1,7)] %>% mutate(Mean = color_bar("#c8ffc2")(Mean)) %
 
 ]
 ]
+
+???
+- difficult comparison of train and test data set
+  - Levels are missing and time series setting
+  
+  - mention that repo is accesible for reproduction and transparency
 
 ---
 
