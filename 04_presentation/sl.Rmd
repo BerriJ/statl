@@ -154,8 +154,8 @@ htmltools::tags$iframe(
 
 Data set train:
   - Sales from 2002-01-02 until 2006-02-22
-  - 145179 observations of 58 variables (before preprocessing)
-  - 41416 observations of 45 variables (after preprocessing)
+  - $145179$ observations of $58$ variables (before preprocessing)
+  - $41416$ observations of $45$ variables (after preprocessing)
 ]]
 
 .pull-right[
@@ -165,8 +165,8 @@ Data set train:
 
 Data set test:
   - Sales from 2006-02-22 until 2007-01-10
-  - 48395 observations of 58 variables (before preprocessing)
-  - 9783 observations of 45 variables (after preprocessing)
+  - $48395$ observations of $58$ variables (before preprocessing)
+  - $9783$ observations of $45$ variables (after preprocessing)
 ]]
 
 </br>
@@ -205,7 +205,7 @@ class: inverse, center, middle
 
 - RMSE $$\sqrt{\frac{1}{n}\sum_{i = 1}^{n}\left(y_i-\hat{y}_i\right)^2}$$ as key performance measure for evaluating models
 
-- Crossvalidation using 5 folds
+- Crossvalidation using $5$ folds
 
 - Further robustness checks for assesing validity of results obtained
 
@@ -267,8 +267,8 @@ Baseline methods for comparing the predictions made by further methods
   .content-box-blue[
 
 Mean regression:
-- Mean litres sold: 6886
-- RMSE: 13340
+- Mean litres sold: $6886$
+- RMSE: $13340$
 
 
   ]
@@ -280,8 +280,8 @@ Mean regression:
   .content-box-blue[
 
 Linear regression:
-- Factor variables transformed into dummy variables $\rightarrow$ 757 variables
-- RMSE: 5572
+- Factor variables transformed into dummy variables $\rightarrow$ $757$ variables
+- RMSE: $5572$
 
 
 ]
@@ -310,7 +310,7 @@ $$||\beta ||_1 = \sum{ | \beta_j | }$$
 
 $$\sum_{i=1}^{n}(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij})^2+\lambda\sum_{j=1}^{p}|\beta_j|.$$ 
 
-- RMSE: 5548
+- RMSE: $5548$
 ]
 ]
 
@@ -450,7 +450,7 @@ htmltools::tags$iframe(
 
 - Piecewise polynomial regression
 - Splines for 'year' 'price' and 'rprice'
-- Up to 20 Knots
+- Up to $20$ Knots
 - Knots are placed at suitable quantiles
 
 ]
@@ -462,9 +462,9 @@ htmltools::tags$iframe(
 
 ### Results
 
-- 0  Knots: RMSE: $5572$
+- $0$ Knots: RMSE: $5572$
   - This equals the Linear Model
-- 20 Knots: RMSE: $5507$
+- $20$ Knots: RMSE: $5507$
   - Slight improvement 
 
 ]
@@ -527,7 +527,7 @@ background-size: 50% 75%
 - Algorithm decides automatically on splitting variables and points 
 - Minimizing sum of squared residuals
 - Same variables chosen for splitting for every fold
-- RMSE: 6495
+- RMSE: $6495$
 
 ]
 ]
@@ -557,7 +557,7 @@ background-size: 50% 75%
 
 - Selecting subtree with lowest test error via validation approach
 - Cost complexity pruning: Penalizing larger trees, i.e., trees with more terminal nodes
-- RMSE: 7936
+- RMSE: $7936$
 
 ]
 ]
@@ -587,7 +587,7 @@ background-size: 50% 75%
 - Averaging of results afterwards
 - Lowers variance compared to single regression trees
 - Tuning parameter: Number of trees
-- RMSE: 4306 (25 Trees)
+- RMSE: $4306$ ($25$ Trees)
 
 ]
 ]
@@ -642,8 +642,8 @@ htmltools::tags$iframe(
 
  $\rightarrow$ decorrelates trees
 - Tuning parameters: Number of trees grown and number of randomly chosen variables considered at each split
-- Best model: 25 trees and 100 variables considered at each split
-- RMSE: 4374
+- Best model: $25$ trees and $100$ variables considered at each split
+- RMSE: $4374$
 ]
 ]
 
@@ -750,8 +750,8 @@ par_dep_rf + theme(text = element_text(size=25))
  
  $\rightarrow$ Newly grown trees depend on earlier ones 
 - Tuning parameters: Number of trees, interaction depth and shrinkage parameter $\lambda$
-- Best boosting model: 25 trees, interaction depth of 15, $\lambda =0.4$
-- RMSE-Test: 4479
+- Best boosting model: $25$ trees, interaction depth of $15$, $\lambda =0.4$
+- RMSE-Test: $4479$
 ]
 ]
 
@@ -812,11 +812,15 @@ Calculation of various alternative estimations, especially:
   - Including these yields a higher RMSE $\rightarrow$ No improvement of the model
   
 - Reducing share of NAs for removing variables from the dataset
-  - Beforehand: 50%
-  - Reducing it to 20%
-  - Gain in No. of variables and observations does not lead to higher precision
+  - Beforehand: $50\%$
+  - Reducing it to $20\%$
+  - Loss of variables and gain of observations does not lead to higher precision
 
 ]
+
+???
+- six variables are excluded when reducing max share of NAs to 20%
+- Gain of obs: from 41416 to 144994 (ca. plus 100.000)
 ---
 
 class: inverse, center, middle
