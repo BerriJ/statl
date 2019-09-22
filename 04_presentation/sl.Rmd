@@ -1,8 +1,8 @@
 ---
 title: 'A Forecasting Study on Swedish Wine Sales `r fontawesome::fa("wine-bottle", fill = "#b50000")`'
-subtitle: "     Term Paper Statistical Learning"
-author: "     Jonathan Berrisch & Timo Rammert"
-date: "     23.09.2019"
+subtitle: 'Term Paper Statistical Learning'
+author: "Jonathan Berrisch & Timo Rammert"
+date: "23.09.2019 </br> </br> www.berrisch.biz/sl"
 output:
   xaringan::moon_reader:
     css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
