@@ -6,7 +6,7 @@ date: "23.09.2019 </br> </br> www.berrisch.biz/sl"
 output:
   xaringan::moon_reader:
     css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
-    self_contained: false # if true, fonts will be stored locally
+    self_contained: true # if true, fonts will be stored locally
     seal: true # show a title slide with YAML information
     includes:
       in_header: "assets/mathjax-equation-numbers.html"
@@ -587,7 +587,7 @@ background-size: 50% 75%
 - Averaging of results afterward
 - Lowers variance compared to single regression trees
 - Tuning parameter: Number of trees
-- RMSE: $4306$ ($25$ Trees)
+- RMSE: $4306$ ( $25$ Trees)
 
 ]
 ]
