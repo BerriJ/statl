@@ -578,6 +578,12 @@ background-size: 50% 75%
 ]
 ]
 
+???
+- Decision trees suffer from potentially high variance
+- Averaging a set of observations reduces variance
+- Sample size: 66.6%
+- Already small number of bootstrap samples (like 15) outperform single tree in terms of RMSE
+
 ---
 
 # Analysis
@@ -598,6 +604,16 @@ htmltools::tags$iframe(
   )
 ```
 </div>
+
+???
+- RMSE does slightly depend on used fold but common tendencies can be seen
+- Fast decrease of RMSE when starting to average
+- Flattens out from 25 trees upwards (increases slightly towards 100)
+
+- RMSE for Bagging, averaged over 5 trees: 4578
+- RMSE for Bagging, averaged over 25 trees: 4306 (Lowest in our research)
+
+- Best method up to then: Splines with 5507
 ---
 
 # Analysis
