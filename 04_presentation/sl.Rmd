@@ -331,6 +331,8 @@ Source: [https://scikit-learn.org/](https://scikit-learn.org/stable/auto_example
 
 Simplify the model by variable selection
 
+Reduces the variance
+
 Still 666 coefficients included
 
 Also calculated Lasso for loglitres: RMSE of 5812
