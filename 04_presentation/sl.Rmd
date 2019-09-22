@@ -241,7 +241,6 @@ for(i in 1:5){
 
 - 5 Folds => trade-off validation / computational effort
 
-
 ---
 
 class: inverse, center, middle
@@ -325,6 +324,8 @@ Source: [https://scikit-learn.org/](https://scikit-learn.org/stable/auto_example
 ???
 
 Also calculated Lasso for loglitres: RMSE of 5812
+
+Still 666 coefficients included
 
 ---
 
