@@ -504,7 +504,7 @@ Improvement isn't worth the loss of interpretability
 
 ---
 
-class: segue, center, middle
+class: sydney-green, center, middle
 
 # Tree-Based Methods
 
