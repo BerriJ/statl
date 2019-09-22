@@ -120,6 +120,32 @@ class: inverse, center, middle
 
 # Data and Variables
 
+## Missing Values
+
+```{r, echo=FALSE}
+
+# load(file = "../04_presentation/data/missings_plot.rda")
+# 
+# missings.plotly.plot <- plotly::ggplotly(missings) %>% config(displayModeBar = F) %>% layout(showlegend = FALSE)
+
+f <- paste0("p.missings.html")
+
+# htmlwidgets::saveWidget(missings.plotly.plot, f)
+
+htmltools::tags$iframe(
+    src= f,
+    width="100%",
+    height="525px",
+    scrolling="no",
+    seamless="seamless",
+    frameBorder="0"
+  )
+```
+
+---
+
+# Data and Variables
+
 ## Overview
 
 .pull-left[
@@ -158,32 +184,7 @@ knitr::kable(t(typeof_vec), caption = "Frequency of Variable Types.", format = "
   - price in train: from 38 to 1149 with mean 108 and median 79
   - price in test: from 43 to 349 with mean 108 and median 87
 - Difference in segments: test only includes red, sparkling and white
-
----
-
-# Data and Variables
-
-## Missing Values
-
-```{r, echo=FALSE}
-
-# load(file = "../04_presentation/data/missings_plot.rda")
-# 
-# missings.plotly.plot <- plotly::ggplotly(missings) %>% config(displayModeBar = F) %>% layout(showlegend = FALSE)
-
-f <- paste0("p.missings.html")
-
-# htmlwidgets::saveWidget(missings.plotly.plot, f)
-
-htmltools::tags$iframe(
-    src= f,
-    width="100%",
-    height="525px",
-    scrolling="no",
-    seamless="seamless",
-    frameBorder="0"
-  )
-```
+- Factors => 757 variables
 
 ---
 class: inverse, center, middle
@@ -202,11 +203,9 @@ class: inverse, center, middle
 
 ### Theoretical
 
-- Crossvalidation using 5 folds
-
-
 - RMSE $$\sqrt{\frac{1}{n}\sum_{i = 1}^{n}\left(y_i-\hat{y}_i\right)^2}$$ as key performance measure for evaluating models
 
+- Crossvalidation using 5 folds
 
 - Further robustness checks for assesing validity of results obtained
 
@@ -227,12 +226,11 @@ class: inverse, center, middle
 library(rstudioapi)
 
 for(i in 1:5){
-
-  fold_data <- data_list[[i]]
+  test <-  train_list[[i]]
+  train <- test_list[[i]]
   jobRunScript("path_to_model",
                workingDir = "../statl",
                importEnv = T)
-               
 }
 ```
 
@@ -241,7 +239,7 @@ for(i in 1:5){
 
 ???
 
-- 5 Folds because trade-off between validation and computational effort
+- 5 Folds => trade-off validation / computational effort
 
 
 ---
