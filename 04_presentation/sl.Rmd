@@ -759,7 +759,7 @@ par_dep_rf + theme(text = element_text(size=25))
  
  $\rightarrow$ Newly grown trees depend on earlier ones 
 - Tuning parameters: Number of trees, interaction depth, and shrinkage parameter $\lambda$
-- Best boosting model: $25$ trees, interaction depth of $15$, $\lambda =0.4$
+- Best boosting model: $25$ trees, interaction depth of $15$, $\lambda =0.5$
 - RMSE-Test: $4479$
 ]
 ]
